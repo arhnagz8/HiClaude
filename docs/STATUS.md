@@ -31,6 +31,11 @@ _Last updated: 2026-10-02 (session start of long mission)_
   | B1 | B1-core.md | `packages/core` | pure pricing/rates/ledger/state machine/treasury/risk/payments |
   | B2 | B2-app-foundation.md | `packages/app` (db, repos, settings, staff, customers, catalog, notifications, jobs, fakes) | no core import |
   | B4 | B4-sim-world.md | `packages/sim` world components (macro, exchange, bank, gateway, chain, provider, competitors, scenarios) | no app/core import |
+  | B7a | B7a-web-customer.md | `apps/web` (foundation + customer site + Mini App) | started early with mock backend; adopt UX spec when `docs/05-architecture/ux-spec.md` lands (SendMessage agent `ab93a0153577976d8`) |
+  | B5a | B5a-sim-models.md | `packages/sim/src/{demand,marketing,reputation,owner,kpi,reports,tooling}` | no app dependency; B5b (integration runner/agents/accountant/CLI) starts after B3+B4+B5a |
+  Agent ids (SendMessage `to`): B1=`ae89de903edab1ac6`, B2=`a597fba07783c5fb3`, B4=`a2f8fb4c70a5ece09`, B7a=`ab93a0153577976d8`, B5a=`ac53a6d0da11d73f1`.
+  Critical path: B1+B2 → B3 (app engine) → B5b (sim integration) → scenario suite; B3 → B6 (api) → B7b/E2E.
+  Later briefs written (not yet launched): B3 app-engine (after B1+B2), B5 sim-engine (after B3+B4), B6 api (after B3), B7b web-admin (after B7a), B8 live (after research 02/03/09), B10 calibration (after research + builders), B9 persona E2E (after demo works), research brief 12 (after wave-1 research).
   Builders do NOT commit; lead commits after review. If the session restarts: check TaskList / agent output files in
   `/tmp/claude-0/-home-user-HiClaude/e0406b7e-eb00-55e4-8e8b-4850c515b2e9/tasks/` (never `cat` them whole) and re-launch a builder with the same brief if its package is incomplete.
 
