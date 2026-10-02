@@ -105,6 +105,10 @@ SRC = {
     "P30": _s("https://pypi.org/project/ccxt/", "ccxt (gate.py / coinex.py / weex.py sample responses list USDT contract addresses)", PK),
     "P31": _s("https://www.npmjs.com/package/tronzap-sdk/v/1.0.4", "tronzap-sdk 1.0.4 (2025-06-28): TRON energy rental API", PK),
     "P32": _s("https://pypi.org/project/aioetherscan/0.9.4/", "aioetherscan 0.9.4 (2024-06-20): Etherscan V1-style URL builder (bscscan.com)", PK),
+    "P33": _s("https://www.npmjs.com/package/etherscan-api/v/12.2.0", "etherscan-api 12.2.0 (2026-09-27): README says Etherscan V1 deprecated 2025-08-15; V2 single base URL + chainid; bsc = 56; one key for all chains", PK),
+    "P35": _s("https://www.npmjs.com/package/easypay.js/v/1.0.15", "easypay.js 1.0.15 (2025-08-21): Zarinpal/IDPay/Zibal/PayStar drivers; callback reads Status and Authority query params", PK),
+    "P36": _s("https://www.npmjs.com/package/bale-otp/v/1.0.0", "bale-otp 1.0.0 (2025-06-27, unofficial): Bale Safir OTP API (safir.bale.ai/api/v2/auth/token and /send_otp)", PK),
+    "P34": _s("https://www.npmjs.com/package/@n4mchun/etherscan-sdk/v/0.1.0", "@n4mchun/etherscan-sdk 0.1.0 (2026-02-03): V2 base https://api.etherscan.io/v2/api, ChainId.BNB = 56, default client rate limit 5 req/s", PK),
 }
 
 
@@ -274,7 +278,7 @@ G["zarinpal"] = {
         ["buying/selling currency or crypto-currency (per round-0 research of the terms)", "VPN sales", "betting/gambling", "anything contrary to Iranian law and CBI/Shaparak rules"],
         None, "low", ("S3", "S5", "BP"), status="reported",
         note="Gift cards / virtual cards / USDT-backed top-ups are NOT named in what we saw -> UNVERIFIED classification risk.",
-        verify="Read https://www.zarinpal.com/terms in a browser (updated 8 Tir 1404) and ask support in writing whether 'sale of digital subscriptions and prepaid service top-ups priced in Toman' is allowed; keep the answer."),
+        verify="Read https://www.zarinpal.com/terms in a browser (updated 8 Tir 1404) and describe the product accurately and ask support in writing whether 'prepaid virtual cards, top-ups and digital subscriptions for online services, priced in Toman, with foreign suppliers' is allowed; keep the answer."),
     "fees": {
         "percent": R(0.5, "pct", "low", ("S1", "BP"), status="reported", note="0.5% per transaction; an older page shows a different scheme (0.05% cap 12,000) that is outdated. Single secondary source.",
                      verify="POST /pg/v4/payment/feeCalculation.json {merchant_id, amount, currency} returns the exact fee and fee_type (Merchant|Payer) - use it at runtime; or read zarinpal.com/pricing."),
@@ -312,7 +316,7 @@ G["zarinpal"] = {
             "refund": "GraphQL mutation AddRefund(session_id, amount, description?, method: PAYA|CARD, reason?)",
         }, None, "high", ("P1", "P2", "P3"), status="reported",
             note="SDK sends mobile/email top-level; the public docs may expect them inside a metadata object - test in the sandbox."),
-        "callback": R("GET callback_url?Authority=A...&Status=OK|NOK ; never trust the query: call verify.json with the stored amount", None, "medium", ("P2", "S35"), status="reported",
+        "callback": R("GET callback_url?Authority=A...&Status=OK|NOK ; never trust the query: call verify.json with the stored amount", None, "medium", ("P35", "S35"), status="reported",
                       note="Authority regex ^[AS][0-9a-zA-Z]{35}$ (SDK validator); merchant_id is a UUID."),
         "response_shape": R({"data": {"code": "int", "message": "str", "authority": "str", "fee_type": "Merchant|Payer", "fee": "int"}, "errors": "array"}, None, "medium", ("P1",), status="reported"),
         "amount_unit": R("currency param IRT|IRR (SDK default IRR for feeCalculation; zarinpal-checkout wrapper defaults to IRT)", None, "medium", ("P1", "P2"), status="reported", note="Always send currency explicitly; reconcile in integer Rial internally."),
@@ -424,7 +428,7 @@ G["payir"] = {
     "api": {
         "endpoints": R({"send": "POST https://pay.ir/pg/send {api, amount (Rial, must be > 10,000), redirect, mobile?, factorNumber?, description?, validCardNumber?}",
                         "redirect": "GET https://pay.ir/pg/{token}", "verify": "POST https://pay.ir/pg/verify {api, token}"}, None, "low", ("P7",), status="reported",
-                       note="Package tested on 1400/04/24 (2021-07-15)."),
+                       note="README: package tested on 1400/04/24 (2021-07-14)."),
         "callback_rule": R("Callback has status & token; if status=1 you MUST verify, otherwise the amount returns to the customer after 30 minutes", None, "medium", ("P7",), status="reported"),
         "sandbox": R("api key \"test\"", None, "low", ("P7",), status="reported", verify="docs.pay.ir/gateway"),
     },
@@ -655,9 +659,10 @@ M["usdt_trc20"] = usdt_chain(
 M["usdt_bep20"] = usdt_chain(
     "USDT on BNB Smart Chain (BEP20)", "bsc", "0x55d398326f99059fF775485246999027B3197955", ("P30",), 18,
     "Use N block confirmations or the chain's fast-finality signal; configurable",
-    {"api": "Etherscan API V2 (single key, chainid=56) or BSC JSON-RPC eth_getLogs on the USDT Transfer event (topic0 = keccak256('Transfer(address,address,uint256)')) filtered by `to`",
-     "evidence": R("Only an old V1-style URL builder (bscscan.com) was seen (aioetherscan 0.9.4); Etherscan V2 free-tier coverage of BSC could NOT be verified", None, "low", ("P32",), status="UNVERIFIED",
-                   verify="docs.etherscan.io (V2 chain list + plan limits) and a BSC RPC/NodeReal/Ankr plan; prefer RPC logs if the free tier excludes BSC.")},
+    {"api": "Etherscan API V2: GET https://api.etherscan.io/v2/api?chainid=56&module=account&action=tokentx&contractaddress=<USDT>&address=<deposit>&apikey=<key> (one key for all chains), or BSC JSON-RPC eth_getLogs on the USDT Transfer event (topic0 = keccak256('Transfer(address,address,uint256)')) filtered by `to`",
+     "evidence": R("Etherscan V1 (and the bscscan.com API) was deprecated on 2025-08-15 per the etherscan-api 12.2.0 README; V2 uses one base URL https://api.etherscan.io/v2/api with chainid (bsc = 56) and a single key; client libraries default to 5 requests/second. The module/action names for token transfers are recalled from V1 and carried into V2 (verify).", None, "medium", ("P33", "P34"), status="reported",
+                   verify="docs.etherscan.io: V2 chain list, free-plan coverage of BNB Smart Chain, calls/second and daily caps; if the free plan excludes BSC use an RPC provider with eth_getLogs."),
+     "free_tier_coverage_of_bsc": U("Etherscan pricing page / API dashboard: is chainid 56 available on the free plan? calls/second? daily cap?", note="Not verified; the 5 req/s figure is only a client-library default.")},
     "Measure on mainnet: gas used by a USDT transfer and the BNB price needed per sweep; decide gas-drip vs spend-from-derived-keys.",
     "Gas in BNB is needed to sweep each derived address (gas-drip) - or do not sweep and spend directly from derived keys.",
     "same-address-on-all-EVM-chains mistakes; reorg risk minimal after confirmations", 3)
@@ -775,6 +780,15 @@ ident = {
                             "status": "POST GetDeliveries2 {Id:[..]}", "credit": "GET GetCredit (unit: SMS count)"}, None, "medium", ("P14",), status="reported"),
             "price_per_sms": U("ghasedak.me price list.", unit="IRT"),
         },
+        "bale_safir_otp": {
+            "name_fa": "سفیر بله (ارسال OTP از طریق پیام‌رسان بله)", "risk_label": "low",
+            "restriction_note": "Evidence is an unofficial SDK; needs a Safir account/credit; works only for users who have Bale (use as a secondary OTP channel, not the only one).",
+            "base_url": R("https://safir.bale.ai/api/v2", None, "medium", ("P36",), status="reported"),
+            "endpoints": R({"token": "POST /auth/token (form-urlencoded) {grant_type: client_credentials, client_id, client_secret, scope: read} -> access_token",
+                            "send_otp": "POST /send_otp {phone, otp} with Authorization: Bearer <access_token> -> response carries the remaining balance"}, None, "medium", ("P36",), status="reported",
+                           note="Token lifetime, rate limits, phone format, price per OTP and template rules are not shown by the SDK.", verify="Bale Safir panel/docs; test with a small balance."),
+            "price_per_otp": U("Safir price list.", unit="IRT"),
+        },
         "farazsms_ippanel": {
             "name_fa": "فرازاس‌ام‌اس / آی‌پی‌پنل", "risk_label": "low", "restriction_note": "Username + password method API (+98 phone format).",
             "base_url": R("https://ippanel.com/api/select", None, "medium", ("P14",), status="reported"),
@@ -791,7 +805,7 @@ ident = {
             "ttl": R(120, "seconds", "low", (), status="UNVERIFIED", note="design default"),
             "max_attempts": R(5, "attempts", "low", (), status="UNVERIFIED", note="design default"),
             "resend_cooldown": R(60, "seconds", "low", (), status="UNVERIFIED", note="design default"),
-            "provider_failover": "keep two SMS providers behind one SmsProvider interface (send, sendPattern, getStatus, getCredit)",
+            "provider_failover": "keep two SMS providers behind one SmsProvider interface (send, sendPattern, getStatus, getCredit); optional third channel: Bale Safir OTP for users who have Bale",
         },
     },
     "einvoice_moadian": {

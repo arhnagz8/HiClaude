@@ -43,7 +43,8 @@
     "paybal.ir"
    ],
    "consequence": "Every competitor fact is 'per search summary'. No same-day competitor USD sell rate was obtained, so effective markup could be computed only for ChatGPT Plus (4 official-like points) and, as explicit fee percentages, for three card/FX structures. All other distributions are null or priors.",
-   "rerun_recommended": true
+   "rerun_recommended": true,
+   "rerun_requirements": "Raise the session web-search cap (CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION) and allow the competitor hosts under the environment Network access (Allowed domains); then run the queries in docs/03-research/07-ir-competitors.md Appendix B and the mystery-shopper protocol in section 8."
   },
   "how_to_consume": [
    "A null Record means unknown: do not substitute a default silently. Use the sibling *_sim_prior Record (clearly flagged UNVERIFIED) only inside the simulator and always run the sensitivity sweep over its low/high.",
@@ -6733,9 +6734,9 @@
    ],
    "observed_markup_vs_parity_pct": {
     "value": {
-     "low": 7.15,
-     "median": 25.7,
-     "high": 71.98
+     "min": 7.15,
+     "median": 25.71,
+     "max": 71.98
     },
     "unit": "pct over USD face x free-market USD",
     "as_of": "2026-10-02",

@@ -1064,20 +1064,33 @@
         }
       },
       "monitor": {
-        "api": "Etherscan API V2 (single key, chainid=56) or BSC JSON-RPC eth_getLogs on the USDT Transfer event (topic0 = keccak256('Transfer(address,address,uint256)')) filtered by `to`",
+        "api": "Etherscan API V2: GET https://api.etherscan.io/v2/api?chainid=56&module=account&action=tokentx&contractaddress=<USDT>&address=<deposit>&apikey=<key> (one key for all chains), or BSC JSON-RPC eth_getLogs on the USDT Transfer event (topic0 = keccak256('Transfer(address,address,uint256)')) filtered by `to`",
         "evidence": {
-          "value": "Only an old V1-style URL builder (bscscan.com) was seen (aioetherscan 0.9.4); Etherscan V2 free-tier coverage of BSC could NOT be verified",
+          "value": "Etherscan V1 (and the bscscan.com API) was deprecated on 2025-08-15 per the etherscan-api 12.2.0 README; V2 uses one base URL https://api.etherscan.io/v2/api with chainid (bsc = 56) and a single key; client libraries default to 5 requests/second. The module/action names for token transfers are recalled from V1 and carried into V2 (verify).",
           "as_of": "2026-10-02",
-          "confidence": "low",
+          "confidence": "medium",
           "sources": [
             {
-              "url": "https://pypi.org/project/aioetherscan/0.9.4/",
-              "title": "aioetherscan 0.9.4 (2024-06-20): Etherscan V1-style URL builder (bscscan.com)",
+              "url": "https://www.npmjs.com/package/etherscan-api/v/12.2.0",
+              "title": "etherscan-api 12.2.0 (2026-09-27): README says Etherscan V1 deprecated 2025-08-15; V2 single base URL + chainid; bsc = 56; one key for all chains",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/@n4mchun/etherscan-sdk/v/0.1.0",
+              "title": "@n4mchun/etherscan-sdk 0.1.0 (2026-02-03): V2 base https://api.etherscan.io/v2/api, ChainId.BNB = 56, default client rate limit 5 req/s",
               "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
             }
           ],
-          "verify_how": "docs.etherscan.io (V2 chain list + plan limits) and a BSC RPC/NodeReal/Ankr plan; prefer RPC logs if the free tier excludes BSC.",
-          "status": "UNVERIFIED"
+          "verify_how": "docs.etherscan.io: V2 chain list, free-plan coverage of BNB Smart Chain, calls/second and daily caps; if the free plan excludes BSC use an RPC provider with eth_getLogs.",
+          "status": "reported"
+        },
+        "free_tier_coverage_of_bsc": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Etherscan pricing page / API dashboard: is chainid 56 available on the free plan? calls/second? daily cap?",
+          "status": "UNVERIFIED",
+          "note": "Not verified; the 5 req/s figure is only a client-library default."
         }
       },
       "confirmations": {

@@ -1,0 +1,136 @@
+{
+  "$comment": "Design tokens v1 (UX specialist 11). Brand-neutral placeholder palette: the owner's brand overrides color.light/dark.primary* + brand.* at runtime (admin > Brand). Shape is consumed by apps/web/scripts/gen-tokens.mjs: color.{light,dark} = name -> #hex ONLY; radius; shadow.{light,dark}. Everything else (font, space, breakpoints, motion, layout, miniapp) is documentation + source for CSS/Tailwind. Contrast of every text pair verified by scripts/research/11_contrast.py (WCAG 2.2 AA).",
+  "meta": { "version": 1, "as_of": "2026-10-02", "direction": "rtl", "lang": "fa-IR", "numerals": "persian", "contrastChecker": "scripts/research/11_contrast.py" },
+  "brand": {
+    "nameFa": "کارتینو",
+    "nameEn": "Kartino",
+    "note": "Placeholder from PlatformParams.brand; replace through settings, never hard-code in components.",
+    "logo": { "minHeightPx": 24, "clearSpace": "0.5 x logo height", "formats": ["svg"] }
+  },
+  "color": {
+    "light": {
+      "bg": "#F7F8FB",
+      "surface": "#FFFFFF",
+      "surface-2": "#F0F2F7",
+      "surface-3": "#E6E9F0",
+      "line": "#E1E5EC",
+      "line-strong": "#7A8397",
+      "fg": "#111827",
+      "muted": "#4B5567",
+      "subtle": "#5F6779",
+      "primary": "#4338CA",
+      "primary-hover": "#3730A3",
+      "primary-soft": "#EEF0FF",
+      "on-primary": "#FFFFFF",
+      "success": "#157337",
+      "success-soft": "#E7F6EC",
+      "warning": "#92400E",
+      "warning-soft": "#FEF3C7",
+      "danger": "#B91C1C",
+      "danger-soft": "#FDECEC",
+      "info": "#0369A1",
+      "info-soft": "#E3F2FB",
+      "accent": "#0F766E",
+      "accent-soft": "#E0F5F2"
+    },
+    "dark": {
+      "bg": "#0B0E14",
+      "surface": "#131925",
+      "surface-2": "#1A2231",
+      "surface-3": "#232D40",
+      "line": "#27324A",
+      "line-strong": "#6B7894",
+      "fg": "#EEF1F6",
+      "muted": "#B2BBCB",
+      "subtle": "#97A2B8",
+      "primary": "#9AA3FF",
+      "primary-hover": "#B3BAFF",
+      "primary-soft": "#1E2250",
+      "on-primary": "#0E1030",
+      "success": "#4ADE80",
+      "success-soft": "#10301D",
+      "warning": "#FBBF24",
+      "warning-soft": "#35280A",
+      "danger": "#F87171",
+      "danger-soft": "#3A1515",
+      "info": "#5EC1F2",
+      "info-soft": "#0E2C3F",
+      "accent": "#5EEAD4",
+      "accent-soft": "#0B3330"
+    },
+    "semanticUse": {
+      "primary": "main actions, links, selected state, focus ring",
+      "success": "payment confirmed, delivered, risk label low, price went DOWN",
+      "warning": "quote about to expire, risk label medium, price went UP slightly, SLA at risk",
+      "danger": "payment mismatch, failed, risk label high, kill switch, destructive actions",
+      "info": "neutral notices (rate refreshed, bank holiday settlement lag)",
+      "accent": "rush / express tiers and capacity chips (never used for warnings)",
+      "line-strong": "input borders and control outlines (>= 3:1 against bg and surface); decorative dividers use line"
+    },
+    "rules": [
+      "Never convey state by colour alone: every status chip has an icon + text.",
+      "Risk label colours map low=success, medium=warning, high=danger and always carry the Persian word (copy keys risk.low/medium/high).",
+      "Price direction arrows: up = warning colour (not danger) because a rate move is information, not an error."
+    ]
+  },
+  "font": {
+    "family": {
+      "sans": "Vazirmatn, Tahoma, system-ui, sans-serif",
+      "mono": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+    },
+    "source": "Self-hosted Vazirmatn variable woff2 from the npm package (SIL OFL 1.1). No Google Fonts or CDN: blocked/slow networks must still render. Subset to Arabic + Latin + digits for the critical path.",
+    "weights": { "regular": 400, "medium": 500, "bold": 700 },
+    "size": { "xs": "0.75rem", "sm": "0.8125rem", "base": "0.9375rem", "md": "1rem", "lg": "1.125rem", "xl": "1.375rem", "2xl": "1.75rem", "3xl": "2.25rem" },
+    "lineHeight": { "tight": 1.45, "base": 1.75, "loose": 1.9 },
+    "minBodyPx": 15,
+    "numeric": { "tabular": true, "digits": "Persian (U+06F0-U+06F9) for display; inputs accept Persian, Arabic-Indic and Latin digits and normalise to Latin before submit", "thousandsSeparator": "٬ (U+066C)", "decimalSeparator": "٫ (U+066B)" },
+    "zwnj": "Use U+200C (نیم‌فاصله) in compounds (می‌شود, سفارش‌ها). Lint rule in scripts/research/11_build_copy.py flags 'می ' + verb patterns."
+  },
+  "space": { "0": "0", "1": "4px", "2": "8px", "3": "12px", "4": "16px", "5": "20px", "6": "24px", "8": "32px", "10": "40px", "12": "48px", "16": "64px", "gutterMobile": "16px", "gutterDesktop": "24px" },
+  "radius": { "sm": "8px", "md": "12px", "lg": "16px", "xl": "24px", "full": "9999px" },
+  "shadow": {
+    "light": {
+      "card": "0 1px 2px rgb(17 24 39 / .06), 0 4px 16px rgb(17 24 39 / .05)",
+      "pop": "0 10px 40px rgb(17 24 39 / .18)"
+    },
+    "dark": {
+      "card": "0 1px 2px rgb(0 0 0 / .4), 0 4px 16px rgb(0 0 0 / .25)",
+      "pop": "0 10px 40px rgb(0 0 0 / .6)"
+    }
+  },
+  "breakpoints": { "xs": "360px", "sm": "480px", "md": "768px", "lg": "1024px", "xl": "1280px", "note": "Design mobile-first at 360px (smallest Telegram/Bale viewport we support). Admin panel is desktop-first from 1024px but must stay usable at 768px for operators on tablets." },
+  "layout": {
+    "containerMax": "72rem",
+    "adminSidebar": "15rem",
+    "touchTargetMinPx": 44,
+    "bottomNavHeight": "3.75rem",
+    "headerHeight": "3.5rem",
+    "stickyCtaMaxHeight": "4.5rem",
+    "readingMeasure": "65ch"
+  },
+  "zIndex": { "header": 40, "bottomNav": 40, "stickyCta": 45, "dropdown": 50, "modal": 60, "toast": 70, "killBanner": 80, "skipLink": 100 },
+  "motion": {
+    "duration": { "instant": "0ms", "fast": "120ms", "base": "200ms", "slow": "320ms" },
+    "easing": { "standard": "cubic-bezier(.2,0,0,1)", "decelerate": "cubic-bezier(0,0,0,1)" },
+    "rules": ["Respect prefers-reduced-motion (disable shimmer, count-up and slide animations).", "No animation on price numbers except a 200ms highlight when the value changes.", "Countdown ring updates once per second; no pulsing urgency effects."]
+  },
+  "miniapp": {
+    "note": "Inside Telegram/Bale the page blends with host theme: map host themeParams onto our semantic tokens when present, else use our own light/dark. Our semantic colours (success/warning/danger/risk) are NEVER overridden by the host.",
+    "telegramThemeMap": {
+      "bg": "--tg-theme-bg-color",
+      "surface": "--tg-theme-section-bg-color",
+      "surface-2": "--tg-theme-secondary-bg-color",
+      "fg": "--tg-theme-text-color",
+      "muted": "--tg-theme-subtitle-text-color",
+      "subtle": "--tg-theme-hint-color",
+      "primary": "--tg-theme-link-color",
+      "primary-button-bg": "--tg-theme-button-color",
+      "on-primary": "--tg-theme-button-text-color",
+      "danger": "--tg-theme-destructive-text-color"
+    },
+    "blendPolicy": "Apply mapped host values only if the resulting text/background pairs still pass the contrast table (runtime check with the same formula); otherwise fall back to our tokens for that pair.",
+    "viewport": { "minWidthPx": 320, "usesVar": ["--tg-viewport-height", "--tg-viewport-stable-height"], "stickyCtaUsesStableHeight": true, "safeAreaVars": ["env(safe-area-inset-bottom)", "--tg-safe-area-inset-bottom", "--tg-content-safe-area-inset-top"] },
+    "provenance": "Telegram theme parameter names from practitioner knowledge of the Mini Apps API (core.telegram.org/bots/webapps was EGRESS_BLOCKED and the search budget was exhausted in this run): confidence medium, UNVERIFIED. Bale uses window.Bale.WebApp; whether it exposes the same themeParams is UNVERIFIED (see ux-spec section 9)."
+  },
+  "tailwindHints": { "useLogicalProperties": true, "classes": "ms-/me-/ps-/pe-/start-/end-/text-start/border-s/rounded-s; never left-/right-/ml-/mr-", "icons": "Mirror directional icons (arrow, chevron, back) in RTL; do not mirror logos, clocks, media controls, or numerals" }
+}

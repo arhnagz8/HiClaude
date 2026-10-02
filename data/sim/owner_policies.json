@@ -1,0 +1,279 @@
+{
+ "_doc": "Owner baseline rule-policy parameters. Three presets; every value is an assumption (source below). Loaded by packages/sim/src/owner/config.ts; scenario owner.overrides deep-merge on top.",
+ "source": "assumption: conservative = cash-preserving, slow price moves; baseline = balanced; aggressive = growth-seeking, thin buffers. No empirical calibration exists for owner behaviour.",
+ "policies": {
+  "conservative": {
+   "pricing": {
+    "winRateLow": 0.12,
+    "winRateHigh": 0.24,
+    "marginStepPct": 0.0025,
+    "maxMarginStepPerDecisionPct": 0.01,
+    "maxCumulative30dPct": 0.02,
+    "floorMarginPct": 0.06,
+    "maxMarginPct": 0.22,
+    "minQuotesForDecision": 40,
+    "cadenceDays": 7,
+    "fxLossBufferTrigger": {
+     "fxLossToGrossProfitRatio": 0.25,
+     "bufferStepPct": 0.0025,
+     "maxVolMinBufferPct": 0.04,
+     "calmWeeksToRelax": 6
+    }
+   },
+   "treasury": {
+    "baseCoverageDays": 7,
+    "highVolCoverageDays": 10,
+    "lowVolCoverageDays": 5,
+    "highVolDailyPct": 2.5,
+    "lowVolDailyPct": 1.0,
+    "minRunwayDays": 75,
+    "restoreRunwayDays": 180,
+    "maxInjectionPerMonthIrt": 300000000,
+    "drawCashMonthsOfOpexThreshold": 9,
+    "drawFractionOfExcess": 0.15,
+    "minRunwayDaysForDraw": 365,
+    "cadenceDays": 30
+   },
+   "staffing": {
+    "slaMinutes": 120,
+    "queueAgeBreachDaysToHire": 2,
+    "hireCountPerDecision": 1,
+    "lowUtilisation": 0.35,
+    "lowUtilisationWeeksToFire": 6,
+    "minOperators": 2,
+    "maxOperators": 24,
+    "cooldownDaysAfterHire": 14,
+    "noFireDaysAfterHire": 56
+   },
+   "marketing": {
+    "cadenceDays": 30,
+    "budgetShareOfCash": 0.03,
+    "minBudgetIrt": 10000000,
+    "maxBudgetIrt": 600000000,
+    "ltvToCacIncrease": 4.0,
+    "ltvToCacDecrease": 1.5,
+    "increaseFactor": 1.15,
+    "decreaseFactor": 0.6,
+    "zeroBudgetRunwayDays": 30,
+    "mixShiftMaxPct": 0.1
+   },
+   "providers": {
+    "failureRateMargin": 0.03,
+    "feeBpsMargin": 50,
+    "observationsRequired": 2,
+    "cooldownDays": 30
+   },
+   "risk": {
+    "fraudLossRateTriggerPct": 0.5,
+    "fraudSpikeMultiple": 3,
+    "tightenFactor": 0.6,
+    "minNewCustomerMaxOrderUsdCents": 5000,
+    "defaultNewCustomerMaxOrderUsdCents": 50000,
+    "holdScoreStep": 5,
+    "minHoldScore": 40,
+    "maxHoldScore": 90,
+    "calmWeeksToRelax": 8
+   },
+   "rush": {
+    "saturationUtilisation": 0.9,
+    "premiumStepRel": 0.1,
+    "maxPremiumPct": 0.5,
+    "cadenceDays": 14
+   },
+   "tax": {
+    "vatPayDayOfMonthAfterQuarter": 25,
+    "incomeTaxPayJalaliMonth": 4,
+    "source": "assumption; VAT/income-tax calendar must be confirmed with a licensed accountant (not tax advice)"
+   },
+   "killSwitch": {
+    "onAlertCodes": [
+     "ledger.imbalance",
+     "usdt.reconciliation_gap"
+    ],
+    "source": "assumption"
+   }
+  },
+  "baseline": {
+   "pricing": {
+    "winRateLow": 0.16,
+    "winRateHigh": 0.3,
+    "marginStepPct": 0.005,
+    "maxMarginStepPerDecisionPct": 0.01,
+    "maxCumulative30dPct": 0.03,
+    "floorMarginPct": 0.04,
+    "maxMarginPct": 0.22,
+    "minQuotesForDecision": 40,
+    "cadenceDays": 7,
+    "fxLossBufferTrigger": {
+     "fxLossToGrossProfitRatio": 0.25,
+     "bufferStepPct": 0.0025,
+     "maxVolMinBufferPct": 0.04,
+     "calmWeeksToRelax": 6
+    }
+   },
+   "treasury": {
+    "baseCoverageDays": 5,
+    "highVolCoverageDays": 8,
+    "lowVolCoverageDays": 3,
+    "highVolDailyPct": 2.5,
+    "lowVolDailyPct": 1.0,
+    "minRunwayDays": 45,
+    "restoreRunwayDays": 120,
+    "maxInjectionPerMonthIrt": 300000000,
+    "drawCashMonthsOfOpexThreshold": 6,
+    "drawFractionOfExcess": 0.3,
+    "minRunwayDaysForDraw": 270,
+    "cadenceDays": 30
+   },
+   "staffing": {
+    "slaMinutes": 120,
+    "queueAgeBreachDaysToHire": 3,
+    "hireCountPerDecision": 1,
+    "lowUtilisation": 0.35,
+    "lowUtilisationWeeksToFire": 4,
+    "minOperators": 2,
+    "maxOperators": 24,
+    "cooldownDaysAfterHire": 14,
+    "noFireDaysAfterHire": 56
+   },
+   "marketing": {
+    "cadenceDays": 30,
+    "budgetShareOfCash": 0.05,
+    "minBudgetIrt": 10000000,
+    "maxBudgetIrt": 600000000,
+    "ltvToCacIncrease": 3.0,
+    "ltvToCacDecrease": 1.2,
+    "increaseFactor": 1.25,
+    "decreaseFactor": 0.7,
+    "zeroBudgetRunwayDays": 30,
+    "mixShiftMaxPct": 0.1
+   },
+   "providers": {
+    "failureRateMargin": 0.03,
+    "feeBpsMargin": 50,
+    "observationsRequired": 2,
+    "cooldownDays": 30
+   },
+   "risk": {
+    "fraudLossRateTriggerPct": 0.8,
+    "fraudSpikeMultiple": 3,
+    "tightenFactor": 0.7,
+    "minNewCustomerMaxOrderUsdCents": 5000,
+    "defaultNewCustomerMaxOrderUsdCents": 50000,
+    "holdScoreStep": 5,
+    "minHoldScore": 40,
+    "maxHoldScore": 90,
+    "calmWeeksToRelax": 8
+   },
+   "rush": {
+    "saturationUtilisation": 0.9,
+    "premiumStepRel": 0.1,
+    "maxPremiumPct": 0.5,
+    "cadenceDays": 14
+   },
+   "tax": {
+    "vatPayDayOfMonthAfterQuarter": 25,
+    "incomeTaxPayJalaliMonth": 4,
+    "source": "assumption; VAT/income-tax calendar must be confirmed with a licensed accountant (not tax advice)"
+   },
+   "killSwitch": {
+    "onAlertCodes": [
+     "ledger.imbalance",
+     "usdt.reconciliation_gap"
+    ],
+    "source": "assumption"
+   }
+  },
+  "aggressive": {
+   "pricing": {
+    "winRateLow": 0.22,
+    "winRateHigh": 0.38,
+    "marginStepPct": 0.0075,
+    "maxMarginStepPerDecisionPct": 0.015,
+    "maxCumulative30dPct": 0.04,
+    "floorMarginPct": 0.025,
+    "maxMarginPct": 0.22,
+    "minQuotesForDecision": 40,
+    "cadenceDays": 7,
+    "fxLossBufferTrigger": {
+     "fxLossToGrossProfitRatio": 0.25,
+     "bufferStepPct": 0.0025,
+     "maxVolMinBufferPct": 0.04,
+     "calmWeeksToRelax": 6
+    }
+   },
+   "treasury": {
+    "baseCoverageDays": 3,
+    "highVolCoverageDays": 5,
+    "lowVolCoverageDays": 2,
+    "highVolDailyPct": 2.5,
+    "lowVolDailyPct": 1.0,
+    "minRunwayDays": 25,
+    "restoreRunwayDays": 75,
+    "maxInjectionPerMonthIrt": 300000000,
+    "drawCashMonthsOfOpexThreshold": 4,
+    "drawFractionOfExcess": 0.5,
+    "minRunwayDaysForDraw": 150,
+    "cadenceDays": 30
+   },
+   "staffing": {
+    "slaMinutes": 120,
+    "queueAgeBreachDaysToHire": 5,
+    "hireCountPerDecision": 1,
+    "lowUtilisation": 0.35,
+    "lowUtilisationWeeksToFire": 3,
+    "minOperators": 2,
+    "maxOperators": 24,
+    "cooldownDaysAfterHire": 14,
+    "noFireDaysAfterHire": 56
+   },
+   "marketing": {
+    "cadenceDays": 30,
+    "budgetShareOfCash": 0.1,
+    "minBudgetIrt": 10000000,
+    "maxBudgetIrt": 1500000000,
+    "ltvToCacIncrease": 2.0,
+    "ltvToCacDecrease": 1.0,
+    "increaseFactor": 1.4,
+    "decreaseFactor": 0.8,
+    "zeroBudgetRunwayDays": 30,
+    "mixShiftMaxPct": 0.1
+   },
+   "providers": {
+    "failureRateMargin": 0.03,
+    "feeBpsMargin": 50,
+    "observationsRequired": 2,
+    "cooldownDays": 30
+   },
+   "risk": {
+    "fraudLossRateTriggerPct": 1.5,
+    "fraudSpikeMultiple": 3,
+    "tightenFactor": 0.8,
+    "minNewCustomerMaxOrderUsdCents": 5000,
+    "defaultNewCustomerMaxOrderUsdCents": 50000,
+    "holdScoreStep": 5,
+    "minHoldScore": 40,
+    "maxHoldScore": 90,
+    "calmWeeksToRelax": 8
+   },
+   "rush": {
+    "saturationUtilisation": 0.9,
+    "premiumStepRel": 0.1,
+    "maxPremiumPct": 0.5,
+    "cadenceDays": 14
+   },
+   "tax": {
+    "vatPayDayOfMonthAfterQuarter": 25,
+    "incomeTaxPayJalaliMonth": 4,
+    "source": "assumption; VAT/income-tax calendar must be confirmed with a licensed accountant (not tax advice)"
+   },
+   "killSwitch": {
+    "onAlertCodes": [
+     "ledger.imbalance",
+     "usdt.reconciliation_gap"
+    ],
+    "source": "assumption"
+   }
+  }
+ }
+}

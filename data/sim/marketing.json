@@ -1,0 +1,235 @@
+{
+ "_doc": "Marketing channels: saturating spend->visits (Hill) with first-order adstock lag, audience fatigue and inflation-indexed cost. maxVisitsPerDay is DERIVED: Vmax_month = 2*K/cpv (visits at K equal Vmax/2), per day = /30. Loaded by packages/sim/src/marketing/config.ts.",
+ "initialMonthlyBudgetIrt": {
+  "value": 30000000,
+  "source": "assumption: owner launch budget; owner policy / decisions override"
+ },
+ "defaultMix": {
+  "value": {
+   "seo": 0.2,
+   "telegram_channels": 0.25,
+   "instagram": 0.15,
+   "bale_eitaa": 0.1,
+   "influencers": 0.1,
+   "price_comparison": 0.15,
+   "b2b": 0.05
+  },
+  "source": "assumption"
+ },
+ "costIndexNote": "Spend is deflated by the inflation/cost index passed to Marketing.step so that nominal budgets buy fewer visits as Toman inflates.",
+ "cacAverageWindowDays": {
+  "value": 30,
+  "source": "assumption: EMA window for reported CAC"
+ },
+ "channels": [
+  {
+   "id": "seo",
+   "labelFa": "سئو و محتوا",
+   "labelEn": "SEO & content",
+   "type": "paid",
+   "halfSaturationIrtPerMonth": 60000000,
+   "cpvAtHalfSaturationIrt": 6000,
+   "hill": 1.1,
+   "lagDays": 120,
+   "fatigueMax": 0.15,
+   "fatigueRecoveryHalfLifeDays": 60,
+   "visitToSignupRate": 0.1,
+   "conversionMultiplier": 1.0,
+   "trustAscPerOrder": 0.0,
+   "segmentMix": {
+    "freelance_dev": 0.2,
+    "designer": 0.1,
+    "student": 0.2,
+    "casual_subscriber": 0.2,
+    "gamer": 0.1,
+    "exam_applicant": 0.1,
+    "traveller": 0.1
+   },
+   "customerChannelTilt": {
+    "web": 1.5,
+    "telegram": 0.4,
+    "bale": 0.3
+   },
+   "source": "assumption (UNVERIFIED; replace from data/ops_growth.json channels cac_irt/conversion/saturation when available)"
+  },
+  {
+   "id": "telegram_channels",
+   "labelFa": "کانال‌های تلگرام",
+   "labelEn": "Telegram channels / ads",
+   "type": "paid",
+   "halfSaturationIrtPerMonth": 40000000,
+   "cpvAtHalfSaturationIrt": 9000,
+   "hill": 1.1,
+   "lagDays": 5,
+   "fatigueMax": 0.3,
+   "fatigueRecoveryHalfLifeDays": 60,
+   "visitToSignupRate": 0.1,
+   "conversionMultiplier": 1.0,
+   "trustAscPerOrder": 0.0,
+   "segmentMix": {
+    "gamer": 0.25,
+    "student": 0.2,
+    "casual_subscriber": 0.25,
+    "freelance_dev": 0.1,
+    "designer": 0.1,
+    "traveller": 0.1
+   },
+   "customerChannelTilt": {
+    "web": 0.3,
+    "telegram": 2.2,
+    "bale": 0.2
+   },
+   "source": "assumption (UNVERIFIED; replace from data/ops_growth.json channels cac_irt/conversion/saturation when available)"
+  },
+  {
+   "id": "instagram",
+   "labelFa": "اینستاگرام",
+   "labelEn": "Instagram",
+   "type": "paid",
+   "halfSaturationIrtPerMonth": 50000000,
+   "cpvAtHalfSaturationIrt": 12000,
+   "hill": 1.1,
+   "lagDays": 7,
+   "fatigueMax": 0.3,
+   "fatigueRecoveryHalfLifeDays": 60,
+   "visitToSignupRate": 0.08,
+   "conversionMultiplier": 1.0,
+   "trustAscPerOrder": 0.0,
+   "segmentMix": {
+    "designer": 0.2,
+    "ads_manager": 0.15,
+    "traveller": 0.2,
+    "casual_subscriber": 0.25,
+    "student": 0.2
+   },
+   "customerChannelTilt": {
+    "web": 1.4,
+    "telegram": 0.8,
+    "bale": 0.2
+   },
+   "source": "assumption (UNVERIFIED; replace from data/ops_growth.json channels cac_irt/conversion/saturation when available)"
+  },
+  {
+   "id": "bale_eitaa",
+   "labelFa": "بله / ایتا",
+   "labelEn": "Bale / Eitaa",
+   "type": "paid",
+   "halfSaturationIrtPerMonth": 20000000,
+   "cpvAtHalfSaturationIrt": 7000,
+   "hill": 1.1,
+   "lagDays": 5,
+   "fatigueMax": 0.3,
+   "fatigueRecoveryHalfLifeDays": 60,
+   "visitToSignupRate": 0.09,
+   "conversionMultiplier": 1.0,
+   "trustAscPerOrder": 0.0,
+   "segmentMix": {
+    "student": 0.25,
+    "parent_tuition": 0.15,
+    "casual_subscriber": 0.25,
+    "gamer": 0.15,
+    "exam_applicant": 0.2
+   },
+   "customerChannelTilt": {
+    "web": 0.4,
+    "telegram": 0.2,
+    "bale": 2.5
+   },
+   "source": "assumption (UNVERIFIED; replace from data/ops_growth.json channels cac_irt/conversion/saturation when available)"
+  },
+  {
+   "id": "influencers",
+   "labelFa": "اینفلوئنسر",
+   "labelEn": "Influencers",
+   "type": "paid",
+   "halfSaturationIrtPerMonth": 80000000,
+   "cpvAtHalfSaturationIrt": 20000,
+   "hill": 1.1,
+   "lagDays": 14,
+   "fatigueMax": 0.3,
+   "fatigueRecoveryHalfLifeDays": 60,
+   "visitToSignupRate": 0.1,
+   "conversionMultiplier": 1.0,
+   "trustAscPerOrder": 0.0,
+   "segmentMix": {
+    "gamer": 0.3,
+    "designer": 0.15,
+    "freelance_dev": 0.2,
+    "student": 0.15,
+    "casual_subscriber": 0.2
+   },
+   "customerChannelTilt": {
+    "web": 1.0,
+    "telegram": 1.2,
+    "bale": 0.5
+   },
+   "source": "assumption (UNVERIFIED; replace from data/ops_growth.json channels cac_irt/conversion/saturation when available)"
+  },
+  {
+   "id": "price_comparison",
+   "labelFa": "سایت‌های مقایسه قیمت",
+   "labelEn": "Price-comparison sites",
+   "type": "paid",
+   "halfSaturationIrtPerMonth": 30000000,
+   "cpvAtHalfSaturationIrt": 10000,
+   "hill": 1.1,
+   "lagDays": 2,
+   "fatigueMax": 0.2,
+   "fatigueRecoveryHalfLifeDays": 60,
+   "visitToSignupRate": 0.06,
+   "conversionMultiplier": 1.0,
+   "trustAscPerOrder": 0.0,
+   "segmentMix": {
+    "gamer": 0.25,
+    "casual_subscriber": 0.2,
+    "student": 0.2,
+    "freelance_dev": 0.15,
+    "ads_manager": 0.1,
+    "traveller": 0.1
+   },
+   "customerChannelTilt": {
+    "web": 2.0,
+    "telegram": 0.2,
+    "bale": 0.1
+   },
+   "source": "assumption (UNVERIFIED; replace from data/ops_growth.json channels cac_irt/conversion/saturation when available)"
+  },
+  {
+   "id": "b2b",
+   "labelFa": "فروش سازمانی (B2B)",
+   "labelEn": "B2B outreach",
+   "type": "paid",
+   "halfSaturationIrtPerMonth": 25000000,
+   "cpvAtHalfSaturationIrt": 150000,
+   "hill": 1.0,
+   "lagDays": 30,
+   "fatigueMax": 0.3,
+   "fatigueRecoveryHalfLifeDays": 60,
+   "visitToSignupRate": 0.3,
+   "conversionMultiplier": 1.0,
+   "trustAscPerOrder": 0.0,
+   "segmentMix": {
+    "importer_trader": 0.4,
+    "ads_manager": 0.35,
+    "freelance_dev": 0.15,
+    "parent_tuition": 0.1
+   },
+   "customerChannelTilt": {
+    "web": 1.3,
+    "telegram": 0.7,
+    "bale": 0.2
+   },
+   "source": "assumption (UNVERIFIED; replace from data/ops_growth.json channels cac_irt/conversion/saturation when available)"
+  },
+  {
+   "id": "referral",
+   "labelFa": "معرفی دوستان",
+   "labelEn": "Referral programme",
+   "type": "referral",
+   "rewardIrtPerFirstOrder": 50000,
+   "referredConversionAsc": 0.8,
+   "rewardCapPerMonthIrt": 20000000,
+   "source": "assumption: referral reward per referred first order; guardrail: rewards only on real, distinct customers (no self-referral farming)"
+  }
+ ]
+}

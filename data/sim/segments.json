@@ -1,0 +1,1154 @@
+{
+ "_doc": "Customer segments for the demand model. Plain values; every segment/group carries a `source`. Loaded + validated by packages/sim/src/demand/segments.ts. Override from data/ops_growth.json via applyOpsGrowthOverrides().",
+ "organicVisitsPerDay": {
+  "value": 70,
+  "source": "assumption: organic (no paid marketing) visits/day at launch; grows via reputation, referral and marketing multipliers"
+ },
+ "referenceSlaMinutes": {
+  "value": 30,
+  "source": "assumption: reference delivery time used to normalise ln(SLA) in the logit"
+ },
+ "referenceTrust": {
+  "value": 0.6,
+  "source": "assumption: trust of a typical incumbent competitor"
+ },
+ "consideration": {
+  "competitorsConsidered": 3,
+  "source": "data/competitors.json elasticity.consideration_set_size.base = 3 (UNVERIFIED prior)"
+ },
+ "weekday": {
+  "source": "assumption: JS weekday index 0=Sunday..6=Saturday; Friday handled via segment.weekendFactor",
+  "weights": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.05,
+   1.0,
+   1.0
+  ]
+ },
+ "diurnalProfiles": {
+  "source": "assumption shaped by sim-spec: IRST peak 20-23, trough 03-07; hourly weights (normalised to mean 1 in code)",
+  "default": [
+   0.8,
+   0.55,
+   0.35,
+   0.18,
+   0.12,
+   0.12,
+   0.15,
+   0.3,
+   0.55,
+   0.85,
+   1.05,
+   1.1,
+   1.0,
+   0.85,
+   0.9,
+   1.0,
+   1.05,
+   1.1,
+   1.25,
+   1.55,
+   1.95,
+   2.15,
+   1.95,
+   1.4
+  ],
+  "office": [
+   0.15,
+   0.08,
+   0.05,
+   0.04,
+   0.04,
+   0.06,
+   0.15,
+   0.4,
+   0.9,
+   1.5,
+   1.75,
+   1.7,
+   1.35,
+   1.25,
+   1.5,
+   1.7,
+   1.6,
+   1.35,
+   1.1,
+   1.0,
+   0.9,
+   0.8,
+   0.6,
+   0.35
+  ],
+  "night": [
+   1.3,
+   1.1,
+   0.8,
+   0.5,
+   0.3,
+   0.2,
+   0.2,
+   0.25,
+   0.4,
+   0.6,
+   0.8,
+   0.9,
+   0.9,
+   0.9,
+   1.0,
+   1.05,
+   1.15,
+   1.3,
+   1.5,
+   1.8,
+   2.1,
+   2.3,
+   2.2,
+   1.8
+  ]
+ },
+ "mistakes": {
+  "source": "assumption: per-method payment mistake probabilities for an average careful customer (scaled by segment.carelessness, x1.5 new / x0.6 returning)",
+  "gateway": {
+   "abandon": 0.1,
+   "late": 0.01,
+   "duplicate": 0.004
+  },
+  "card_to_card": {
+   "abandon": 0.08,
+   "wrong_amount": 0.035,
+   "late": 0.06,
+   "duplicate": 0.008
+  },
+  "bank_transfer": {
+   "abandon": 0.08,
+   "wrong_amount": 0.02,
+   "late": 0.05,
+   "duplicate": 0.004
+  },
+  "usdt": {
+   "abandon": 0.06,
+   "underpay": 0.03,
+   "overpay": 0.02,
+   "wrong_network": 0.012,
+   "late": 0.04,
+   "duplicate": 0.005
+  },
+  "wallet": {
+   "abandon": 0.01
+  }
+ },
+ "behaviour": {
+  "source": "assumption: post-purchase behaviour",
+  "ticketProbabilityWhenLate": 0.45,
+  "ticketProbabilityOnFailure": 0.85,
+  "disputeProbabilityOnFailure": 0.12,
+  "leadSignupRate": 0.12,
+  "newCustomerMistakeMultiplier": 1.5,
+  "returningMistakeMultiplier": 0.6,
+  "referredConversionAsc": 0.8,
+  "returningLoyaltyAscPerOrder": 0.25,
+  "returningLoyaltyAscCap": 1.5
+ },
+ "satisfaction": {
+  "source": "assumption: satisfaction score in [0,1] from delivery outcome",
+  "base": 0.82,
+  "lateSlaPenaltyMax": 0.5,
+  "failurePenalty": 0.55,
+  "refundedPenalty": 0.15,
+  "priceBonusMax": 0.08,
+  "supportResolvedBonus": 0.1,
+  "initial": 0.7,
+  "emaAlpha": 0.5
+ },
+ "segments": [
+  {
+   "id": "student",
+   "labelFa": "دانشجو",
+   "labelEn": "Student",
+   "share": 0.13,
+   "basket": [
+    {
+     "family": "virtual_card",
+     "weight": 0.3,
+     "medianUsd": 25,
+     "sigma": 0.6,
+     "minUsd": 10,
+     "maxUsd": 150
+    },
+    {
+     "family": "ai_subscription",
+     "weight": 0.2,
+     "medianUsd": 20,
+     "sigma": 0.5,
+     "minUsd": 8,
+     "maxUsd": 100
+    },
+    {
+     "family": "education",
+     "weight": 0.2,
+     "medianUsd": 60,
+     "sigma": 0.7,
+     "minUsd": 20,
+     "maxUsd": 300
+    },
+    {
+     "family": "gift_card",
+     "weight": 0.15,
+     "medianUsd": 20,
+     "sigma": 0.5,
+     "minUsd": 5,
+     "maxUsd": 100
+    },
+    {
+     "family": "streaming",
+     "weight": 0.15,
+     "medianUsd": 12,
+     "sigma": 0.4,
+     "minUsd": 5,
+     "maxUsd": 40
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.08,
+    "express": 0.02
+   },
+   "beta": {
+    "price": 12,
+    "speed": 0.15,
+    "trust": 1.5
+   },
+   "baseConversion": 0.05,
+   "paymentPreference": {
+    "gateway": 0.55,
+    "card_to_card": 0.35,
+    "usdt": 0.02,
+    "wallet": 0.08,
+    "bank_transfer": 0
+   },
+   "channelAffinity": {
+    "web": 0.35,
+    "telegram": 0.45,
+    "bale": 0.2
+   },
+   "repeat": {
+    "baseProbability": 0.55,
+    "weibullShape": 1.2,
+    "weibullScaleDays": 45,
+    "maxOrders": 12
+   },
+   "referral": {
+    "propensity": 0.12,
+    "meanReferred": 1.4,
+    "delayMeanDays": 4
+   },
+   "weekendFactor": 1.2,
+   "diurnal": "default",
+   "patienceFactor": 2.0,
+   "carelessness": 1.3,
+   "kycWillingness": 0.85,
+   "reviewProbability": 0.12,
+   "monthSeasonality": {
+    "7": 1.2,
+    "8": 1.1,
+    "9": 1.1,
+    "11": 1.1,
+    "12": 1.1,
+    "1": 0.9,
+    "6": 0.8,
+    "5": 0.8
+   },
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "freelance_dev",
+   "labelFa": "برنامه‌نویس فریلنسر",
+   "labelEn": "Freelance developer",
+   "share": 0.12,
+   "basket": [
+    {
+     "family": "cloud",
+     "weight": 0.3,
+     "medianUsd": 40,
+     "sigma": 0.8,
+     "minUsd": 5,
+     "maxUsd": 500
+    },
+    {
+     "family": "ai_subscription",
+     "weight": 0.3,
+     "medianUsd": 25,
+     "sigma": 0.6,
+     "minUsd": 8,
+     "maxUsd": 250
+    },
+    {
+     "family": "virtual_card",
+     "weight": 0.3,
+     "medianUsd": 60,
+     "sigma": 0.7,
+     "minUsd": 10,
+     "maxUsd": 500
+    },
+    {
+     "family": "education",
+     "weight": 0.1,
+     "medianUsd": 50,
+     "sigma": 0.6,
+     "minUsd": 10,
+     "maxUsd": 300
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.12,
+    "express": 0.04
+   },
+   "beta": {
+    "price": 8,
+    "speed": 0.25,
+    "trust": 2.0
+   },
+   "baseConversion": 0.08,
+   "paymentPreference": {
+    "gateway": 0.45,
+    "card_to_card": 0.2,
+    "usdt": 0.3,
+    "wallet": 0.05,
+    "bank_transfer": 0
+   },
+   "channelAffinity": {
+    "web": 0.55,
+    "telegram": 0.35,
+    "bale": 0.1
+   },
+   "repeat": {
+    "baseProbability": 0.78,
+    "weibullShape": 1.3,
+    "weibullScaleDays": 30,
+    "maxOrders": 36
+   },
+   "referral": {
+    "propensity": 0.08,
+    "meanReferred": 1.3,
+    "delayMeanDays": 5
+   },
+   "weekendFactor": 0.7,
+   "diurnal": "office",
+   "patienceFactor": 1.5,
+   "carelessness": 0.8,
+   "kycWillingness": 0.85,
+   "reviewProbability": 0.12,
+   "monthSeasonality": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "designer",
+   "labelFa": "طراح",
+   "labelEn": "Designer",
+   "share": 0.08,
+   "basket": [
+    {
+     "family": "ai_subscription",
+     "weight": 0.32,
+     "medianUsd": 22,
+     "sigma": 0.5,
+     "minUsd": 8,
+     "maxUsd": 200
+    },
+    {
+     "family": "virtual_card",
+     "weight": 0.3,
+     "medianUsd": 35,
+     "sigma": 0.6,
+     "minUsd": 10,
+     "maxUsd": 300
+    },
+    {
+     "family": "cloud",
+     "weight": 0.1,
+     "medianUsd": 20,
+     "sigma": 0.7,
+     "minUsd": 5,
+     "maxUsd": 150
+    },
+    {
+     "family": "education",
+     "weight": 0.13,
+     "medianUsd": 40,
+     "sigma": 0.6,
+     "minUsd": 10,
+     "maxUsd": 200
+    },
+    {
+     "family": "streaming",
+     "weight": 0.15,
+     "medianUsd": 12,
+     "sigma": 0.4,
+     "minUsd": 5,
+     "maxUsd": 40
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.1,
+    "express": 0.03
+   },
+   "beta": {
+    "price": 9,
+    "speed": 0.2,
+    "trust": 2.0
+   },
+   "baseConversion": 0.07,
+   "paymentPreference": {
+    "gateway": 0.5,
+    "card_to_card": 0.3,
+    "usdt": 0.12,
+    "wallet": 0.08,
+    "bank_transfer": 0
+   },
+   "channelAffinity": {
+    "web": 0.5,
+    "telegram": 0.35,
+    "bale": 0.15
+   },
+   "repeat": {
+    "baseProbability": 0.65,
+    "weibullShape": 1.2,
+    "weibullScaleDays": 35,
+    "maxOrders": 24
+   },
+   "referral": {
+    "propensity": 0.08,
+    "meanReferred": 1.3,
+    "delayMeanDays": 5
+   },
+   "weekendFactor": 0.9,
+   "diurnal": "default",
+   "patienceFactor": 1.5,
+   "carelessness": 0.9,
+   "kycWillingness": 0.85,
+   "reviewProbability": 0.12,
+   "monthSeasonality": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "gamer",
+   "labelFa": "گیمر",
+   "labelEn": "Gamer",
+   "share": 0.13,
+   "basket": [
+    {
+     "family": "gift_card",
+     "weight": 0.7,
+     "medianUsd": 20,
+     "sigma": 0.55,
+     "minUsd": 5,
+     "maxUsd": 200
+    },
+    {
+     "family": "virtual_card",
+     "weight": 0.12,
+     "medianUsd": 30,
+     "sigma": 0.6,
+     "minUsd": 10,
+     "maxUsd": 150
+    },
+    {
+     "family": "ai_subscription",
+     "weight": 0.08,
+     "medianUsd": 20,
+     "sigma": 0.4,
+     "minUsd": 8,
+     "maxUsd": 50
+    },
+    {
+     "family": "streaming",
+     "weight": 0.1,
+     "medianUsd": 12,
+     "sigma": 0.4,
+     "minUsd": 5,
+     "maxUsd": 30
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.2,
+    "express": 0.06
+   },
+   "beta": {
+    "price": 14,
+    "speed": 0.3,
+    "trust": 1.0
+   },
+   "baseConversion": 0.09,
+   "paymentPreference": {
+    "gateway": 0.6,
+    "card_to_card": 0.3,
+    "usdt": 0.03,
+    "wallet": 0.07,
+    "bank_transfer": 0
+   },
+   "channelAffinity": {
+    "web": 0.3,
+    "telegram": 0.45,
+    "bale": 0.25
+   },
+   "repeat": {
+    "baseProbability": 0.72,
+    "weibullShape": 1.1,
+    "weibullScaleDays": 21,
+    "maxOrders": 48
+   },
+   "referral": {
+    "propensity": 0.14,
+    "meanReferred": 1.2,
+    "delayMeanDays": 3
+   },
+   "weekendFactor": 1.3,
+   "diurnal": "night",
+   "patienceFactor": 1.1,
+   "carelessness": 1.2,
+   "kycWillingness": 0.85,
+   "reviewProbability": 0.12,
+   "monthSeasonality": {
+    "9": 1.3,
+    "10": 1.3,
+    "4": 1.2,
+    "11": 0.9
+   },
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "ads_manager",
+   "labelFa": "مدیر تبلیغات (کسب‌وکار کوچک)",
+   "labelEn": "Small-business ads manager",
+   "share": 0.08,
+   "basket": [
+    {
+     "family": "virtual_card",
+     "weight": 0.75,
+     "medianUsd": 150,
+     "sigma": 0.8,
+     "minUsd": 30,
+     "maxUsd": 2000
+    },
+    {
+     "family": "cloud",
+     "weight": 0.1,
+     "medianUsd": 80,
+     "sigma": 0.7,
+     "minUsd": 10,
+     "maxUsd": 500
+    },
+    {
+     "family": "ai_subscription",
+     "weight": 0.15,
+     "medianUsd": 40,
+     "sigma": 0.6,
+     "minUsd": 10,
+     "maxUsd": 300
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.18,
+    "express": 0.07
+   },
+   "beta": {
+    "price": 5,
+    "speed": 0.3,
+    "trust": 3.0
+   },
+   "baseConversion": 0.09,
+   "paymentPreference": {
+    "gateway": 0.3,
+    "card_to_card": 0.3,
+    "usdt": 0.35,
+    "wallet": 0.05,
+    "bank_transfer": 0
+   },
+   "channelAffinity": {
+    "web": 0.55,
+    "telegram": 0.3,
+    "bale": 0.15
+   },
+   "repeat": {
+    "baseProbability": 0.85,
+    "weibullShape": 1.4,
+    "weibullScaleDays": 14,
+    "maxOrders": 60
+   },
+   "referral": {
+    "propensity": 0.06,
+    "meanReferred": 1.2,
+    "delayMeanDays": 6
+   },
+   "weekendFactor": 0.5,
+   "diurnal": "office",
+   "patienceFactor": 1.2,
+   "carelessness": 0.7,
+   "kycWillingness": 0.85,
+   "reviewProbability": 0.12,
+   "monthSeasonality": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "importer_trader",
+   "labelFa": "واردکننده / بازرگان",
+   "labelEn": "Importer / trader",
+   "share": 0.05,
+   "basket": [
+    {
+     "family": "fx_payment",
+     "weight": 0.5,
+     "medianUsd": 400,
+     "sigma": 0.9,
+     "minUsd": 50,
+     "maxUsd": 3000
+    },
+    {
+     "family": "virtual_card",
+     "weight": 0.3,
+     "medianUsd": 300,
+     "sigma": 0.8,
+     "minUsd": 50,
+     "maxUsd": 2000
+    },
+    {
+     "family": "cloud",
+     "weight": 0.2,
+     "medianUsd": 100,
+     "sigma": 0.8,
+     "minUsd": 10,
+     "maxUsd": 800
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.1,
+    "express": 0.04
+   },
+   "beta": {
+    "price": 4,
+    "speed": 0.3,
+    "trust": 4.0
+   },
+   "baseConversion": 0.1,
+   "paymentPreference": {
+    "gateway": 0.1,
+    "card_to_card": 0.3,
+    "usdt": 0.35,
+    "wallet": 0.0,
+    "bank_transfer": 0.25
+   },
+   "channelAffinity": {
+    "web": 0.6,
+    "telegram": 0.3,
+    "bale": 0.1
+   },
+   "repeat": {
+    "baseProbability": 0.8,
+    "weibullShape": 1.3,
+    "weibullScaleDays": 20,
+    "maxOrders": 48
+   },
+   "referral": {
+    "propensity": 0.05,
+    "meanReferred": 1.5,
+    "delayMeanDays": 7
+   },
+   "weekendFactor": 0.4,
+   "diurnal": "office",
+   "patienceFactor": 1.3,
+   "carelessness": 0.6,
+   "kycWillingness": 0.9,
+   "reviewProbability": 0.12,
+   "monthSeasonality": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "exam_applicant",
+   "labelFa": "متقاضی مهاجرت / آزمون",
+   "labelEn": "Immigration / exam applicant",
+   "share": 0.1,
+   "basket": [
+    {
+     "family": "education",
+     "weight": 0.78,
+     "medianUsd": 130,
+     "sigma": 0.55,
+     "minUsd": 30,
+     "maxUsd": 1200
+    },
+    {
+     "family": "virtual_card",
+     "weight": 0.17,
+     "medianUsd": 100,
+     "sigma": 0.6,
+     "minUsd": 20,
+     "maxUsd": 600
+    },
+    {
+     "family": "fx_payment",
+     "weight": 0.05,
+     "medianUsd": 300,
+     "sigma": 0.7,
+     "minUsd": 50,
+     "maxUsd": 1500
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.25,
+    "express": 0.1
+   },
+   "beta": {
+    "price": 3,
+    "speed": 0.2,
+    "trust": 3.5
+   },
+   "baseConversion": 0.12,
+   "paymentPreference": {
+    "gateway": 0.5,
+    "card_to_card": 0.35,
+    "usdt": 0.05,
+    "wallet": 0.1,
+    "bank_transfer": 0
+   },
+   "channelAffinity": {
+    "web": 0.6,
+    "telegram": 0.25,
+    "bale": 0.15
+   },
+   "repeat": {
+    "baseProbability": 0.35,
+    "weibullShape": 1.3,
+    "weibullScaleDays": 60,
+    "maxOrders": 6
+   },
+   "referral": {
+    "propensity": 0.1,
+    "meanReferred": 1.5,
+    "delayMeanDays": 5
+   },
+   "weekendFactor": 1.0,
+   "diurnal": "default",
+   "patienceFactor": 1.2,
+   "carelessness": 1.1,
+   "kycWillingness": 0.85,
+   "reviewProbability": 0.12,
+   "monthSeasonality": {
+    "8": 1.3,
+    "9": 1.3,
+    "10": 1.3,
+    "11": 1.3,
+    "12": 1.2,
+    "2": 1.15,
+    "1": 1.1,
+    "3": 1.1,
+    "5": 0.8,
+    "4": 0.8
+   },
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "traveller",
+   "labelFa": "مسافر",
+   "labelEn": "Traveller",
+   "share": 0.07,
+   "basket": [
+    {
+     "family": "virtual_card",
+     "weight": 0.8,
+     "medianUsd": 150,
+     "sigma": 0.7,
+     "minUsd": 30,
+     "maxUsd": 1500
+    },
+    {
+     "family": "fx_payment",
+     "weight": 0.1,
+     "medianUsd": 300,
+     "sigma": 0.7,
+     "minUsd": 50,
+     "maxUsd": 1500
+    },
+    {
+     "family": "streaming",
+     "weight": 0.1,
+     "medianUsd": 15,
+     "sigma": 0.4,
+     "minUsd": 5,
+     "maxUsd": 40
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.12,
+    "express": 0.04
+   },
+   "beta": {
+    "price": 6,
+    "speed": 0.2,
+    "trust": 2.5
+   },
+   "baseConversion": 0.09,
+   "paymentPreference": {
+    "gateway": 0.55,
+    "card_to_card": 0.3,
+    "usdt": 0.05,
+    "wallet": 0.1,
+    "bank_transfer": 0
+   },
+   "channelAffinity": {
+    "web": 0.5,
+    "telegram": 0.3,
+    "bale": 0.2
+   },
+   "repeat": {
+    "baseProbability": 0.4,
+    "weibullShape": 1.2,
+    "weibullScaleDays": 120,
+    "maxOrders": 8
+   },
+   "referral": {
+    "propensity": 0.08,
+    "meanReferred": 1.3,
+    "delayMeanDays": 5
+   },
+   "weekendFactor": 0.9,
+   "diurnal": "default",
+   "patienceFactor": 1.5,
+   "carelessness": 1.0,
+   "kycWillingness": 0.85,
+   "reviewProbability": 0.12,
+   "monthSeasonality": {
+    "12": 1.5,
+    "1": 1.5,
+    "2": 1.1,
+    "3": 1.2,
+    "4": 1.3,
+    "5": 1.3,
+    "6": 1.1,
+    "11": 0.9,
+    "10": 0.8,
+    "9": 0.8,
+    "8": 0.8,
+    "7": 0.8
+   },
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "parent_tuition",
+   "labelFa": "والدین (شهریه تحصیلی)",
+   "labelEn": "Parent paying tuition",
+   "share": 0.05,
+   "basket": [
+    {
+     "family": "education",
+     "weight": 0.85,
+     "medianUsd": 600,
+     "sigma": 0.6,
+     "minUsd": 100,
+     "maxUsd": 5000
+    },
+    {
+     "family": "fx_payment",
+     "weight": 0.15,
+     "medianUsd": 500,
+     "sigma": 0.7,
+     "minUsd": 100,
+     "maxUsd": 3000
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.04,
+    "express": 0.01
+   },
+   "beta": {
+    "price": 2.5,
+    "speed": 0.1,
+    "trust": 4.5
+   },
+   "baseConversion": 0.1,
+   "paymentPreference": {
+    "gateway": 0.15,
+    "card_to_card": 0.4,
+    "usdt": 0.1,
+    "wallet": 0.0,
+    "bank_transfer": 0.25
+   },
+   "channelAffinity": {
+    "web": 0.65,
+    "telegram": 0.2,
+    "bale": 0.15
+   },
+   "repeat": {
+    "baseProbability": 0.5,
+    "weibullShape": 1.5,
+    "weibullScaleDays": 120,
+    "maxOrders": 6
+   },
+   "referral": {
+    "propensity": 0.08,
+    "meanReferred": 1.5,
+    "delayMeanDays": 7
+   },
+   "weekendFactor": 0.6,
+   "diurnal": "default",
+   "patienceFactor": 1.5,
+   "carelessness": 0.8,
+   "kycWillingness": 0.92,
+   "reviewProbability": 0.12,
+   "monthSeasonality": {
+    "5": 1.2,
+    "6": 1.4,
+    "11": 1.2,
+    "12": 1.1,
+    "1": 1.1,
+    "7": 0.9,
+    "8": 0.9,
+    "2": 0.9,
+    "3": 0.8,
+    "4": 0.8
+   },
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "casual_subscriber",
+   "labelFa": "مشترک سرگرمی و ابزارهای عمومی",
+   "labelEn": "Casual subscriber",
+   "share": 0.175,
+   "basket": [
+    {
+     "family": "streaming",
+     "weight": 0.6,
+     "medianUsd": 14,
+     "sigma": 0.4,
+     "minUsd": 5,
+     "maxUsd": 40
+    },
+    {
+     "family": "ai_subscription",
+     "weight": 0.2,
+     "medianUsd": 20,
+     "sigma": 0.4,
+     "minUsd": 8,
+     "maxUsd": 50
+    },
+    {
+     "family": "gift_card",
+     "weight": 0.2,
+     "medianUsd": 15,
+     "sigma": 0.5,
+     "minUsd": 5,
+     "maxUsd": 60
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.05,
+    "express": 0.01
+   },
+   "beta": {
+    "price": 13,
+    "speed": 0.15,
+    "trust": 1.5
+   },
+   "baseConversion": 0.05,
+   "paymentPreference": {
+    "gateway": 0.65,
+    "card_to_card": 0.25,
+    "usdt": 0.01,
+    "wallet": 0.09,
+    "bank_transfer": 0
+   },
+   "channelAffinity": {
+    "web": 0.4,
+    "telegram": 0.4,
+    "bale": 0.2
+   },
+   "repeat": {
+    "baseProbability": 0.62,
+    "weibullShape": 1.1,
+    "weibullScaleDays": 30,
+    "maxOrders": 36
+   },
+   "referral": {
+    "propensity": 0.07,
+    "meanReferred": 1.2,
+    "delayMeanDays": 4
+   },
+   "weekendFactor": 1.1,
+   "diurnal": "default",
+   "patienceFactor": 2.0,
+   "carelessness": 1.3,
+   "kycWillingness": 0.85,
+   "reviewProbability": 0.12,
+   "monthSeasonality": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "source": "assumption (modelling default; replace from data/ops_growth.json when available)"
+  },
+  {
+   "id": "fraudster",
+   "labelFa": "کلاهبردار (تست کنترل‌های ریسک)",
+   "labelEn": "Fraudster (risk-control stress only)",
+   "share": 0.015,
+   "basket": [
+    {
+     "family": "virtual_card",
+     "weight": 0.55,
+     "medianUsd": 80,
+     "sigma": 0.8,
+     "minUsd": 10,
+     "maxUsd": 1500
+    },
+    {
+     "family": "gift_card",
+     "weight": 0.3,
+     "medianUsd": 60,
+     "sigma": 0.7,
+     "minUsd": 10,
+     "maxUsd": 500
+    },
+    {
+     "family": "ai_subscription",
+     "weight": 0.15,
+     "medianUsd": 40,
+     "sigma": 0.5,
+     "minUsd": 8,
+     "maxUsd": 300
+    }
+   ],
+   "rushProbability": {
+    "fast": 0.35,
+    "express": 0.25
+   },
+   "beta": {
+    "price": 0.5,
+    "speed": 0.5,
+    "trust": 0.0
+   },
+   "baseConversion": 0.45,
+   "paymentPreference": {
+    "gateway": 0.35,
+    "card_to_card": 0.5,
+    "usdt": 0.02,
+    "wallet": 0.08,
+    "bank_transfer": 0.05
+   },
+   "channelAffinity": {
+    "web": 0.6,
+    "telegram": 0.3,
+    "bale": 0.1
+   },
+   "repeat": {
+    "baseProbability": 0.5,
+    "weibullShape": 1.0,
+    "weibullScaleDays": 3,
+    "maxOrders": 20
+   },
+   "referral": {
+    "propensity": 0,
+    "meanReferred": 0,
+    "delayMeanDays": 1
+   },
+   "weekendFactor": 1.0,
+   "diurnal": "night",
+   "patienceFactor": 1.0,
+   "carelessness": 0.5,
+   "kycWillingness": 0.3,
+   "reviewProbability": 0,
+   "monthSeasonality": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "fraud": {
+    "propensity": 1.0,
+    "kinds": {
+     "fake_receipt": 0.4,
+     "stolen_card_dispute": 0.3,
+     "account_takeover": 0.1,
+     "velocity_abuse": 0.2
+    },
+    "velocityBurst": {
+     "min": 3,
+     "max": 8,
+     "spacingMinutes": 6
+    },
+    "disputeProbabilityAfterDelivery": 0.85,
+    "note": "Exists to stress core/risk controls (guardrail CLAUDE.md section 3 applies to simulated actors); carries no evasion tooling."
+   },
+   "source": "assumption; fraud share and kind mix are stress parameters, not measurements"
+  }
+ ]
+}

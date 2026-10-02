@@ -1,0 +1,13 @@
+{
+  "telegram": "تلگرام",
+  "bale": "بله",
+  "web": "وب",
+  "openInApp": "باز کردن در {host}",
+  "shareTitle": "دعوت به {brand}",
+  "shareText": "با کد من در {brand} ثبت‌نام کن: {code}",
+  "shareFailed": "اشتراک‌گذاری انجام نشد؛ لینک کپی شد.",
+  "mainButtonPay": "ادامه به پرداخت",
+  "mainButtonOrder": "ثبت سفارش",
+  "simulated": "میزبان شبیه‌سازی‌شده: {host}",
+  "closeApp": "بستن مینی‌اپ"
+}

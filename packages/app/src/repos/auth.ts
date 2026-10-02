@@ -112,6 +112,10 @@ export class OtpsRepo {
   countSince(phone: string, since: EpochMs): number {
     return this.db.scalar<number>('SELECT COUNT(*) FROM otps WHERE phone = ? AND created_at >= ?', [phone, since]) ?? 0
   }
+  /** Creation time of the oldest OTP issued since `since` (for rate-limit retry-after). */
+  oldestCreatedSince(phone: string, since: EpochMs): EpochMs | undefined {
+    return this.db.scalar<number>('SELECT MIN(created_at) FROM otps WHERE phone = ? AND created_at >= ?', [phone, since]) ?? undefined
+  }
   /** Sum of failed verify attempts on OTPs issued since `since`. */
   attemptsSince(phone: string, since: EpochMs): number {
     return this.db.scalar<number>('SELECT COALESCE(SUM(attempts), 0) FROM otps WHERE phone = ? AND created_at >= ?', [phone, since]) ?? 0

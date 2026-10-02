@@ -14,7 +14,7 @@ Reads data/competitors.json (and, if present, data/raw/competitor_observations.c
   4. positioning-claim frequencies in competitor page titles (regex counts)
   5. elasticity identities: Lerner inversion |e| = 1/m, logit share response to an undercut
         s' = s*x / (1 - s + s*x),   x = exp(|e| / (1 - s) * d)
-  6. bottom-up market-size model: GMV = sum_s N_s * U_s * r_s (deterministic bounds, seeded Monte Carlo, tornado)
+  6. bottom-up market-size model: GMV = sum_s N_s * U_s * r_s (deterministic bounds, seeded Monte Carlo with correlated split-lognormal inputs, tornado)
 
 Everything here is either computed from observations (families 1-3) or from clearly flagged ASSUMPTIONS (5-6).
 Nothing is a forecast. Re-run after adding observations.
@@ -224,6 +224,31 @@ def our_priced(pm, topup_usd, new_card, margin, rush=False, rush_prem=0.0, fx_us
     return {"price_irt": r["price_toman"], "markup_pct": (r["price_toman"] / (topup_usd * fx_usd) - 1.0) * 100.0}
 
 
+def floor_with(pm, topup_usd, new_card, fx_usd, provider_fee=None, risk=None):
+    """Break-even markup vs free USD with overridden provider top-up fee / risk buffer (restores the model's constants)."""
+    old = (pm.MPAY_TOPUP_FEE, pm.RISK_BUFFER)
+    try:
+        if provider_fee is not None:
+            pm.MPAY_TOPUP_FEE = provider_fee
+        if risk is not None:
+            pm.RISK_BUFFER = risk
+        return our_floor(pm, topup_usd, new_card, fx_usd)["break_even_markup_pct"]
+    finally:
+        pm.MPAY_TOPUP_FEE, pm.RISK_BUFFER = old
+
+
+def required_provider_fee(pm, topup_usd, new_card, fx_usd, target_pct, risk=None):
+    """Provider top-up fee (as a fraction) at which our break-even markup equals target_pct (bisection)."""
+    lo, hi = -0.10, 0.20
+    for _ in range(80):
+        mid = (lo + hi) / 2.0
+        if floor_with(pm, topup_usd, new_card, fx_usd, provider_fee=mid, risk=risk) > target_pct:
+            hi = mid
+        else:
+            lo = mid
+    return (lo + hi) / 2.0
+
+
 # ----------------------------------------------------------------------------- 4. title claims
 def norm_fa(s):
     s = s.replace("‌", "").replace("​", "").replace("ي", "ی").replace("ك", "ک")
@@ -243,7 +268,7 @@ CLAIMS = [
 
 
 def title_claims(data):
-    seg_of = {c["id"]: c["segments"] for c in data["competitors"]}
+    seg_of = {c["id"]: c["segments"] for c in data["competitors"] + data.get("named_only", [])}
     groups = {"cards_fx": 0, "subscription": 0, "gift_card": 0, "other": 0}
     counts = {k: {"all": 0, "cards_fx": 0, "subscription": 0, "gift_card": 0, "other": 0} for k, _ in CLAIMS}
     titles = data["positioning_titles"]
@@ -302,7 +327,17 @@ def seg_gmv(seg, which):
     return V(seg["buyers"])[which] * V(seg["spend_usd"])[which] * V(seg["intermediary_share"])[which]
 
 
-def market_model(data, seed, draws):
+Z90 = 1.2815515655446004  # standard-normal 90th percentile
+
+
+def split_lognormal(z, low, base, high):
+    """Input with p10 = low, median = base, p90 = high (log-space split normal). z ~ N(0,1)."""
+    if z < 0:
+        return base * math.exp(math.log(base / low) / Z90 * z)
+    return base * math.exp(math.log(high / base) / Z90 * z)
+
+
+def market_model(data, seed, draws, rho=0.5):
     ms = data["market_size"]
     segs = ms["assumptions"]
     det = {w: sum(seg_gmv(s, w) for s in segs) for w in ("low", "base", "high")}
@@ -310,23 +345,25 @@ def market_model(data, seed, draws):
     orders_base = sum(seg_gmv(s, "base") / V(s["aov_usd"]) for s in segs) / 365.0
 
     rng = random.Random(seed)
-
-    def tri(t):
-        lo, mode, hi = t["low"], t["base"], t["high"]
-        return rng.triangular(lo, hi, mode)
-
-    gmv_draws, rev_draws, ord_draws, ent_draws = [], [], [], []
+    a, b = math.sqrt(rho), math.sqrt(1.0 - rho)
     take = V(ms["take_rate_pct"])
     share = V(ms["entrant_share_of_gmv"])
+    gmv_draws, rev_draws, ord_draws, ent_draws = [], [], [], []
     for _ in range(draws):
+        zc = {"buyers": rng.gauss(0, 1), "spend_usd": rng.gauss(0, 1), "intermediary_share": rng.gauss(0, 1)}  # common factors
         g, o = 0.0, 0.0
         for s in segs:
-            n, u, r = tri(V(s["buyers"])), tri(V(s["spend_usd"])), tri(V(s["intermediary_share"]))
-            gs = n * u * r
+            vals = {}
+            for param in ("buyers", "spend_usd", "intermediary_share"):
+                t = V(s[param])
+                z = a * zc[param] + b * rng.gauss(0, 1)
+                x = split_lognormal(z, t["low"], t["base"], t["high"])
+                vals[param] = min(x, 0.99) if param == "intermediary_share" else x
+            gs = vals["buyers"] * vals["spend_usd"] * vals["intermediary_share"]
             g += gs
             o += gs / V(s["aov_usd"])
-        tr = tri(take) / 100.0
-        es = tri(share)
+        tr = split_lognormal(rng.gauss(0, 1), take["low"], take["base"], take["high"]) / 100.0
+        es = split_lognormal(rng.gauss(0, 1), share["low"], share["base"], share["high"])
         gmv_draws.append(g)
         rev_draws.append(g * tr)
         ord_draws.append(o / 365.0)
@@ -341,21 +378,22 @@ def market_model(data, seed, draws):
         hi = base_total - seg_gmv(s, "base") + seg_gmv(s, "high")
         tornado.append({"segment": s["id"], "gmv_if_segment_low": lo, "gmv_if_segment_high": hi, "swing": hi - lo})
     tornado.sort(key=lambda r: -r["swing"])
-    # by parameter family: vary one parameter across all segments, others at base
+
     def param_swing(param):
         lo = hi = 0.0
         for s in segs:
             vals = {"buyers": V(s["buyers"]), "spend_usd": V(s["spend_usd"]), "intermediary_share": V(s["intermediary_share"])}
-            b = {k: v["base"] for k, v in vals.items()}
-            l, h = dict(b), dict(b)
+            bb = {k: v["base"] for k, v in vals.items()}
+            l, h = dict(bb), dict(bb)
             l[param], h[param] = vals[param]["low"], vals[param]["high"]
             lo += l["buyers"] * l["spend_usd"] * l["intermediary_share"]
             hi += h["buyers"] * h["spend_usd"] * h["intermediary_share"]
         return {"parameter": param, "gmv_all_segments_low": lo, "gmv_all_segments_high": hi, "swing": hi - lo}
+
     by_param = sorted([param_swing(p) for p in ("buyers", "spend_usd", "intermediary_share")], key=lambda r: -r["swing"])
     return {"deterministic": det, "segments_base": seg_base, "orders_per_day_base": orders_base,
             "mc": {"gmv": q(gmv_draws), "revenue_pool": q(rev_draws), "orders_per_day": q(ord_draws), "entrant_gmv": q(ent_draws)},
-            "tornado_segments": tornado, "tornado_params": by_param, "seed": seed, "draws": draws}
+            "tornado_segments": tornado, "tornado_params": by_param, "seed": seed, "draws": draws, "rho": rho}
 
 
 # ----------------------------------------------------------------------------- record builders for --write
@@ -399,6 +437,7 @@ def main():
     ap.add_argument("--write", action="store_true", help="refresh derived blocks in the JSON file")
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--draws", type=int, default=20000)
+    ap.add_argument("--rho", type=float, default=0.5, help="correlation of inputs across segments (common factor)")
     args = ap.parse_args()
 
     data = load_json(args.json)
@@ -490,6 +529,34 @@ def main():
     for h in headroom:
         print(f"| {h['family']} | {h['competitor_visible_level_pct']:+.2f} | {h['our_break_even_pct']:+.2f} | {h['headroom_pp']:+.2f} |")
 
+    # ---------------------------------------------------------------- 3b. floor sensitivity
+    print("\n### 3b. Sensitivity of our break-even markup (USD 100 load, existing card) to the provider top-up fee and risk buffer\n")
+    print("| provider top-up fee | risk 0% | risk 1% | risk 2% (model) |")
+    print("|---:|---:|---:|---:|")
+    sens_rows = []
+    for pf in (0.0, 0.01, 0.02, 0.03, 0.04):
+        vals = [floor_with(pm, 100, False, fx_usd, provider_fee=pf, risk=rk) for rk in (0.0, 0.01, 0.02)]
+        sens_rows.append({"provider_fee_pct": pf * 100, "break_even_risk0": r2(vals[0]), "break_even_risk1": r2(vals[1]), "break_even_risk2": r2(vals[2])})
+        print(f"| {pf*100:.0f}% | {vals[0]:+.2f} | {vals[1]:+.2f} | {vals[2]:+.2f} |")
+    print("\nProvider top-up fee at which our break-even equals a competitor's visible explicit fee (USD 100 load, existing card):\n")
+    print("| target markup % | required provider fee, risk 2% (model) | required provider fee, risk 0% |")
+    print("|---:|---:|---:|")
+    req_rows = []
+    for tgt in (4.0, 5.0, 6.0, 7.0):
+        a1 = required_provider_fee(pm, 100, False, fx_usd, tgt)
+        a2 = required_provider_fee(pm, 100, False, fx_usd, tgt, risk=0.0)
+        req_rows.append({"target_markup_pct": tgt, "required_provider_fee_pct_risk2": r2(a1 * 100), "required_provider_fee_pct_risk0": r2(a2 * 100)})
+        print(f"| {tgt:.0f} | {a1*100:.2f}% | {a2*100:.2f}% |")
+    nc = [our_floor(pm, u, True, fx_usd) for u in (50, 100, 250, 500)]
+    print("\nEntry basket (new card + load), our break-even vs free USD on the load amount:\n")
+    print("| load | our break-even % (new card) | Dollarisho explicit fee % incl. USD 10 issuance |")
+    print("|---:|---:|---:|")
+    entry_rows = []
+    for f in nc:
+        dn = curves["fee-dollarisho-card (new card)"].get(f["topup_usd"])
+        entry_rows.append({"load_usd": f["topup_usd"], "our_break_even_pct": r2(f["break_even_markup_pct"]), "dollarisho_new_card_fee_pct": r2(dn)})
+        print(f"| ${f['topup_usd']} | {f['break_even_markup_pct']:+.2f} | {fmt_pct(dn)} |")
+
     # ---------------------------------------------------------------- 4. title claims
     print("\n## 4. Positioning claims in competitor page titles\n")
     n_titles, groups, counts = title_claims(data)
@@ -522,7 +589,7 @@ def main():
 
     # ---------------------------------------------------------------- 6. market size
     print("\n## 6. Bottom-up market-size model (assumptions A1-A7; MODEL OUTPUT, not observation)\n")
-    mm = market_model(data, args.seed, args.draws)
+    mm = market_model(data, args.seed, args.draws, args.rho)
     print("| segment | buyers (low/base/high) | USD per buyer-year | intermediary share | GMV base USD m |")
     print("|---|---|---|---|---:|")
     for s in data["market_size"]["assumptions"]:
@@ -531,7 +598,7 @@ def main():
     d = mm["deterministic"]
     print(f"\nDeterministic bounds (all inputs at low / base / high): USD {d['low']/1e6:,.0f}m / {d['base']/1e6:,.0f}m / {d['high']/1e6:,.0f}m per year.")
     mc = mm["mc"]
-    print(f"Monte Carlo (seed {mm['seed']}, {mm['draws']} draws, independent triangular inputs) p10/p50/p90: GMV USD {mc['gmv']['p10']/1e6:,.0f}m / {mc['gmv']['p50']/1e6:,.0f}m / {mc['gmv']['p90']/1e6:,.0f}m.")
+    print(f"Monte Carlo (seed {mm['seed']}, {mm['draws']} draws, split-lognormal inputs with low=p10, base=median, high=p90, cross-segment correlation rho={mm['rho']}) p10/p50/p90: GMV USD {mc['gmv']['p10']/1e6:,.0f}m / {mc['gmv']['p50']/1e6:,.0f}m / {mc['gmv']['p90']/1e6:,.0f}m.")
     print(f"Revenue pool (GMV x take rate) p10/p50/p90: USD {mc['revenue_pool']['p10']/1e6:,.1f}m / {mc['revenue_pool']['p50']/1e6:,.1f}m / {mc['revenue_pool']['p90']/1e6:,.1f}m = {mc['revenue_pool']['p50']*fx_usd/1e12:,.2f} trillion T at p50.")
     print(f"Industry orders per day p10/p50/p90: {mc['orders_per_day']['p10']:,.0f} / {mc['orders_per_day']['p50']:,.0f} / {mc['orders_per_day']['p90']:,.0f}; deterministic base {mm['orders_per_day_base']:,.0f}.")
     print(f"New-brand year-1 GMV (share x GMV) p10/p50/p90: USD {mc['entrant_gmv']['p10']/1e6:,.2f}m / {mc['entrant_gmv']['p50']/1e6:,.2f}m / {mc['entrant_gmv']['p90']/1e6:,.2f}m.")
@@ -570,7 +637,7 @@ def main():
             rec["value"] = round(mc["gmv"][w], -5)
             rec["status"] = "UNVERIFIED"
             rec["confidence"] = "low"
-            rec["note"] = f"Model output: Monte Carlo {w} of reseller-served GMV (seed {mm['seed']}, {mm['draws']} draws; independent triangular inputs understate joint uncertainty). Driven by assumptions A1-A7, not observations."
+            rec["note"] = f"Model output: Monte Carlo {w} of reseller-served GMV (seed {mm['seed']}, {mm['draws']} draws; inputs are split-lognormal with cross-segment correlation rho={mm['rho']}). Driven by assumptions A1-A7, not observations."
             rec["sources"] = [SCRIPT_REF]
         data["market_size"]["derived"] = {
             "deterministic_gmv_usd": make_rec(as_of, {k: round(v, -5) for k, v in d.items()}, "USD per year (all inputs low / base / high)", "Scenario bounds; joint extremes are unlikely.", status="UNVERIFIED"),
@@ -582,6 +649,8 @@ def main():
         }
         data["price_war"]["undercut_headroom"] = make_rec(as_of, [{k: (r2(v) if isinstance(v, float) else v) for k, v in h.items()} for h in headroom], "pp",
                                                           "competitor visible level minus our modelled break-even (lead's cost model, zero margin); negative = matching loses money. Competitor rate markup unobserved.", status="reported")
+        data["price_war"]["floor_sensitivity"] = make_rec(as_of, {"break_even_by_provider_fee_and_risk_usd100": sens_rows, "required_provider_fee_for_target_markup_usd100": req_rows, "entry_basket_new_card": entry_rows},
+                                                         "pp / pct", "Our modelled break-even (lead's cost model) under alternative provider fee and risk-buffer assumptions; competitor rate markup unobserved.", status="reported")
         data["_meta"]["derived_by"] = "scripts/research/07_markup_stats.py --write"
         data["_meta"]["derived_seed"] = args.seed
         Path(args.json).write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

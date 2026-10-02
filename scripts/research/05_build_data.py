@@ -757,6 +757,10 @@ PROVIDER_LABELS = [
 ]
 
 
+def meta_modifiers_ids():
+    return ["TKN-01", "TKN-03", "SAN-02", "PRV-01", "PRV-02", "PRV-05"]
+
+
 def build_register() -> dict:
     risks = []
     cat_count = Counter()
@@ -808,6 +812,8 @@ def build_register() -> dict:
     for g in CORRELATION_GROUPS.values():
         for k in g["multipliers"]:
             assert k in ids, k
+    for em in meta_modifiers_ids():
+        assert em in ids, em
     for lg in LABEL_GUIDANCE:
         for k in lg["main_risks"]:
             assert k in ids, k
@@ -842,6 +848,14 @@ def build_register() -> dict:
             ("voucher_line", "voucher / gift-card products are sold"), ("ai_subscription_line", "AI subscriptions are sold"),
             ("uses_card_to_card", "card-to-card collection is enabled"), ("messenger_channels", "Telegram/Bale Mini App channels are enabled"),
             ("has_operators", "human operators handle fulfilment")]),
+        exposure_modifiers=OrderedDict([
+            ("uses_designated_exchange", OrderedDict(multipliers={"TKN-01": 6, "TKN-03": 3, "SAN-02": 3}, confidence="low",
+                                                     note="assumption: direct SDN exposure raises freeze/contagion hazards several-fold; calibrate when provider/Tether data exist")),
+            ("accepts_usdt_inbound", OrderedDict(multipliers={"TKN-01": 3, "TKN-03": 2}, confidence="low",
+                                                 note="assumption: unscreened customer USDT contaminates the treasury wallet; most Iranian USDT originates at SDN exchanges (S1)")),
+            ("provider_share_over_60pct", OrderedDict(multipliers={"PRV-01": 1.5, "PRV-02": 1.5, "PRV-05": 1.5}, confidence="low",
+                                                      note="assumption: concentration amplifies provider-specific hazards (provider attention, shared fate)")),
+        ]),
         scenario_links=SCENARIO_LINKS,
         evidence_limits="Likelihood parameters are modelling priors. Anchors with data: Tether freeze rates (BlockSec 2025), OFAC designation cadence (2026), CBI freeze waves. Provider/exchange failure base rates could NOT be sourced in-session (search budget exhausted) and are flagged low confidence with verify_how.",
         not_legal_advice="Analysis only; confirm with licensed professionals (CLAUDE.md s3.4)."

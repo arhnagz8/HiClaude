@@ -118,6 +118,16 @@ def landed_cost(list_usd, mode: str, fx, *, new_card=False, provider_fee=None, v
     return s, usdt_cost, cost
 
 
+def required_supplier_cut(comp_price, supplier_usd_now, fx, *, target_margin=D(0), batch=1, operator_cost=None):
+    """Fraction by which the supplier USD cost (incl. provider fee / voucher discount) must fall for our landed cost to equal
+    comp_price / (1 + target_margin). Linear solve of cost(S) = (S + N/batch) * fx * (1+f+s) * (1+c+r) + O."""
+    operator_cost = OPERATOR_COST_IRT if operator_cost is None else D(str(operator_cost))
+    fx = D(str(fx))
+    target_cost = D(str(comp_price)) / (1 + target_margin)
+    s_star = ((target_cost - operator_cost) / (1 + RIAL_COLLECTION_FEE + RISK_BUFFER)) / (fx * (1 + EXCHANGE_TRADE_FEE + EXCHANGE_SPREAD)) - NETWORK_FEE_USDT / D(batch)
+    return 1 - s_star / supplier_usd_now
+
+
 def ceil_irt(x: D) -> int:
     return int((x / ROUND_TO_IRT).to_integral_value(rounding=ROUND_CEILING) * ROUND_TO_IRT)
 
@@ -187,19 +197,20 @@ def compute_rows(cat, args):
             continue
         mode = s.get("default_mode", "A")
         new_card = bool(s.get("new_card"))
-        margin = D(str(rec_value(s["recommended_margin_pct"]))) / 100 if rec_value(s.get("recommended_margin_pct")) is not None else band_margin(usd)
+        unit = rec_value(s.get("typical_order_usd")) or usd      # unit of sale: typical order (= list price for subscriptions)
+        margin = D(str(rec_value(s["recommended_margin_pct"]))) / 100 if rec_value(s.get("recommended_margin_pct")) is not None else band_margin(unit)
         floor = rec_value(s.get("min_margin_irt")) or 0
         per_level = {}
         for label, fx in levels:
-            sup, usdt_cost, cost = landed_cost(usd, mode, fx, new_card=new_card, provider_fee=args.provider_fee,
+            sup, usdt_cost, cost = landed_cost(unit, mode, fx, new_card=new_card, provider_fee=args.provider_fee,
                                                batch=args.batch)
             price = price_from_cost(cost, margin)
             # absolute floor: never quote less than cost + min_margin_irt
             price_floor = ceil_irt(cost + D(floor))
             price = max(price, price_floor)
             per_level[label] = {"fx": fx, "supplier_usd": sup, "cost": cost, "price": price,
-                                "profit": D(price) - cost, "eff_rate": D(price) / D(str(usd))}
-        rows.append({"id": s["id"], "name": s["name_en"], "mode": mode, "usd": D(str(usd)), "margin": margin,
+                                "profit": D(price) - cost, "eff_rate": D(price) / D(str(unit))}
+        rows.append({"id": s["id"], "name": s["name_en"], "mode": mode, "usd": D(str(usd)), "unit": D(str(unit)), "margin": margin,
                      "levels": per_level, "sku": s})
     return levels, rows
 
@@ -211,12 +222,12 @@ def section_margin(cat, args):
     out = ["### Table 1 - landed cost, recommended price (at catalog margin) and effective Toman/USD", "",
            f"FX levels (IRT/USDT): {lo} = {fmt(levels[0][1])}, base = {fmt(levels[1][1])}, {hi} = {fmt(levels[2][1])}.",
            "Price = CEIL_1000(cost x (1+margin)), floored at cost + min_margin_irt. 'Rec. price' is what the engine would quote; it is NOT a market price.", "",
-           f"| SKU | mode | list USD | supplier USD | margin | cost @base | price {lo} | **price @base** | price {hi} | eff. IRT/USD @base | profit @base |",
-           "|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|"]
+           f"| SKU | mode | list USD | unit USD | supplier USD | margin | cost @base | price {lo} | **price @base** | price {hi} | eff. IRT/USD @base | profit @base |",
+           "|---|---|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|"]
     for r in rows:
         b = r["levels"][base]
-        out.append("| {id} | {mode} | {usd} | {sup} | {m} | {cost} | {p_lo} | **{p_b}** | {p_hi} | {eff} | {pr} |".format(
-            id=r["id"], mode=r["mode"], usd=f"{float(r['usd']):g}", sup=f"{float(b['supplier_usd']):.2f}", m=pct(r["margin"], 0),
+        out.append("| {id} | {mode} | {usd} | {unit} | {sup} | {m} | {cost} | {p_lo} | **{p_b}** | {p_hi} | {eff} | {pr} |".format(
+            id=r["id"], mode=r["mode"], usd=f"{float(r['usd']):g}", unit=f"{float(r['unit']):g}", sup=f"{float(b['supplier_usd']):.2f}", m=pct(r["margin"], 0),
             cost=fmt(b["cost"]), p_lo=fmt(r["levels"][lo]["price"]), p_b=fmt(b["price"]), p_hi=fmt(r["levels"][hi]["price"]),
             eff=fmt(b["eff_rate"]), pr=fmt(b["profit"])))
     return "\n".join(out), rows, levels
@@ -235,12 +246,14 @@ def anchor_value(cat, key):
 
 def section_headroom(cat, args, levels):
     ref = anchor_value(cat, FX_REF_QUOTE_KEY)
+    ref_old = anchor_value(cat, "usdt_irt_2026-07-02")
     out = ["### Table 2 - competitor headroom (only SKUs with comparable quotes)", "",
-           f"Competitor markup is ESTIMATED as (quote-implied IRT/USD) / (USDT {fmt(ref)} on 2026-08-31) - 1, because the listings are undated; "
-           "the competitor is then assumed to keep that markup when FX moves. headroom = competitor-equivalent price / our landed cost - 1.", "",
-           "| SKU | quotes used (IRT) | implied IRT/USD (median) | est. competitor markup | " +
-           " | ".join(f"headroom {l}" for l, _ in levels) + " | gap to rec. margin @base (pp) |",
-           "|---|---|--:|--:|" + "--:|" * len(levels) + "--:|"]
+           f"Competitor markup is ESTIMATED as (quote-implied IRT/USD) / (USDT on the assumed listing date) - 1 because the listings are undated. Main case: listing dated 2026-08-31 (USDT {fmt(ref)}); "
+           f"alternative: listing dated 2026-07-02 (USDT {fmt(ref_old)}) - the true date is unknown, so the main-case markup is a LOWER bound. The competitor is assumed to keep its markup when FX moves. "
+           "headroom = competitor-equivalent price / our landed cost - 1.", "",
+           "| SKU | quotes used (IRT) | implied IRT/USD (median) | est. markup (08-31 anchor) | " +
+           " | ".join(f"headroom {l}" for l, _ in levels) + " | gap to rec. margin @base (pp) | est. markup (07-02 anchor) | headroom @base (07-02 anchor) | supplier-cost cut to match @0 % margin: batch 1 / batch 10 |",
+           "|---|---|--:|--:|" + "--:|" * len(levels) + "--:|--:|--:|--:|"]
     n = 0
     for s in cat["skus"]:
         if not s.get("flagship"):
@@ -264,10 +277,17 @@ def section_headroom(cat, args, levels):
             if label == "base":
                 base_head = head
         gap = (base_head - margin) * 100
-        out.append(f"| {s['id']} | {', '.join(fmt(q['price_irt']) for q in qs)} | {fmt(med)} | {pct(m_c)} | " + " | ".join(cells) + f" | {float(gap):+.1f} |")
+        sup_now = supplier_usd(usd, mode, bool(s.get("new_card")), args.provider_fee)
+        comp_base = D(str(usd)) * D(str(args.fx)) * (1 + m_c)
+        cut1 = required_supplier_cut(comp_base, sup_now, args.fx, batch=1)
+        cut10 = required_supplier_cut(comp_base, sup_now, args.fx, batch=10)
+        m_old = med / ref_old - 1
+        _, _, cost_base = landed_cost(usd, mode, args.fx, new_card=bool(s.get("new_card")), provider_fee=args.provider_fee, batch=args.batch)
+        head_old = D(str(usd)) * D(str(args.fx)) * (1 + m_old) / cost_base - 1
+        out.append(f"| {s['id']} | {', '.join(fmt(q['price_irt']) for q in qs)} | {fmt(med)} | {pct(m_c)} | " + " | ".join(cells) + f" | {float(gap):+.1f} | {pct(m_old)} | {pct(head_old)} | {pct(cut1)} / {pct(cut10)} |")
         n += 1
     if n == 0:
-        out.append("| (no comparable quotes in catalog) | | | | | | | |")
+        out.append("| (no comparable quotes in catalog) | | | | | | | | | | |")
     out += ["", "Negative gap = our recommended price would sit ABOVE the competitor-equivalent price under these assumptions "
             "(commodity vouchers: thin margins; a competitor that buys USDT near mid and vouchers at a discount can undercut)."]
     return "\n".join(out)
@@ -279,14 +299,15 @@ def section_evidence(cat, args):
     out = ["### Table 3 - Iranian retail quotes vs official USD list price (undated listings)", "",
            f"Implied USD-equivalent = price / FX. Two FX anchors bracket the unknown listing date: USDT {fmt(a_old)} (2026-08-31) and {fmt(a_new)} (2026-09-30). "
            "ratio = implied USD-equivalent / official list price.", "",
-           "| SKU | seller / source | quote IRT | official USD | USD-eq @08-31 | USD-eq @09-30 | ratio @08-31 | ratio @09-30 | comparable? |",
+           "| SKU | seller / source | quote IRT | official USD (quoted item) | USD-eq @08-31 | USD-eq @09-30 | ratio @08-31 | ratio @09-30 | comparable? |",
            "|---|---|--:|--:|--:|--:|--:|--:|---|"]
     for s in cat["skus"]:
         qs = quotes_for(s)
         if not qs:
             continue
-        usd = rec_value(s.get("usd_price"))
+        usd0 = rec_value(s.get("usd_price"))
         for q in qs:
+            usd = q.get("denomination_usd") or usd0          # official USD value of the quoted item/period
             p = D(str(q["price_irt"]))
             eq_old, eq_new = p / a_old, p / a_new
             if usd:
@@ -319,9 +340,10 @@ def section_price_changes(cat, args):
     if rises:
         rs = sorted(rises)
         q = statistics.quantiles(rs, n=4) if len(rs) >= 4 else [rs[0], statistics.median(rs), rs[-1]]
-        out += ["", f"Observed increases (n={len(rs)} plan-level price points from {len({e['vendor'] for e in log if e.get('old_usd') and e.get('new_usd') and (e['new_usd'] > e['old_usd']) and not e.get('exclude_from_stats')})} vendors): "
+        nv = len({e['vendor'] for e in log if e.get('old_usd') and e.get('new_usd') and (e['new_usd'] > e['old_usd']) and not e.get('exclude_from_stats')})
+        out += ["", f"Observed increases (n={len(rs)} plan-level price points from {nv} vendors): "
                 f"min {rs[0]:.1f}%, Q1 {q[0]:.1f}%, median {statistics.median(rs):.1f}%, Q3 {q[2]:.1f}%, max {rs[-1]:.1f}%. "
-                "Plan-level points within one vendor event are strongly correlated - treat as ~5 independent vendor events, not 12."]
+                f"Plan-level points within one vendor event are strongly correlated - treat as {nv} independent vendor events, not {len(rs)}."]
     return "\n".join(out)
 
 
@@ -354,8 +376,8 @@ def section_sensitivity(cat, args):
     for s in pick:
         usd, mode = rec_value(s["usd_price"]), s.get("default_mode", "A")
         _, _, c0 = landed_cost(usd, mode, args.fx, provider_fee=args.provider_fee, batch=args.batch)
-        _, _, c_lo = landed_cost(usd, mode, D(str(args.fx)) * (1 - args.down), provider_fee=args.provider_fee, batch=args.batch)
-        _, _, c_hi = landed_cost(usd, mode, D(str(args.fx)) * (1 + args.up), provider_fee=args.provider_fee, batch=args.batch)
+        _, _, c_lo = landed_cost(usd, mode, D(str(args.fx)) * (1 - D(str(args.down))), provider_fee=args.provider_fee, batch=args.batch)
+        _, _, c_hi = landed_cost(usd, mode, D(str(args.fx)) * (1 + D(str(args.up))), provider_fee=args.provider_fee, batch=args.batch)
         cells.append(f"{float((c_lo / c0 - 1) * 100):+.1f}% / {float((c_hi / c0 - 1) * 100):+.1f}%")
     out.append(f"| **FX {-int(args.down*100)}% / +{int(args.up*100)}%** | " + " | ".join(cells) + " |")
     return "\n".join(out)
@@ -376,6 +398,67 @@ def section_affordability(cat, args):
         out.append(f"| {sid} | {float(usd):g} | " + " | ".join(fmt(v) for v in vals) + f" | {pct(vals[-1] / vals[0] - 1)} |")
     first, last = a[keys[0][1]], a[keys[-1][1]]
     out += ["", f"USDT/IRT moved {fmt(first)} -> {fmt(last)} ({pct(last / first - 1)}) in 90 days (2026-07-02 -> 2026-09-30): the Toman price of every USD-denominated SKU rose by the same factor."]
+    return "\n".join(out)
+
+
+def section_ranking(cat, args):
+    """Demand-weighted gross-profit index per SKU (assumption-driven: tier weights x profit/order x repeat)."""
+    weights = {k: D(str(v["value"])) for k, v in cat["demand_tier_weights_prior"].items()}
+    base_fx = D(str(args.fx))
+    rows = []
+    for s in cat["skus"]:
+        if s["offer_recommendation"] == "do_not_offer":
+            continue
+        unit = rec_value(s.get("typical_order_usd"))
+        if unit is None:
+            continue
+        mode = s.get("default_mode", "A")
+        margin = D(str(rec_value(s["recommended_margin_pct"]))) / 100
+        floor = rec_value(s.get("min_margin_irt")) or 0
+        _, _, cost = landed_cost(unit, mode, base_fx, new_card=bool(s.get("new_card")), provider_fee=args.provider_fee, batch=args.batch)
+        price = max(price_from_cost(cost, margin), ceil_irt(cost + D(floor)))
+        profit = D(price) - cost
+        rep = D(str(rec_value(s["repeat_per_year"])))
+        tier = rec_value(s["demand_tier"])
+        gp_year = profit * rep
+        rows.append({"id": s["id"], "cat": s["category"], "tier": tier, "unit": unit, "assumed_price": rec_value(s["usd_price"]) is None,
+                     "price": price, "profit": profit, "rep": rep, "gp_year": gp_year, "index": gp_year * weights[tier], "offer": s["offer_recommendation"]})
+    rows.sort(key=lambda r: r["index"], reverse=True)
+    tot = sum(r["index"] for r in rows)
+    out = ["### Table 7 - demand-weighted gross-profit index (ASSUMPTION-DRIVEN prior for the simulator, not a forecast)", "",
+           "index = tier weight (S8/A4/B2/C1) x profit per order @base FX x repeat/yr. '*' = unit USD is an assumed typical order (no verified list price). "
+           "Offer column shows legal gating: legal_review_required SKUs cannot launch until cleared.", "",
+           "| # | SKU | tier | unit USD | price @base | profit/order | repeat/yr | GP per active customer-year (IRT) | index (M IRT) | share of total | offer |", "|--:|---|---|--:|--:|--:|--:|--:|--:|--:|---|"]
+    for i, r in enumerate(rows[:30], 1):
+        out.append(f"| {i} | {r['id']}{'*' if r['assumed_price'] else ''} | {r['tier']} | {float(r['unit']):g} | {fmt(r['price'])} | {fmt(r['profit'])} | {float(r['rep']):g} | {fmt(r['gp_year'])} | {float(r['index'])/1e6:,.1f} | {pct(r['index']/tot)} | {r['offer']} |")
+    by_cat = {}
+    for r in rows:
+        by_cat[r["cat"]] = by_cat.get(r["cat"], D(0)) + r["index"]
+    out += ["", "Category share of the total index (all offerable SKUs, incl. legal-review ones):", "",
+            "| category | share |", "|---|--:|"]
+    for c, v in sorted(by_cat.items(), key=lambda kv: kv[1], reverse=True):
+        out.append(f"| {c} | {pct(v / tot)} |")
+    gated = sum(r["index"] for r in rows if r["offer"] == "legal_review_required")
+    out += ["", f"Share of the index that sits in legal_review_required SKUs: {pct(gated / tot)}; in offer_with_disclosure: {pct(sum(r['index'] for r in rows if r['offer']=='offer_with_disclosure') / tot)}."]
+    return "\n".join(out)
+
+
+def section_uplift(cat, args):
+    """Structural uplift of landed cost over the pure USD x FX price, by ticket size (fixed per-order costs dominate small tickets)."""
+    fx = D(str(args.fx))
+    out = ["### Table 8 - landed-cost uplift over the pure USD x FX price, by ticket size (@base FX)", "",
+           "uplift = cost / (list USD x FX) - 1. Mode A/C = card load with the provider fee; mode B = voucher (0 % fee placeholder). "
+           "'batch 10' = one 1-USDT withdrawal shared by 10 orders.", "",
+           "| ticket USD | A/C batch 1 | A/C batch 10 | B batch 1 | B batch 10 |", "|--:|--:|--:|--:|--:|"]
+    for t in (5, 10, 20, 30, 50, 100, 200, 500):
+        cells = []
+        for mode in ("A", "B"):
+            for b in (1, 10):
+                _, _, c = landed_cost(t, mode, fx, provider_fee=args.provider_fee, batch=b)
+                cells.append(pct(c / (D(t) * fx) - 1))
+        out.append(f"| {t} | " + " | ".join(cells) + " |")
+    out += ["", "Reading: below ~$30 the fixed items (1 USDT network fee, 40,000 IRT operator cost) dominate - batching withdrawals and automating mode-B delivery are the two levers; "
+            "above ~$100 the variable items (provider fee, exchange fee/spread, collection, risk buffer, ~7 %) dominate."]
     return "\n".join(out)
 
 
@@ -406,7 +489,7 @@ def main(argv=None):
     ap.add_argument("--down", type=float, default=float(FX_DOWN), help="downward FX scenario (default 0.10)")
     ap.add_argument("--provider-fee", type=float, default=float(PROVIDER_TOPUP_FEE), help="provider top-up fee fraction (default 0.03)")
     ap.add_argument("--batch", type=int, default=BATCH_ORDERS_PER_WITHDRAWAL, help="orders per USDT withdrawal (default 1)")
-    ap.add_argument("--section", choices=["all", "assumptions", "margin", "headroom", "evidence", "changes", "sensitivity", "afford"], default="all")
+    ap.add_argument("--section", choices=["all", "assumptions", "margin", "headroom", "evidence", "changes", "sensitivity", "afford", "ranking", "uplift"], default="all")
     ap.add_argument("--json", help="also write machine-readable margin rows to this path")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args(argv)
@@ -430,6 +513,10 @@ def main(argv=None):
         parts.append(section_sensitivity(cat, args))
     if want("afford"):
         parts.append(section_affordability(cat, args))
+    if want("ranking"):
+        parts.append(section_ranking(cat, args))
+    if want("uplift"):
+        parts.append(section_uplift(cat, args))
     print("\n\n".join(parts))
     if args.json:
         payload = [{"id": r["id"], "mode": r["mode"], "usd": float(r["usd"]), "margin": float(r["margin"]),

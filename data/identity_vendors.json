@@ -765,6 +765,50 @@
         "status": "UNVERIFIED"
       }
     },
+    "bale_safir_otp": {
+      "name_fa": "سفیر بله (ارسال OTP از طریق پیام‌رسان بله)",
+      "risk_label": "low",
+      "restriction_note": "Evidence is an unofficial SDK; needs a Safir account/credit; works only for users who have Bale (use as a secondary OTP channel, not the only one).",
+      "base_url": {
+        "value": "https://safir.bale.ai/api/v2",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/bale-otp/v/1.0.0",
+            "title": "bale-otp 1.0.0 (2025-06-27, unofficial): Bale Safir OTP API (safir.bale.ai/api/v2/auth/token and /send_otp)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "endpoints": {
+        "value": {
+          "token": "POST /auth/token (form-urlencoded) {grant_type: client_credentials, client_id, client_secret, scope: read} -> access_token",
+          "send_otp": "POST /send_otp {phone, otp} with Authorization: Bearer <access_token> -> response carries the remaining balance"
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/bale-otp/v/1.0.0",
+            "title": "bale-otp 1.0.0 (2025-06-27, unofficial): Bale Safir OTP API (safir.bale.ai/api/v2/auth/token and /send_otp)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "verify_how": "Bale Safir panel/docs; test with a small balance.",
+        "status": "reported",
+        "note": "Token lifetime, rate limits, phone format, price per OTP and template rules are not shown by the SDK."
+      },
+      "price_per_otp": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Safir price list.",
+        "status": "UNVERIFIED"
+      }
+    },
     "farazsms_ippanel": {
       "name_fa": "فرازاس‌ام‌اس / آی‌پی‌پنل",
       "risk_label": "low",
@@ -854,7 +898,7 @@
         "status": "UNVERIFIED",
         "note": "design default"
       },
-      "provider_failover": "keep two SMS providers behind one SmsProvider interface (send, sendPattern, getStatus, getCredit)"
+      "provider_failover": "keep two SMS providers behind one SmsProvider interface (send, sendPattern, getStatus, getCredit); optional third channel: Bale Safir OTP for users who have Bale"
     }
   },
   "einvoice_moadian": {

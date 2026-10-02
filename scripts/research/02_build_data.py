@@ -316,10 +316,14 @@ RULES = [
          {"entities": ["Aban Tether", "Shelbit Exchange", "Siavash Kayvanpour (operator named by OFAC)", "4 affiliated front companies (Georgia, Poland, UAE)"], "owner_file": "data/sanctions_timeline.json event SE-2026-08-07-ABAN-SHELBIT"}, None, "medium", OFAC_ABAN_SRC, "reported",
          "Not found by 02's own searches; taken from the sanctions specialist's file (verified/high there; 8 outlets + OFAC FAQ 1257 per its summaries). 05 recommends removing all five designated venues (Nobitex, Wallex, Bitpin, Ramzinex, Aban Tether) from any allowed-USDT-source list.",
          "high - SDN listings are durable", "Cross-reference only; 05 owns adjudication. Not legal advice.",
-         "Check the OFAC SDN list for 'Aban Tether'; read 05's event and its adjudication.")
+         "Check the OFAC SDN list for 'Aban Tether'; read 05's event and its adjudication."),
+    rule("US-2026-09-17-OFAC-BITBANK", "US Treasury OFAC ('Operation Economic Outcast')", "BitBank digital-asset exchange (SDN), customer cited: Hormuz Safe Marine Services Authority", "2026-09-17", None, "active",
+         {"entity": "BitBank", "owner_file": "data/sanctions_timeline.json event SE-2026-09-17-BITBANK", "risk_register": "7 domestic-market exchanges designated across 3 actions (2026-06-02, 08-07, 09-17) per data/risk_register.json"}, None, "low", ("s05_sanctions",), "reported",
+         "Taken from file 05 (only the Treasury press-release title was seen there). Not a venue 02 researched; listed so the allow/deny list stays complete.",
+         "high - SDN listings are durable", "Cross-reference only.", "Read file 05 event and OFAC Recent Actions."),
     rule("US-2026-06-02-OFAC-SDN-IR-EXCHANGES", "US Treasury OFAC", "Nobitex, Wallex, Bitpin, Ramzinex + four executives (SDN, full blocking)", "2026-06-02", None, "active",
          {"entities": ["Nobitex", "Wallex", "Bitpin", "Ramzinex"], "share_of_iran_digital_asset_inflows_2025_pct": {"nobitex": ">50", "wallex": "~12", "bitpin": "~10", "four_total": ">=72"}, "attributed_volume_2025_usd_bn": 7.7}, None, "high", OFAC_SRC, "reported",
-         "Secondary-sanctions exposure for non-US persons dealing with them; providers/chains may screen deposits originating from these exchanges. Some Iranian outlets reportedly denied/downplayed it (first-pass note) - the compliance specialist adjudicates.",
+         "Secondary-sanctions exposure for non-US persons dealing with them; providers/chains may screen deposits originating from these exchanges. Iranian denials in Feb 2026 related to an EARLIER OFAC action (Zedcex/Zedxion, 2026-01-30) and were fact-checked as correct at that time (file 05); after 2026-06-02 the four exchanges issued statements that services continue (file 05).",
          "high - SDN listings are durable", "Not legal advice. Compliance specialist (05) owns the exposure analysis.",
          "Check OFAC SDN list (sanctionssearch.ofac.treas.gov) for the four names; ask the card provider whether it screens deposits from these exchanges."),
 ]
@@ -331,6 +335,7 @@ EVENTS = [
     {"id": "EVT-2026-TETHER-FREEZES", **R({"total_2026_usd_m_approx": 550, "april_2026_usd_m": ">344 across two addresses", "july_2026_usd_m": ">130 across four wallets", "reported_by": "Tether (per crypto media, 28-29 Sep 2026)"}, "USD million", "medium", ("cryptonomist_tether", "securities_tether", "cryptorank_tether", "coinrepublic_tether"), "reported", None, "Direct operational risk: USDT on Tron held at Iran-linked addresses can be frozen by the issuer.")},
     {"id": "EVT-2026-06-02-OFAC", **R("OFAC designates Nobitex, Wallex, Bitpin, Ramzinex", None, "high", OFAC_SRC, "reported", None, "See rule US-2026-06-02-OFAC-SDN-IR-EXCHANGES.")},
     {"id": "EVT-2026-08-07-OFAC-ABANTETHER", **R("OFAC designates Aban Tether and Shelbit Exchange", None, "medium", OFAC_ABAN_SRC, "reported", None, "Cross-referenced from file 05 (02's own searches missed it). Five best-known domestic USDT venues are now SDNs per 05.")},
+    {"id": "EVT-2026-09-17-OFAC-BITBANK", **R("OFAC designates BitBank (Operation Economic Outcast)", None, "low", ("s05_sanctions",), "reported", None, "Per file 05; title-level evidence only.")},
     {"id": "EVT-2026-04-07-CBI-USDT-FREEZES", **R({"april_2026": ">344 USD M, 2 CBI wallets (OFAC listing followed next day per 05)", "july_16_2026": ">130 USD M, 4 CBI wallets", "cbi_total_usd_m_approx": 475}, "USD million", "medium", ("s05_sanctions", "cryptonomist_tether", "securities_tether"), "reported", None, "Detail from file 05; consistent with the ~USD 550M Iran-linked total reported by Tether (Sep 2026).")},
 ]
 
@@ -342,7 +347,7 @@ CURRENT_STATE = {
     "id_deposit_cap": R({"active": True, "irt_per_24h": 25000000, "scope": "per payer Sheba / national ID (conflict), per exchange or global UNVERIFIED"}, None, "medium", IDCAP_SRC, "reported", "See rule SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M."),
     "withdraw_lock": R({"active": True, "hours": 72, "mode": "per-deposit rolling (conservative; UNVERIFIED)"}, None, "medium", LOCK_SRC, "reported", "See rule FATA-72H-SETTLEMENT-LOCK."),
     "rial_gateways": U("Open each exchange's deposit page and record whether card/IPG online payment is offered; compare with the Dey-1403 closure (2024-12-26).", None, "Last dated evidence: closed 2024-12-26, partial conditional reopening Jan 2025, 'blocked again' (undated). ID-based deposit is the dependable path."),
-    "ofac_exposure": R({"designated_domestic_venues": ["Nobitex", "Wallex", "Bitpin", "Ramzinex (2026-06-02)", "Aban Tether (2026-08-07, per file 05)"], "not_designated_per_last_evidence_absence_is_not_proof": ["Tabdeal", "Bit24", "Exir", "OMPFinex", "Tetherland", "NovinTether", "Excoino", "Arzinja"], "rule_of_thumb": "OFAC FAQ 1257 (via file 05): any digital-asset exchange operating in Iran's financial sector is designable; 05 recommends excluding all SDN venues from allowed USDT sources"}, None, "high", OFAC_SRC + OFAC_ABAN_SRC, "reported", "Check the SDN list monthly; read data/sanctions_timeline.json watchlist_exchanges."),
+    "ofac_exposure": R({"designated_domestic_venues": ["Nobitex", "Wallex", "Bitpin", "Ramzinex (2026-06-02)", "Aban Tether + Shelbit Exchange (2026-08-07, per file 05)", "BitBank (2026-09-17, per file 05)"], "count_per_risk_register": "7 domestic-market exchanges across 3 actions", "not_designated_per_last_evidence_absence_is_not_proof": ["Tabdeal", "Bit24", "Exir", "OMPFinex", "Tetherland", "NovinTether", "Excoino", "Arzinja"], "rule_of_thumb": "OFAC FAQ 1257 (via file 05): any digital-asset exchange operating in Iran's financial sector is designable; 05 recommends excluding all SDN venues from allowed USDT sources"}, None, "high", OFAC_SRC + OFAC_ABAN_SRC, "reported", "Check the SDN list monthly; read data/sanctions_timeline.json watchlist_exchanges."),
     "tether_freeze_risk": R({"iran_linked_usdt_frozen_2026_usd_m": 550}, None, "medium", ("cryptonomist_tether", "securities_tether"), "reported", "Compliance specialist."),
     "internet_reachability": R({"risk": "high", "evidence": "near-total shutdown late Feb 2026; Nobitex kept operating"}, None, "medium", ("cryptojobs_shutdown", "cointelegraph_nobitex"), "reported", "Design for offline/whitelisted-path fallback and multi-venue price feeds."),
 }
@@ -389,19 +394,19 @@ def blank_exchange(id_, name, name_fa, tier, risk, restriction):
         "deposit": {
             "methods": U("Exchange deposit page: list ID-based (Paya/Satna/bank transfer with payment ID), card-to-card, gateway, crypto."),
             "gateway_cap_irt_per_day": U(V_CAP, "IRT per day"),
-            "id_based_cap_irt_per_24h": R(25000000, "IRT per 24h per Sheba/ID", "medium", IDCAP_SRC, "reported", "Test with a 26M IRT deposit; see rule SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M.", "Regulatory cap quoted generically for 'exchanges'; exchange-specific confirmation missing."),
+            "id_based_cap_irt_per_24h": R(25000000, "IRT per 24h per Sheba/ID", "medium", IDCAP_SRC[:3], "reported", "Test with a 26M IRT deposit; see rule SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M.", "Regulatory cap quoted generically for 'exchanges'; exchange-specific confirmation missing."),
             "min_deposit_irt": U(V_CAP, "IRT"),
         },
         "withdraw": {
             "irt": {"daily_cap_irt": U(V_CAP, "IRT per day"), "fee_irt": U(V_CAP, "IRT"), "min_irt": U(V_CAP, "IRT"), "cycles": U("Exchange help centre: Paya/Satna settlement cycles and holiday behaviour.", None), "count_cap_per_24h": U(V_CAP, "count")},
-            "crypto_lock_hours_after_irt_deposit": R(72, "hours", "medium", LOCK_SRC, "reported", "Ask support whether per deposit or first-deposit-only; exceptions.", "FATA-directed lock cited across Iranian exchanges; exchange-specific confirmation missing unless noted."),
+            "crypto_lock_hours_after_irt_deposit": R(72, "hours", "medium", LOCK_SRC[:3], "reported", "Ask support whether per deposit or first-deposit-only; exceptions.", "FATA-directed lock cited across Iranian exchanges; exchange-specific confirmation missing unless noted."),
             "lock_exceptions": U("Ask support: shorter lock for higher KYC level / legal entity / crypto deposited on-chain? Record answer with date."),
             "network_fees": {n: U(V_NETFEE, "USDT") for n in NETS},
             "min": {n: U(V_NETFEE, "USDT") for n in NETS},
             "daily_cap_crypto_irt": U(V_CAP, "IRT per day"),
             "address_whitelisting": U("Check security settings for address book / withdrawal whitelist and what happens when disabling it."),
         },
-        "trading_hours": R("24/7 in normal conditions (assumed); halted 21:00-09:00 IRST 2026-09-30..2026-10-04 per CBI order", None, "low", HALT_SRC, "reported", "Exchange status page / Telegram.", "Normal-hours statement is an assumption; the halt is sourced."),
+        "trading_hours": R("24/7 in normal conditions (assumed); halted 21:00-09:00 IRST 2026-09-30..2026-10-04 per CBI order", None, "low", HALT_SRC[:3], "reported", "Exchange status page / Telegram.", "Normal-hours statement is an assumption; the halt is sourced."),
         "api": {
             "public_orderbook_url": U(V_API),
             "auth": U(V_API),
@@ -569,7 +574,7 @@ def build_exchanges():
     # ---------------- Tabdeal ----------------
     e = blank_exchange("tabdeal", "Tabdeal", "تبدیل", "B", "medium", "Not among the five OFAC-designated domestic venues as of last evidence (June + Aug 2026) but designable under FAQ 1257; publishes Binance-style official API/SDK.")
     e["status"] = R("operating", None, "medium", ("tabdeal_sdk", "tabdeal_postman", "tabdeal_commissions"), "reported", V_STATUS, "Official SDK/Postman repos pushed 2026-05; fee page cites 1405 limits.")
-    e["ofac_designated"] = R(False, None, "medium", OFAC_SRC, "reported", "Check SDN list.", "Not named in the 2026-06-02 or 2026-08-07 actions per summaries and file 05.")
+    e["ofac_designated"] = R(False, None, "low", OFAC_SRC + ("s05_sanctions",), "reported", "Check SDN list.", "Not named in the 2026-06-02 or 2026-08-07 actions per summaries and file 05; absence is not proof.")
     e["fees"]["usdt_irt_taker_pct"] = R(0.35, "pct", "low", ("tabdeal_commissions", "tabdeal_buy_usdt"), "reported", V_FEE, "Level 1 (<1,000 USDT 30-day volume) taker 0.35 / maker 0.33; L2 (1,000-2,000) 0.35/0.31; L3 (2,000-4,000) 0.33/0.28. Another line says 'USDT pairs fixed 0.2 %' (probably USDT-quoted markets).")
     e["fees"]["usdt_irt_maker_pct"] = R(0.33, "pct", "low", ("tabdeal_commissions",), "reported", V_FEE)
     e["fees"]["typical_spread_vs_mid_pct"] = A(0.15, "pct", "No depth data.")
@@ -796,6 +801,7 @@ def build_assumptions():
         "safety_stock_days": A(2, "days", "Replenishment lag + night/halt coverage beyond the 3-day lock."),
         "daily_vol_sigma_pct": A({"calm": 0.5, "base": 1.0, "stress": 2.0}, "pct per day", "Placeholder until macro specialist supplies USDT/IRT realised volatility; used only for the lock-risk buffer illustration."),
         "z_score": A(1.64, "z", "One-sided 95 % buffer, consistent with architecture.md volatility buffer default."),
+        "rial_settlement_calendar": R({"paya_cycles_irst": ["03:45", "09:45", "12:45", "18:45"], "paya_cycles_changed": "2025-07-10 (year inferred by file 03)", "satna": "accepted until ~14:30 (13:30 Thursdays); interbank settlement 14:00 on Thursdays", "weekend": "Friday; Thursday short banking day; official holidays have a single Paya cycle", "card_to_card": "24/7"}, None, "low", ("s03_gateways",), "reported", "Bank/PSP documentation (owned by specialist 03).", "Cross-reference only; affects ID-deposit credit time and exchange Rial-withdrawal timing."),
         "batch_sizes_for_withdrawal_amortisation": A([1, 5, 10, 20], "orders per withdrawal", "Illustrates batching; Nobitex allows max 10 crypto withdrawals per 24 h."),
     }
 

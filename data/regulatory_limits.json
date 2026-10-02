@@ -510,6 +510,74 @@
    "durability": "low - temporary"
   },
   {
+   "id": "US-2026-08-07-OFAC-SDN-ABANTETHER",
+   "issuer": "US Treasury OFAC",
+   "scope": "Aban Tether + Shelbit Exchange + operator + four front companies (SDN, E.O. 13902)",
+   "effective_from": "2026-08-07",
+   "effective_to": null,
+   "rule_status": "active",
+   "value": {
+    "entities": [
+     "Aban Tether",
+     "Shelbit Exchange",
+     "Siavash Kayvanpour (operator named by OFAC)",
+     "4 affiliated front companies (Georgia, Poland, UAE)"
+    ],
+    "owner_file": "data/sanctions_timeline.json event SE-2026-08-07-ABAN-SHELBIT"
+   },
+   "as_of": "2026-10-02",
+   "confidence": "medium",
+   "sources": [
+    {
+     "url": "data/sanctions_timeline.json",
+     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+     "note": "internal cross-reference, not re-verified by 02"
+    },
+    {
+     "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+     "title": "CoinDesk 2026-08-07: US widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) - as cited in file 05",
+     "note": "cited by file 05; page not seen by 02"
+    },
+    {
+     "url": "https://ofac.treasury.gov/faqs/1257",
+     "title": "OFAC FAQ 1257: E.O. 13902 digital-asset exchanges / non-US person exposure - as cited in file 05",
+     "note": "cited by file 05; page not seen by 02"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "Check the OFAC SDN list for 'Aban Tether'; read 05's event and its adjudication.",
+   "note": "Cross-reference only; 05 owns adjudication. Not legal advice.",
+   "enforcement": "Not found by 02's own searches; taken from the sanctions specialist's file (verified/high there; 8 outlets + OFAC FAQ 1257 per its summaries). 05 recommends removing all five designated venues (Nobitex, Wallex, Bitpin, Ramzinex, Aban Tether) from any allowed-USDT-source list.",
+   "durability": "high - SDN listings are durable"
+  },
+  {
+   "id": "US-2026-09-17-OFAC-BITBANK",
+   "issuer": "US Treasury OFAC ('Operation Economic Outcast')",
+   "scope": "BitBank digital-asset exchange (SDN), customer cited: Hormuz Safe Marine Services Authority",
+   "effective_from": "2026-09-17",
+   "effective_to": null,
+   "rule_status": "active",
+   "value": {
+    "entity": "BitBank",
+    "owner_file": "data/sanctions_timeline.json event SE-2026-09-17-BITBANK",
+    "risk_register": "7 domestic-market exchanges designated across 3 actions (2026-06-02, 08-07, 09-17) per data/risk_register.json"
+   },
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "sources": [
+    {
+     "url": "data/sanctions_timeline.json",
+     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+     "note": "internal cross-reference, not re-verified by 02"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "Read file 05 event and OFAC Recent Actions.",
+   "note": "Cross-reference only.",
+   "enforcement": "Taken from file 05 (only the Treasury press-release title was seen there). Not a venue 02 researched; listed so the allow/deny list stays complete.",
+   "durability": "high - SDN listings are durable"
+  },
+  {
    "id": "US-2026-06-02-OFAC-SDN-IR-EXCHANGES",
    "issuer": "US Treasury OFAC",
    "scope": "Nobitex, Wallex, Bitpin, Ramzinex + four executives (SDN, full blocking)",
@@ -568,7 +636,7 @@
    "status": "reported",
    "verify_how": "Check OFAC SDN list (sanctionssearch.ofac.treas.gov) for the four names; ask the card provider whether it screens deposits from these exchanges.",
    "note": "Not legal advice. Compliance specialist (05) owns the exposure analysis.",
-   "enforcement": "Secondary-sanctions exposure for non-US persons dealing with them; providers/chains may screen deposits originating from these exchanges. Some Iranian outlets reportedly denied/downplayed it (first-pass note) - the compliance specialist adjudicates.",
+   "enforcement": "Secondary-sanctions exposure for non-US persons dealing with them; providers/chains may screen deposits originating from these exchanges. Iranian denials in Feb 2026 related to an EARLIER OFAC action (Zedcex/Zedxion, 2026-01-30) and were fact-checked as correct at that time (file 05); after 2026-06-02 the four exchanges issued statements that services continue (file 05).",
    "durability": "high - SDN listings are durable"
   }
  ],
@@ -731,6 +799,76 @@
    ],
    "status": "reported",
    "note": "See rule US-2026-06-02-OFAC-SDN-IR-EXCHANGES."
+  },
+  {
+   "id": "EVT-2026-08-07-OFAC-ABANTETHER",
+   "value": "OFAC designates Aban Tether and Shelbit Exchange",
+   "as_of": "2026-10-02",
+   "confidence": "medium",
+   "sources": [
+    {
+     "url": "data/sanctions_timeline.json",
+     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+     "note": "internal cross-reference, not re-verified by 02"
+    },
+    {
+     "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+     "title": "CoinDesk 2026-08-07: US widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) - as cited in file 05",
+     "note": "cited by file 05; page not seen by 02"
+    },
+    {
+     "url": "https://ofac.treasury.gov/faqs/1257",
+     "title": "OFAC FAQ 1257: E.O. 13902 digital-asset exchanges / non-US person exposure - as cited in file 05",
+     "note": "cited by file 05; page not seen by 02"
+    }
+   ],
+   "status": "reported",
+   "note": "Cross-referenced from file 05 (02's own searches missed it). Five best-known domestic USDT venues are now SDNs per 05."
+  },
+  {
+   "id": "EVT-2026-09-17-OFAC-BITBANK",
+   "value": "OFAC designates BitBank (Operation Economic Outcast)",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "sources": [
+    {
+     "url": "data/sanctions_timeline.json",
+     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+     "note": "internal cross-reference, not re-verified by 02"
+    }
+   ],
+   "status": "reported",
+   "note": "Per file 05; title-level evidence only."
+  },
+  {
+   "id": "EVT-2026-04-07-CBI-USDT-FREEZES",
+   "value": {
+    "april_2026": ">344 USD M, 2 CBI wallets (OFAC listing followed next day per 05)",
+    "july_16_2026": ">130 USD M, 4 CBI wallets",
+    "cbi_total_usd_m_approx": 475
+   },
+   "unit": "USD million",
+   "as_of": "2026-10-02",
+   "confidence": "medium",
+   "sources": [
+    {
+     "url": "data/sanctions_timeline.json",
+     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+     "note": "internal cross-reference, not re-verified by 02"
+    },
+    {
+     "url": "https://en.cryptonomist.ch/2026/09/28/tether-usdt-freezing-iran/",
+     "title": "Cryptonomist: Tether USDT freezing Iran hits $550M in 2026",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://www.securities.io/tether-says-2026-iran-linked-usdt-freezes-total-about-550-million/",
+     "title": "Securities.io: Tether says 2026 Iran-linked USDT freezes total about $550M",
+     "note": "per search summary"
+    }
+   ],
+   "status": "reported",
+   "note": "Detail from file 05; consistent with the ~USD 550M Iran-linked total reported by Tether (Sep 2026)."
   }
  ],
  "current_state": {
@@ -934,22 +1072,26 @@
   },
   "ofac_exposure": {
    "value": {
-    "designated": [
+    "designated_domestic_venues": [
      "Nobitex",
      "Wallex",
      "Bitpin",
-     "Ramzinex"
+     "Ramzinex (2026-06-02)",
+     "Aban Tether + Shelbit Exchange (2026-08-07, per file 05)",
+     "BitBank (2026-09-17, per file 05)"
     ],
-    "date": "2026-06-02",
-    "not_designated_as_of_that_action": [
+    "count_per_risk_register": "7 domestic-market exchanges across 3 actions",
+    "not_designated_per_last_evidence_absence_is_not_proof": [
      "Tabdeal",
-     "AbanTether",
      "Bit24",
      "Exir",
      "OMPFinex",
      "Tetherland",
-     "NovinTether"
-    ]
+     "NovinTether",
+     "Excoino",
+     "Arzinja"
+    ],
+    "rule_of_thumb": "OFAC FAQ 1257 (via file 05): any digital-asset exchange operating in Iran's financial sector is designable; 05 recommends excluding all SDN venues from allowed USDT sources"
    },
    "as_of": "2026-10-02",
    "confidence": "high",
@@ -983,10 +1125,25 @@
      "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
      "title": "Elliptic: OFAC sanctions Nobitex and three other Iranian exchanges",
      "note": "per search summary"
+    },
+    {
+     "url": "data/sanctions_timeline.json",
+     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+     "note": "internal cross-reference, not re-verified by 02"
+    },
+    {
+     "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+     "title": "CoinDesk 2026-08-07: US widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) - as cited in file 05",
+     "note": "cited by file 05; page not seen by 02"
+    },
+    {
+     "url": "https://ofac.treasury.gov/faqs/1257",
+     "title": "OFAC FAQ 1257: E.O. 13902 digital-asset exchanges / non-US person exposure - as cited in file 05",
+     "note": "cited by file 05; page not seen by 02"
     }
    ],
    "status": "reported",
-   "verify_how": "Check SDN list for later additions."
+   "verify_how": "Check the SDN list monthly; read data/sanctions_timeline.json watchlist_exchanges."
   },
   "tether_freeze_risk": {
    "value": {

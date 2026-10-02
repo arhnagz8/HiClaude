@@ -1,0 +1,102 @@
+{
+ "_doc": "Staffing defaults for OperatorPool/owner policy. tasksPerHour are lognormal medians (per working hour) with sigma; shifts are IRST hours.",
+ "shifts": {
+  "morning": {
+   "fromHour": 8,
+   "toHour": 16,
+   "nightPremium": 0
+  },
+  "evening": {
+   "fromHour": 16,
+   "toHour": 24,
+   "nightPremium": 0
+  },
+  "night": {
+   "fromHour": 0,
+   "toHour": 8,
+   "nightPremium": 0.2
+  },
+  "source": "assumption"
+ },
+ "roles": {
+  "operator": {
+   "salaryIrtPerMonth": 18000000,
+   "employerCostMult": 1.3,
+   "overtimeMult": 1.4,
+   "errorRate": 0.02,
+   "tasksPerHour": {
+    "issue_card": {
+     "median": 6,
+     "sigma": 0.35
+    },
+    "topup_card": {
+     "median": 12,
+     "sigma": 0.3
+    },
+    "deliver_voucher": {
+     "median": 30,
+     "sigma": 0.3
+    },
+    "pay_service": {
+     "median": 8,
+     "sigma": 0.4
+    },
+    "custom": {
+     "median": 5,
+     "sigma": 0.5
+    }
+   },
+   "source": "assumption (UNVERIFIED; salaries/rates to be replaced by data/ops_growth.json staffing + salaries)"
+  },
+  "support": {
+   "salaryIrtPerMonth": 16000000,
+   "employerCostMult": 1.3,
+   "overtimeMult": 1.4,
+   "errorRate": 0.01,
+   "ticketsPerHour": {
+    "median": 6,
+    "sigma": 0.4
+   },
+   "firstResponseMinutes": {
+    "median": 8,
+    "sigma": 0.6
+   },
+   "source": "assumption (UNVERIFIED; salaries/rates to be replaced by data/ops_growth.json staffing + salaries)"
+  },
+  "admin": {
+   "salaryIrtPerMonth": 25000000,
+   "employerCostMult": 1.3,
+   "overtimeMult": 1.0,
+   "errorRate": 0.005,
+   "source": "assumption (UNVERIFIED; salaries/rates to be replaced by data/ops_growth.json staffing + salaries)"
+  }
+ },
+ "initialStaff": {
+  "operators": [
+   {
+    "shift": "morning",
+    "count": 1
+   },
+   {
+    "shift": "evening",
+    "count": 1
+   }
+  ],
+  "support": [
+   {
+    "shift": "morning",
+    "count": 1
+   }
+  ],
+  "source": "assumption: minimal launch team (owner works as admin)"
+ },
+ "limits": {
+  "maxOperatorsPerShift": 12,
+  "minOperatorsPerShift": 0,
+  "source": "assumption"
+ },
+ "salaryIndexation": {
+  "value": "follows inflationIndex(t) with a 6-month lag (sim-spec 2.1)",
+  "source": "sim-spec"
+ }
+}

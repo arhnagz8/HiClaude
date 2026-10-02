@@ -338,7 +338,7 @@
             "note": "local file"
           }
         ],
-        "verify_how": "Read https://www.zarinpal.com/terms in a browser (updated 8 Tir 1404) and ask support in writing whether 'sale of digital subscriptions and prepaid service top-ups priced in Toman' is allowed; keep the answer.",
+        "verify_how": "Read https://www.zarinpal.com/terms in a browser (updated 8 Tir 1404) and describe the product accurately and ask support in writing whether 'prepaid virtual cards, top-ups and digital subscriptions for online services, priced in Toman, with foreign suppliers' is allowed; keep the answer.",
         "status": "reported",
         "note": "Gift cards / virtual cards / USDT-backed top-ups are NOT named in what we saw -> UNVERIFIED classification risk."
       },
@@ -681,8 +681,8 @@
           "confidence": "medium",
           "sources": [
             {
-              "url": "https://www.npmjs.com/package/zarinpal-checkout/v/1.1.1",
-              "title": "zarinpal-checkout 1.1.1 (2026-07-11)",
+              "url": "https://www.npmjs.com/package/easypay.js/v/1.0.15",
+              "title": "easypay.js 1.0.15 (2025-08-21): Zarinpal/IDPay/Zibal/PayStar drivers; callback reads Status and Authority query params",
               "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
             },
             {
@@ -1570,7 +1570,7 @@
             }
           ],
           "status": "reported",
-          "note": "Package tested on 1400/04/24 (2021-07-15)."
+          "note": "README: package tested on 1400/04/24 (2021-07-14)."
         },
         "callback_rule": {
           "value": "Callback has status & token; if status=1 you MUST verify, otherwise the amount returns to the customer after 30 minutes",

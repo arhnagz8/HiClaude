@@ -20,6 +20,7 @@ export type DomainEvent =
   | { type: 'revenue.recognised'; at: EpochMs; orderId: string; revenueIrt: Irt; costIrt: Irt; fundingMicroUsdt: MicroUsdt }
   | { type: 'ticket.created'; at: EpochMs; ticketId: string; customerId: string }
   | { type: 'alert.raised'; at: EpochMs; severity: 'info' | 'warning' | 'critical'; code: string; messageFa: string; data?: Record<string, unknown> }
+  | { type: 'settings.changed'; at: EpochMs; keys: string[]; actor?: string; scope: 'params' | 'flag' | 'catalog' | 'killswitch' }
 
 export type DomainEventType = DomainEvent['type']
 

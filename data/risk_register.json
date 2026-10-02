@@ -47,6 +47,34 @@
       "messenger_channels": "Telegram/Bale Mini App channels are enabled",
       "has_operators": "human operators handle fulfilment"
     },
+    "exposure_modifiers": {
+      "uses_designated_exchange": {
+        "multipliers": {
+          "TKN-01": 6,
+          "TKN-03": 3,
+          "SAN-02": 3
+        },
+        "confidence": "low",
+        "note": "assumption: direct SDN exposure raises freeze/contagion hazards several-fold; calibrate when provider/Tether data exist"
+      },
+      "accepts_usdt_inbound": {
+        "multipliers": {
+          "TKN-01": 3,
+          "TKN-03": 2
+        },
+        "confidence": "low",
+        "note": "assumption: unscreened customer USDT contaminates the treasury wallet; most Iranian USDT originates at SDN exchanges (S1)"
+      },
+      "provider_share_over_60pct": {
+        "multipliers": {
+          "PRV-01": 1.5,
+          "PRV-02": 1.5,
+          "PRV-05": 1.5
+        },
+        "confidence": "low",
+        "note": "assumption: concentration amplifies provider-specific hazards (provider attention, shared fate)"
+      }
+    },
     "scenario_links": {
       "sanctions event": [
         "SANCTIONS_WAVE"
