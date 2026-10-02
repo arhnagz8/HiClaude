@@ -1,0 +1,26 @@
+# Builder brief B7b — `apps/web/src/admin` (operator / owner panel)
+
+Prerequisites: B7a foundation done (design system, API client, auth, host abstraction, mock backend) and B6 API available (or mock). Read `apps/web/README.md`, `docs/05-architecture/api-spec.md` (admin section), `architecture.md` §5–§10, `packages/contracts/src/{api,reports,domain}.ts`, UX spec if present.
+You OWN `apps/web/src/admin/**`, admin parts of the mock backend (`src/mock/admin*`), and admin tests. Reuse the design system; add admin-only components under `src/admin/components/`. No git commit/push.
+
+## Deliverables (route prefix `/admin`, desktop-first, usable on tablet; staff login with RBAC-aware navigation)
+1. **Login** (staff), role-based menu, session handling, 403 pages.
+2. **Dashboard** — rate (mid/ask/bid, status, kill-switch toggle), today's orders/GMV/revenue/profit, queue counters with SLA-overdue emphasis, treasury float/coverage/cash, alerts feed (SSE), KPI sparkline charts (30 days).
+3. **Orders** — filterable table (status, method, product, date, search by code/phone), order detail (timeline, payment, quote **price breakdown with internal cost & margin** for staff, risk flags, customer, tasks, ledger entries for the order), actions per status/role: approve/reject payment, hold/release, retry, cancel, refund (wallet/bank) with confirm dialogs and reason capture.
+4. **Operator console** — task queue ordered by priority/SLA with countdown chips (rush tier colours), claim/release, **task workspace** showing exact Persian instructions, parameters, copy buttons, a form to submit the result (card details / voucher code / receipt ref) with validation and masked previews, fail with reason & retryable flag, per-operator stats.
+5. **Payments** — unmatched bank credits and ambiguous matches (side-by-side: credit vs candidate payments), manual match, receipt images viewer, c2c destination card load (daily cap usage bars), USDT incoming transfers with screening results, gateway verify mismatches.
+6. **Treasury** — balances by venue (bank, gateway receivable, each exchange IRT/USDT/withdrawable, wallet, in-transit, each provider vs max float), **lot ladder** (lock countdowns), coverage gauge (days vs target/min/max), **replenishment plan** with blocked reasons and one-click execute/skip, manual actions (buy / withdraw / sweep) with limits/hours preview, recent actions log, reconciliation diffs, daily revaluation result, FX exposure chart.
+7. **Rates & kill switch** — per-exchange tickers table with inclusion/exclusion reasons, history chart (SVG), volatility/drift estimates, manual kill switch with reason, auto-kill history.
+8. **Pricing** — policy editor (margins by family, floors/caps, volatility settings, lock minutes, rounding, USDT-pay margin, VAT, rush tiers incl. capacity) with validation, **live what-if**: pick product + amount → shows computed breakdown before/after the draft change and effect on margin & competitiveness; version history/audit; competitor reference viewer.
+9. **Catalog** — product list/editor (activate, risk label, restriction note, provider/alt providers, margin overrides, SLA, inputs), provider cards (fees, caps, capabilities, health, float).
+10. **Customers** — list/search, detail (orders, tier, limits, flags, KYC, wallet), actions (block/unblock, set limit/tier). **Tickets** — inbox, thread, reply, assign, close.
+11. **Reports** — **Statements** (income statement, balance sheet, cash flow per Jalali month, nominal/real/USD toggle, identity checks shown, export CSV/JSON), KPI explorer, margin by product/family/provider/channel, cohorts, unit-economics per order, ledger explorer (filter by account/date/order, drill-down to entries).
+12. **Settings & staff** — users/roles, audit log viewer with filters, params viewer/editor (non-pricing sections), notification templates preview, data-file provenance viewer (shows `data/*.json` records with `as_of`, confidence, sources — read-only, from an endpoint if available).
+13. **Simulation panel (demo mode only)** — virtual clock + speed controls, advance buttons (+1h/+1d/+1w), scenario picker (15 scenarios) with description, **event injector** (devaluation shock, night halt, deposit cap cut, gateway blackout, provider freeze, price war …), live macro chart (rate path, regime), active events list, competitor price index, staff on shift, "what changed" log. This is how the owner watches the Rial move and every price/margin update.
+
+## Charts
+Own SVG chart components (line/area/bar/stacked/gauge/sparkline/heatmap) with RTL-aware axes, Persian numerals, tooltips, keyboard focus, print styles; theme-aware colours.
+
+## Tests (≥ 60) and acceptance
+RBAC route/menu matrix; order action availability by status; price what-if consistency; statements identity display (A = L + E check badge); treasury plan rendering with blocked reasons; unmatched-payment matching flow; operator task completion form validation; sim panel with mock backend. Build under budget (admin code-split), typecheck clean, tests green. Screenshot every admin page in Chromium at 1440×900 (light/dark) and fix defects; save to `reports/web-qa/admin/`.
+README section for admin. Return: files, routes, components, screenshots index, deviations, open issues.

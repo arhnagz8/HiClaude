@@ -24,7 +24,15 @@ _Last updated: 2026-10-02 (session start of long mission)_
   | legal | wf_bbc3c65d-69a | wza7pbmzh | 04-legal-tax-compliance-ir, 05-sanctions-counterparty-risk, 11-ux-product-fa |
   Script files: `/root/.claude/projects/-home-user-HiClaude/e0406b7e-eb00-55e4-8e8b-4850c515b2e9/workflows/scripts/research-specialists-<runid>.js`
   Expected outputs: `docs/03-research/NN-*.md`, `data/*.json` (validate: `node scripts/validate-data.mjs`). Not yet committed.
-- Phase 0 (lead, in parallel): architecture spec + contracts package.
+- Phase 0 DONE: architecture/sim/api specs + `packages/contracts` (18 tests green), pushed (commit 1f2c101).
+- Phase 2 wave 1 builders launched (background Agents; briefs in `docs/06-implementation-playbook/briefs/`):
+  | Agent | Brief | Area | Notes |
+  |---|---|---|---|
+  | B1 | B1-core.md | `packages/core` | pure pricing/rates/ledger/state machine/treasury/risk/payments |
+  | B2 | B2-app-foundation.md | `packages/app` (db, repos, settings, staff, customers, catalog, notifications, jobs, fakes) | no core import |
+  | B4 | B4-sim-world.md | `packages/sim` world components (macro, exchange, bank, gateway, chain, provider, competitors, scenarios) | no app/core import |
+  Builders do NOT commit; lead commits after review. If the session restarts: check TaskList / agent output files in
+  `/tmp/claude-0/-home-user-HiClaude/e0406b7e-eb00-55e4-8e8b-4850c515b2e9/tasks/` (never `cat` them whole) and re-launch a builder with the same brief if its package is incomplete.
 
 ## Next actions
 1. Write architecture spec v1 (`docs/05-architecture/architecture.md`) + `packages/contracts` (ports, schemas, events, Clock/Rng).

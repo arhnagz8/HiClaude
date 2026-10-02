@@ -129,7 +129,10 @@ export interface RateSnapshot {
   tickers: ExchangeTicker[]
   /** Cheapest ask among exchanges we can actually buy at now (Toman per USDT). */
   executableAsk: number
+  /** Exchange offering `executableAsk` (its taker fee applies to replacement cost). Undefined when halted/using last-known. */
+  executableAskExchangeId?: string
   executableBid: number
+  executableBidExchangeId?: string
   mid: number
   status: RateStatus
   volatility: { dailyPct: number; driftPctPerDay: number; windowHours: number }
