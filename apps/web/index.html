@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#4338ca" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0e14" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="پرداخت ارزی، ساده و شفاف" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+    <title>کارتینو</title>
+    <script>
+      // Apply the stored theme before first paint (no flash). Wrapped: storage can throw in private mode.
+      try {
+        var m = localStorage.getItem('hc.theme');
+        if (m === 'dark' || m === 'light') document.documentElement.setAttribute('data-theme', m);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript><p style="padding:2rem;text-align:center">برای استفاده از این سایت، جاوااسکریپت را فعال کنید.</p></noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

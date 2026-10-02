@@ -1,0 +1,14 @@
+{
+  "name": "کارتینو",
+  "short_name": "کارتینو",
+  "description": "پرداخت ارزی، ساده و شفاف",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f8fb",
+  "theme_color": "#4338ca",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

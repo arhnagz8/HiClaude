@@ -1,0 +1,13 @@
+{
+  "name": "@hiclaude/sim",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@hiclaude/contracts": "*",
+    "zod": "^3.25.0"
+  }
+}

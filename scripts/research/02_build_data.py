@@ -152,6 +152,10 @@ _add("aban_sdk", "https://github.com/Abantether-com/abantether-python-sdk", "aba
 _add("ramzinex_php", "https://packagist.org/packages/ramzinex/php", "ramzinex/php SDK page (Postman docs link; public API host per search summary)", RD)
 _add("first_pass", "docs/business-plan-full-context.md", "First-pass research doc in this repo (secondary: itself compiled from search summaries)", "internal, secondary")
 _add("sim_spec", "docs/05-architecture/sim-spec.md", "Lead's simulator spec (assumption: Paya/Satna do not settle Thu-afternoon/Fri/holidays)", "internal")
+_add("s05_sanctions", "data/sanctions_timeline.json", "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)", "internal cross-reference, not re-verified by 02")
+_add("coindesk_aban", "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges", "CoinDesk 2026-08-07: US widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) - as cited in file 05", "cited by file 05; page not seen by 02")
+_add("ofac_faq1257", "https://ofac.treasury.gov/faqs/1257", "OFAC FAQ 1257: E.O. 13902 digital-asset exchanges / non-US person exposure - as cited in file 05", "cited by file 05; page not seen by 02")
+_add("s03_gateways", "data/gateways.json", "03-ir-payments-collection specialist file (internal cross-reference): Paya cycles, gateway closures pattern", "internal cross-reference, not re-verified by 02")
 
 
 def S(*keys):
@@ -220,6 +224,7 @@ HALT_SRC = ("zoomit_halt", "iranwire_halt", "itresan_halt", "fararu_halt", "snn_
 IDCAP_SRC = ("zarinpal_idcap", "irasin_idcap", "digiato_idcap", "mihan_idcap", "iranbroker_idcap", "fararu_idcap")
 LOCK_SRC = ("peivast_72h", "iranbroker_tetherland", "pingi_72h", "kifpool_terms", "nipoto_fata")
 OFAC_SRC = ("scorechain_ofac", "globalledger_ofac", "crystal_ofac", "trm_ofac", "willkie_ofac", "elliptic_ofac")
+OFAC_ABAN_SRC = ("s05_sanctions", "coindesk_aban", "ofac_faq1257")
 GW_SRC = ("mihan_direct_rial_halt", "zoomit_gw_reopen", "fararu_shaparak", "intellinews_block", "nobsbitcoin_gw", "entekhab_gw")
 
 
@@ -307,6 +312,11 @@ RULES = [
          "Headlines: 'purchase only up to 2,000 USDT'; Hamshahri calls it a quota (سهمیه‌ای) per user; AbanTether: daily buy limited to 2,000 USDT. Whether per exchange or across exchanges is UNVERIFIED (assumed per exchange).",
          "low - temporary", "At R=257,000 IRT/USDT the cap equals 514M IRT/day per user, far above the 25M IRT/24h ID-deposit cap, so it only binds if the user already holds Rial balance.",
          "Ask exchange support whether the cap counts USDT bought with pre-existing Rial balance and whether it is per exchange."),
+    rule("US-2026-08-07-OFAC-SDN-ABANTETHER", "US Treasury OFAC", "Aban Tether + Shelbit Exchange + operator + four front companies (SDN, E.O. 13902)", "2026-08-07", None, "active",
+         {"entities": ["Aban Tether", "Shelbit Exchange", "Siavash Kayvanpour (operator named by OFAC)", "4 affiliated front companies (Georgia, Poland, UAE)"], "owner_file": "data/sanctions_timeline.json event SE-2026-08-07-ABAN-SHELBIT"}, None, "medium", OFAC_ABAN_SRC, "reported",
+         "Not found by 02's own searches; taken from the sanctions specialist's file (verified/high there; 8 outlets + OFAC FAQ 1257 per its summaries). 05 recommends removing all five designated venues (Nobitex, Wallex, Bitpin, Ramzinex, Aban Tether) from any allowed-USDT-source list.",
+         "high - SDN listings are durable", "Cross-reference only; 05 owns adjudication. Not legal advice.",
+         "Check the OFAC SDN list for 'Aban Tether'; read 05's event and its adjudication.")
     rule("US-2026-06-02-OFAC-SDN-IR-EXCHANGES", "US Treasury OFAC", "Nobitex, Wallex, Bitpin, Ramzinex + four executives (SDN, full blocking)", "2026-06-02", None, "active",
          {"entities": ["Nobitex", "Wallex", "Bitpin", "Ramzinex"], "share_of_iran_digital_asset_inflows_2025_pct": {"nobitex": ">50", "wallex": "~12", "bitpin": "~10", "four_total": ">=72"}, "attributed_volume_2025_usd_bn": 7.7}, None, "high", OFAC_SRC, "reported",
          "Secondary-sanctions exposure for non-US persons dealing with them; providers/chains may screen deposits originating from these exchanges. Some Iranian outlets reportedly denied/downplayed it (first-pass note) - the compliance specialist adjudicates.",
@@ -320,6 +330,8 @@ EVENTS = [
     {"id": "EVT-2026-05-01-REUTERS-NOBITEX", **R("Reuters investigation (1 May 2026) described Nobitex as a central node of a parallel financial system moving hundreds of millions of USD for CBI and IRGC", None, "medium", ("cointelegraph_nobitex",), "reported", None, "Precursor of OFAC action.")},
     {"id": "EVT-2026-TETHER-FREEZES", **R({"total_2026_usd_m_approx": 550, "april_2026_usd_m": ">344 across two addresses", "july_2026_usd_m": ">130 across four wallets", "reported_by": "Tether (per crypto media, 28-29 Sep 2026)"}, "USD million", "medium", ("cryptonomist_tether", "securities_tether", "cryptorank_tether", "coinrepublic_tether"), "reported", None, "Direct operational risk: USDT on Tron held at Iran-linked addresses can be frozen by the issuer.")},
     {"id": "EVT-2026-06-02-OFAC", **R("OFAC designates Nobitex, Wallex, Bitpin, Ramzinex", None, "high", OFAC_SRC, "reported", None, "See rule US-2026-06-02-OFAC-SDN-IR-EXCHANGES.")},
+    {"id": "EVT-2026-08-07-OFAC-ABANTETHER", **R("OFAC designates Aban Tether and Shelbit Exchange", None, "medium", OFAC_ABAN_SRC, "reported", None, "Cross-referenced from file 05 (02's own searches missed it). Five best-known domestic USDT venues are now SDNs per 05.")},
+    {"id": "EVT-2026-04-07-CBI-USDT-FREEZES", **R({"april_2026": ">344 USD M, 2 CBI wallets (OFAC listing followed next day per 05)", "july_16_2026": ">130 USD M, 4 CBI wallets", "cbi_total_usd_m_approx": 475}, "USD million", "medium", ("s05_sanctions", "cryptonomist_tether", "securities_tether"), "reported", None, "Detail from file 05; consistent with the ~USD 550M Iran-linked total reported by Tether (Sep 2026).")},
 ]
 
 CURRENT_STATE = {
@@ -330,7 +342,7 @@ CURRENT_STATE = {
     "id_deposit_cap": R({"active": True, "irt_per_24h": 25000000, "scope": "per payer Sheba / national ID (conflict), per exchange or global UNVERIFIED"}, None, "medium", IDCAP_SRC, "reported", "See rule SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M."),
     "withdraw_lock": R({"active": True, "hours": 72, "mode": "per-deposit rolling (conservative; UNVERIFIED)"}, None, "medium", LOCK_SRC, "reported", "See rule FATA-72H-SETTLEMENT-LOCK."),
     "rial_gateways": U("Open each exchange's deposit page and record whether card/IPG online payment is offered; compare with the Dey-1403 closure (2024-12-26).", None, "Last dated evidence: closed 2024-12-26, partial conditional reopening Jan 2025, 'blocked again' (undated). ID-based deposit is the dependable path."),
-    "ofac_exposure": R({"designated": ["Nobitex", "Wallex", "Bitpin", "Ramzinex"], "date": "2026-06-02", "not_designated_as_of_that_action": ["Tabdeal", "AbanTether", "Bit24", "Exir", "OMPFinex", "Tetherland", "NovinTether"]}, None, "high", OFAC_SRC, "reported", "Check SDN list for later additions."),
+    "ofac_exposure": R({"designated_domestic_venues": ["Nobitex", "Wallex", "Bitpin", "Ramzinex (2026-06-02)", "Aban Tether (2026-08-07, per file 05)"], "not_designated_per_last_evidence_absence_is_not_proof": ["Tabdeal", "Bit24", "Exir", "OMPFinex", "Tetherland", "NovinTether", "Excoino", "Arzinja"], "rule_of_thumb": "OFAC FAQ 1257 (via file 05): any digital-asset exchange operating in Iran's financial sector is designable; 05 recommends excluding all SDN venues from allowed USDT sources"}, None, "high", OFAC_SRC + OFAC_ABAN_SRC, "reported", "Check the SDN list monthly; read data/sanctions_timeline.json watchlist_exchanges."),
     "tether_freeze_risk": R({"iran_linked_usdt_frozen_2026_usd_m": 550}, None, "medium", ("cryptonomist_tether", "securities_tether"), "reported", "Compliance specialist."),
     "internet_reachability": R({"risk": "high", "evidence": "near-total shutdown late Feb 2026; Nobitex kept operating"}, None, "medium", ("cryptojobs_shutdown", "cointelegraph_nobitex"), "reported", "Design for offline/whitelisted-path fallback and multi-venue price feeds."),
 }
@@ -361,7 +373,7 @@ def blank_exchange(id_, name, name_fa, tier, risk, restriction):
         "id": id_, "name": name, "name_fa": name_fa, "tier": tier,
         "risk_label": risk, "restriction_note": restriction,
         "status": U(V_STATUS),
-        "ofac_designated": U("Check the OFAC SDN list for the exchange name and its operating company.", note="Not among the four designated on 2026-06-02 (Nobitex, Wallex, Bitpin, Ramzinex) per OFAC-action summaries." if id_ not in ("nobitex", "wallex", "bitpin", "ramzinex") else None),
+        "ofac_designated": U("Check the OFAC SDN list for the exchange name and its operating company.", note="Not among the five designated domestic venues (Nobitex, Wallex, Bitpin, Ramzinex 2026-06-02; Aban Tether 2026-08-07) per OFAC-action summaries and file 05; absence from the list is not proof of safety (OFAC FAQ 1257 via file 05)." if id_ not in ("nobitex", "wallex", "bitpin", "ramzinex", "abantether") else None),
         "ownership": U("Company registry (Rooznameh Rasmi / ilenc.ir), exchange 'About' page and its Enamad/CBI-recognised licence page if any."),
         "security_incidents": U("Search the exchange name + hack/breach on arzdigital/iranbroker and Telegram channel archives."),
         "proof_of_reserves": U("Check the exchange site/help centre for a proof-of-reserves page; none found in this research for any Iranian exchange."),
@@ -555,9 +567,9 @@ def build_exchanges():
     E["ramzinex"] = e
 
     # ---------------- Tabdeal ----------------
-    e = blank_exchange("tabdeal", "Tabdeal", "تبدیل", "B", "medium", "Not among the four OFAC designees (2026-06-02) but could be added; publishes Binance-style official API/SDK.")
+    e = blank_exchange("tabdeal", "Tabdeal", "تبدیل", "B", "medium", "Not among the five OFAC-designated domestic venues as of last evidence (June + Aug 2026) but designable under FAQ 1257; publishes Binance-style official API/SDK.")
     e["status"] = R("operating", None, "medium", ("tabdeal_sdk", "tabdeal_postman", "tabdeal_commissions"), "reported", V_STATUS, "Official SDK/Postman repos pushed 2026-05; fee page cites 1405 limits.")
-    e["ofac_designated"] = R(False, None, "medium", OFAC_SRC, "reported", "Check SDN list.", "Not named in the 2026-06-02 action per summaries.")
+    e["ofac_designated"] = R(False, None, "medium", OFAC_SRC, "reported", "Check SDN list.", "Not named in the 2026-06-02 or 2026-08-07 actions per summaries and file 05.")
     e["fees"]["usdt_irt_taker_pct"] = R(0.35, "pct", "low", ("tabdeal_commissions", "tabdeal_buy_usdt"), "reported", V_FEE, "Level 1 (<1,000 USDT 30-day volume) taker 0.35 / maker 0.33; L2 (1,000-2,000) 0.35/0.31; L3 (2,000-4,000) 0.33/0.28. Another line says 'USDT pairs fixed 0.2 %' (probably USDT-quoted markets).")
     e["fees"]["usdt_irt_maker_pct"] = R(0.33, "pct", "low", ("tabdeal_commissions",), "reported", V_FEE)
     e["fees"]["typical_spread_vs_mid_pct"] = A(0.15, "pct", "No depth data.")
@@ -579,7 +591,7 @@ def build_exchanges():
     # ---------------- AbanTether ----------------
     e = blank_exchange("abantether", "AbanTether", "آبان‌تتر", "B", "medium", "OTC-style instant buy/sell with spread-embedded price; applied the Mehr-1405 halt and 2,000 USDT daily buy cap; not an OFAC designee on 2026-06-02.")
     e["status"] = R("operating", None, "medium", ("arzdigital_aban", "arzdigital_aban_halt", "pishkhanak_aban"), "reported", V_STATUS, "Review page updated Shahrivar 1405; halt notice on 8-12 Mehr 1405.")
-    e["ofac_designated"] = R(False, None, "medium", OFAC_SRC, "reported", "Check SDN list.")
+    e["ofac_designated"] = R(True, None, "medium", OFAC_ABAN_SRC, "reported", "Check the OFAC SDN list for 'Aban Tether'.", "Designated 2026-08-07 with Shelbit Exchange per file 05 (verified/high there). Our own searches did not surface it.")
     e["fees"]["usdt_irt_taker_pct"] = R(0.0, "pct", "low", ("zoomit_compare", "novintether_fees", "pishkhanak_aban"), "conflicting", V_FEE, "Zoomit summary: no explicit fee on USDT purchase (cost sits in the quoted price); NovinTether list: 0.2 %; first-pass/pishkhanak: ~0.3 %. Treat all-in cost as spread-based 0.2-0.3 % above best venue mid.")
     e["fees"]["usdt_irt_maker_pct"] = U(V_FEE, "pct")
     e["fees"]["typical_spread_vs_mid_pct"] = A(0.25, "pct", "OTC-style instant-buy venue: assume wider embedded spread than order-book venues.")
@@ -636,9 +648,9 @@ def build_exchanges():
     E["excoino"] = e
 
     # ---------------- Bit24 ----------------
-    e = blank_exchange("bit24", "Bit24", "بیت۲۴", "B", "medium", "Not an OFAC designee on 2026-06-02; fee/levels page exists but was not reachable; has a documented REST API (docs.bit24.cash).")
+    e = blank_exchange("bit24", "Bit24", "بیت۲۴", "B", "medium", "Not among the five OFAC-designated domestic venues as of last evidence; fee/levels page exists but was not reachable; has a documented REST API (docs.bit24.cash).")
     e["status"] = R("operating", None, "medium", ("arzdigital_bit24", "bit24_sdk"), "reported", V_STATUS, "ArzDigital review updated Shahrivar 1405; unofficial SDK pushed 2026-09-28.")
-    e["ofac_designated"] = R(False, None, "medium", OFAC_SRC, "reported", "Check SDN list.")
+    e["ofac_designated"] = R(False, None, "low", OFAC_SRC + ("s05_sanctions",), "reported", "Check SDN list.", "Absence from the designation summaries; not proof.")
     e["fees"]["fee_schedule"] = U("Open https://bit24.cash/fee/ (fees by user level) and copy it.", None, "Page exists ('commissions by user level') but was not reachable.")
     e["withdraw"]["crypto_lock_hours_after_irt_deposit"] = R(72, "hours", "medium", ("arzdigital_bit24",) + LOCK_SRC[:2], "reported", "Ask support.", "ArzDigital Bit24 page appeared in the 72 h lock search results.")
     e["api"] = {

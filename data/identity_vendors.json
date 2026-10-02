@@ -1,0 +1,1031 @@
+{
+  "_meta": {
+    "file": "identity_vendors.json",
+    "owner_agent": "03-ir-payments-collection",
+    "as_of": "2026-10-02",
+    "purpose": "Identity/inquiry vendors (Shahkar-style mobile-national-ID match, card-owner, IBAN, civil registry), SMS providers (OTP) and Moadian e-invoice, with endpoint capabilities and unverified prices.",
+    "legal_note": "Each inquiry processes personal data. Obtain explicit, purpose-limited consent, minimise retention (store the boolean result + vendor trace id, not the raw registry answer), and confirm the legal basis with the licensed Iranian counsel (04-legal-tax-compliance-ir). Not legal advice.",
+    "evidence_note": "Endpoint shapes come from SDK source (npm/PyPI) read directly. Prices, SLAs, contracts and legal terms are NOT verified (search budget exhausted)."
+  },
+  "identity_vendors": {
+    "jibit": {
+      "name_fa": "جیبیت",
+      "website": "https://jibit.ir",
+      "risk_label": "medium",
+      "restriction_note": "Commercial contract + business KYC; inquiry results depend on bank/registry availability.",
+      "base_url": {
+        "value": "https://napi.jibit.ir/ide",
+        "as_of": "2026-10-02",
+        "confidence": "high",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/node-jibit/v/1.0.8",
+            "title": "node-jibit 1.0.8 (2023-02-28)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://pypi.org/project/jibit/1.2.4/",
+            "title": "jibit 1.2.4 (2025-10-14)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "auth": {
+        "value": "POST /v1/tokens/generate {apiKey, secretKey} -> {accessToken, refreshToken}; POST /v1/tokens/refresh {accessToken, refreshToken}; Bearer header. node-jibit defaults assume ~30 min access-token validity and 24 h refresh-token validity",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/node-jibit/v/1.0.8",
+            "title": "node-jibit 1.0.8 (2023-02-28)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://pypi.org/project/jibit/1.2.4/",
+            "title": "jibit 1.2.4 (2025-10-14)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "verify_how": "Jibit docs: token lifetimes.",
+        "status": "reported"
+      },
+      "capabilities": {
+        "mobile_national_id_match_shahkar_style": {
+          "endpoint": "GET /v1/services/matching?nationalCode=&mobileNumber=",
+          "params": [
+            "nationalCode",
+            "mobileNumber"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "returns {matched:boolean}; whether it is backed by Shahkar is not verified"
+        },
+        "card_owner_name_match": {
+          "endpoint": "GET /v1/services/matching?cardNumber=&name=",
+          "params": [
+            "cardNumber",
+            "name"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "returns {matched:boolean}"
+        },
+        "card_national_code_match": {
+          "endpoint": "GET /v1/services/matching?cardNumber=&nationalCode=&birthDate=",
+          "params": [
+            "cardNumber",
+            "nationalCode",
+            "birthDate"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "birthDate format conflict: node-jibit strips '/' (Jalali yyyyMMdd) while the Python wrapper says yyyy-MM-dd -> test both"
+        },
+        "iban_national_code_match": {
+          "endpoint": "GET /v1/services/matching?iban=&nationalCode=&birthDate=",
+          "params": [
+            "iban",
+            "nationalCode",
+            "birthDate"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": null
+        },
+        "iban_name_match": {
+          "endpoint": "GET /v1/services/matching?iban=&name=",
+          "params": [
+            "iban",
+            "name"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": null
+        },
+        "deposit_match": {
+          "endpoint": "GET /v1/services/matching?bank=&depositNumber=&nationalCode=&birthDate= | &name=",
+          "params": [
+            "bank",
+            "depositNumber"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": null
+        },
+        "card_info": {
+          "endpoint": "GET /v1/cards?number=",
+          "params": [
+            "number"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "owner name, bank, type"
+        },
+        "card_to_iban": {
+          "endpoint": "GET /v1/cards?number=&iban=true",
+          "params": [
+            "number"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "also deposit=true for card-to-account"
+        },
+        "iban_inquiry": {
+          "endpoint": "GET /v1/ibans?value=",
+          "params": [
+            "value"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": null
+        },
+        "deposit_to_iban": {
+          "endpoint": "GET /v1/deposits?bank=&number=&iban=true",
+          "params": [
+            "bank",
+            "number"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": null
+        },
+        "availability": {
+          "endpoint": "GET /v1/services/availability?cardToIBAN=true",
+          "params": [
+            "cardToIBAN"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "per-bank availability report"
+        },
+        "civil_registry_similarity": {
+          "endpoint": "GET /v1/services/identity/similarity?nationalCode=&birthDate=&firstName=&lastName=&fullName=&fatherName=",
+          "params": [
+            "nationalCode",
+            "birthDate",
+            "names"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "returns similarity percentages (not raw data)"
+        },
+        "postal_code": {
+          "endpoint": "GET /v1/services/postal?code=",
+          "params": [
+            "code"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": null
+        },
+        "foreigner_identity": {
+          "endpoint": "GET /v1/services/foreigners/identity?fida=",
+          "params": [
+            "fida"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": null
+        },
+        "corporation_identity": {
+          "endpoint": "GET /v1/services/corporation/identity?code=",
+          "params": [
+            "code"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": null
+        },
+        "sana": {
+          "endpoint": "GET /v1/services/social/sana?nationalCode=&mobileNumber=",
+          "params": [
+            "nationalCode",
+            "mobileNumber"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "meaning of 'sana' not verified"
+        },
+        "balances_and_reports": {
+          "endpoint": "GET /v1/balances ; GET /v1/reports/daily?yearMonthDay=",
+          "params": [],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "account credit and daily billing report"
+        }
+      },
+      "rate_limits": {
+        "value": null,
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Jibit docs / contract.",
+        "status": "UNVERIFIED"
+      }
+    },
+    "finnotech": {
+      "name_fa": "فینوتک",
+      "website": "https://finnotech.ir",
+      "risk_label": "medium",
+      "restriction_note": "OAuth2 scopes are granted per contract; some services need end-user consent (authorization-code flow).",
+      "base_urls": {
+        "value": {
+          "production": "https://api.finnotech.ir",
+          "beta": "https://apibeta.finnotech.ir",
+          "sandbox": "https://sandboxapi.finnotech.ir"
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/finnotech-client-sdk/v/1.1.2",
+            "title": "finnotech-client-sdk 1.1.2 (2023-06-07)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/finnotech-js/v/1.0.0",
+            "title": "finnotech-js 1.0.0 (2024-01-31)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "auth": {
+        "value": "POST /dev/v2/oauth2/token with Basic clientId:secret, body {grant_type: client_credentials, nid, scopes}; then Bearer; the SDK covers only client-credential services",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/finnotech-client-sdk/v/1.1.2",
+            "title": "finnotech-client-sdk 1.1.2 (2023-06-07)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/finnotech-js/v/1.0.0",
+            "title": "finnotech-js 1.0.0 (2024-01-31)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "capabilities": {
+        "card_to_iban": {
+          "endpoint": "GET /facility/v2/clients/{clientId}/cardToIban?trackId=&card=&version=",
+          "params": [
+            "card"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "scope facility:card-to-iban:get"
+        },
+        "iban_inquiry": {
+          "endpoint": "GET /oak/v2/clients/{clientId}/ibanInquiry?trackId=&iban=",
+          "params": [
+            "iban"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "scope oak:iban-inquiry:get"
+        },
+        "deposit_to_iban": {
+          "endpoint": "GET /oak/v2/clients/{clientId}/iban?trackId=&bank=&deposit=",
+          "params": [
+            "bank",
+            "deposit"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "scope oak:deposit-to-iban:get"
+        },
+        "mobile_card_verification": {
+          "endpoint": "POST /kyc/v2/clients/{clientId}/mobileCardVerification?trackId=  body {mobile, card}",
+          "params": [
+            "mobile",
+            "card"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "scope kyc:mobile-card-verification:post; checks that the card belongs to the mobile owner"
+        },
+        "card_information": {
+          "endpoint": "GET /mpg/v2/clients/{clientId}/cards/{card}?trackId=",
+          "params": [
+            "card"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "scope card:information:get"
+        },
+        "card_balance_and_statement": {
+          "endpoint": "POST /oak/v2/clients/{clientId}/card/balance | /card/statement {card, fromDate, toDate}",
+          "params": [
+            "card"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "scopes oak:card-balance:get / oak:card-statement:get; practicality for verifying inbound card-to-card deposits is UNVERIFIED (consent, price, contract)"
+        },
+        "video_kyc": {
+          "endpoint": "POST /kyc/v2/clients/{clientId}/compareLiveVideoWithNationalCard?trackId= (multipart)",
+          "params": [
+            "video",
+            "nationalCard"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "seen in finnotech-js"
+        },
+        "blacklist_inquiry": {
+          "endpoint": "GET /oak/v2/clients/{clientId}/blacklistInquiry?trackId=&nid=",
+          "params": [
+            "nid"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "scope oak:blacklist-inquiry:get; meaning to be verified"
+        },
+        "shahkar": {
+          "endpoint": "(not present in the SDK read)",
+          "params": [
+            "mobile",
+            "nationalCode"
+          ],
+          "price_per_call": {
+            "value": null,
+            "unit": "IRT",
+            "as_of": "2026-10-02",
+            "confidence": "low",
+            "verify_how": "Vendor price list / contract (per-call price in Toman)",
+            "status": "UNVERIFIED",
+            "note": "Price not published in anything read in this run."
+          },
+          "note": "UNVERIFIED; ask Finnotech for the Shahkar scope"
+        }
+      }
+    },
+    "zibal": {
+      "name_fa": "زیبال",
+      "website": "https://zibal.ir",
+      "risk_label": "medium",
+      "restriction_note": "Inquiry (استعلام) services exist per vendor marketing, but no endpoint was verified in this run.",
+      "capabilities": {
+        "all": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "help.zibal.ir inquiry section: card info, IBAN, Shahkar, national identity; prices.",
+          "status": "UNVERIFIED"
+        }
+      }
+    },
+    "vandar": {
+      "name_fa": "وندار",
+      "website": "https://vandar.io",
+      "risk_label": "medium",
+      "restriction_note": "Not verified in this run.",
+      "capabilities": {
+        "all": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "docs.vandar.io: IBAN/card inquiry and Shahkar products, prices.",
+          "status": "UNVERIFIED"
+        }
+      }
+    },
+    "shahkar_direct": {
+      "name_fa": "شاهکار (سازمان تنظیم مقررات و ارتباطات رادیویی)",
+      "risk_label": "medium",
+      "restriction_note": "Direct access is for licensed operators/banks; a startup uses a vendor. Not verified in this run.",
+      "capabilities": {
+        "mobile_national_id_match": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "CRA/ITO Shahkar service description and who may call it; vendor resale terms.",
+          "status": "UNVERIFIED"
+        }
+      }
+    }
+  },
+  "sms_providers": {
+    "kavenegar": {
+      "name_fa": "کاوه‌نگار",
+      "risk_label": "low",
+      "restriction_note": "Pre-approved templates required for pattern/OTP; sender lines are leased.",
+      "base_url": {
+        "value": "https://api.kavenegar.com/v1/{apikey}/",
+        "as_of": "2026-10-02",
+        "confidence": "high",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/@alikhangholi/iran-sms/v/1.0.2",
+            "title": "@alikhangholi/iran-sms 1.0.2 (2026-06-06): Kavenegar / SMS.ir / FarazSMS / Ghasedak",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/kavenegar/v/1.1.4",
+            "title": "kavenegar 1.1.4 (2018-10-06)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "endpoints": {
+        "value": {
+          "send": "POST sms/send.json {sender, receptor (no leading 0), message, date?}",
+          "send_array": "POST sms/sendarray.json",
+          "otp_template": "POST verify/lookup.json {receptor, token, token2?, token3?, template}",
+          "status": "POST sms/status.json {messageid}",
+          "credit": "POST account/info.json -> entries.remaincredit"
+        },
+        "as_of": "2026-10-02",
+        "confidence": "high",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/@alikhangholi/iran-sms/v/1.0.2",
+            "title": "@alikhangholi/iran-sms 1.0.2 (2026-06-06): Kavenegar / SMS.ir / FarazSMS / Ghasedak",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/kavenegar/v/1.1.4",
+            "title": "kavenegar 1.1.4 (2018-10-06)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "response_shape": {
+        "value": {
+          "return": {
+            "status": 200,
+            "message": "str"
+          },
+          "entries": [
+            {
+              "messageid": "int",
+              "status": "int",
+              "statustext": "str",
+              "sender": "str",
+              "receptor": "str",
+              "date": "epoch",
+              "cost": "int"
+            }
+          ]
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/kavenegar/v/1.1.4",
+            "title": "kavenegar 1.1.4 (2018-10-06)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "price_per_sms": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "kavenegar.com price list (service line vs promo line).",
+        "status": "UNVERIFIED"
+      },
+      "otp_rules": {
+        "value": null,
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Kavenegar docs: template approval, line types, rate limits.",
+        "status": "UNVERIFIED"
+      }
+    },
+    "smsir": {
+      "name_fa": "اس‌ام‌اس‌دات‌آی‌آر",
+      "risk_label": "low",
+      "restriction_note": "API key header; template id numeric.",
+      "base_url": {
+        "value": "https://api.sms.ir/v1/",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/@alikhangholi/iran-sms/v/1.0.2",
+            "title": "@alikhangholi/iran-sms 1.0.2 (2026-06-06): Kavenegar / SMS.ir / FarazSMS / Ghasedak",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "endpoints": {
+        "value": {
+          "send_bulk": "POST send/bulk {lineNumber, messageText, mobiles[], sendDateTime?}",
+          "otp_template": "POST send/verify {mobile, templateId, parameters:[{name,value}]}",
+          "status": "GET send/{messageId}",
+          "credit": "GET credit"
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/@alikhangholi/iran-sms/v/1.0.2",
+            "title": "@alikhangholi/iran-sms 1.0.2 (2026-06-06): Kavenegar / SMS.ir / FarazSMS / Ghasedak",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported",
+        "note": "Header X-API-KEY"
+      },
+      "price_per_sms": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "sms.ir price list.",
+        "status": "UNVERIFIED"
+      }
+    },
+    "ghasedak": {
+      "name_fa": "قاصدک",
+      "risk_label": "low",
+      "restriction_note": "ApiKey header.",
+      "base_url": {
+        "value": "https://gateway.ghasedak.me/rest/api/v1/WebService/",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/@alikhangholi/iran-sms/v/1.0.2",
+            "title": "@alikhangholi/iran-sms 1.0.2 (2026-06-06): Kavenegar / SMS.ir / FarazSMS / Ghasedak",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "endpoints": {
+        "value": {
+          "send_single": "POST SendSingleSMS {lineNumber, receptor, message, sendDate?}",
+          "send_bulk": "POST SendBulkSMS {lineNumber, receptors[], message}",
+          "otp_template": "POST SendOTPSMS {receptor, type:1, template, param1..param3}",
+          "status": "POST GetDeliveries2 {Id:[..]}",
+          "credit": "GET GetCredit (unit: SMS count)"
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/@alikhangholi/iran-sms/v/1.0.2",
+            "title": "@alikhangholi/iran-sms 1.0.2 (2026-06-06): Kavenegar / SMS.ir / FarazSMS / Ghasedak",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "price_per_sms": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "ghasedak.me price list.",
+        "status": "UNVERIFIED"
+      }
+    },
+    "farazsms_ippanel": {
+      "name_fa": "فرازاس‌ام‌اس / آی‌پی‌پنل",
+      "risk_label": "low",
+      "restriction_note": "Username + password method API (+98 phone format).",
+      "base_url": {
+        "value": "https://ippanel.com/api/select",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/@alikhangholi/iran-sms/v/1.0.2",
+            "title": "@alikhangholi/iran-sms 1.0.2 (2026-06-06): Kavenegar / SMS.ir / FarazSMS / Ghasedak",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "price_per_sms": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "farazsms.com price list.",
+        "status": "UNVERIFIED"
+      }
+    },
+    "melipayamak": {
+      "name_fa": "ملی‌پیامک",
+      "risk_label": "low",
+      "restriction_note": "Username + password; REST and SOAP.",
+      "endpoints": {
+        "value": {
+          "rest": "https://rest.payamak-panel.com/api/SendSMS/",
+          "soap_wsdl_base": "http://api.payamak-panel.com/post/ (Actions/Tickets/contacts/users .asmx?wsdl)"
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://pypi.org/project/melipayamak/1.0.1/",
+            "title": "melipayamak 1.0.1 (2024-11-16) + npm melipayamak-api-ts 2.0.3",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "price_per_sms": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "melipayamak.com price list.",
+        "status": "UNVERIFIED"
+      }
+    },
+    "otp_design_defaults": {
+      "_note": "Design defaults for the owner to change, not market facts.",
+      "code_digits": {
+        "value": 6,
+        "unit": "digits",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "status": "UNVERIFIED",
+        "note": "design default"
+      },
+      "ttl": {
+        "value": 120,
+        "unit": "seconds",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "status": "UNVERIFIED",
+        "note": "design default"
+      },
+      "max_attempts": {
+        "value": 5,
+        "unit": "attempts",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "status": "UNVERIFIED",
+        "note": "design default"
+      },
+      "resend_cooldown": {
+        "value": 60,
+        "unit": "seconds",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "status": "UNVERIFIED",
+        "note": "design default"
+      },
+      "provider_failover": "keep two SMS providers behind one SmsProvider interface (send, sendPattern, getStatus, getCredit)"
+    }
+  },
+  "einvoice_moadian": {
+    "name_fa": "سامانه مودیان",
+    "risk_label": "medium",
+    "restriction_note": "Legal obligation, thresholds and penalties are NOT verified in this run (see open questions). Technical contract below is from third-party SDKs.",
+    "who_must_use_and_thresholds": {
+      "value": null,
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "intamedia.ir (organisation portal), tax.gov.ir, the 'Law on Store Terminals and Moadian System' and the phase announcements; ask the accountant (04-legal).",
+      "status": "UNVERIFIED",
+      "note": "Not retrieved."
+    },
+    "penalties": {
+      "value": null,
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "Same sources as above (Direct Taxes Act provisions on e-invoice non-issuance).",
+      "status": "UNVERIFIED"
+    },
+    "vat_rate": {
+      "value": null,
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "04-legal-tax-compliance-ir owns the VAT rate for 1405.",
+      "status": "UNVERIFIED"
+    },
+    "api": {
+      "base_urls": {
+        "value": {
+          "production": "https://tp.tax.gov.ir/req/api/{self-tsp|tsp}/sync/{PURPOSE} and .../async/normal-enqueue",
+          "sandbox": "https://sandboxrc.tax.gov.ir/req/api/{type}/sync/{PURPOSE}",
+          "requests_manager": "https://tp.tax.gov.ir/requestsmanager/api/v2"
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/moadian/v/1.0.5",
+            "title": "moadian 1.0.5 (2025-07-19)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/taxapi/v/1.1.0",
+            "title": "taxapi 1.1.0 (2024-06-02)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "iranian_ip_required": {
+        "value": "taxapi README: make sure you reach the tax API from an Iranian IP address",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/taxapi/v/1.1.0",
+            "title": "taxapi 1.1.0 (2024-06-02)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported",
+        "note": "Architecture implication: the e-invoice adapter likely has to run on Iranian infrastructure."
+      },
+      "credentials": {
+        "value": [
+          "fiscal ID (tax memory ID)",
+          "private key (+ certificate)",
+          "economic code"
+        ],
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/moadian/v/1.0.5",
+            "title": "moadian 1.0.5 (2025-07-19)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/taxapi/v/1.1.0",
+            "title": "taxapi 1.1.0 (2024-06-02)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "flow": {
+        "value": "GET_TOKEN (signed) -> GET_SERVER_INFORMATION (public keys) -> invoice packet signed (JWS) and encrypted (JWE) -> async normal-enqueue -> INQUIRY_BY_UID until SUCCESS|FAILED|PENDING|IN_PROGRESS",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/moadian/v/1.0.5",
+            "title": "moadian 1.0.5 (2025-07-19)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/taxapi/v/1.1.0",
+            "title": "taxapi 1.1.0 (2024-06-02)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "invoice_fields_seen": {
+        "value": {
+          "header": [
+            "taxid",
+            "inno",
+            "indatim",
+            "inty (1|2|3)",
+            "ins",
+            "inp",
+            "tins",
+            "tob",
+            "bid",
+            "tinb",
+            "tprdis",
+            "tdis",
+            "tadis",
+            "tvam",
+            "tbill",
+            "setm"
+          ],
+          "body": [
+            "sstid",
+            "sstt",
+            "mu",
+            "am",
+            "fee",
+            "prdis",
+            "dis",
+            "adis",
+            "vra",
+            "vam",
+            "tsstam"
+          ]
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/moadian/v/1.0.5",
+            "title": "moadian 1.0.5 (2025-07-19)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "fiscal_info": {
+        "value": "GET_FISCAL_INFORMATION returns economicCode, fiscalStatus, nameTrade, saleThreshold",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/taxapi/v/1.1.0",
+            "title": "taxapi 1.1.0 (2024-06-02)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      }
+    },
+    "third_party_providers": {
+      "value": null,
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "Moadian-capable accounting/TSP vendors; confirm per vendor.",
+      "status": "UNVERIFIED",
+      "note": "Names of accounting vendors appeared in tax-advice search results but their Moadian support was not checked."
+    }
+  }
+}

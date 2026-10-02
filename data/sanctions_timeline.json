@@ -1,0 +1,1523 @@
+{
+  "meta": {
+    "title": "Sanctions & enforcement timeline - Iran-linked digital assets (2023-12 to 2026-10-02)",
+    "owner_agent": "05-sanctions-counterparty-risk",
+    "as_of": "2026-10-02",
+    "status_semantics": {
+      "verified": ">=3 independent sources incl. a primary cue (Treasury/OFAC title, FAQ) or the affected parties' own statements",
+      "reported": "1-2 sources or only secondary summaries; date/amount imprecise",
+      "conflicting": "sources disagree on a material fact; see adjudication"
+    },
+    "how_to_use": "Simulator: events with sim_hook map to scenario event types (ofac_exchange_designation, tether_mass_freeze, sanctions_wave, tether_policy_tightening, exchange_hack, war_escalation). Ops: 'entities' is the allow/deny source for USDT-source selection; refresh monthly from OFAC Recent Actions.",
+    "evidence_limits": "29 web searches (summaries only). WebFetch blocked for treasury.gov, ofac.treasury.gov, trmlabs, elliptic, chainalysis, scorechain, coindesk, theblock, blocksec, zoomit, law-firm sites; the session-wide WebSearch budget was exhausted. Only S34 was read directly. No page was archived.",
+    "coverage_gaps": [
+      "2024 and most of 2025 OFAC Iran-crypto actions were not retrievable in this run",
+      "Exact April-2026 CBI action day",
+      "Whether OFAC published exchange wallet addresses on the SDN list",
+      "Any wind-down general licence for the designated exchanges",
+      "Treasury press-release full texts (sb0519, sb0644, 2026-08-07, 2026-09-17)"
+    ],
+    "not_legal_advice": "Compliance analysis only; confirm with a licensed sanctions/Iranian-law professional (CLAUDE.md s3.4)."
+  },
+  "events": [
+    {
+      "id": "SE-2023-12-TETHER-SDN-POLICY",
+      "date": "2023-12-01",
+      "date_jalali": "1402-09",
+      "date_precision": "month",
+      "title": "Tether adopts policy to freeze any address on the OFAC SDN list without a law-enforcement request",
+      "kind": "policy",
+      "actor": "Tether",
+      "status": "reported",
+      "confidence": "medium",
+      "authority": [],
+      "targets": [
+        {
+          "name": "Tether USDT (issuer policy)",
+          "type": "stablecoin_issuer",
+          "designation": "n/a"
+        }
+      ],
+      "summary": "Per two search summaries (ForkLog, AMLCrypto), since December 2023 Tether proactively freezes any address appearing on the OFAC SDN digital-currency list.",
+      "adjudication": "Two independent outlets summarised; exact announcement date not seen. Treated as: every OFAC-listed USDT address will be frozen, typically within hours (multisig delay example: 44 minutes on Tron).",
+      "impact_on_reseller": "Any USDT address that OFAC lists is effectively dead for USDT within hours. Funds that touch it afterwards risk contagion screening at providers.",
+      "sim_hook": "tether_auto_freeze_on_sdn_listing",
+      "facts": {
+        "freeze_latency_example_minutes": {
+          "value": 44,
+          "unit": "minutes",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://cointelegraph.com/news/tether-blacklist-delay-allowed-78-million-usdt-move",
+              "title": "[S30] Cointelegraph - Tether blacklist delay allowed $78M in illicit USDT transfers (AMLBot); also Decrypt",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "single Tron example from AMLBot study; real latency varies"
+        }
+      },
+      "sources": [
+        {
+          "url": "https://forklog.com/en/tether-to-block-payments-evading-sanctions/amp",
+          "title": "[S31] ForkLog - Tether to block USDT on sanctioned wallets (policy since Dec-2023); also AMLCrypto",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://cointelegraph.com/news/tether-blacklist-delay-allowed-78-million-usdt-move",
+          "title": "[S30] Cointelegraph - Tether blacklist delay allowed $78M in illicit USDT transfers (AMLBot); also Decrypt",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2025-NBCTF-187",
+      "date": "2025-01-01",
+      "date_jalali": "1404",
+      "date_precision": "year",
+      "title": "Israel orders seizure of 187 crypto wallets it links to the IRGC; Tether blacklists 39 of them (~$1.5M)",
+      "kind": "freeze",
+      "actor": "Israel National Bureau for Counter Terror Financing (NBCTF)",
+      "status": "reported",
+      "confidence": "low",
+      "authority": [],
+      "targets": [
+        {
+          "name": "187 IRGC-linked wallets",
+          "type": "wallets",
+          "designation": "seizure_order"
+        }
+      ],
+      "summary": "Elliptic reported the wallets had received about $1.5bn of Tether historically; when Tether blacklisted 39 following the Israeli designation it froze only ~$1.5M.",
+      "adjudication": "Single Reuters relay via TradingView per search summary; exact date unknown (2025). Shows that non-US listings produce far smaller freezes than OFAC listings.",
+      "impact_on_reseller": "Freeze coverage depends on the listing authority: OFAC listings are acted on by Tether; others partially.",
+      "sim_hook": null,
+      "facts": {},
+      "sources": [
+        {
+          "url": "https://coinedition.com/tether-freezes-usdt-wallets-iran-sanctions-fear/",
+          "title": "[S40] CoinEdition - Tether freezes 112 Iran-linked wallets (single analyst, low confidence); Reuters via TradingView: Israel NBCTF 187 wallets",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2025-TETHER-112",
+      "date": "2025-06-01",
+      "date_jalali": "1404-03",
+      "date_precision": "month",
+      "title": "Reported: Tether froze 112 Iran-linked wallets (~$700M) after the June-2025 conflict",
+      "kind": "freeze",
+      "actor": "Tether",
+      "status": "conflicting",
+      "confidence": "low",
+      "authority": [],
+      "targets": [
+        {
+          "name": "112 Iran-linked wallets (Tron/Ethereum)",
+          "type": "wallets",
+          "designation": "tether_blacklist"
+        }
+      ],
+      "summary": "CoinEdition (relaying one analyst) says 112 wallets holding ~700M USDT were frozen; the figure is large relative to BlockSec's total of $1.26bn frozen in all of 2025.",
+      "adjudication": "CONFLICT: single-analyst source; not corroborated by BlockSec's annual total or by Tether's 2026 Iran statement. Use as 'possible', do not feed the simulator. Confidence low.",
+      "impact_on_reseller": "None directly; illustrates opacity of freeze volumes.",
+      "sim_hook": null,
+      "facts": {},
+      "sources": [
+        {
+          "url": "https://coinedition.com/tether-freezes-usdt-wallets-iran-sanctions-fear/",
+          "title": "[S40] CoinEdition - Tether freezes 112 Iran-linked wallets (single analyst, low confidence); Reuters via TradingView: Israel NBCTF 187 wallets",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://blocksec.com/blog/1-26-billion-frozen-usdt-blacklisting-on-ethereum-and-tron-in-2025",
+          "title": "[S29] BlockSec - USDT Blacklisting in 2025: $1.26B Frozen on Ethereum & Tron; also usdt-blacklist-explained-2026, Cointelegraph, crypto.news",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2025-06-18-NOBITEX-HACK",
+      "date": "2025-06-18",
+      "date_jalali": "1404-03-28",
+      "date_precision": "day",
+      "title": "Nobitex hacked; ~$90M (up to $100M) moved to vanity burn addresses; app and website taken down",
+      "kind": "incident",
+      "actor": "Predatory Sparrow (Gonjeshke Darande) - self-claimed",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [],
+      "targets": [
+        {
+          "name": "Nobitex",
+          "type": "exchange",
+          "designation": "victim",
+          "name_fa": "نوبیتکس"
+        }
+      ],
+      "summary": "Politically motivated attack during the June-2025 Iran-Israel conflict; funds were sent to unspendable 'burn' addresses rather than kept, so they are destroyed, not recoverable. Service was offline while the exchange assessed 'unauthorized access'.",
+      "adjudication": "Reported consistently by Fortune, PBS, Crowdfund Insider, Scorechain, Bitdefender (per summaries). Restoration timeline NOT found in any summary -> UNVERIFIED.",
+      "impact_on_reseller": "Demonstrates (a) state-level cyber risk to Iranian exchanges, (b) that balances on an exchange can vanish in hours, (c) exchange downtime of at least days. Cap exchange balances.",
+      "sim_hook": "exchange_hack",
+      "facts": {
+        "loss_usd": {
+          "value": 90000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://fortune.com/crypto/2025/06/18/nobitex-gonjeshke-darande-predatory-sparrow-iran-israel-hack",
+              "title": "[S33] Fortune - Nobitex / Predatory Sparrow hack (2025-06-18); also PBS, Crowdfund Insider, Scorechain, Bitdefender",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "up to ~100M per some outlets"
+        },
+        "restoration_time_days": {
+          "value": null,
+          "unit": "days",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Nobitex status posts / Persian news 28 Khordad - Tir 1404; ask the exchange",
+          "status": "UNVERIFIED"
+        }
+      },
+      "sources": [
+        {
+          "url": "https://fortune.com/crypto/2025/06/18/nobitex-gonjeshke-darande-predatory-sparrow-iran-israel-hack",
+          "title": "[S33] Fortune - Nobitex / Predatory Sparrow hack (2025-06-18); also PBS, Crowdfund Insider, Scorechain, Bitdefender",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-01-30-ZEDCEX-ZEDXION",
+      "date": "2026-01-30",
+      "date_jalali": "1404-11-10",
+      "date_precision": "day",
+      "title": "OFAC designates UK-registered exchanges Zedcex Exchange Ltd and Zedxion Exchange Ltd, financier Babak Zanjani and 7 Iranian individuals",
+      "kind": "designation",
+      "actor": "OFAC (U.S. Treasury)",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [
+        "E.O. 13902 (Iran financial sector)"
+      ],
+      "targets": [
+        {
+          "name": "Zedcex Exchange Ltd",
+          "type": "exchange",
+          "designation": "SDN",
+          "country": "UK (registered 2022-08)"
+        },
+        {
+          "name": "Zedxion Exchange Ltd",
+          "type": "exchange",
+          "designation": "SDN",
+          "country": "UK"
+        },
+        {
+          "name": "Babak Morteza Zanjani",
+          "type": "person",
+          "designation": "SDN"
+        },
+        {
+          "name": "7 Iranian individuals (6 IRGC-linked)",
+          "type": "person",
+          "designation": "SDN"
+        }
+      ],
+      "summary": "First-ever OFAC designation of digital-asset exchanges for operating in Iran's financial sector. TRM linked the platforms to ~US$1bn of IRGC-associated stablecoin flows.",
+      "adjudication": "Date: one summary says '2025-01-30' (typo); CoinDesk URL date 2026-01-31 and all other sources fix it at 2026-01-30. Volume claim conflicts: '$94 billion' (English summary) vs '$94 million' (Zoomit, fa) -> unresolved, immaterial for pricing. NOT the same event as 2026-06-02.",
+      "impact_on_reseller": "Set the precedent that exchanges (not only individuals) are designable under E.O. 13902; triggered the Persian 'rumour' cycle (see next event).",
+      "sim_hook": "ofac_exchange_designation",
+      "facts": {
+        "zedcex_processed_volume": {
+          "value": null,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.elliptic.co/insights/ofac-sanctions-exchanges-zedcex-and-zedxion-for-assisting-in-iranian-sanctions-evasion-and-irgc-operations/",
+              "title": "[S12] Elliptic - OFAC sanctions exchanges Zedcex and Zedxion",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://www.zoomit.ir/iran-news/456187-nobitex-denied-banning-by-usa/",
+              "title": "[S15] Zoomit - Nobitex notice: the US sanctions news concerns two exchanges, Zedcex and Zedxion (fa)",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "verify_how": "Read Treasury press release of 2026-01-30 (Recent Actions) and the Elliptic/TRM posts",
+          "status": "conflicting",
+          "note": "$94 billion (English summary) vs $94 million (Zoomit); TRM: ~$1bn IRGC-linked"
+        },
+        "irgc_linked_stablecoin_flows_usd": {
+          "value": 1000000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.trmlabs.com/resources/blog/ofac-sanctions-zedcex-and-zedxion-in-first-ever-designation-of-an-irgc-linked-digital-asset-exchange",
+              "title": "[S13] TRM Labs - OFAC Sanctions Zedcex and Zedxion in First-ever Designation of an IRGC-linked Digital Asset Exchange",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "TRM estimate, approximate"
+        }
+      },
+      "sources": [
+        {
+          "url": "https://cointelegraph.com/news/us-treasury-sanctions-iran-linked-crypto-exchanges-first-time",
+          "title": "[S10] Cointelegraph - US Treasury Sanctions Iran-Linked Crypto Exchanges for First Time",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/policy/2026/01/31/u-s-imposes-sanctions-on-crypto-exchanges-tied-to-iran-for-first-time",
+          "title": "[S11] CoinDesk - U.S. sanctions crypto exchanges tied to Iran for first time (2026-01-31)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.elliptic.co/insights/ofac-sanctions-exchanges-zedcex-and-zedxion-for-assisting-in-iranian-sanctions-evasion-and-irgc-operations/",
+          "title": "[S12] Elliptic - OFAC sanctions exchanges Zedcex and Zedxion",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.trmlabs.com/resources/blog/ofac-sanctions-zedcex-and-zedxion-in-first-ever-designation-of-an-irgc-linked-digital-asset-exchange",
+          "title": "[S13] TRM Labs - OFAC Sanctions Zedcex and Zedxion in First-ever Designation of an IRGC-linked Digital Asset Exchange",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.chainalysis.com/blog/ofac-designates-iranian-crypto-exchanges-january-2026/",
+          "title": "[S14] Chainalysis - OFAC Designates Iranian-Linked Crypto Exchanges (January 2026)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.zoomit.ir/iran-news/456187-nobitex-denied-banning-by-usa/",
+          "title": "[S15] Zoomit - Nobitex notice: the US sanctions news concerns two exchanges, Zedcex and Zedxion (fa)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-02-RUMOUR-DENIALS",
+      "date": "2026-02-01",
+      "date_jalali": "1404-11-12",
+      "date_precision": "approx",
+      "title": "Iranian exchanges and outlets deny that Iranian exchanges were sanctioned: the news concerned only Zedcex and Zedxion",
+      "kind": "statement",
+      "actor": "Nobitex, OMPFinex, Zoomit, Way2Pay (Iranian media/exchanges)",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [],
+      "targets": [
+        {
+          "name": "Nobitex statement",
+          "type": "statement",
+          "designation": "n/a",
+          "name_fa": "اطلاعیه نوبیتکس"
+        }
+      ],
+      "summary": "Nobitex said claims of sanctions on Iranian exchanges had no basis and stemmed from the OFAC listing of two UK-registered firms; Zoomit's fact-check agreed that no domestically operating exchange was on the list at that time.",
+      "adjudication": "CORRECT AT THE TIME (January). This is the 'rumour about two foreign firms' the brief refers to. It does not contradict the 2026-06-02 designation, which is a different, later action. Exact post dates inferred from article ordering (Zoomit ids 456181/456187 precede 460670) -> approximate.",
+      "impact_on_reseller": "Lesson: Persian-language denials are time-stamped claims; re-check the OFAC list rather than trusting a prior denial.",
+      "sim_hook": null,
+      "facts": {},
+      "sources": [
+        {
+          "url": "https://www.zoomit.ir/iran-news/456187-nobitex-denied-banning-by-usa/",
+          "title": "[S15] Zoomit - Nobitex notice: the US sanctions news concerns two exchanges, Zedcex and Zedxion (fa)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.ompfinex.com/blog/truth-about-iran-crypto-exchange-sanctions",
+          "title": "[S16] OMPFinex - rumour of sanctions on Iranian crypto exchanges: what is the truth (fa)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://way2pay.ir/497871/",
+          "title": "[S17] Way2Pay - Nobitex denied sanctions on crypto exchanges (fa)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://nobitex.ir/mag/nobitex-sanction/",
+          "title": "[S18] Nobitex Mag - sanction clarification on user-asset security (fa)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-04-CBI-344M",
+      "date": "2026-04-15",
+      "date_jalali": "1405-01-26",
+      "date_precision": "month",
+      "title": "Tether helps freeze >$344M USDT in two wallets; OFAC lists the same wallets as Central Bank of Iran digital-currency addresses the next day",
+      "kind": "freeze",
+      "actor": "Tether + OFAC",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [
+        "E.O. 13902 / CBI SDN identifiers"
+      ],
+      "targets": [
+        {
+          "name": "Central Bank of Iran (2 USDT wallets)",
+          "type": "wallets",
+          "designation": "SDN identifiers",
+          "name_fa": "بانک مرکزی ایران"
+        }
+      ],
+      "summary": "Sequence matters: the freeze happened first and OFAC's listing followed the next day (TRM, Chainalysis). Exact day in April not seen in the summaries (15th used as a placeholder).",
+      "adjudication": "Date precision: month only. Amount >$344M consistent across TRM, Chainalysis and later Tether statement.",
+      "impact_on_reseller": "Shows OFAC/Tether can freeze nine-figure USDT sums on Tron within a day; the central bank itself held USDT to support the rial (Elliptic: >= $507M accumulated).",
+      "sim_hook": "tether_mass_freeze",
+      "facts": {
+        "usd_frozen": {
+          "value": 344000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.trmlabs.com/resources/blog/ofac-sanctions-crypto-addresses-associated-with-the-central-bank-of-iran-freezes-usd-344-million",
+              "title": "[S21] TRM Labs - OFAC Sanctions Crypto Addresses Associated with the Central Bank of Iran, Freezes USD 344 Million",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://www.chainalysis.com/blog/central-bank-of-iran-designation-ofac-update-april-2026/",
+              "title": "[S22] Chainalysis - OFAC Updates Central Bank of Iran Designation Following Tether Seizure (April 2026)",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://thedefiant.io/news/regulation/tether-says-it-helped-freeze-nearly-550-million-in-iran-linked-usdt",
+              "title": "[S24] The Defiant - Tether says it helped freeze nearly $550M in Iran-linked USDT (also CryptoTicker, Coinpedia, Cryptonomist, KuCoin News)",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "'more than'"
+        }
+      },
+      "sources": [
+        {
+          "url": "https://www.trmlabs.com/resources/blog/ofac-sanctions-crypto-addresses-associated-with-the-central-bank-of-iran-freezes-usd-344-million",
+          "title": "[S21] TRM Labs - OFAC Sanctions Crypto Addresses Associated with the Central Bank of Iran, Freezes USD 344 Million",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.chainalysis.com/blog/central-bank-of-iran-designation-ofac-update-april-2026/",
+          "title": "[S22] Chainalysis - OFAC Updates Central Bank of Iran Designation Following Tether Seizure (April 2026)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://thedefiant.io/news/regulation/tether-says-it-helped-freeze-nearly-550-million-in-iran-linked-usdt",
+          "title": "[S24] The Defiant - Tether says it helped freeze nearly $550M in Iran-linked USDT (also CryptoTicker, Coinpedia, Cryptonomist, KuCoin News)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-06-02-FOUR-EXCHANGES",
+      "date": "2026-06-02",
+      "date_jalali": "1405-03-12",
+      "date_precision": "day",
+      "title": "OFAC designates Nobitex, Wallex, Bitpin and Ramzinex plus four Nobitex leaders",
+      "kind": "designation",
+      "actor": "OFAC (U.S. Treasury) - 'Economic Fury'",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [
+        "E.O. 13902 (Iran financial sector)",
+        "E.O. 13224 (counter-terrorism)"
+      ],
+      "targets": [
+        {
+          "name": "Nobitex",
+          "type": "exchange",
+          "designation": "SDN",
+          "name_fa": "نوبیتکس"
+        },
+        {
+          "name": "Wallex",
+          "type": "exchange",
+          "designation": "SDN",
+          "name_fa": "والکس"
+        },
+        {
+          "name": "Bitpin",
+          "type": "exchange",
+          "designation": "SDN",
+          "name_fa": "بیت‌پین"
+        },
+        {
+          "name": "Ramzinex",
+          "type": "exchange",
+          "designation": "SDN",
+          "name_fa": "رمزینکس"
+        },
+        {
+          "name": "Amir Hossein Rad (chairman, co-founder, former CEO)",
+          "type": "person",
+          "designation": "SDN"
+        },
+        {
+          "name": "Seyed Ali Khoee (current CEO)",
+          "type": "person",
+          "designation": "SDN"
+        },
+        {
+          "name": "Ali Kharrazi (also rendered Aghamir) - co-founder",
+          "type": "person",
+          "designation": "SDN"
+        },
+        {
+          "name": "Mohammad Kharrazi (also rendered Aghamir) - co-founder",
+          "type": "person",
+          "designation": "SDN"
+        }
+      ],
+      "summary": "Treasury press release sb0519 ('Economic Fury Targets Iran's Largest Digital Asset Exchange for Terror Finance and Sanctions Evasion'). Nobitex >50% of Iranian digital-asset inflows in 2025; Wallex 12%; Bitpin ~10%; Ramzinex >$2.45bn processed since 2018. The four = ~$7.7bn = 78% of attributed Iranian crypto volume in 2025 (TRM). Elliptic: >= $40bn sent/received.",
+      "adjudication": "REAL - confidence high (~97%). Evidence ladder: (1) Treasury press-release title/URL sb0519 and @USTreasury post surfaced by search; (2) OFAC FAQ 1257 names Nobitex, Wallex, Bitpin, Ramzinex (and Aban Tether) as designated under E.O. 13902; (3) six independent analytics/compliance firms (TRM, Chainalysis, Elliptic, Scorechain, Crystal, Global Ledger) and law-firm alerts; (4) wire/news: The Block, Cointelegraph, The National, IranWire, Iran International, Radio Farda, Euronews Persian, TGJU; (5) the four exchanges' own statements acknowledging the listing while saying services continue. The January 'rumour' denials concern a different event. Not directly seen: full press-release text, SDN entries, any published wallet addresses.",
+      "impact_on_reseller": "The four largest domestic exchanges are SDNs: USDT withdrawn from them to any provider with screening is direct SDN exposure. Non-US persons dealing with them face designation risk per FAQ 1257; stablecoin issuers have a legal basis for bulk freezes.",
+      "sim_hook": "ofac_exchange_designation",
+      "facts": {
+        "share_of_iran_attributed_volume_2025_pct": {
+          "value": 78,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.trmlabs.com/resources/blog/three-enforcement-layers-in-five-months-ofac-designates-irans-domestic-crypto-exchanges",
+              "title": "[S1] TRM Labs - Three Enforcement Layers in Five Months: OFAC Designates Iran's Domestic Crypto Exchanges",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "~USD 7.7bn; one cluster of summaries"
+        },
+        "nobitex_share_of_inflows_2025_pct": {
+          "value": 50,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.trmlabs.com/resources/blog/three-enforcement-layers-in-five-months-ofac-designates-irans-domestic-crypto-exchanges",
+              "title": "[S1] TRM Labs - Three Enforcement Layers in Five Months: OFAC Designates Iran's Domestic Crypto Exchanges",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://www.scorechain.com/blog/ofac-iran-crypto-sanctions-june-2026",
+              "title": "[S3] Scorechain - OFAC Sanctions Iran's Four Largest Crypto Exchanges",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://www.chainalysis.com/blog/ofac-sanctions-iranian-crypto-exchanges-june-2026/",
+              "title": "[S4] Chainalysis - OFAC Sanctions Nobitex and Iranian Cryptocurrency Exchanges",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
+              "title": "[S5] Elliptic - OFAC sanctions Nobitex and three other Iranian cryptoasset exchanges",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://www.theblock.co/post/403436/us-sanctions-nobitex-iranian-crypto-exchanges-economic-fury-campaign",
+              "title": "[S9] The Block - US sanctions Nobitex and other Iranian crypto exchanges under 'Economic Fury' campaign",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "'more than 50%' per Treasury as relayed"
+        },
+        "wallex_share_pct": {
+          "value": 12,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
+              "title": "[S5] Elliptic - OFAC sanctions Nobitex and three other Iranian cryptoasset exchanges",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://www.theblock.co/post/403436/us-sanctions-nobitex-iranian-crypto-exchanges-economic-fury-campaign",
+              "title": "[S9] The Block - US sanctions Nobitex and other Iranian crypto exchanges under 'Economic Fury' campaign",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ]
+        },
+        "bitpin_share_pct": {
+          "value": 10,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.theblock.co/post/403436/us-sanctions-nobitex-iranian-crypto-exchanges-economic-fury-campaign",
+              "title": "[S9] The Block - US sanctions Nobitex and other Iranian crypto exchanges under 'Economic Fury' campaign",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://www.iranintl.com/202606022403",
+              "title": "[S20] Iran International - US sanctions Nobitex and three other Iranian exchanges (fa/en); also Radio Farda, Euronews Persian, TGJU, IranWire, The National",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "approximately"
+        },
+        "ramzinex_processed_usd": {
+          "value": 2450000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.theblock.co/post/403436/us-sanctions-nobitex-iranian-crypto-exchanges-economic-fury-campaign",
+              "title": "[S9] The Block - US sanctions Nobitex and other Iranian crypto exchanges under 'Economic Fury' campaign",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "'more than $2.45bn since 2018'"
+        },
+        "elliptic_exchange_flows_usd": {
+          "value": 40000000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
+              "title": "[S5] Elliptic - OFAC sanctions Nobitex and three other Iranian cryptoasset exchanges",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "'at least $40bn' sent or received"
+        },
+        "published_wallet_addresses": {
+          "value": null,
+          "unit": "count",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Search OFAC SDN list (sanctionslist.ofac.treas.gov) for 'Digital Currency Address' entries under each entity/individual",
+          "status": "UNVERIFIED"
+        }
+      },
+      "sources": [
+        {
+          "url": "https://www.trmlabs.com/resources/blog/three-enforcement-layers-in-five-months-ofac-designates-irans-domestic-crypto-exchanges",
+          "title": "[S1] TRM Labs - Three Enforcement Layers in Five Months: OFAC Designates Iran's Domestic Crypto Exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://crystalintelligence.com/sanctions/crypto-sanctions-screening-ofac-targets-iran-exchanges/",
+          "title": "[S2] Crystal Intelligence - Crypto sanctions screening: OFAC targets Iran exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.scorechain.com/blog/ofac-iran-crypto-sanctions-june-2026",
+          "title": "[S3] Scorechain - OFAC Sanctions Iran's Four Largest Crypto Exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.chainalysis.com/blog/ofac-sanctions-iranian-crypto-exchanges-june-2026/",
+          "title": "[S4] Chainalysis - OFAC Sanctions Nobitex and Iranian Cryptocurrency Exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
+          "title": "[S5] Elliptic - OFAC sanctions Nobitex and three other Iranian cryptoasset exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://home.treasury.gov/news/press-releases/sb0519",
+          "title": "[S6] U.S. Treasury press release sb0519 - Economic Fury Targets Iran's Largest Digital Asset Exchange for Terror Finance and Sanctions Evasion",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://x.com/USTreasury/status/2061898713916948560",
+          "title": "[S7] @USTreasury post announcing the 2026-06-02 designations",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://ofac.treasury.gov/faqs/1257",
+          "title": "[S8] OFAC FAQ 1257 - E.O. 13902 digital asset exchanges / non-U.S. person exposure",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.theblock.co/post/403436/us-sanctions-nobitex-iranian-crypto-exchanges-economic-fury-campaign",
+          "title": "[S9] The Block - US sanctions Nobitex and other Iranian crypto exchanges under 'Economic Fury' campaign",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.iranintl.com/202606022403",
+          "title": "[S20] Iran International - US sanctions Nobitex and three other Iranian exchanges (fa/en); also Radio Farda, Euronews Persian, TGJU, IranWire, The National",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://blog.globalledger.io/research-investigations/ofac-nobitex-iranian-crypto-exchanges",
+          "title": "[S43] Global Ledger compliance brief; also transnetinc.com compliance guide, sanctionslawyers.net, Crystal 'Crypto use in Iran'",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-06-03-EXCHANGE-STATEMENTS",
+      "date": "2026-06-03",
+      "date_jalali": "1405-03-13",
+      "date_precision": "approx",
+      "title": "The four exchanges state that user assets are safe and services continue",
+      "kind": "statement",
+      "actor": "Nobitex, Bitpin, Wallex, Ramzinex",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [],
+      "targets": [
+        {
+          "name": "Exchange statements",
+          "type": "statement",
+          "designation": "n/a"
+        }
+      ],
+      "summary": "Nobitex: sanctions scenarios were foreseen for years; assets kept per its security procedures. Bitpin: deposits, withdrawals and markets operate as usual; the listing concerns the companies' legal structure. Wallex: private independent company. A joint 'guarantee of asset security and service continuity' was reported by Bankavl.",
+      "adjudication": "Statements are self-interested; they confirm the designation (no denial this time) but are not evidence about solvency or about third-party treatment of withdrawals. Persian community posts report account/wallet restrictions after moving funds to other wallets and foreign exchanges (low confidence).",
+      "impact_on_reseller": "Do not rely on exchange assurances; counterparties abroad apply their own screening.",
+      "sim_hook": null,
+      "facts": {},
+      "sources": [
+        {
+          "url": "https://www.zoomit.ir/iran-news/460670-crypto%20platform-statement-on-new-sanctions/",
+          "title": "[S19] Zoomit - statement of the sanctioned crypto platforms: user assets safe (fa); also Digiato / Iranbroker copies",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://crypto.news/iran-crypto-giant-nobitex-hit-by-sanctions-questions-reuters/",
+          "title": "[S38] crypto.news relaying Reuters - Nobitex kept processing during internet shutdown; also Yahoo Finance '700% crypto outflows'",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-07-16-CBI-131M",
+      "date": "2026-07-16",
+      "date_jalali": "1405-04-25",
+      "date_precision": "day",
+      "title": "OFAC adds four more Central Bank of Iran wallets; Tether freezes $131M (Tron addresses that previously held >$165M)",
+      "kind": "freeze",
+      "actor": "OFAC + Tether",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [
+        "E.O. 13902 / CBI SDN identifiers"
+      ],
+      "targets": [
+        {
+          "name": "Central Bank of Iran (4 USDT wallets)",
+          "type": "wallets",
+          "designation": "SDN identifiers",
+          "name_fa": "بانک مرکزی ایران"
+        }
+      ],
+      "summary": "Came after a ceasefire between the US and Iran broke down and strikes resumed. Total CBI USDT blocked ~ $475M (344 + 131); Elliptic estimates the CBI had accumulated >= $507M of USDT.",
+      "adjudication": "Consistent across CoinDesk, Bitcoin Foundation and Tether's later statement.",
+      "impact_on_reseller": "Second CBI wave in three months -> 'address listing wave' events recur (~0.2/month); expect Iranian USDT/IRT spread spikes on such news.",
+      "sim_hook": "tether_mass_freeze",
+      "facts": {
+        "usd_frozen": {
+          "value": 131000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.coindesk.com/business/2026/07/16/u-s-adds-four-iran-central-bank-crypto-wallets-to-sanctions-tether-freezes-usd131-million-of-contents",
+              "title": "[S23] CoinDesk - U.S. adds four Iran central bank crypto wallets to sanctions, Tether freezes $131M (2026-07-16)",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://thedefiant.io/news/regulation/tether-says-it-helped-freeze-nearly-550-million-in-iran-linked-usdt",
+              "title": "[S24] The Defiant - Tether says it helped freeze nearly $550M in Iran-linked USDT (also CryptoTicker, Coinpedia, Cryptonomist, KuCoin News)",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ]
+        },
+        "cbi_total_blocked_usd": {
+          "value": 475000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.coindesk.com/business/2026/07/16/u-s-adds-four-iran-central-bank-crypto-wallets-to-sanctions-tether-freezes-usd131-million-of-contents",
+              "title": "[S23] CoinDesk - U.S. adds four Iran central bank crypto wallets to sanctions, Tether freezes $131M (2026-07-16)",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ]
+        },
+        "cbi_estimated_usdt_holdings_usd": {
+          "value": 507000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.coindesk.com/business/2026/07/16/u-s-adds-four-iran-central-bank-crypto-wallets-to-sanctions-tether-freezes-usd131-million-of-contents",
+              "title": "[S23] CoinDesk - U.S. adds four Iran central bank crypto wallets to sanctions, Tether freezes $131M (2026-07-16)",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "Elliptic, 'at least'"
+        }
+      },
+      "sources": [
+        {
+          "url": "https://www.coindesk.com/business/2026/07/16/u-s-adds-four-iran-central-bank-crypto-wallets-to-sanctions-tether-freezes-usd131-million-of-contents",
+          "title": "[S23] CoinDesk - U.S. adds four Iran central bank crypto wallets to sanctions, Tether freezes $131M (2026-07-16)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://thedefiant.io/news/regulation/tether-says-it-helped-freeze-nearly-550-million-in-iran-linked-usdt",
+          "title": "[S24] The Defiant - Tether says it helped freeze nearly $550M in Iran-linked USDT (also CryptoTicker, Coinpedia, Cryptonomist, KuCoin News)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-08-07-ABAN-SHELBIT",
+      "date": "2026-08-07",
+      "date_jalali": "1405-05-16",
+      "date_precision": "day",
+      "title": "OFAC designates Aban Tether and Shelbit Exchange with operator Siavash Kayvanpour and four front companies (Georgia, Poland, UAE)",
+      "kind": "designation",
+      "actor": "OFAC (U.S. Treasury)",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [
+        "E.O. 13902"
+      ],
+      "targets": [
+        {
+          "name": "Aban Tether",
+          "type": "exchange",
+          "designation": "SDN",
+          "name_fa": "آبان تتر"
+        },
+        {
+          "name": "Shelbit Exchange",
+          "type": "exchange",
+          "designation": "SDN"
+        },
+        {
+          "name": "Siavash Kayvanpour",
+          "type": "person",
+          "designation": "SDN"
+        },
+        {
+          "name": "4 affiliated front companies (Georgia, Poland, UAE)",
+          "type": "company",
+          "designation": "SDN"
+        }
+      ],
+      "summary": "IRGC-linked wallets sent >$1M to Shelbit and Shelbit returned >$2M; Kayvanpour allegedly sent >$2M to Nobitex. FAQ 1257 later lists Aban Tether next to the four June exchanges.",
+      "adjudication": "Confirmed by CoinDesk, Mishcon, TFTC, CoinPaprika, FinCrime Agent, VeriHound, Crypto Times and FAQ 1257 (per summaries). Magnitude headlines differ ('$5M money-laundering case' vs 'Iran's $4B IRGC crypto scheme'): use the OFAC-attributed direct flows (> $1M/ > $2M); the $4B figure is unexplained -> low confidence. Aban Tether is a major retail USDT exchange: the owner's earlier fee research cited it.",
+      "impact_on_reseller": "Five of the best-known domestic USDT venues (Nobitex, Wallex, Bitpin, Ramzinex, Aban Tether) are now SDNs. Remove them from any allowed-USDT-source list.",
+      "sim_hook": "ofac_exchange_designation",
+      "facts": {
+        "direct_irgc_flows_to_shelbit_usd": {
+          "value": 1000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+              "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "'over $1 million'"
+        },
+        "headline_magnitude_usd": {
+          "value": null,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+              "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "verify_how": "Read Treasury press release 'Treasury Sanctions Crypto Exchanges Funding Iran's IRGC and Enabling Illicit Finance' (2026-08-07)",
+          "status": "conflicting",
+          "note": "$5M vs $4B in different headlines"
+        }
+      },
+      "sources": [
+        {
+          "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+          "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://ofac.treasury.gov/faqs/1257",
+          "title": "[S8] OFAC FAQ 1257 - E.O. 13902 digital asset exchanges / non-U.S. person exposure",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-08-24-OPERATION-ECONOMIC-OUTCAST",
+      "date": "2026-08-24",
+      "date_jalali": "1405-06-02",
+      "date_precision": "day",
+      "title": "Treasury launches 'Operation Economic Outcast': secondary-sanctions risk extended to foreign entities across five Iranian sectors (digital assets, aviation, gold, shipping, technology)",
+      "kind": "policy",
+      "actor": "U.S. Treasury / OFAC",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [
+        "E.O. 13902 sector determinations"
+      ],
+      "targets": [
+        {
+          "name": "Foreign entities dealing in five Iranian sectors",
+          "type": "policy",
+          "designation": "secondary_sanctions_risk"
+        }
+      ],
+      "summary": "Five general licences (education, personal remittances, conferences, sports, academic exchanges) were suspended effective 2026-09-08; GL BB allowed wind-down of previously authorised transactions only until that date, with payments into blocked interest-bearing US accounts.",
+      "adjudication": "Seven law-firm alerts (Paul Hastings, Orrick, Baker McKenzie, Davis Polk, Paul Weiss, Cassidy Levy Kent, Regtechtimes) agree on date and structure (per summaries). The suspended GLs are NOT about crypto exchanges: no wind-down general licence for Nobitex/Wallex/Bitpin/Ramzinex/Aban Tether was seen in any summary (UNVERIFIED).",
+      "impact_on_reseller": "Raises the cost for non-US providers of dealing with Iran-linked flows (de-risking). Personal-remittance GL gone -> do not assume any GL covers the business.",
+      "sim_hook": "sanctions_wave",
+      "facts": {
+        "gl_suspension_effective": {
+          "value": "2026-09-08",
+          "unit": "date",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.paulhastings.com/insights/client-alerts/treasury-issues-additional-iran-related-sanctions-suspends-general-licenses-and-pledges-additional-action-under-operation-economic-outcast",
+              "title": "[S27] Paul Hastings - Treasury Issues Additional Iran-Related Sanctions, Suspends General Licenses ... Operation Economic Outcast; also Orrick, Baker McKenzie, Davis Polk, Paul Weiss, Cassidy Levy Kent, Regtechtimes",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ]
+        }
+      },
+      "sources": [
+        {
+          "url": "https://www.paulhastings.com/insights/client-alerts/treasury-issues-additional-iran-related-sanctions-suspends-general-licenses-and-pledges-additional-action-under-operation-economic-outcast",
+          "title": "[S27] Paul Hastings - Treasury Issues Additional Iran-Related Sanctions, Suspends General Licenses ... Operation Economic Outcast; also Orrick, Baker McKenzie, Davis Polk, Paul Weiss, Cassidy Levy Kent, Regtechtimes",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-09-17-BITBANK",
+      "date": "2026-09-17",
+      "date_jalali": "1405-06-26",
+      "date_precision": "day",
+      "title": "OFAC designates BitBank, a Babak Zanjani-controlled exchange, for alleged Bitcoin transfers of hundreds of millions of dollars to the IRGC (Jun-Jul 2026)",
+      "kind": "designation",
+      "actor": "OFAC (U.S. Treasury) - Operation Economic Outcast",
+      "status": "verified",
+      "confidence": "high",
+      "authority": [
+        "E.O. 13902"
+      ],
+      "targets": [
+        {
+          "name": "BitBank",
+          "type": "exchange",
+          "designation": "SDN"
+        },
+        {
+          "name": "Hormuz Safe Marine Services Authority (customer cited)",
+          "type": "entity",
+          "designation": "cited"
+        }
+      ],
+      "summary": "Treasury press release titled 'Operation Economic Outcast Disrupts Digital Asset Exchange Enabling the Iranian Regime'.",
+      "adjudication": "Consistent across Hoodline, Crowdfund Insider, TFTC, Startup Fortune, TRM, VOA and a copy of the Treasury release (per summaries).",
+      "impact_on_reseller": "Third exchange-designation action in 3.5 months; hazard prior for the next one is derived in 05_base_rates.py.",
+      "sim_hook": "ofac_exchange_designation",
+      "facts": {},
+      "sources": [
+        {
+          "url": "https://hoodline.com/2026/09/treasury-sanctions-iran-s-bitbank-crypto-exchange-tied-to-zanjani-irgc-cash/",
+          "title": "[S28] Hoodline - Treasury sanctions Iranian exchange BitBank (2026-09-17); also Crowdfund Insider, TFTC, TRM Labs, Startup Fortune, VOA",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-09-28-TETHER-550M-SENATE",
+      "date": "2026-09-28",
+      "date_jalali": "1405-07-06",
+      "date_precision": "approx",
+      "title": "Tether says it helped freeze ~$550M of Iran-linked USDT in 2026; Senate PSI minority report: 846 sanctioned Iran-linked wallets, 84% almost exclusively USDT, ~$35M slipped past",
+      "kind": "statement",
+      "actor": "Tether; Senate Permanent Subcommittee on Investigations (minority staff)",
+      "status": "reported",
+      "confidence": "medium",
+      "authority": [],
+      "targets": [
+        {
+          "name": "Tether USDT",
+          "type": "stablecoin_issuer",
+          "designation": "scrutiny"
+        }
+      ],
+      "summary": "Tether: April $344M (2 wallets) + July >$130M (4 wallets) within >$4.9bn frozen globally. Sen. Blumenthal referred the findings to Treasury and DOJ citing possible sanctions/BSA violations.",
+      "adjudication": "Totals are Tether's own and the Senate report is a minority (Democratic) staff product. Cumulative global freezes: Tether >$4.9bn vs BlockSec $5.69bn/9,597 addresses (2026-07-26): different definitions/dates.",
+      "impact_on_reseller": "Political pressure on Tether to freeze more broadly (proactively) -> raises treasury-wallet freeze hazard (SAN-08/TKN-01).",
+      "sim_hook": "tether_policy_tightening",
+      "facts": {
+        "iran_linked_frozen_2026_usd": {
+          "value": 550000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://thedefiant.io/news/regulation/tether-says-it-helped-freeze-nearly-550-million-in-iran-linked-usdt",
+              "title": "[S24] The Defiant - Tether says it helped freeze nearly $550M in Iran-linked USDT (also CryptoTicker, Coinpedia, Cryptonomist, KuCoin News)",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://cryptoslate.com/tether-claims-550-million-in-iran-freezes-but-35-million-slipped-past-senate/",
+              "title": "[S25] CryptoSlate - Tether claims $550M in Iran freezes, but $35M slipped past (Senate PSI minority report); also crypto.news, Zyphe",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ],
+          "note": "one Tether statement echoed by many outlets; components independently sourced"
+        },
+        "senate_wallets_count": {
+          "value": 846,
+          "unit": "count",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://cryptoslate.com/tether-claims-550-million-in-iran-freezes-but-35-million-slipped-past-senate/",
+              "title": "[S25] CryptoSlate - Tether claims $550M in Iran freezes, but $35M slipped past (Senate PSI minority report); also crypto.news, Zyphe",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ]
+        },
+        "senate_usdt_only_share_pct": {
+          "value": 84,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://cryptoslate.com/tether-claims-550-million-in-iran-freezes-but-35-million-slipped-past-senate/",
+              "title": "[S25] CryptoSlate - Tether claims $550M in Iran freezes, but $35M slipped past (Senate PSI minority report); also crypto.news, Zyphe",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ]
+        },
+        "slipped_past_usd": {
+          "value": 35000000,
+          "unit": "USD",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://cryptoslate.com/tether-claims-550-million-in-iran-freezes-but-35-million-slipped-past-senate/",
+              "title": "[S25] CryptoSlate - Tether claims $550M in Iran freezes, but $35M slipped past (Senate PSI minority report); also crypto.news, Zyphe",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            }
+          ]
+        }
+      },
+      "sources": [
+        {
+          "url": "https://thedefiant.io/news/regulation/tether-says-it-helped-freeze-nearly-550-million-in-iran-linked-usdt",
+          "title": "[S24] The Defiant - Tether says it helped freeze nearly $550M in Iran-linked USDT (also CryptoTicker, Coinpedia, Cryptonomist, KuCoin News)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://cryptoslate.com/tether-claims-550-million-in-iran-freezes-but-35-million-slipped-past-senate/",
+          "title": "[S25] CryptoSlate - Tether claims $550M in Iran freezes, but $35M slipped past (Senate PSI minority report); also crypto.news, Zyphe",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://blocksec.com/blog/1-26-billion-frozen-usdt-blacklisting-on-ethereum-and-tron-in-2025",
+          "title": "[S29] BlockSec - USDT Blacklisting in 2025: $1.26B Frozen on Ethereum & Tron; also usdt-blacklist-explained-2026, Cointelegraph, crypto.news",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-10-02-A7-NETWORK",
+      "date": "2026-10-02",
+      "date_jalali": "1405-07-10",
+      "date_precision": "day",
+      "title": "Reported: Treasury action against a Russia-linked A7 network Iran used to move money (press release sb0644 title surfaced in the same search)",
+      "kind": "designation",
+      "actor": "OFAC (U.S. Treasury) - Operation Economic Outcast",
+      "status": "reported",
+      "confidence": "low",
+      "authority": [],
+      "targets": [
+        {
+          "name": "A7 network",
+          "type": "network",
+          "designation": "reported"
+        }
+      ],
+      "summary": "Only one trade-press headline (Crypto Times, dated 2026-10-02) and the title of Treasury release sb0644 ('Operation Economic Outcast Takes Unprecedented Action Against Sanctions Evasion Network Used by Iran') were seen.",
+      "adjudication": "Detail not available. That sb0644 is the same action as the 2026-10-02 article is probable but NOT verified (release date not seen). Included only to show the cadence of actions; verify on OFAC Recent Actions.",
+      "impact_on_reseller": "Cadence evidence only.",
+      "sim_hook": null,
+      "facts": {},
+      "sources": [
+        {
+          "url": "https://cryptotimes.io/2026/10/02/us-treasury-blocks-russia-linked-a7-network-iran-used-to-move-money",
+          "title": "[S41] Crypto Times - US Treasury blocks Russia-linked A7 network Iran used to move money (2026-10-02); Treasury sb0644 (title only)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    },
+    {
+      "id": "SE-2026-CONTEXT-WAR",
+      "date": null,
+      "date_jalali": null,
+      "date_precision": "unknown (before 2026-06-02; start date not established)",
+      "title": "2026 US-Israeli strikes on Iran, a ceasefire that later broke down, and internet blackouts (context for correlated risks)",
+      "kind": "context",
+      "actor": "US/Israel/Iran",
+      "status": "reported",
+      "confidence": "low",
+      "authority": [],
+      "targets": [
+        {
+          "name": "Iran (macro/security context)",
+          "type": "context",
+          "designation": "n/a"
+        }
+      ],
+      "summary": "Treasury/The Block text refers to 'internet blackouts that followed U.S. combat operations in Iran'; CoinDesk (2026-07-16) says the CBI listing followed the ceasefire breakdown; Reuters (via crypto.news) says Nobitex kept processing during a government-imposed shutdown.",
+      "adjudication": "Start date of the 2026 conflict was not established from the summaries; the Treasury text relayed on 2026-06-02 already refers to blackouts that followed US combat operations, so it began before then. No date is asserted here. The macro specialist (08) owns this scenario; this record only links INF/EXC/SAN risks.",
+      "impact_on_reseller": "Correlated shocks: internet shutdown + exchange attacks + sanctions waves + FX spikes.",
+      "sim_hook": "war_escalation",
+      "facts": {},
+      "sources": [
+        {
+          "url": "https://www.theblock.co/post/403436/us-sanctions-nobitex-iranian-crypto-exchanges-economic-fury-campaign",
+          "title": "[S9] The Block - US sanctions Nobitex and other Iranian crypto exchanges under 'Economic Fury' campaign",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/business/2026/07/16/u-s-adds-four-iran-central-bank-crypto-wallets-to-sanctions-tether-freezes-usd131-million-of-contents",
+          "title": "[S23] CoinDesk - U.S. adds four Iran central bank crypto wallets to sanctions, Tether freezes $131M (2026-07-16)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://crypto.news/iran-crypto-giant-nobitex-hit-by-sanctions-questions-reuters/",
+          "title": "[S38] crypto.news relaying Reuters - Nobitex kept processing during internet shutdown; also Yahoo Finance '700% crypto outflows'",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "nobitex",
+      "name": "Nobitex",
+      "name_fa": "نوبیتکس",
+      "sdn_status": "sdn",
+      "designation_date": "2026-06-02",
+      "event_id": "SE-2026-06-02-FOUR-EXCHANGES",
+      "role": "largest IR exchange (>50% inflows 2025)",
+      "usdt_source_allowed": false
+    },
+    {
+      "id": "wallex",
+      "name": "Wallex",
+      "name_fa": "والکس",
+      "sdn_status": "sdn",
+      "designation_date": "2026-06-02",
+      "event_id": "SE-2026-06-02-FOUR-EXCHANGES",
+      "role": "2nd largest (12% inflows 2025)",
+      "usdt_source_allowed": false
+    },
+    {
+      "id": "bitpin",
+      "name": "Bitpin",
+      "name_fa": "بیت‌پین",
+      "sdn_status": "sdn",
+      "designation_date": "2026-06-02",
+      "event_id": "SE-2026-06-02-FOUR-EXCHANGES",
+      "role": "~10% inflows 2025",
+      "usdt_source_allowed": false
+    },
+    {
+      "id": "ramzinex",
+      "name": "Ramzinex",
+      "name_fa": "رمزینکس",
+      "sdn_status": "sdn",
+      "designation_date": "2026-06-02",
+      "event_id": "SE-2026-06-02-FOUR-EXCHANGES",
+      "role": ">$2.45bn processed since 2018",
+      "usdt_source_allowed": false
+    },
+    {
+      "id": "abantether",
+      "name": "Aban Tether",
+      "name_fa": "آبان تتر",
+      "sdn_status": "sdn",
+      "designation_date": "2026-08-07",
+      "event_id": "SE-2026-08-07-ABAN-SHELBIT",
+      "role": "retail USDT exchange",
+      "usdt_source_allowed": false
+    },
+    {
+      "id": "shelbit",
+      "name": "Shelbit Exchange",
+      "name_fa": null,
+      "sdn_status": "sdn",
+      "designation_date": "2026-08-07",
+      "event_id": "SE-2026-08-07-ABAN-SHELBIT",
+      "role": "IRGC-linked flows via front companies",
+      "usdt_source_allowed": false
+    },
+    {
+      "id": "bitbank",
+      "name": "BitBank",
+      "name_fa": null,
+      "sdn_status": "sdn",
+      "designation_date": "2026-09-17",
+      "event_id": "SE-2026-09-17-BITBANK",
+      "role": "Zanjani-controlled",
+      "usdt_source_allowed": false
+    },
+    {
+      "id": "zedcex",
+      "name": "Zedcex Exchange Ltd",
+      "name_fa": null,
+      "sdn_status": "sdn",
+      "designation_date": "2026-01-30",
+      "event_id": "SE-2026-01-30-ZEDCEX-ZEDXION",
+      "role": "UK-registered",
+      "usdt_source_allowed": false
+    },
+    {
+      "id": "zedxion",
+      "name": "Zedxion Exchange Ltd",
+      "name_fa": null,
+      "sdn_status": "sdn",
+      "designation_date": "2026-01-30",
+      "event_id": "SE-2026-01-30-ZEDCEX-ZEDXION",
+      "role": "UK-registered",
+      "usdt_source_allowed": false
+    },
+    {
+      "id": "cbi_wallets",
+      "name": "Central Bank of Iran (USDT wallets)",
+      "name_fa": "بانک مرکزی ایران",
+      "sdn_status": "sdn_identifiers",
+      "designation_date": "2026-04-15",
+      "event_id": "SE-2026-04-CBI-344M",
+      "role": "6 wallets listed Apr/Jul 2026",
+      "usdt_source_allowed": false
+    }
+  ],
+  "watchlist_exchanges": [
+    {
+      "id": "tabdeal",
+      "name": "Tabdeal",
+      "name_fa": "تبدیل",
+      "sdn_status": {
+        "value": null,
+        "unit": "sdn_status",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Search the OFAC SDN list (Sanctions List Search) for the exact name and Persian/Latin variants; check Treasury Recent Actions since 2026-09-17",
+        "status": "UNVERIFIED"
+      },
+      "usdt_source_allowed": "conditional",
+      "note": "Not named in any retrieved designation summary; absence is not proof. FAQ 1257: any digital-asset exchange operating in Iran's financial sector is designable."
+    },
+    {
+      "id": "exir",
+      "name": "Exir",
+      "name_fa": "اکسیر",
+      "sdn_status": {
+        "value": null,
+        "unit": "sdn_status",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Search the OFAC SDN list (Sanctions List Search) for the exact name and Persian/Latin variants; check Treasury Recent Actions since 2026-09-17",
+        "status": "UNVERIFIED"
+      },
+      "usdt_source_allowed": "conditional",
+      "note": "Not named in any retrieved designation summary; absence is not proof. FAQ 1257: any digital-asset exchange operating in Iran's financial sector is designable."
+    },
+    {
+      "id": "ompfinex",
+      "name": "OMPFinex",
+      "name_fa": "او ام پی فینکس",
+      "sdn_status": {
+        "value": null,
+        "unit": "sdn_status",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Search the OFAC SDN list (Sanctions List Search) for the exact name and Persian/Latin variants; check Treasury Recent Actions since 2026-09-17",
+        "status": "UNVERIFIED"
+      },
+      "usdt_source_allowed": "conditional",
+      "note": "Not named in any retrieved designation summary; absence is not proof. FAQ 1257: any digital-asset exchange operating in Iran's financial sector is designable."
+    },
+    {
+      "id": "tetherland",
+      "name": "Tetherland",
+      "name_fa": "تترلند",
+      "sdn_status": {
+        "value": null,
+        "unit": "sdn_status",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Search the OFAC SDN list (Sanctions List Search) for the exact name and Persian/Latin variants; check Treasury Recent Actions since 2026-09-17",
+        "status": "UNVERIFIED"
+      },
+      "usdt_source_allowed": "conditional",
+      "note": "Not named in any retrieved designation summary; absence is not proof. FAQ 1257: any digital-asset exchange operating in Iran's financial sector is designable."
+    },
+    {
+      "id": "novintether",
+      "name": "Novin Tether",
+      "name_fa": "نوین تتر",
+      "sdn_status": {
+        "value": null,
+        "unit": "sdn_status",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Search the OFAC SDN list (Sanctions List Search) for the exact name and Persian/Latin variants; check Treasury Recent Actions since 2026-09-17",
+        "status": "UNVERIFIED"
+      },
+      "usdt_source_allowed": "conditional",
+      "note": "Not named in any retrieved designation summary; absence is not proof. FAQ 1257: any digital-asset exchange operating in Iran's financial sector is designable."
+    },
+    {
+      "id": "excoino",
+      "name": "Excoino",
+      "name_fa": "اکسکوینو",
+      "sdn_status": {
+        "value": null,
+        "unit": "sdn_status",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Search the OFAC SDN list (Sanctions List Search) for the exact name and Persian/Latin variants; check Treasury Recent Actions since 2026-09-17",
+        "status": "UNVERIFIED"
+      },
+      "usdt_source_allowed": "conditional",
+      "note": "Not named in any retrieved designation summary; absence is not proof. FAQ 1257: any digital-asset exchange operating in Iran's financial sector is designable."
+    },
+    {
+      "id": "bit24",
+      "name": "Bit24",
+      "name_fa": "بیت۲۴",
+      "sdn_status": {
+        "value": null,
+        "unit": "sdn_status",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Search the OFAC SDN list (Sanctions List Search) for the exact name and Persian/Latin variants; check Treasury Recent Actions since 2026-09-17",
+        "status": "UNVERIFIED"
+      },
+      "usdt_source_allowed": "conditional",
+      "note": "Not named in any retrieved designation summary; absence is not proof. FAQ 1257: any digital-asset exchange operating in Iran's financial sector is designable."
+    },
+    {
+      "id": "arzinja",
+      "name": "Arzinja",
+      "name_fa": "ارزینجا",
+      "sdn_status": {
+        "value": null,
+        "unit": "sdn_status",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Search the OFAC SDN list (Sanctions List Search) for the exact name and Persian/Latin variants; check Treasury Recent Actions since 2026-09-17",
+        "status": "UNVERIFIED"
+      },
+      "usdt_source_allowed": "conditional",
+      "note": "Not named in any retrieved designation summary; absence is not proof. FAQ 1257: any digital-asset exchange operating in Iran's financial sector is designable."
+    }
+  ],
+  "current_state": {
+    "domestic_market_exchanges_designated": {
+      "value": 7,
+      "unit": "exchanges",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://ofac.treasury.gov/faqs/1257",
+          "title": "[S8] OFAC FAQ 1257 - E.O. 13902 digital asset exchanges / non-U.S. person exposure",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+          "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://hoodline.com/2026/09/treasury-sanctions-iran-s-bitbank-crypto-exchange-tied-to-zanjani-irgc-cash/",
+          "title": "[S28] Hoodline - Treasury sanctions Iranian exchange BitBank (2026-09-17); also Crowdfund Insider, TFTC, TRM Labs, Startup Fortune, VOA",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
+          "title": "[S5] Elliptic - OFAC sanctions Nobitex and three other Iranian cryptoasset exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ],
+      "note": "Nobitex, Wallex, Bitpin, Ramzinex, Aban Tether, Shelbit, BitBank (domestic-market) + 2 UK-registered (Zedcex, Zedxion) not counted"
+    },
+    "designation_actions_since_2026_06_02": {
+      "value": 3,
+      "unit": "actions",
+      "as_of": "2026-10-02",
+      "confidence": "high",
+      "sources": [
+        {
+          "url": "https://www.trmlabs.com/resources/blog/three-enforcement-layers-in-five-months-ofac-designates-irans-domestic-crypto-exchanges",
+          "title": "[S1] TRM Labs - Three Enforcement Layers in Five Months: OFAC Designates Iran's Domestic Crypto Exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+          "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://hoodline.com/2026/09/treasury-sanctions-iran-s-bitbank-crypto-exchange-tied-to-zanjani-irgc-cash/",
+          "title": "[S28] Hoodline - Treasury sanctions Iranian exchange BitBank (2026-09-17); also Crowdfund Insider, TFTC, TRM Labs, Startup Fortune, VOA",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ],
+      "note": "2026-06-02, 2026-08-07, 2026-09-17"
+    },
+    "events_per_month_since_2026_01_30": {
+      "value": 0.497,
+      "unit": "events/month",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
+          "title": "[S5] Elliptic - OFAC sanctions Nobitex and three other Iranian cryptoasset exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.elliptic.co/insights/ofac-sanctions-exchanges-zedcex-and-zedxion-for-assisting-in-iranian-sanctions-evasion-and-irgc-operations/",
+          "title": "[S12] Elliptic - OFAC sanctions exchanges Zedcex and Zedxion",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+          "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://hoodline.com/2026/09/treasury-sanctions-iran-s-bitbank-crypto-exchange-tied-to-zanjani-irgc-cash/",
+          "title": "[S28] Hoodline - Treasury sanctions Iranian exchange BitBank (2026-09-17); also Crowdfund Insider, TFTC, TRM Labs, Startup Fortune, VOA",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ],
+      "note": "4 events / 8.05 months; formula in scripts/research/05_base_rates.py"
+    },
+    "events_per_month_since_2026_06_02": {
+      "value": 0.748,
+      "unit": "events/month",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://www.trmlabs.com/resources/blog/three-enforcement-layers-in-five-months-ofac-designates-irans-domestic-crypto-exchanges",
+          "title": "[S1] TRM Labs - Three Enforcement Layers in Five Months: OFAC Designates Iran's Domestic Crypto Exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+          "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://hoodline.com/2026/09/treasury-sanctions-iran-s-bitbank-crypto-exchange-tied-to-zanjani-irgc-cash/",
+          "title": "[S28] Hoodline - Treasury sanctions Iranian exchange BitBank (2026-09-17); also Crowdfund Insider, TFTC, TRM Labs, Startup Fortune, VOA",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ],
+      "note": "3 events / 4.01 months"
+    },
+    "p_at_least_one_new_action_next_3_months": {
+      "value": 0.775,
+      "unit": "probability",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "note": "1-exp(-0.497*3) = 77.5%; at 0.748/month = 89.4%. Model, not forecast."
+    },
+    "p_next_designation_of_an_undesignated_domestic_exchange_per_month": {
+      "value": 0.06,
+      "unit": "probability/month",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "sources": [
+        {
+          "url": "https://ofac.treasury.gov/faqs/1257",
+          "title": "[S8] OFAC FAQ 1257 - E.O. 13902 digital asset exchanges / non-U.S. person exposure",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+          "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://hoodline.com/2026/09/treasury-sanctions-iran-s-bitbank-crypto-exchange-tied-to-zanjani-irgc-cash/",
+          "title": "[S28] Hoodline - Treasury sanctions Iranian exchange BitBank (2026-09-17); also Crowdfund Insider, TFTC, TRM Labs, Startup Fortune, VOA",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ],
+      "note": "h = min(1, r/N_rem)*s with r=1.75 exchanges/month, pool 15, N_rem=8, size-bias s=0.3 -> 6.5%; grid 2.0%-14.6%",
+      "low": 0.02,
+      "high": 0.15
+    },
+    "wind_down_general_license_for_designated_exchanges": {
+      "value": null,
+      "unit": "bool",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "OFAC Recent Actions 2026-06-02 / 2026-08-07 / 2026-09-17: look for any General License naming the exchanges; none seen in any summary",
+      "status": "UNVERIFIED"
+    },
+    "tether_policy_freeze_ofac_listed_addresses": {
+      "value": true,
+      "unit": "bool",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://forklog.com/en/tether-to-block-payments-evading-sanctions/amp",
+          "title": "[S31] ForkLog - Tether to block USDT on sanctioned wallets (policy since Dec-2023); also AMLCrypto",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://cointelegraph.com/news/tether-blacklist-delay-allowed-78-million-usdt-move",
+          "title": "[S30] Cointelegraph - Tether blacklist delay allowed $78M in illicit USDT transfers (AMLBot); also Decrypt",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1840 @@
+{
+  "_meta": {
+    "file": "gateways.json",
+    "owner_agent": "03-ir-payments-collection",
+    "as_of": "2026-10-02",
+    "purpose": "Iranian internet payment gateways (IPG): eligibility, prohibited categories, fees, limits, settlement, API contracts, risks. Source of truth for packages/live gateway adapters, the pricing engine fee model and the simulator.",
+    "amount_units_legend": {
+      "IRR": "Rial. 1 Toman = 10 Rial. Most Shaparak-era APIs (Zibal, IDPay, Pay.ir, Mellat, Parsian, Bale) want Rial.",
+      "IRT": "Toman (the unit shown to Iranian customers). Zarinpal v4 accepts a `currency` field = IRT|IRR."
+    },
+    "evidence_note": "WebSearch budget (200/session, shared across agents) ran out after 29 searches of this agent; API shapes below come mostly from SDK packages read directly. Perishable numbers (fees, caps) are secondary-source and must be re-checked.",
+    "do_not_do": [
+      "Do not misdescribe the merchant category to a PSP/payment-yar to get approved.",
+      "Do not use borrowed/rented merchant codes, third-party terminals or someone else's Enamad.",
+      "Do not split an order across several payments to dodge per-transaction or per-card caps."
+    ]
+  },
+  "landscape": {
+    "licensing_model": {
+      "value": "Three layers: (1) Shaparak (CBI network operator) + bank-owned PSPs (Sep/Saman Kish, Behpardakht Mellat, Parsian PEC, Sadad Melli, Sepehr Saderat, Asan Pardakht, Pasargad, Iran Kish) that issue direct gateways; (2) payment-yars (Zarinpal, IDPay, Zibal, NextPay, Vandar, Pay.ir, Shepa, Paystar, ParsPal, RayanPay, SizPay ...) that resell PSP gateways to small merchants through a single API; (3) merchants (us).",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://www.zoomit.ir/tech-iran/432535-regulatory-directive-cryptocurrency-market-by-central-bank/",
+          "title": "Zoomit: CBI crypto-market directive; exchanges must use PSPs instead of payment-yars",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://www.zarinpal.com/landing/asanpardakht/",
+          "title": "Zarinpal landing: Asan Pardakht (AP) gateway + 5 other IPGs via one integration",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://bankavl.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D8%AE%D8%A8%D8%A7%D8%B1-2/62096-%D9%87%D8%B4%D8%AF%D8%A7%D8%B1-%D9%BE%D9%84%DB%8C%D8%B3-%D8%AD%D8%B3%D8%A7%D8%A8-%D8%AA%D8%A7%D9%86-%D9%85%D9%85%DA%A9%D9%86-%D8%A7%D8%B3%D8%AA-%DB%8C%DA%A9-%D8%B4%D8%A8%D9%87-%D9%85%D8%B3%D8%AF%D9%88%D8%AF-%D8%B4%D9%88%D8%AF",
+          "title": "Bankavl: police warning - account may be blocked overnight",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        }
+      ],
+      "verify_how": "Shaparak registry (shaparak.ir) lists licensed PSPs and payment-yars; rade.ir/ipg lists payment-yars. Confirm the exact licence status of the chosen gateway before signing.",
+      "status": "reported"
+    },
+    "cbi_directive_exchanges_use_psp": {
+      "value": "CBI crypto-market directive ('ساماندهی و نظارت بر بازار رمزارزها'): crypto exchanges/platforms must take payment gateways directly from banks or PSPs, not from payment-yars. Re-opening of gateways for exchanges was made conditional on 10 conditions.",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "sources": [
+        {
+          "url": "https://www.zoomit.ir/tech-iran/432535-regulatory-directive-cryptocurrency-market-by-central-bank/",
+          "title": "Zoomit: CBI crypto-market directive; exchanges must use PSPs instead of payment-yars",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://arzdigital.com/blog/report-cbi-new-instructions-crypto/",
+          "title": "ArzDigital: CBI - exchanges must take gateways from PSPs not payment-yars",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://mihanblockchain.com/iran-central-bank-conditions-crypto-exchanges/",
+          "title": "Mihan Blockchain: CBI conditions for re-opening exchange gateways",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://fararu.com/fa/news/831729/%D9%86%D8%A8%D8%B1%D8%AF-%D8%B4%D8%A7%D9%BE%D8%B1%DA%A9-%D8%B5%D8%B1%D8%A7%D9%81%DB%8C-%D9%87%D8%A7%DB%8C-%D8%A7%DB%8C%D8%B1%D8%A7%D9%86%DB%8C-%D8%A7%D8%B1%D8%B2-%D8%AF%DB%8C%D8%AC%DB%8C%D8%AA%D8%A7%D9%84-%D8%A7%D8%AC%D8%B1%D8%A7%DB%8C-%D8%B4%D8%B1%D8%B7-%D8%B4%D8%B1%D9%88%D8%B7-%DA%AF%D8%A7%D9%86%D9%87-%DB%8C%D8%A7-%D9%BE%D8%A7%DB%8C%D8%A7%D9%86-%DA%A9%D8%A7%D8%B1",
+          "title": "Fararu: Shaparak vs Iranian crypto exchanges - the 10 conditions",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        }
+      ],
+      "verify_how": "Open the Zoomit/ArzDigital articles, note the circular number and date; ask the legal specialist (04) whether a USDT-funded reseller falls under 'platform providing digital-currency services'.",
+      "status": "reported",
+      "note": "Year/month not visible in the search summaries (probably 2024-2025). Applies to crypto exchanges; our product must not look like an exchange."
+    },
+    "shaparak_cut_notice": {
+      "value": "Shaparak letter to payment-yars/PSPs: immediately cut e-payment services to merchants selling goods/services contrary to Iranian law and CBI requirements - examples named: crypto sales, VPN sales, betting/gambling sites.",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://mihanblockchain.com/online-payment-of-iranian-cryptocurrency-exchanges-should-be-banned/",
+          "title": "Mihan Blockchain: Shaparak notice - cut e-payment for crypto sales",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        }
+      ],
+      "verify_how": "Ask the payment-yar support for the written prohibited-activity list (لیست اصناف ممنوعه) before onboarding; keep the reply.",
+      "status": "reported"
+    },
+    "inter_payment_yar_transfer_ban": {
+      "value": "CBI ordered Shaparak to ban fund transfers inside/between payment-yars and wallet services outside the e-money-wallet issuing rules.",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "sources": [
+        {
+          "url": "https://www.zoomit.ir/tech-iran/388644-payment-gateways-crypto-trading/",
+          "title": "Zoomit: Shaparak bans fund transfer between payment-yars; wallets outside e-money rules banned",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        }
+      ],
+      "verify_how": "Open Zoomit 388644; confirm date and exact scope with the legal specialist.",
+      "status": "reported",
+      "note": "Implication: do not build a customer stored-value wallet on top of a payment-yar; stored balances can be seen as unlicensed e-money. Escalate to 04-legal."
+    },
+    "closures_dey_1404_1405": {
+      "value": null,
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "Search for 'Dey 1404 / Dey 1405 gateway closure crypto' with a quota that allows extended mode; check Zarinpal/IDPay/Zibal status pages and Telegram channels.",
+      "status": "UNVERIFIED",
+      "note": "Searches in this run returned a pattern of recurring Shaparak/CBI cuts against exchange gateways (S4-S11, dates not visible), but NO confirmation of a specific Dey 1404 or 1405 event. Not claimed."
+    }
+  },
+  "common": {
+    "shaparak_fee_floor_1402": {
+      "value": {
+        "purchase_below_6m_rial_fixed_rial": 1200,
+        "purchase_from_6m_rial_pct": 0.02,
+        "cap_rial": 40000,
+        "effective": "2023-06-25 (4 Tir 1402)",
+        "applies_to": "POS and internet gateways; some guilds exempt"
+      },
+      "unit": "IRR",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://www.zarinpal.com/blog/?p=5947",
+          "title": "Zarinpal blog: fee-system reform circular effective 4 Tir 1402",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://www.zoomit.ir/tech-iran/406506-receiving-fees-from-purchase-transactions/",
+          "title": "Zoomit: fee on purchase transactions starts tomorrow",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://ecoiran.com/fa/tiny/news-38727",
+          "title": "Ecoiran: fee reform for POS and internet gateways",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://www.eghtesadnews.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D8%AE%D8%A8%D8%A7%D8%B1-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF%DB%8C-67/583952-%D8%A7%D8%AE%D8%B0-%DA%A9%D8%A7%D8%B1%D9%85%D8%B2%D8%AF-%D8%A7%D8%B2-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D9%87%D8%A7%DB%8C-%D8%A7%DB%8C%D9%86-%D8%A7%D8%B5%D9%86%D8%A7%D9%81-%D8%AD%D8%B0%D9%81-%D8%B4%D8%AF",
+          "title": "Eghtesadnews: fee removed for some guilds",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        }
+      ],
+      "verify_how": "Open Zarinpal blog p=5947 and the CBI circular (Ordibehesht 1402); ask the PSP for the fee schedule in the contract.",
+      "status": "reported",
+      "note": "Equivalent in Toman: 120 fixed below 600,000; 0.02% above, capped at 4,000. Treated as the regulated floor a direct bank gateway pays. Payment-yars add their own margin on top (see gateways.*.fees)."
+    },
+    "paya_cycles": {
+      "value": {
+        "cycles_hhmm": [
+          "03:45",
+          "09:45",
+          "12:45",
+          "18:45"
+        ],
+        "holiday_single_cycle_hhmm": "03:45",
+        "changed_from": "Thursday 19 Tir (year not visible; likely 1404 = 2025-07-10)"
+      },
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "sources": [
+        {
+          "url": "https://iranbroker.net/?p=200635",
+          "title": "Iranbroker: Paya settlement hours change from Thursday 19 Tir",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://bankavl.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D8%AE%D8%A8%D8%A7%D8%B1-2/50674-%D8%B3%D8%A7%D8%B9%D8%AA-%D8%AA%D8%B3%D9%88%DB%8C%D9%87-%D8%B3%D8%A7%D9%85%D8%A7%D9%86%D9%87-%D9%BE%D8%A7%DB%8C%D8%A7-%D8%AA%D8%BA%DB%8C%DB%8C%D8%B1-%DA%A9%D8%B1%D8%AF",
+          "title": "Bankavl: Paya settlement hours changed",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://www.etemadonline.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF%DB%8C-22/552925-%D8%B3%D8%A7%D8%B9%D8%AA-%DA%A9%D8%A7%D8%B1%DB%8C-%D8%B3%D8%A7%D8%AA%D9%86%D8%A7-%D8%A7%D9%81%D8%B2%D8%A7%DB%8C%D8%B4-%DB%8C%D8%A7%D9%81%D8%AA",
+          "title": "Etemad: Satna working hours",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        }
+      ],
+      "verify_how": "Check CBI/Shetab announcements (bankavl.com, iranbroker.net) for the current Paya/Satna table; re-read before promising settlement times to customers or the treasury module.",
+      "status": "reported",
+      "note": "Cycle hours changed more than once; the year of 'Thursday 19 Tir' is not visible in the summary (1404 = 2025-07-10 is the most recent year in which 19 Tir fell on a Thursday; 1399 also did). Satna customer-to-customer orders accepted until 14:30 (13:30 on Thursdays, interbank settlement 14:00 on Thursdays)."
+    },
+    "iran_weekend_note": {
+      "value": "Friday is weekend; Thursday is a short banking day for Satna; official holidays have a single Paya cycle. Card payments and card-to-card are 24/7.",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://iranbroker.net/?p=200635",
+          "title": "Iranbroker: Paya settlement hours change from Thursday 19 Tir",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        },
+        {
+          "url": "https://www.etemadonline.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF%DB%8C-22/552925-%D8%B3%D8%A7%D8%B9%D8%AA-%DA%A9%D8%A7%D8%B1%DB%8C-%D8%B3%D8%A7%D8%AA%D9%86%D8%A7-%D8%A7%D9%81%D8%B2%D8%A7%DB%8C%D8%B4-%DB%8C%D8%A7%D9%81%D8%AA",
+          "title": "Etemad: Satna working hours",
+          "note": "per search summary (page not opened; WebFetch blocked)"
+        }
+      ],
+      "status": "reported"
+    },
+    "caps_1405": {
+      "card_to_card_per_card_per_day": {
+        "value": 15000000,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "high",
+        "sources": [
+          {
+            "url": "https://www.zoomit.ir/howto/463880-iran-bank-cards-money-transfer-limit/",
+            "title": "Zoomit: card-to-card and bank transaction caps 1405",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://fararu.com/fa/news/978296/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D8%A8%D8%A7%D9%86%DA%A9%DB%8C-1405",
+            "title": "Fararu: bank transaction caps 1405 (c2c, Satna, Paya, Pol)",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://www.jamaran.news/%D8%A8%D8%AE%D8%B4-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-13/1720067-%D8%B3%D9%82%D9%81-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%A8%D9%87-%DA%A9%D8%A7%D8%B1%D8%AA-%DA%A9%D8%A7%D8%B1%D8%AA%D8%AE%D9%88%D8%A7%D9%86-%D8%AF%D8%B1-%D8%B3%D8%A7%D9%84-%DA%86%D9%82%D8%AF%D8%B1-%D8%A7%D8%B3%D8%AA",
+            "title": "Jamaran: card-to-card and POS caps 1405",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://nabzgheymat.ir/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4%D9%87%D8%A7%DB%8C-%D8%A8%D8%A7%D9%86%DA%A9%DB%8C-%D8%AF%D8%B1-%DB%B1%DB%B4%DB%B0%DB%B5-%DA%86%D9%82%D8%AF%D8%B1-%D8%A7%D8%B3%D8%AA/",
+            "title": "Nabzgheymat: bank transaction caps 1405 - c2c 15M Toman to 400M purchase",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://www.eghtesadnews.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D8%AE%D8%A8%D8%A7%D8%B1-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF%DB%8C-67/790333-%D8%B3%D9%82%D9%81-%D8%A7%D9%86%D9%88%D8%A7%D8%B9-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D8%A8%D8%A7%D9%86%DA%A9%DB%8C-%D8%AF%D8%B1-%D8%B3%D8%A7%D9%84-%D8%AC%D8%AF%D9%88%D9%84",
+            "title": "Eghtesadnews: table of bank transaction caps 1405",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          }
+        ],
+        "verify_how": "Open the CBI/Shaparak circular on 1405 limits or the sender bank's app limits screen.",
+        "status": "reported",
+        "note": "Raised from 10M to 15M Toman in 1405 per press; secondary sources only (no CBI circular text seen)."
+      },
+      "internet_purchase_per_person_per_day": {
+        "value": 400000000,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.zarinpal.com/blog/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D8%AF%D8%B1%DA%AF%D8%A7%D9%87-%D9%BE%D8%B1%D8%AF%D8%A7%D8%AE%D8%AA-%D8%A7%DB%8C%D9%86%D8%AA%D8%B1%D9%86%D8%AA%DB%8C/",
+            "title": "Zarinpal blog: internet payment cap 1405 (400M Toman/day/person, 200M/card)",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://nabzgheymat.ir/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4%D9%87%D8%A7%DB%8C-%D8%A8%D8%A7%D9%86%DA%A9%DB%8C-%D8%AF%D8%B1-%DB%B1%DB%B4%DB%B0%DB%B5-%DA%86%D9%82%D8%AF%D8%B1-%D8%A7%D8%B3%D8%AA/",
+            "title": "Nabzgheymat: bank transaction caps 1405 - c2c 15M Toman to 400M purchase",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          }
+        ],
+        "status": "reported",
+        "note": "Sum over all cards of one natural person."
+      },
+      "internet_purchase_per_card_per_day": {
+        "value": 200000000,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "sources": [
+          {
+            "url": "https://www.zarinpal.com/blog/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D8%AF%D8%B1%DA%AF%D8%A7%D9%87-%D9%BE%D8%B1%D8%AF%D8%A7%D8%AE%D8%AA-%D8%A7%DB%8C%D9%86%D8%AA%D8%B1%D9%86%D8%AA%DB%8C/",
+            "title": "Zarinpal blog: internet payment cap 1405 (400M Toman/day/person, 200M/card)",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          }
+        ],
+        "status": "reported",
+        "note": "Single source."
+      }
+    }
+  },
+  "gateways": {
+    "zarinpal": {
+      "name_fa": "زرین‌پال",
+      "name_en": "Zarinpal",
+      "kind": "payment_yar (single API over 6 bank/PSP gateways)",
+      "website": "https://www.zarinpal.com",
+      "risk_label": "high",
+      "restriction_note": "Terms (updated 8 Tir 1404) follow CBI/Shaparak rules; currency/crypto trading is not allowed. A USDT-funded virtual-card/top-up reseller can be classified as currency-related -> gateway cut or funds held. Medium risk only if the merchant is accepted as a pure digital-subscription seller.",
+      "eligibility": {
+        "enamad": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Read zarinpal.com/blog/?p=5744 (Enamad guide for Zarinpal merchants) and ask support if a gateway is possible without Enamad.",
+          "status": "UNVERIFIED",
+          "note": "Zarinpal publishes both an Enamad guide for its merchants and an article 'gateway without Enamad - possible?'; answers not seen."
+        },
+        "merchant_levels": {
+          "value": "levels named in error texts: 'Silver' (minimum for some operations, -4/-16) and 'Blue' (restricted, -17)",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "Zarinpal panel -> terminal -> level; ask support for per-level limits.",
+          "status": "reported",
+          "note": "Only names seen; the ladder, per-level limits and upgrade documents are not verified."
+        },
+        "documents": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Zarinpal panel onboarding checklist (identity, bank account/IBAN in the owner's name, business licence if any, Enamad).",
+          "status": "UNVERIFIED"
+        }
+      },
+      "prohibited_categories": {
+        "value": [
+          "buying/selling currency or crypto-currency (per round-0 research of the terms)",
+          "VPN sales",
+          "betting/gambling",
+          "anything contrary to Iranian law and CBI/Shaparak rules"
+        ],
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "sources": [
+          {
+            "url": "https://www.zarinpal.com/terms.html",
+            "title": "Zarinpal executive terms (last updated 8 Tir 1404)",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://mihanblockchain.com/online-payment-of-iranian-cryptocurrency-exchanges-should-be-banned/",
+            "title": "Mihan Blockchain: Shaparak notice - cut e-payment for crypto sales",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "docs/business-plan-full-context.md",
+            "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+            "note": "local file"
+          }
+        ],
+        "verify_how": "Read https://www.zarinpal.com/terms in a browser (updated 8 Tir 1404) and ask support in writing whether 'sale of digital subscriptions and prepaid service top-ups priced in Toman' is allowed; keep the answer.",
+        "status": "reported",
+        "note": "Gift cards / virtual cards / USDT-backed top-ups are NOT named in what we saw -> UNVERIFIED classification risk."
+      },
+      "fees": {
+        "percent": {
+          "value": 0.5,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=4071",
+              "title": "Zarinpal blog: cheapest internet payment gateway (fee 0.5%, cap 16,000 Toman, +500 fixed)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "docs/business-plan-full-context.md",
+              "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+              "note": "local file"
+            }
+          ],
+          "verify_how": "POST /pg/v4/payment/feeCalculation.json {merchant_id, amount, currency} returns the exact fee and fee_type (Merchant|Payer) - use it at runtime; or read zarinpal.com/pricing.",
+          "status": "reported",
+          "note": "0.5% per transaction; an older page shows a different scheme (0.05% cap 12,000) that is outdated. Single secondary source."
+        },
+        "cap_toman": {
+          "value": 16000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=4071",
+              "title": "Zarinpal blog: cheapest internet payment gateway (fee 0.5%, cap 16,000 Toman, +500 fixed)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "docs/business-plan-full-context.md",
+              "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+              "note": "local file"
+            }
+          ],
+          "verify_how": "feeCalculation.json for a 100,000,000 Toman amount.",
+          "status": "reported"
+        },
+        "fixed_toman": {
+          "value": 500,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=4071",
+              "title": "Zarinpal blog: cheapest internet payment gateway (fee 0.5%, cap 16,000 Toman, +500 fixed)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "docs/business-plan-full-context.md",
+              "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+              "note": "local file"
+            }
+          ],
+          "verify_how": "feeCalculation.json for a 10,000 Toman amount.",
+          "status": "reported"
+        },
+        "formula": {
+          "value": "fee = min(0.5% x amount, 16,000 Toman) + 500 Toman",
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=4071",
+              "title": "Zarinpal blog: cheapest internet payment gateway (fee 0.5%, cap 16,000 Toman, +500 fixed)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "docs/business-plan-full-context.md",
+              "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+              "note": "local file"
+            }
+          ],
+          "status": "reported"
+        },
+        "fee_payer_modes": {
+          "value": [
+            "Merchant",
+            "Payer"
+          ],
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "feeCalculation response carries fee_type; payer-pays mode implies a fee line shown to the customer."
+        },
+        "promotions": {
+          "value": "first-month zero commission; 'golden Tuesday' zero commission for Zarin-card holders",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=4071",
+              "title": "Zarinpal blog: cheapest internet payment gateway (fee 0.5%, cap 16,000 Toman, +500 fixed)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported",
+          "note": "Promos - never model them."
+        },
+        "vat_on_fee": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Check the PSP invoice / 04-legal for VAT on service fees (rate for 1405).",
+          "status": "UNVERIFIED",
+          "note": "Not verified; fee-stack script shows VAT 9/10/12% as sensitivity only."
+        },
+        "instant_settlement_fee": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Zarinpal panel -> settlement -> instant (تسویه آنی) tariff.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "limits": {
+        "min_amount": {
+          "value": 1000,
+          "unit": "as passed in `amount` (IRR by default; IRT if currency=IRT)",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "SDK validator: amount >= 1000. Unit ambiguity -> always send currency explicitly."
+        },
+        "max_single_payment": {
+          "value": 100000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "Error -41 text: maximum payment is 100 million Toman."
+        },
+        "authority_lifetime": {
+          "value": {
+            "min": "30 minutes",
+            "max": "45 days"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-checkout/v/1.1.1",
+              "title": "zarinpal-checkout 1.1.1 (2026-07-11)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "-42 text; refresh.json extends an authority (expire param)."
+        },
+        "reversal_window": {
+          "value": "30 minutes",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "-63: reversal window expired after 30 minutes; reverse.json{authority}."
+        }
+      },
+      "settlement": {
+        "standard_cycle": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Zarinpal panel -> settlement policy; ask support: T+? business days, Paya cycle times, Friday/holiday handling, daily cap.",
+          "status": "UNVERIFIED",
+          "note": "Not seen in this run."
+        },
+        "refund_methods": {
+          "value": [
+            "PAYA",
+            "CARD"
+          ],
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "GraphQL AddRefund method enum; reasons CUSTOMER_REQUEST|DUPLICATE_TRANSACTION|SUSPICIOUS_TRANSACTION|OTHER."
+        }
+      },
+      "api": {
+        "base_url_production": {
+          "value": "https://payment.zarinpal.com",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-checkout/v/1.1.1",
+              "title": "zarinpal-checkout 1.1.1 (2026-07-11)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.zarinpal.com/docs/sdk/python/method/verify",
+              "title": "Zarinpal docs: verify (v4 verify.json, codes 100/101)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        },
+        "base_url_sandbox": {
+          "value": "https://sandbox.zarinpal.com",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-checkout/v/1.1.1",
+              "title": "zarinpal-checkout 1.1.1 (2026-07-11)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "graphql_url": {
+          "value": "https://next.zarinpal.com/api/v4/graphql/ (Bearer accessToken) - refunds, transaction lists",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "endpoints": {
+          "value": {
+            "request": "POST /pg/v4/payment/request.json {merchant_id, amount, currency?, callback_url, description, mobile?, email?, cardPan?[16-digit, string|array], referrer_id?} -> data.authority",
+            "redirect": "GET /pg/StartPay/{authority}",
+            "verify": "POST /pg/v4/payment/verify.json {merchant_id, amount, authority} -> code 100 ok / 101 already verified; amount must equal the amount from YOUR database",
+            "inquiry": "POST /pg/v4/payment/inquiry.json {merchant_id, authority}",
+            "reverse": "POST /pg/v4/payment/reverse.json {merchant_id, authority} (30-minute window)",
+            "unverified": "POST /pg/v4/payment/unVerified.json {merchant_id}",
+            "fee_calculation": "POST /pg/v4/payment/feeCalculation.json {merchant_id, amount, currency?} -> {fee, fee_type}",
+            "refresh_authority": "POST /pg/v4/payment/refresh.json {merchant_id, authority, expire}",
+            "refund": "GraphQL mutation AddRefund(session_id, amount, description?, method: PAYA|CARD, reason?)"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-checkout/v/1.1.1",
+              "title": "zarinpal-checkout 1.1.1 (2026-07-11)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "SDK sends mobile/email top-level; the public docs may expect them inside a metadata object - test in the sandbox."
+        },
+        "callback": {
+          "value": "GET callback_url?Authority=A...&Status=OK|NOK ; never trust the query: call verify.json with the stored amount",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-checkout/v/1.1.1",
+              "title": "zarinpal-checkout 1.1.1 (2026-07-11)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.zarinpal.com/docs/sdk/python/method/verify",
+              "title": "Zarinpal docs: verify (v4 verify.json, codes 100/101)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported",
+          "note": "Authority regex ^[AS][0-9a-zA-Z]{35}$ (SDK validator); merchant_id is a UUID."
+        },
+        "response_shape": {
+          "value": {
+            "data": {
+              "code": "int",
+              "message": "str",
+              "authority": "str",
+              "fee_type": "Merchant|Payer",
+              "fee": "int"
+            },
+            "errors": "array"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "amount_unit": {
+          "value": "currency param IRT|IRR (SDK default IRR for feeCalculation; zarinpal-checkout wrapper defaults to IRT)",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-checkout/v/1.1.1",
+              "title": "zarinpal-checkout 1.1.1 (2026-07-11)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "Always send currency explicitly; reconcile in integer Rial internally."
+        },
+        "error_codes": {
+          "value": {
+            "-9": "validation error",
+            "-10": "IP or merchant code invalid",
+            "-11": "merchant code inactive",
+            "-12": "too many attempts in a short window",
+            "-13": "transaction-limit error (complete documents with support)",
+            "-14": "callback URL domain differs from the registered gateway domain",
+            "-15": "gateway suspended",
+            "-16": "merchant level below Silver",
+            "-17": "merchant restricted at Blue level",
+            "-18": "dedicated gateway code cannot be used on this site",
+            "-19": "cannot create transaction for this terminal",
+            "-21": "no financial operation found for this transaction",
+            "-22": "transaction unsuccessful",
+            "-30": "merchant not allowed floating shared settlement",
+            "-31": "add a settlement bank account / wrong split values",
+            "-32": "split amount larger than total",
+            "-33": "split percentages wrong",
+            "-34": "split amount larger than total",
+            "-35": "too many split receivers",
+            "-36": "minimum split amount 10,000 Rial",
+            "-37": "one or more split IBANs inactive at bank",
+            "-38": "IBAN not defined correctly, retry",
+            "-39": "unknown error - contact support",
+            "-40": "invalid extra params (expire_in)",
+            "-41": "maximum payment is 100 million Toman",
+            "-42": "payment-id lifetime must be between 30 minutes and 45 days",
+            "-50": "paid amount differs from the amount sent to verify",
+            "-51": "payment failed",
+            "-52": "unexpected error",
+            "-53": "payment does not belong to this merchant code",
+            "-54": "invalid authority",
+            "-55": "transaction not found",
+            "-60": "reversal with the bank not possible",
+            "-61": "transaction not successful or already reversed",
+            "-62": "gateway IP not set",
+            "-63": "30-minute reversal window expired",
+            "100": "success",
+            "101": "already verified"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "English paraphrase of the Persian map in irpayments 1.97.0."
+        },
+        "card_binding": {
+          "value": "`cardPan` restricts the payment to given card number(s) - lawful payer-ownership control against third-party-victim (triangular) fraud",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+              "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "ip_whitelist": {
+          "value": "IP-based check exists (-10 'IP or merchant code invalid'); how to configure is not verified",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "Zarinpal panel -> terminal settings.",
+          "status": "reported"
+        },
+        "rate_limits": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Ask support / read docs; error -12 means too many attempts in a short window.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "disputes": {
+        "value": "Reverse within 30 minutes via reverse.json; later refunds via GraphQL AddRefund (PAYA or CARD). Customer complaints go through the bank's/Shaparak complaint channels; dispute SLA not verified.",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+            "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+            "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "verify_how": "Zarinpal support -> 'refund / dispute' policy page; ask for typical refund time and fees.",
+        "status": "reported"
+      }
+    },
+    "idpay": {
+      "name_fa": "آیدی‌پی",
+      "name_en": "IDPay",
+      "kind": "payment_yar",
+      "website": "https://idpay.ir",
+      "risk_label": "high",
+      "restriction_note": "Same Shaparak/CBI regime as other payment-yars; prohibited-activity list not seen; classification risk for currency-related merchants.",
+      "eligibility": {
+        "documents": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "idpay.ir onboarding checklist; ask whether Enamad is mandatory.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "prohibited_categories": {
+        "value": null,
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask IDPay support for the written prohibited-activity list.",
+        "status": "UNVERIFIED",
+        "note": "No content seen in this run."
+      },
+      "fees": {
+        "schedule": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "idpay.ir pricing page (percent, cap, fixed, settlement fee).",
+          "status": "UNVERIFIED"
+        }
+      },
+      "limits": {
+        "min_max_amount": {
+          "value": "returned in error texts 34/35 as {min-amount}/{max-amount} Rial (account dependent)",
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "verify_window": {
+          "value": "Verify must happen soon after payment: error 54 = verification window elapsed",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        }
+      },
+      "settlement": {
+        "cycle": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "IDPay panel -> settlement; ask support.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "api": {
+        "base_url": {
+          "value": "https://api.idpay.ir/v1.1",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/idpay-node/v/1.0.81",
+              "title": "idpay-node 1.0.81 (2021-08-29)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "headers": {
+          "value": {
+            "X-API-KEY": "<key>",
+            "X-SANDBOX": "1 for sandbox, 0 for production"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "endpoints": {
+          "value": {
+            "create": "POST /payment {order_id, amount (Rial), name?, phone?, mail?, desc?, callback} -> {id, link}",
+            "verify": "POST /payment/verify {id, order_id}",
+            "inquiry": "POST /payment/inquiry {id, order_id}",
+            "list": "POST /payment/transactions"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/idpay-node/v/1.0.81",
+              "title": "idpay-node 1.0.81 (2021-08-29)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "amount_unit": {
+          "value": "Rial",
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "SDK passes amount unchanged; error texts speak of Rial."
+        },
+        "statuses": {
+          "value": {
+            "1": "payment not made (created)",
+            "2": "payment failed",
+            "3": "error",
+            "4": "blocked",
+            "5": "returned to payer",
+            "6": "reversed by system",
+            "7": "cancelled by user",
+            "8": "moved to payment gateway",
+            "10": "awaiting payment verification",
+            "100": "payment verified",
+            "101": "payment verified earlier",
+            "200": "settled to the receiver"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "Meanings per irpayments mapping (100/101/200 success, 10 awaiting verify)."
+        },
+        "error_codes": {
+          "value": {
+            "11": "user blocked",
+            "12": "API key not found",
+            "13": "request IP does not match registered IPs",
+            "14": "web service under review / not approved",
+            "21": "bank account of the web service not verified",
+            "22": "web service not found",
+            "23": "web-service authentication failed",
+            "24": "bank account of the web service disabled",
+            "31": "id must not be empty",
+            "32": "order_id must not be empty",
+            "33": "amount must not be empty",
+            "34": "amount below minimum",
+            "35": "amount above maximum",
+            "36": "amount above allowed limit",
+            "37": "callback must not be empty",
+            "38": "callback domain differs from the registered domain",
+            "51": "transaction not created",
+            "52": "inquiry returned nothing",
+            "53": "payment verification impossible",
+            "54": "payment verification window elapsed"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "HTTP 4xx with error_code; English paraphrase."
+        },
+        "ip_whitelist": {
+          "value": "Request IP must match the IPs registered for the web service (error 13); callback domain must match the registered domain (38)",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "callback": {
+          "value": "Redirect with status, track_id, id, order_id (POST/GET) - always call verify; do not trust callback fields",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "IDPay docs 'callback' section.",
+          "status": "reported"
+        }
+      }
+    },
+    "zibal": {
+      "name_fa": "زیبال",
+      "name_en": "Zibal",
+      "kind": "payment_yar (official CBI payment-yar per vendor copy)",
+      "website": "https://zibal.ir",
+      "risk_label": "high",
+      "restriction_note": "Vendor copy says it is an official CBI payment-yar; prohibited-activity list not seen. Docs require Enamad and tax-file information, so the owner must be a documented business.",
+      "eligibility": {
+        "documents": {
+          "value": [
+            "new national card",
+            "birth certificate",
+            "mobile number in the applicant's name",
+            "valid Enamad",
+            "tax file (stage 4 wording unclear)"
+          ],
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://digiato.com/promoted/a-complete-look-at-payment-gateways-in-iran-why-to-choose-zibal",
+              "title": "Digiato (sponsored): Zibal gateway - settlement, fee modes, documents",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "verify_how": "Zibal panel onboarding checklist.",
+          "status": "reported",
+          "note": "Sponsored article; verify on zibal.ir."
+        }
+      },
+      "prohibited_categories": {
+        "value": null,
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask Zibal support for the written list.",
+        "status": "UNVERIFIED"
+      },
+      "fees": {
+        "modes": {
+          "value": [
+            "payer pays on top of the amount",
+            "deducted from the transaction"
+          ],
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://digiato.com/promoted/a-complete-look-at-payment-gateways-in-iran-why-to-choose-zibal",
+              "title": "Digiato (sponsored): Zibal gateway - settlement, fee modes, documents",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported",
+          "note": "API param feeMode exists (error 116 = invalid feeMode)."
+        },
+        "schedule": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "help.zibal.ir pricing or panel (percent, cap, fixed).",
+          "status": "UNVERIFIED"
+        }
+      },
+      "limits": {
+        "min_amount": {
+          "value": 1000,
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zibal/v/2.0.0",
+              "title": "zibal 2.0.0 (2026-08-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "Result 105: amount must be greater than 1,000 Rial."
+        },
+        "max_amount": {
+          "value": "per-account ceiling; result 113",
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "min_settlement": {
+          "value": {
+            "manual_toman": 1000,
+            "automatic_toman": 10000
+          },
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://digiato.com/promoted/a-complete-look-at-payment-gateways-in-iran-why-to-choose-zibal",
+              "title": "Digiato (sponsored): Zibal gateway - settlement, fee modes, documents",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        }
+      },
+      "settlement": {
+        "cycle": {
+          "value": "Automatic daily: transactions up to 21:00 each night are settled on the next business morning",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://digiato.com/promoted/a-complete-look-at-payment-gateways-in-iran-why-to-choose-zibal",
+              "title": "Digiato (sponsored): Zibal gateway - settlement, fee modes, documents",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "verify_how": "Zibal panel -> settlement.",
+          "status": "reported"
+        }
+      },
+      "api": {
+        "base_url": {
+          "value": "https://gateway.zibal.ir",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zibal/v/2.0.0",
+              "title": "zibal 2.0.0 (2026-08-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "endpoints": {
+          "value": {
+            "request": "POST /v1/request {merchant, amount (Rial), callbackUrl, orderId?, mobile?, description?, allowedCards?[], checkMobileWithCard?, feeMode?, percentMode?, multiplexingInfos?[]} -> {result:100, trackId}",
+            "redirect": "GET https://gateway.zibal.ir/start/{trackId}  (valid Referer header required by the gateway since SDK v2)",
+            "verify": "POST /v1/verify {merchant, trackId} -> result 100 ok / 201 already verified; check returned amount and orderId against your DB",
+            "inquiry": "POST /v1/inquiry {merchant, trackId}"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zibal/v/2.0.0",
+              "title": "zibal 2.0.0 (2026-08-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "sandbox": {
+          "value": "merchant = \"zibal\"",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zibal/v/2.0.0",
+              "title": "zibal 2.0.0 (2026-08-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "amount_unit": {
+          "value": "Rial",
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zibal/v/2.0.0",
+              "title": "zibal 2.0.0 (2026-08-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "result_codes": {
+          "value": {
+            "100": "success",
+            "102": "merchant not found",
+            "103": "merchant inactive / contract not signed",
+            "104": "merchant invalid",
+            "105": "amount must be above the minimum (> 1,000 Rial)",
+            "106": "callbackUrl invalid (must start with http/https)",
+            "107": "percentMode invalid (0 or 1)",
+            "108": "one or more beneficiaries in multiplexingInfos invalid",
+            "109": "one or more beneficiaries inactive",
+            "110": "id=self missing in multiplexingInfos",
+            "111": "amount differs from the sum of shares",
+            "112": "fee wallet balance insufficient",
+            "113": "amount above the maximum transaction ceiling",
+            "114": "national code invalid",
+            "115": "requester IP not registered in the panel",
+            "116": "feeMode invalid",
+            "140": "callbackUrl missing",
+            "201": "already verified",
+            "202": "order unpaid or failed",
+            "203": "trackId invalid"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zibal/v/2.0.0",
+              "title": "zibal 2.0.0 (2026-08-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "status_codes": {
+          "value": {
+            "-1": "awaiting payment",
+            "-2": "internal error",
+            "1": "paid and verified",
+            "2": "paid, not verified",
+            "3": "cancelled by user",
+            "4": "invalid card number",
+            "5": "insufficient balance",
+            "6": "wrong PIN",
+            "7": "too many requests",
+            "8": "daily internet-payment count exceeded",
+            "9": "daily internet-payment amount exceeded",
+            "10": "invalid card issuer",
+            "11": "switch error",
+            "12": "card unavailable",
+            "15": "refunded",
+            "16": "refunding",
+            "18": "reversed",
+            "21": "invalid merchant"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/zibal/v/2.0.0",
+              "title": "zibal 2.0.0 (2026-08-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "card_binding": {
+          "value": "allowedCards[] and checkMobileWithCard restrict payment to the customer's own card/mobile (lawful payer-ownership control)",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "ip_whitelist": {
+          "value": "Requester IP must be registered in the panel (result 115)",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/zibal/v/2.0.0",
+              "title": "zibal 2.0.0 (2026-08-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "rate_limits": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "help.zibal.ir.",
+          "status": "UNVERIFIED"
+        }
+      }
+    },
+    "nextpay": {
+      "name_fa": "نکست‌پی",
+      "name_en": "NextPay",
+      "kind": "payment_yar",
+      "website": "https://nextpay.org",
+      "risk_label": "high",
+      "restriction_note": "Same regime as other payment-yars; docs site publishes requirements/business-types pages (content not seen).",
+      "eligibility": {
+        "documents": {
+          "value": [
+            "owner national card",
+            "company registration number (companies)",
+            "active bank account",
+            "IBAN",
+            "contact info"
+          ],
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://docs.nextpay.world/guide/nextpay/getting-started/requirements",
+              "title": "NextPay docs: requirements / business types",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        }
+      },
+      "fees": {
+        "legacy_figure": {
+          "value": "1%, min 1 Toman, max 800 Toman",
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://docs.nextpay.world/guide/nextpay/getting-started/requirements",
+              "title": "NextPay docs: requirements / business types",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "verify_how": "NextPay panel/pricing page.",
+          "status": "conflicting",
+          "note": "LEGACY. A cap of 800 Toman is incompatible with the 2023 Shaparak floor of up to 4,000 Toman per transaction -> treat as outdated; do not use in pricing."
+        }
+      },
+      "api": {
+        "endpoints": {
+          "value": {
+            "token": "POST https://nextpay.org/nx/gateway/token {api_key, order_id, amount, callback_uri}",
+            "pay": "GET https://nextpay.org/nx/gateway/payment/{trans_id}",
+            "verify": "POST https://nextpay.org/nx/gateway/verify {api_key, trans_id, amount} -> code 0 = success"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+              "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://pypi.org/project/nextpay/1.0.0/",
+              "title": "nextpay 1.0.0 (2022-08-26)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "amount_unit": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "NextPay docs: default currency and the currency param.",
+          "status": "UNVERIFIED",
+          "note": "Python wrapper example passes '10000' as 'price of your product' (unit not stated)."
+        },
+        "error_codes": {
+          "value": "1000-series gateway errors (1011 duplicate order id, 1017 amount above merchant limit, 1029/1030 IP/domain not registered, 1031 timeout, 1032 card not allowed for this merchant, 1101 invalid amount, 1103 invalid token, 1104 invalid split info)",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+              "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        }
+      }
+    },
+    "vandar": {
+      "name_fa": "وندار",
+      "name_en": "Vandar",
+      "kind": "payment_yar",
+      "website": "https://vandar.io",
+      "risk_label": "high",
+      "restriction_note": "Same regime as other payment-yars.",
+      "settlement": {
+        "cycle": {
+          "value": "Up to 39 settlements per day at set hours, via Paya cycle or instant settlement",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.rade.ir/ipg/703615-%D9%88%D9%86%D8%AF%D8%A7%D8%B1/",
+              "title": "Rade.ir listing: Vandar payment-yar (settlement up to 39x/day)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "verify_how": "Vandar panel -> settlement.",
+          "status": "reported"
+        }
+      },
+      "fees": {
+        "modes": {
+          "value": "Merchant can choose who pays the fee; web-service gateway",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.rade.ir/ipg/703615-%D9%88%D9%86%D8%AF%D8%A7%D8%B1/",
+              "title": "Rade.ir listing: Vandar payment-yar (settlement up to 39x/day)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        },
+        "schedule": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "vandar.io pricing.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "api": {
+        "endpoints": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "docs.vandar.io (IPG v3: send / verify / redirect).",
+          "status": "UNVERIFIED",
+          "note": "No SDK for Vandar was found on npm/PyPI in this run; endpoints intentionally left null."
+        }
+      }
+    },
+    "payir": {
+      "name_fa": "پی‌دات‌آی‌آر",
+      "name_en": "Pay.ir",
+      "kind": "payment_yar (status unknown)",
+      "website": "https://pay.ir",
+      "risk_label": "high",
+      "restriction_note": "SDKs on npm/PyPI are stale (2017-2021); the service's current status/ownership could not be verified in this run.",
+      "api": {
+        "endpoints": {
+          "value": {
+            "send": "POST https://pay.ir/pg/send {api, amount (Rial, must be > 10,000), redirect, mobile?, factorNumber?, description?, validCardNumber?}",
+            "redirect": "GET https://pay.ir/pg/{token}",
+            "verify": "POST https://pay.ir/pg/verify {api, token}"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/payir-v2/v/1.2.1",
+              "title": "payir-v2 1.2.1 (2021-07-18): Pay.ir REST",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "Package tested on 1400/04/24 (2021-07-15)."
+        },
+        "callback_rule": {
+          "value": "Callback has status & token; if status=1 you MUST verify, otherwise the amount returns to the customer after 30 minutes",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/payir-v2/v/1.2.1",
+              "title": "payir-v2 1.2.1 (2021-07-18): Pay.ir REST",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "sandbox": {
+          "value": "api key \"test\"",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/payir-v2/v/1.2.1",
+              "title": "payir-v2 1.2.1 (2021-07-18): Pay.ir REST",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "docs.pay.ir/gateway",
+          "status": "reported"
+        }
+      }
+    },
+    "sep_saman": {
+      "name_fa": "سپ (بانک سامان)",
+      "name_en": "SEP / Saman Kish",
+      "kind": "psp_direct",
+      "website": "https://www.sep.ir",
+      "risk_label": "high",
+      "restriction_note": "Bank-grade onboarding; no SDK evidence found in this run; also reachable through Zarinpal (S28).",
+      "api": {
+        "endpoints": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Request the technical document from SEP (token-based 'online PG' REST + verify/reverse).",
+          "status": "UNVERIFIED",
+          "note": "Not found in registries; left null."
+        }
+      }
+    },
+    "behpardakht_mellat": {
+      "name_fa": "به‌پرداخت ملت",
+      "name_en": "Behpardakht Mellat (BPM)",
+      "kind": "psp_direct",
+      "website": "https://www.behpardakht.com",
+      "risk_label": "high",
+      "restriction_note": "Direct bank gateway; contract + Enamad needed; classification review by the bank.",
+      "api": {
+        "protocol": {
+          "value": "SOAP: https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+              "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "flow": {
+          "value": "bpPayRequest(terminalId,userName,userPassword,orderId,amount[Rial],localDate,localTime,additionalData,callBackUrl,payerId=0) -> 'ResCode,RefId'; POST RefId to https://bpm.shaparak.ir/pgwchannel/startpay.mellat; callback carries ResCode, SaleOrderId, SaleReferenceId; then bpVerifyRequest -> bpInquiryRequest -> bpSettleRequest; bpReversalRequest on any failure",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+              "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "Unverified payments are reversed by the bank after a timeout; verify+settle immediately."
+        },
+        "amount_unit": {
+          "value": "Rial (wrapper multiplies Toman x 10)",
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+              "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "result_codes": {
+          "value": {
+            "0": "success",
+            "11": "invalid card number",
+            "12": "insufficient funds",
+            "13": "wrong PIN",
+            "14": "PIN attempts exceeded",
+            "15": "invalid card",
+            "16": "withdrawal count exceeded",
+            "17": "user cancelled",
+            "18": "card expired",
+            "19": "withdrawal amount exceeded",
+            "21": "invalid merchant",
+            "23": "security error",
+            "24": "invalid merchant credentials",
+            "25": "invalid amount",
+            "31": "invalid response",
+            "32": "invalid data format",
+            "33": "invalid account",
+            "34": "system error",
+            "35": "invalid date",
+            "41": "duplicate request (order id)",
+            "42": "sale transaction not found",
+            "43": "verify already requested",
+            "44": "verify request not found",
+            "45": "transaction already settled",
+            "46": "transaction not settled",
+            "47": "settle transaction not found",
+            "48": "transaction already reversed",
+            "51": "duplicate transaction",
+            "54": "reference transaction missing",
+            "55": "invalid transaction",
+            "61": "deposit error",
+            "62": "return path outside the merchant's registered domain",
+            "111": "invalid card issuer",
+            "112": "issuer switch error",
+            "113": "no response from issuer",
+            "114": "cardholder not allowed this transaction",
+            "421": "invalid IP"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+              "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        }
+      }
+    },
+    "parsian_pec": {
+      "name_fa": "تجارت الکترونیک پارسیان (پک)",
+      "name_en": "Parsian Electronic Commerce (PEC)",
+      "kind": "psp_direct",
+      "website": "https://pec.ir",
+      "risk_label": "high",
+      "restriction_note": "Direct PSP; contract + Enamad needed.",
+      "api": {
+        "protocol": {
+          "value": {
+            "sale": "https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?WSDL",
+            "confirm": "https://pec.shaparak.ir/NewIPGServices/Confirm/ConfirmService.asmx?WSDL",
+            "reverse": "https://pec.shaparak.ir/NewIPGServices/Reverse/ReversalService.asmx?WSDL",
+            "multiplexed_sale": "https://pec.shaparak.ir/NewIPGServices/MultiplexedSale/OnlineMultiplexedSalePaymentService.asmx?WSDL",
+            "redirect": "https://pec.shaparak.ir/NewIPG/?Token=<token>",
+            "sale_report_rest": "https://pgwservices.pec.ir/api/PGWReport/GetSaleReport"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/pec-payment-sdk/v/1.1.2",
+              "title": "pec-payment-sdk 1.1.2 (2026-06-01): Parsian PEC SOAP services",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "amount_unit": {
+          "value": "Rial (SDK converts Toman x 10)",
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/pec-payment-sdk/v/1.1.2",
+              "title": "pec-payment-sdk 1.1.2 (2026-06-01): Parsian PEC SOAP services",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        }
+      }
+    },
+    "melli_sadad": {
+      "name_fa": "سداد (بانک ملی)",
+      "name_en": "Sadad (Bank Melli)",
+      "kind": "psp_direct",
+      "website": "https://sadadpsp.ir",
+      "risk_label": "high",
+      "restriction_note": "Direct bank gateway.",
+      "api": {
+        "endpoints": {
+          "value": {
+            "payment_request": "POST https://sadad.shaparak.ir/api/v0/Request/PaymentRequest",
+            "verify": "POST https://sadad.shaparak.ir/api/v0/Advice/Verify",
+            "refund": "POST https://refund.sadadpsp.ir/api/v1/refund/Register | Confirm | Cancel"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+              "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        }
+      }
+    },
+    "saderat_sepehr": {
+      "name_fa": "سپهر (بانک صادرات)",
+      "name_en": "Sepehr Electronic Payment (Bank Saderat)",
+      "kind": "psp_direct",
+      "website": "https://www.sepehrpay.com",
+      "risk_label": "high",
+      "restriction_note": "Direct bank gateway.",
+      "api": {
+        "endpoints": {
+          "value": {
+            "get_token": "GET https://sepehr.shaparak.ir:8081/V1/PeymentApi/GetToken?Amount&CallbackUrl&InvoiceId&Payload&TerminalId",
+            "advice": "GET https://sepehr.shaparak.ir:8081/V1/PeymentApi/Advice?digitalreceipt&Tid"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+              "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        }
+      }
+    },
+    "asanpardakht_digipay": {
+      "name_fa": "آسان‌پرداخت (آپ) / دیجی‌پی",
+      "name_en": "Asan Pardakht (AP) / Digipay",
+      "kind": "psp / fintech",
+      "website": "https://asanpardakht.ir",
+      "risk_label": "high",
+      "restriction_note": "AP gateway is reachable through Zarinpal (S28). Direct API details were not retrievable in this run.",
+      "api": {
+        "endpoints": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Request AP technical document (REST token/verify/settle/reverse) and Digipay merchant API docs.",
+          "status": "UNVERIFIED",
+          "note": "No SDK found; left null."
+        }
+      }
+    }
+  }
+}

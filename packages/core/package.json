@@ -1,0 +1,13 @@
+{
+  "name": "@hiclaude/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@hiclaude/contracts": "*",
+    "decimal.js": "^10.4.3"
+  }
+}

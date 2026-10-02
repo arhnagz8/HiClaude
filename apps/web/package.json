@@ -1,0 +1,44 @@
+{
+  "name": "@hiclaude/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:mock": "VITE_MOCK=1 vite",
+    "build": "node scripts/gen-copy.mjs && tsc --noEmit -p . && vite build && node scripts/check-budget.mjs",
+    "build:mock": "VITE_MOCK=1 vite build --outDir dist-mock",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p .",
+    "gen:copy": "node scripts/gen-copy.mjs",
+    "gen:tokens": "node scripts/gen-tokens.mjs",
+    "test": "vitest run --root ../.. apps/web",
+    "qa:shots": "node scripts/qa-screenshots.mjs"
+  },
+  "dependencies": {
+    "@hiclaude/contracts": "*",
+    "@tanstack/react-query": "^5.104.1",
+    "qrcode-generator": "^2.0.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.6",
+    "vazirmatn": "^33.0.3"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.6.1",
+    "axe-core": "^4.13.0",
+    "jsdom": "^29.1.1",
+    "playwright-core": "^1.63.0",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.21"
+  }
+}

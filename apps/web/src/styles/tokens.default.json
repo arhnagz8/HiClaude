@@ -1,0 +1,56 @@
+{
+  "$comment": "Default design tokens (B7a). Replaced by docs/05-architecture/design-tokens.json when the UX specialist's file lands (see scripts/gen-tokens.mjs).",
+  "color": {
+    "light": {
+      "bg": "#F7F8FB",
+      "surface": "#FFFFFF",
+      "surface-2": "#F0F2F7",
+      "surface-3": "#E6E9F0",
+      "line": "#E1E5EC",
+      "line-strong": "#C5CBD6",
+      "fg": "#111827",
+      "muted": "#4B5567",
+      "subtle": "#6B7384",
+      "primary": "#4338CA",
+      "primary-hover": "#3730A3",
+      "primary-soft": "#EEF0FF",
+      "on-primary": "#FFFFFF",
+      "success": "#15803D",
+      "success-soft": "#E7F6EC",
+      "warning": "#92400E",
+      "warning-soft": "#FEF3C7",
+      "danger": "#B91C1C",
+      "danger-soft": "#FDECEC",
+      "info": "#0369A1",
+      "info-soft": "#E3F2FB"
+    },
+    "dark": {
+      "bg": "#0B0E14",
+      "surface": "#131925",
+      "surface-2": "#1A2231",
+      "surface-3": "#232D40",
+      "line": "#27324A",
+      "line-strong": "#3A4766",
+      "fg": "#EEF1F6",
+      "muted": "#B2BBCB",
+      "subtle": "#8F9AAF",
+      "primary": "#9AA3FF",
+      "primary-hover": "#B3BAFF",
+      "primary-soft": "#1E2250",
+      "on-primary": "#0E1030",
+      "success": "#4ADE80",
+      "success-soft": "#10301D",
+      "warning": "#FBBF24",
+      "warning-soft": "#35280A",
+      "danger": "#F87171",
+      "danger-soft": "#3A1515",
+      "info": "#5EC1F2",
+      "info-soft": "#0E2C3F"
+    }
+  },
+  "radius": { "sm": "8px", "md": "12px", "lg": "16px", "xl": "24px" },
+  "shadow": {
+    "light": { "card": "0 1px 2px rgb(17 24 39 / .06), 0 4px 16px rgb(17 24 39 / .05)", "pop": "0 10px 40px rgb(17 24 39 / .18)" },
+    "dark": { "card": "0 1px 2px rgb(0 0 0 / .4), 0 4px 16px rgb(0 0 0 / .25)", "pop": "0 10px 40px rgb(0 0 0 / .6)" }
+  }
+}

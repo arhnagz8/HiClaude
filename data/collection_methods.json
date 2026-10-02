@@ -1,0 +1,1264 @@
+{
+  "_meta": {
+    "file": "collection_methods.json",
+    "owner_agent": "03-ir-payments-collection",
+    "as_of": "2026-10-02",
+    "purpose": "Per-method cost/cap/verification/fraud/latency facts for collecting customer money. Loaded by the pricing engine (collection fee line) and the simulator (method mix, failure modes).",
+    "scoring_note": "fraud_risk.score_1_to_5 is an analyst judgement to rank methods; it is NOT a measured rate.",
+    "reference_usdt_irt": {
+      "value": 257000,
+      "unit": "IRT per USDT",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "sources": [
+        {
+          "url": "docs/business-plan-full-context.md",
+          "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+          "note": "local file"
+        }
+      ],
+      "status": "reported",
+      "note": "Reference only for min-viable-order maths (business plan, ~10 Mehr 1405). The live rate comes from the exchanges adapter."
+    }
+  },
+  "methods": {
+    "gateway_psp": {
+      "name_fa": "درگاه پرداخت (پرداخت‌یار)",
+      "name_en": "Payment-yar / PSP gateway",
+      "launch_role": "primary for retail-size orders IF the merchant category is accepted; keep a second gateway account as fallback",
+      "risk_label": "high",
+      "restriction_note": "Gateway can be terminated or settlement held if the activity is judged currency/crypto-related; classification and Enamad are gating.",
+      "merchant_fee": {
+        "model": "min(pct x amount, cap) + fixed",
+        "pct": {
+          "value": 0.5,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=4071",
+              "title": "Zarinpal blog: cheapest internet payment gateway (fee 0.5%, cap 16,000 Toman, +500 fixed)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "docs/business-plan-full-context.md",
+              "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+              "note": "local file"
+            }
+          ],
+          "verify_how": "Zarinpal feeCalculation.json at runtime",
+          "status": "reported"
+        },
+        "cap_toman": {
+          "value": 16000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=4071",
+              "title": "Zarinpal blog: cheapest internet payment gateway (fee 0.5%, cap 16,000 Toman, +500 fixed)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "docs/business-plan-full-context.md",
+              "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+              "note": "local file"
+            }
+          ],
+          "status": "reported"
+        },
+        "fixed_toman": {
+          "value": 500,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=4071",
+              "title": "Zarinpal blog: cheapest internet payment gateway (fee 0.5%, cap 16,000 Toman, +500 fixed)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "docs/business-plan-full-context.md",
+              "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+              "note": "local file"
+            }
+          ],
+          "status": "reported"
+        },
+        "regulated_floor": {
+          "value": "1,200 Rial if purchase < 6,000,000 Rial else 0.02% capped at 40,000 Rial",
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=5947",
+              "title": "Zarinpal blog: fee-system reform circular effective 4 Tir 1402",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://www.zoomit.ir/tech-iran/406506-receiving-fees-from-purchase-transactions/",
+              "title": "Zoomit: fee on purchase transactions starts tomorrow",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://ecoiran.com/fa/tiny/news-38727",
+              "title": "Ecoiran: fee reform for POS and internet gateways",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        },
+        "vat": {
+          "value": null,
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "04-legal: VAT on PSP service fees, rate for 1405.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "caps": {
+        "single_payment_max": {
+          "value": 100000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+              "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "Zarinpal -41; other gateways have their own ceilings (Zibal 113, IDPay 35/36)."
+        },
+        "per_person_per_day": {
+          "value": 400000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D8%AF%D8%B1%DA%AF%D8%A7%D9%87-%D9%BE%D8%B1%D8%AF%D8%A7%D8%AE%D8%AA-%D8%A7%DB%8C%D9%86%D8%AA%D8%B1%D9%86%D8%AA%DB%8C/",
+              "title": "Zarinpal blog: internet payment cap 1405 (400M Toman/day/person, 200M/card)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://nabzgheymat.ir/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4%D9%87%D8%A7%DB%8C-%D8%A8%D8%A7%D9%86%DA%A9%DB%8C-%D8%AF%D8%B1-%DB%B1%DB%B4%DB%B0%DB%B5-%DA%86%D9%82%D8%AF%D8%B1-%D8%A7%D8%B3%D8%AA/",
+              "title": "Nabzgheymat: bank transaction caps 1405 - c2c 15M Toman to 400M purchase",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        },
+        "per_card_per_day": {
+          "value": 200000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D8%AF%D8%B1%DA%AF%D8%A7%D9%87-%D9%BE%D8%B1%D8%AF%D8%A7%D8%AE%D8%AA-%D8%A7%DB%8C%D9%86%D8%AA%D8%B1%D9%86%D8%AA%DB%8C/",
+              "title": "Zarinpal blog: internet payment cap 1405 (400M Toman/day/person, 200M/card)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        }
+      },
+      "settlement": {
+        "value": "Paya cycles on business days; Zibal: cut-off 21:00 -> next business morning; Vandar: up to 39x/day; others unverified",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "sources": [
+          {
+            "url": "https://iranbroker.net/?p=200635",
+            "title": "Iranbroker: Paya settlement hours change from Thursday 19 Tir",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://digiato.com/promoted/a-complete-look-at-payment-gateways-in-iran-why-to-choose-zibal",
+            "title": "Digiato (sponsored): Zibal gateway - settlement, fee modes, documents",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://www.rade.ir/ipg/703615-%D9%88%D9%86%D8%AF%D8%A7%D8%B1/",
+            "title": "Rade.ir listing: Vandar payment-yar (settlement up to 39x/day)",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          }
+        ],
+        "status": "reported"
+      },
+      "verification": "Server-side verify with the amount from our DB (never from the callback); idempotent on authority/trackId; reconcile with unVerified/inquiry; pay-link TTL = quote TTL; payer-card binding via cardPan/allowedCards.",
+      "fraud_risk": {
+        "score_1_to_5": {
+          "value": 1,
+          "unit": "score",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "status": "reported",
+          "note": "Analyst judgement (5 = worst), not sourced: card present at issuer, push payment through Shaparak; residual risk is third-party-card (triangular) fraud and account-takeover"
+        }
+      },
+      "fraud_patterns": [
+        "victim-funded orders (triangular fraud) - mitigate with card binding + name match",
+        "customer disputes with the bank after delivery of a digital good",
+        "double verify / replay of callback"
+      ],
+      "confirmation_time": {
+        "value": "seconds (synchronous callback + verify)",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+            "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/zibal/v/2.0.0",
+            "title": "zibal 2.0.0 (2026-08-22)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "availability": "24/7 (issuer/Shaparak maintenance windows apply); gateway outages are a simulator scenario",
+      "min_viable_order_toman": {
+        "value": 1000,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/zarinpal-node-sdk/v/2.2.0",
+            "title": "zarinpal-node-sdk 2.2.0 (2025-07-01), README says official",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported",
+        "note": "Gateway minimum; commercial minimum is a product decision."
+      },
+      "unverified_payment_rule": {
+        "value": "Pay.ir: if status=1 and the merchant does not verify, the amount returns to the customer after 30 minutes. Zarinpal: reversal only within 30 minutes (-63). IDPay: a verification window exists (error 54). Mellat: verify -> inquiry -> settle, reversal on failure. => verify immediately and retry within the first minutes; never rely on a late callback.",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/payir-v2/v/1.2.1",
+            "title": "payir-v2 1.2.1 (2021-07-18): Pay.ir REST",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/irpayments/v/1.97.0",
+            "title": "irpayments 1.97.0 (2026-07-08): Zarinpal/Zibal/IDPay drivers + Persian error maps",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+            "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      }
+    },
+    "gateway_direct_bank": {
+      "name_fa": "درگاه مستقیم بانکی/PSP",
+      "name_en": "Direct bank / PSP gateway",
+      "launch_role": "secondary/fallback once the business is registered (needs contract, Enamad, tax file)",
+      "risk_label": "high",
+      "restriction_note": "Bank-grade KYC; the CBI pushes crypto platforms toward direct PSPs, so a USDT-funded reseller will be scrutinised on category.",
+      "merchant_fee": {
+        "regulated_floor": {
+          "value": "1,200 Rial if purchase < 6,000,000 Rial else 0.02% capped at 40,000 Rial",
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/?p=5947",
+              "title": "Zarinpal blog: fee-system reform circular effective 4 Tir 1402",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://www.zoomit.ir/tech-iran/406506-receiving-fees-from-purchase-transactions/",
+              "title": "Zoomit: fee on purchase transactions starts tomorrow",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://ecoiran.com/fa/tiny/news-38727",
+              "title": "Ecoiran: fee reform for POS and internet gateways",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        },
+        "marketing_claim": {
+          "value": "'direct gateways have no fee'",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/landing/asanpardakht/",
+              "title": "Zarinpal landing: Asan Pardakht (AP) gateway + 5 other IPGs via one integration",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "conflicting",
+          "note": "Contradicted by the regulated floor above and by bank fee statements; treat as 'no PSP margin' only."
+        },
+        "bank_specific_schedule": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Contract schedule from the PSP (Sep/Mellat/Parsian/Sadad/Sepehr).",
+          "status": "UNVERIFIED"
+        }
+      },
+      "caps": {
+        "per_person_per_day": {
+          "value": 400000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.zarinpal.com/blog/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D8%AF%D8%B1%DA%AF%D8%A7%D9%87-%D9%BE%D8%B1%D8%AF%D8%A7%D8%AE%D8%AA-%D8%A7%DB%8C%D9%86%D8%AA%D8%B1%D9%86%D8%AA%DB%8C/",
+              "title": "Zarinpal blog: internet payment cap 1405 (400M Toman/day/person, 200M/card)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://nabzgheymat.ir/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4%D9%87%D8%A7%DB%8C-%D8%A8%D8%A7%D9%86%DA%A9%DB%8C-%D8%AF%D8%B1-%DB%B1%DB%B4%DB%B0%DB%B5-%DA%86%D9%82%D8%AF%D8%B1-%D8%A7%D8%B3%D8%AA/",
+              "title": "Nabzgheymat: bank transaction caps 1405 - c2c 15M Toman to 400M purchase",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        }
+      },
+      "settlement": {
+        "value": null,
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "PSP contract: settlement lag and cycle.",
+        "status": "UNVERIFIED"
+      },
+      "verification": "Protocol-specific: Mellat bpVerifyRequest -> bpInquiryRequest -> bpSettleRequest else bpReversalRequest; Parsian Sale -> Confirm -> Reverse; Sadad Advice/Verify; Sepehr Advice(digitalreceipt).",
+      "fraud_risk": {
+        "score_1_to_5": {
+          "value": 1,
+          "unit": "score",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "status": "reported",
+          "note": "Analyst judgement (5 = worst), not sourced: same as gateway_psp"
+        }
+      },
+      "confirmation_time": {
+        "value": "seconds",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.npmjs.com/package/ipg-node/v/1.2.2",
+            "title": "ipg-node 1.2.2 (2022-06-01): Mellat / Melli(Sadad) / Saderat(Sepehr) / NextPay",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/pec-payment-sdk/v/1.1.2",
+            "title": "pec-payment-sdk 1.1.2 (2026-06-01): Parsian PEC SOAP services",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      },
+      "availability": "24/7 with bank maintenance windows"
+    },
+    "card_to_card_manual": {
+      "name_fa": "کارت‌به‌کارت (تأیید دستی/نیمه‌خودکار)",
+      "name_en": "Card-to-card to a business card/account",
+      "launch_role": "secondary for small/medium orders (<= 15M Toman); primary only if gateways refuse the category",
+      "risk_label": "medium",
+      "restriction_note": "Receiving many third-party transfers on a personal card triggers bank AML blocks and tax visibility; use a registered-business account and keep invoices. Cap 15M Toman/day per sending card.",
+      "merchant_fee": {
+        "bank_fee_receiver": {
+          "value": 0,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "docs/business-plan-full-context.md",
+              "title": "Round-0 business plan section 5 (collection) and 4.1 (USDT rate 2026-10-02)",
+              "note": "local file"
+            }
+          ],
+          "status": "reported",
+          "note": "Receiver pays no per-transfer fee per round-0 research (not independently re-verified); sender-side fee not verified."
+        },
+        "sender_fee": {
+          "value": null,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Sender bank tariff table 1405 (c2c fee per transfer).",
+          "status": "UNVERIFIED"
+        },
+        "operator_cost_per_receipt": {
+          "value": null,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "From 10-ops-growth: minutes per receipt x operator wage.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "caps": {
+        "per_sending_card_per_day": {
+          "value": 15000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://www.zoomit.ir/howto/463880-iran-bank-cards-money-transfer-limit/",
+              "title": "Zoomit: card-to-card and bank transaction caps 1405",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://fararu.com/fa/news/978296/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D8%A8%D8%A7%D9%86%DA%A9%DB%8C-1405",
+              "title": "Fararu: bank transaction caps 1405 (c2c, Satna, Paya, Pol)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://www.jamaran.news/%D8%A8%D8%AE%D8%B4-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-13/1720067-%D8%B3%D9%82%D9%81-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%A8%D9%87-%DA%A9%D8%A7%D8%B1%D8%AA-%DA%A9%D8%A7%D8%B1%D8%AA%D8%AE%D9%88%D8%A7%D9%86-%D8%AF%D8%B1-%D8%B3%D8%A7%D9%84-%DA%86%D9%82%D8%AF%D8%B1-%D8%A7%D8%B3%D8%AA",
+              "title": "Jamaran: card-to-card and POS caps 1405",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://nabzgheymat.ir/%D8%B3%D9%82%D9%81-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4%D9%87%D8%A7%DB%8C-%D8%A8%D8%A7%D9%86%DA%A9%DB%8C-%D8%AF%D8%B1-%DB%B1%DB%B4%DB%B0%DB%B5-%DA%86%D9%82%D8%AF%D8%B1-%D8%A7%D8%B3%D8%AA/",
+              "title": "Nabzgheymat: bank transaction caps 1405 - c2c 15M Toman to 400M purchase",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            },
+            {
+              "url": "https://www.eghtesadnews.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D8%AE%D8%A8%D8%A7%D8%B1-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF%DB%8C-67/790333-%D8%B3%D9%82%D9%81-%D8%A7%D9%86%D9%88%D8%A7%D8%B9-%D8%AA%D8%B1%D8%A7%DA%A9%D9%86%D8%B4-%D8%A8%D8%A7%D9%86%DA%A9%DB%8C-%D8%AF%D8%B1-%D8%B3%D8%A7%D9%84-%D8%AC%D8%AF%D9%88%D9%84",
+              "title": "Eghtesadnews: table of bank transaction caps 1405",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "status": "reported"
+        },
+        "policy": "Orders above the cap are routed to gateway, Paya/Satna transfer or USDT. The product must NOT instruct customers to split a payment across cards or days to get around the cap."
+      },
+      "verification": "Unique-amount tail (+1..999 Toman, collision-free among open orders, TTL = quote TTL) -> match to bank notification; confirm via bank statement/open-banking where available; check payer card ownership by name match before releasing the order; never accept screenshots as proof.",
+      "unique_amount": {
+        "value": {
+          "tail_range_toman": [
+            1,
+            999
+          ],
+          "mean_toman": 500,
+          "uniqueness_scope": "per destination card and open order set",
+          "ttl": "= price-lock TTL"
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://ka.wordpress.org/plugins/?p=285839",
+            "title": "WebDide Card-to-Card Payment Verification for Shetab (unique tail 1-999 Toman, SMS-reading app)",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          }
+        ],
+        "status": "reported",
+        "note": "Pattern seen in a WooCommerce card-to-card verification plugin; tail revenue stays with the merchant, so the pricing engine should fold it into the price, not show it as a fee."
+      },
+      "fraud_risk": {
+        "score_1_to_5": {
+          "value": 4,
+          "unit": "score",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "status": "reported",
+          "note": "Analyst judgement (5 = worst), not sourced: fake screenshots, forged bank SMS, victim-funded (triangular) transfers, reversals after bank complaints; account freezes"
+        }
+      },
+      "fraud_patterns": [
+        "fake receipt screenshot",
+        "forged SMS in the bank's SMS thread",
+        "triangular fraud: a third party's money is routed to our card for a fraudster's order",
+        "bank/police block of the receiving account after a victim's complaint"
+      ],
+      "confirmation_time": {
+        "value": "transfer instant (Shetab); verification delay = operator/automation latency",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://ka.wordpress.org/plugins/?p=285839",
+            "title": "WebDide Card-to-Card Payment Verification for Shetab (unique tail 1-999 Toman, SMS-reading app)",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          }
+        ],
+        "status": "reported"
+      },
+      "availability": "24/7 transfers; verification depends on operator hours (Iran weekend Friday)",
+      "tax_triggers": {
+        "value": {
+          "monthly_deposit_count": 100,
+          "monthly_deposit_total_toman": 35000000,
+          "logic": "both conditions",
+          "caveat": "tax applies only if the deposits are shown to be income (circular 200/5549 per summary)"
+        },
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.mahaksoft.com/89985/bank-transaction-tax/",
+            "title": "Mahaksoft and other tax-advice pages: bank-transaction tax criteria (100 deposits/month, 35M Toman)",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          }
+        ],
+        "verify_how": "04-legal: confirm the criteria, thresholds and the current circular with a licensed accountant.",
+        "status": "reported"
+      },
+      "freeze_risk": {
+        "value": "High for personal cards that receive many unrelated transfers; CBI/police can block accounts (CBI invoked its AML powers against crypto platforms and payment-yars)",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://arzdigital.com/blog/report-iran-crypto-exchanges-blocked/",
+            "title": "ArzDigital: CBI orders account blocking of crypto platforms and payment-yars",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://bankavl.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D8%AE%D8%A8%D8%A7%D8%B1-2/62096-%D9%87%D8%B4%D8%AF%D8%A7%D8%B1-%D9%BE%D9%84%DB%8C%D8%B3-%D8%AD%D8%B3%D8%A7%D8%A8-%D8%AA%D8%A7%D9%86-%D9%85%D9%85%DA%A9%D9%86-%D8%A7%D8%B3%D8%AA-%DB%8C%DA%A9-%D8%B4%D8%A8%D9%87-%D9%85%D8%B3%D8%AF%D9%88%D8%AF-%D8%B4%D9%88%D8%AF",
+            "title": "Bankavl: police warning - account may be blocked overnight",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          }
+        ],
+        "status": "reported",
+        "note": "Lawful structure: registered business + business account, PSP/gateway as primary, invoices (Moadian), KYC of payers, prompt answers to bank/police requests. Never use third-party or rented accounts."
+      }
+    },
+    "bank_transfer_paya_satna": {
+      "name_fa": "پایا/ساتنا (انتقال بانکی)",
+      "name_en": "Paya / Satna bank transfer",
+      "launch_role": "lawful channel for orders above the card-to-card cap",
+      "risk_label": "medium",
+      "restriction_note": "Operator reconciliation needed; Paya/Satna hours and holiday rules apply.",
+      "caps": {
+        "per_transfer_and_daily": {
+          "value": null,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Sender bank limits table 1405 (Paya/Satna/Pol): fararu 978296, zoomit 463880 - read the table.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "settlement": {
+        "value": "Paya cycles 03:45/09:45/12:45/18:45 (changed 2025-07-10); Satna working-hours rule above",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "sources": [
+          {
+            "url": "https://iranbroker.net/?p=200635",
+            "title": "Iranbroker: Paya settlement hours change from Thursday 19 Tir",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://bankavl.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D8%AE%D8%A8%D8%A7%D8%B1-2/50674-%D8%B3%D8%A7%D8%B9%D8%AA-%D8%AA%D8%B3%D9%88%DB%8C%D9%87-%D8%B3%D8%A7%D9%85%D8%A7%D9%86%D9%87-%D9%BE%D8%A7%DB%8C%D8%A7-%D8%AA%D8%BA%DB%8C%DB%8C%D8%B1-%DA%A9%D8%B1%D8%AF",
+            "title": "Bankavl: Paya settlement hours changed",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          },
+          {
+            "url": "https://www.etemadonline.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF%DB%8C-22/552925-%D8%B3%D8%A7%D8%B9%D8%AA-%DA%A9%D8%A7%D8%B1%DB%8C-%D8%B3%D8%A7%D8%AA%D9%86%D8%A7-%D8%A7%D9%81%D8%B2%D8%A7%DB%8C%D8%B4-%DB%8C%D8%A7%D9%81%D8%AA",
+            "title": "Etemad: Satna working hours",
+            "note": "per search summary (page not opened; WebFetch blocked)"
+          }
+        ],
+        "status": "reported"
+      },
+      "verification": "Match reference/tracking number + amount + sender name to the bank statement before releasing the order.",
+      "fraud_risk": {
+        "score_1_to_5": {
+          "value": 2,
+          "unit": "score",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "status": "reported",
+          "note": "Analyst judgement (5 = worst), not sourced: bank-side name/IBAN checks make forged proofs harder than screenshots"
+        }
+      }
+    },
+    "bale_wallet": {
+      "name_fa": "کیف پول بله (فاکتور در ربات)",
+      "name_en": "Bale in-bot invoice (wallet/card/port payout)",
+      "launch_role": "optional convenience rail inside the Bale mini app/bot",
+      "risk_label": "medium",
+      "restriction_note": "Bale wallet rules, limits and fees were not verified; messenger payment rails may change; settlement type depends on provider_token.",
+      "merchant_fee": {
+        "payer_fee": {
+          "value": "Docstring: 'When paying the amount, a fee will be charged from the sender'",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/python-bale-bot/2.5.0/",
+              "title": "python-bale-bot 2.5.0 (2024-01-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "docs.bale.ai payments section; test with a small live invoice.",
+          "status": "reported"
+        },
+        "merchant_fee": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Bale merchant agreement / wallet fee table.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "api": {
+        "base_url": {
+          "value": "https://tapi.bale.ai/bot{token}/{method}",
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/python-bale-bot/2.5.0/",
+              "title": "python-bale-bot 2.5.0 (2024-01-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://pypi.org/project/baleio/0.1.0/",
+              "title": "baleio 0.1.0 (2026-07-06)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://pypi.org/project/pyrobale/0.7.0/",
+              "title": "pyrobale 0.7.0 (2026-06-24)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "methods": {
+          "value": [
+            "sendInvoice",
+            "createInvoiceLink",
+            "answerPreCheckoutQuery",
+            "inquireTransaction"
+          ],
+          "as_of": "2026-10-02",
+          "confidence": "high",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/baleio/0.1.0/",
+              "title": "baleio 0.1.0 (2026-07-06)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://pypi.org/project/pyrobale/0.7.0/",
+              "title": "pyrobale 0.7.0 (2026-06-24)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/balebaazoo/v/1.4.1",
+              "title": "balebaazoo 1.4.1 (2026-06-29)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "amount_unit": {
+          "value": "Rial (IRR) in LabeledPrice.amount",
+          "unit": "IRR",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/baleio/0.1.0/",
+              "title": "baleio 0.1.0 (2026-07-06)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://vec.wordpress.org/plugins/?p=356754",
+              "title": "Melalweb Pay with Bale for WooCommerce (sendInvoice -> pre_checkout_query -> successful_payment)",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "verify_how": "Send a 10,000 Rial invoice and compare with the wallet UI.",
+          "status": "reported"
+        },
+        "provider_token": {
+          "value": "one of: (1) card number, (2) port (gateway) number + acceptor number, (3) Bale wallet number",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/python-bale-bot/2.5.0/",
+              "title": "python-bale-bot 2.5.0 (2024-01-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://python-bale-bot.readthedocs.io/en/latest/examples.invoice.html",
+              "title": "python-bale-bot docs: invoice example",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "verify_how": "docs.bale.ai -> payments; how the token is issued/approved is not verified.",
+          "status": "reported"
+        },
+        "invoice_limits": {
+          "value": {
+            "title_chars": "1-32",
+            "description_chars": "1-255"
+          },
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/python-bale-bot/2.5.0/",
+              "title": "python-bale-bot 2.5.0 (2024-01-22)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "flow": "sendInvoice -> user taps pay -> pre_checkout_query (answer ok within ~10 s) -> poll/confirm with inquireTransaction(transaction_id = pre_checkout_query.id) until status in {paid, failed, rejected} -> successful_payment message; store provider_payment_charge_id uniquely (idempotency).",
+        "transaction_statuses": {
+          "value": [
+            "pending",
+            "paid",
+            "failed",
+            "rejected"
+          ],
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/pyrobale/0.7.0/",
+              "title": "pyrobale 0.7.0 (2026-06-24)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "webhook_security": {
+          "value": "setWebhook takes only `url` (no secret_token in the typings) -> protect the endpoint with an unguessable path and always re-confirm via inquireTransaction",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/balebaazoo/v/1.4.1",
+              "title": "balebaazoo 1.4.1 (2026-06-29)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "docs.bale.ai setWebhook; test whether a secret header is sent.",
+          "status": "reported"
+        },
+        "miniapp": {
+          "value": "window.Bale.WebApp; initData is a raw string for server-side validation",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://docs.bale.ai/miniapp",
+              "title": "Bale docs: mini apps (window.Bale.WebApp, initData) - title/summary only",
+              "note": "per search summary (page not opened; WebFetch blocked)"
+            }
+          ],
+          "verify_how": "Create a test mini app and capture initData; validate with the Telegram-style HMAC (secret = HMAC_SHA256('WebAppData', bot_token)) and confirm it matches Bale.",
+          "status": "reported"
+        }
+      },
+      "caps": {
+        "wallet_levels_and_limits": {
+          "value": null,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Bale wallet help center: KYC levels, per-transaction and daily limits.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "settlement": {
+        "value": null,
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Bale payment settlement: to card / to PSP terminal / to Bale wallet; timing and fees.",
+        "status": "UNVERIFIED"
+      },
+      "verification": "Never trust the chat message; confirm with inquireTransaction; match payload (our order id) and amount in Rial.",
+      "fraud_risk": {
+        "score_1_to_5": {
+          "value": 2,
+          "unit": "score",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "status": "reported",
+          "note": "Analyst judgement (5 = worst), not sourced: wallet funded by the user; payer identity tied to the messenger account"
+        }
+      },
+      "confirmation_time": {
+        "value": "seconds (poll every ~2 s)",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "sources": [
+          {
+            "url": "https://pypi.org/project/pyrobale/0.7.0/",
+            "title": "pyrobale 0.7.0 (2026-06-24)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "status": "reported"
+      }
+    },
+    "rubika_payment_button": {
+      "name_fa": "دکمه پرداخت روبیکا",
+      "name_en": "Rubika bot inline payment button",
+      "launch_role": "watch-list only",
+      "risk_label": "medium",
+      "restriction_note": "Only SDK-level evidence; fees/settlement unknown.",
+      "api": {
+        "base_url": {
+          "value": "https://botapi.rubika.ir/v3/{token}/{method}",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/rubika-bot-api/1.2.0/",
+              "title": "rubika-bot-api 1.2.0 (2025-11-11)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        },
+        "payment": {
+          "value": "Inline keyboard button type 'Payment' {id, title, amount, description}; update 'UpdatedPayment' with payment_id and status Paid|NotPaid",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/rubika-bot-api/1.2.0/",
+              "title": "rubika-bot-api 1.2.0 (2025-11-11)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "Rubika bot docs (rubika.ir/botapi).",
+          "status": "reported"
+        }
+      },
+      "eitaa_note": {
+        "value": "Eitaa bots are reachable via the Eitaayar API https://eitaayar.ir/api/{token} (getMe, sendMessage, sendFile in the wrapper seen); no payment/mini-app payment evidence",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "sources": [
+          {
+            "url": "https://pypi.org/project/eitaapy/1.2.0/",
+            "title": "eitaapy 1.2.0 (2025-02-11)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "verify_how": "Eitaa/Eitaayar docs.",
+        "status": "reported"
+      },
+      "soroush_plus_note": {
+        "value": null,
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Search Soroush Plus bot/payment status (no evidence in this run).",
+        "status": "UNVERIFIED"
+      }
+    },
+    "usdt_trc20": {
+      "name_en": "USDT on TRON (TRC20)",
+      "chain": "tron",
+      "launch_role": "optional rail for larger orders; needs AML screening and quote-lock",
+      "risk_label": "high",
+      "restriction_note": "On-chain USDT is traceable and freezable by the issuer; sender addresses may belong to sanctioned or designated entities (see 05-sanctions specialist). Screening is mandatory before crediting.",
+      "token_contract": {
+        "value": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://pypi.org/project/ccxt/",
+            "title": "ccxt (gate.py / coinex.py / weex.py sample responses list USDT contract addresses)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          },
+          {
+            "url": "https://www.npmjs.com/package/trongrid-cli/v/0.1.2",
+            "title": "trongrid-cli 0.1.2 (2026-04-20)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "verify_how": "Tether supported-protocols page + the chain explorer (symbol USDT, decimals, holders) before hard-coding.",
+        "status": "reported"
+      },
+      "decimals": {
+        "value": 6,
+        "unit": "digits",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Call decimals() on the contract / explorer token page.",
+        "status": "UNVERIFIED",
+        "note": "Recalled, not sourced in this run. Money rule: read decimals() at startup and assert before any amount maths."
+      },
+      "customer_pays": "network fee of the incoming transfer (customer side); exchanges charge withdrawal fees (~1 USDT TRC20 / ~0.8 USDT BEP20 per round-0 research, BP)",
+      "merchant_cost": {
+        "sweep_and_aml_per_payment": {
+          "value": null,
+          "unit": "USDT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Measure on mainnet: energy consumed by a USDT transfer to (a) an address that already holds USDT and (b) a fresh address; current energy price (chain parameters); compare with a rental quote.",
+          "status": "UNVERIFIED",
+          "note": "Commonly cited ~65k energy for a USDT transfer to an existing holder and about double to a new holder - recalled, NOT verified in this run. New addresses may also need activation."
+        }
+      },
+      "monitor": {
+        "api": "TronGrid: GET /v1/accounts/{address}/transactions/trc20 and /v1/contracts/{contract}/events; header Tron-Pro-Api-Key",
+        "evidence": {
+          "value": "TronGrid v1 paths seen in trongrid 1.2.6; Tron-Pro-Api-Key header and a 403 'Exceed the user daily usage' quota error seen in tronpy 0.6.2; unauthenticated free tier 3 QPS per trongrid-cli docs",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/trongrid/v/1.2.6",
+              "title": "trongrid 1.2.6 (2020-03-17)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://pypi.org/project/tronpy/0.6.2/",
+              "title": "tronpy 0.6.2 (2026-01-08)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            },
+            {
+              "url": "https://www.npmjs.com/package/trongrid-cli/v/0.1.2",
+              "title": "trongrid-cli 0.1.2 (2026-04-20)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "TronGrid dashboard: free-plan QPS/daily quota; paid plan prices.",
+          "status": "reported"
+        },
+        "free_tier_qps": {
+          "value": 3,
+          "unit": "requests/second",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/trongrid-cli/v/0.1.2",
+              "title": "trongrid-cli 0.1.2 (2026-04-20)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "trongrid.io pricing",
+          "status": "reported",
+          "note": "Third-party CLI docs, unauthenticated tier; the keyed free tier may differ."
+        },
+        "energy_rental_example": {
+          "value": "Third-party energy-rental APIs exist (e.g. TronZap: estimateEnergy/calculate endpoints at https://api.tronzap.com)",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://www.npmjs.com/package/tronzap-sdk/v/1.0.4",
+              "title": "tronzap-sdk 1.0.4 (2025-06-28): TRON energy rental API",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported",
+          "note": "Example only, not an endorsement; check provider risk."
+        }
+      },
+      "confirmations": {
+        "value": null,
+        "unit": "blocks or finality flag",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Chain docs; choose a policy and make it configurable (confirmations_required).",
+        "status": "UNVERIFIED",
+        "note": "Wait for a solidified (irreversible) block; TronGrid exposes a confirmed/irreversible view (trongrid-cli: block latest --confirmed)"
+      },
+      "fraud_risk": {
+        "score_1_to_5": {
+          "value": 3,
+          "unit": "score",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "status": "reported",
+          "note": "Analyst judgement (5 = worst), not sourced: irreversible-after-solidification but issuer can freeze; fast chain popular with Iranian exchanges"
+        }
+      },
+      "payment_policy": {
+        "underpay": "if received >= (1 - tolerance) x quote: owner policy decides accept-with-note; below tolerance: hold order, offer top-up to the same address within TTL or refund minus network fee",
+        "overpay": "credit the excess as a non-withdrawable credit note or refund minus network fee (owner decision)",
+        "late_payment": "after quote TTL: re-quote at the current rate with customer consent, else refund minus fee",
+        "wrong_token": "do not auto-credit; manual recovery SOP with fee; keep per-order keys so funds are recoverable",
+        "wrong_network": "EVM addresses are identical across EVM chains, so cross-EVM mistakes are recoverable if keys are controlled; TRON/TON mistakes need a recovery SOP",
+        "tolerance": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Owner decision parameter - choose with the owner and sweep it in the sensitivity run.",
+          "status": "UNVERIFIED",
+          "note": "Not a market fact."
+        }
+      }
+    },
+    "usdt_bep20": {
+      "name_en": "USDT on BNB Smart Chain (BEP20)",
+      "chain": "bsc",
+      "launch_role": "optional rail for larger orders; needs AML screening and quote-lock",
+      "risk_label": "high",
+      "restriction_note": "On-chain USDT is traceable and freezable by the issuer; sender addresses may belong to sanctioned or designated entities (see 05-sanctions specialist). Screening is mandatory before crediting.",
+      "token_contract": {
+        "value": "0x55d398326f99059fF775485246999027B3197955",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://pypi.org/project/ccxt/",
+            "title": "ccxt (gate.py / coinex.py / weex.py sample responses list USDT contract addresses)",
+            "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+          }
+        ],
+        "verify_how": "Tether supported-protocols page + the chain explorer (symbol USDT, decimals, holders) before hard-coding.",
+        "status": "reported"
+      },
+      "decimals": {
+        "value": 18,
+        "unit": "digits",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Call decimals() on the contract / explorer token page.",
+        "status": "UNVERIFIED",
+        "note": "Recalled, not sourced in this run. Money rule: read decimals() at startup and assert before any amount maths."
+      },
+      "customer_pays": "network fee of the incoming transfer (customer side); exchanges charge withdrawal fees (~1 USDT TRC20 / ~0.8 USDT BEP20 per round-0 research, BP)",
+      "merchant_cost": {
+        "sweep_and_aml_per_payment": {
+          "value": null,
+          "unit": "USDT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Measure on mainnet: gas used by a USDT transfer and the BNB price needed per sweep; decide gas-drip vs spend-from-derived-keys.",
+          "status": "UNVERIFIED",
+          "note": "Gas in BNB is needed to sweep each derived address (gas-drip) - or do not sweep and spend directly from derived keys."
+        }
+      },
+      "monitor": {
+        "api": "Etherscan API V2 (single key, chainid=56) or BSC JSON-RPC eth_getLogs on the USDT Transfer event (topic0 = keccak256('Transfer(address,address,uint256)')) filtered by `to`",
+        "evidence": {
+          "value": "Only an old V1-style URL builder (bscscan.com) was seen (aioetherscan 0.9.4); Etherscan V2 free-tier coverage of BSC could NOT be verified",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/aioetherscan/0.9.4/",
+              "title": "aioetherscan 0.9.4 (2024-06-20): Etherscan V1-style URL builder (bscscan.com)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "verify_how": "docs.etherscan.io (V2 chain list + plan limits) and a BSC RPC/NodeReal/Ankr plan; prefer RPC logs if the free tier excludes BSC.",
+          "status": "UNVERIFIED"
+        }
+      },
+      "confirmations": {
+        "value": null,
+        "unit": "blocks or finality flag",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Chain docs; choose a policy and make it configurable (confirmations_required).",
+        "status": "UNVERIFIED",
+        "note": "Use N block confirmations or the chain's fast-finality signal; configurable"
+      },
+      "fraud_risk": {
+        "score_1_to_5": {
+          "value": 3,
+          "unit": "score",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "status": "reported",
+          "note": "Analyst judgement (5 = worst), not sourced: same-address-on-all-EVM-chains mistakes; reorg risk minimal after confirmations"
+        }
+      },
+      "payment_policy": {
+        "underpay": "if received >= (1 - tolerance) x quote: owner policy decides accept-with-note; below tolerance: hold order, offer top-up to the same address within TTL or refund minus network fee",
+        "overpay": "credit the excess as a non-withdrawable credit note or refund minus network fee (owner decision)",
+        "late_payment": "after quote TTL: re-quote at the current rate with customer consent, else refund minus fee",
+        "wrong_token": "do not auto-credit; manual recovery SOP with fee; keep per-order keys so funds are recoverable",
+        "wrong_network": "EVM addresses are identical across EVM chains, so cross-EVM mistakes are recoverable if keys are controlled; TRON/TON mistakes need a recovery SOP",
+        "tolerance": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Owner decision parameter - choose with the owner and sweep it in the sensitivity run.",
+          "status": "UNVERIFIED",
+          "note": "Not a market fact."
+        }
+      }
+    },
+    "usdt_ton": {
+      "name_en": "USDT jetton on TON",
+      "chain": "ton",
+      "launch_role": "optional rail for larger orders; needs AML screening and quote-lock",
+      "risk_label": "high",
+      "restriction_note": "On-chain USDT is traceable and freezable by the issuer; sender addresses may belong to sanctioned or designated entities (see 05-sanctions specialist). Screening is mandatory before crediting.",
+      "token_contract": {
+        "value": "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Tether supported-protocols page + the chain explorer before hard-coding.",
+        "status": "UNVERIFIED",
+        "note": "Recalled USDT jetton master address; NOT corroborated by anything read in this run."
+      },
+      "decimals": {
+        "value": 6,
+        "unit": "digits",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Call decimals() on the contract / explorer token page.",
+        "status": "UNVERIFIED",
+        "note": "Recalled, not sourced in this run. Money rule: read decimals() at startup and assert before any amount maths."
+      },
+      "customer_pays": "network fee of the incoming transfer (customer side); exchanges charge withdrawal fees (~1 USDT TRC20 / ~0.8 USDT BEP20 per round-0 research, BP)",
+      "merchant_cost": {
+        "sweep_and_aml_per_payment": {
+          "value": null,
+          "unit": "USDT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Measure on mainnet: TON consumed by a jetton transfer (fees + forward amount) and the TON price per sweep.",
+          "status": "UNVERIFIED",
+          "note": "Jetton transfers need TON for fees/forward amount; use a memo/comment per order on one address."
+        }
+      },
+      "monitor": {
+        "api": "TONAPI REST (key optional for REST, required for streaming/webhooks) e.g. /v2/accounts/{id}/jettons/history, /v2/events/{event_id}; or TonCenter v3",
+        "evidence": {
+          "value": "pytonapi 2.3.0: REST paths /v2/accounts/{account_id}/jettons/history and /v2/accounts/{account_id}/jettons/{jetton_id}/history; streaming (SSE/WebSocket) and webhooks need a tonconsole.com key",
+          "as_of": "2026-10-02",
+          "confidence": "medium",
+          "sources": [
+            {
+              "url": "https://pypi.org/project/pytonapi/2.3.0/",
+              "title": "pytonapi 2.3.0 (2026-09-20)",
+              "note": "package source read directly from registry tarball; SDK evidence of API shape, may lag live API"
+            }
+          ],
+          "status": "reported"
+        }
+      },
+      "confirmations": {
+        "value": null,
+        "unit": "blocks or finality flag",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Chain docs; choose a policy and make it configurable (confirmations_required).",
+        "status": "UNVERIFIED",
+        "note": "Use a masterchain-finalised transaction (seconds)"
+      },
+      "fraud_risk": {
+        "score_1_to_5": {
+          "value": 4,
+          "unit": "score",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "status": "reported",
+          "note": "Analyst judgement (5 = worst), not sourced: memo-based matching is error-prone (customers omit the comment)"
+        }
+      },
+      "payment_policy": {
+        "underpay": "if received >= (1 - tolerance) x quote: owner policy decides accept-with-note; below tolerance: hold order, offer top-up to the same address within TTL or refund minus network fee",
+        "overpay": "credit the excess as a non-withdrawable credit note or refund minus network fee (owner decision)",
+        "late_payment": "after quote TTL: re-quote at the current rate with customer consent, else refund minus fee",
+        "wrong_token": "do not auto-credit; manual recovery SOP with fee; keep per-order keys so funds are recoverable",
+        "wrong_network": "EVM addresses are identical across EVM chains, so cross-EVM mistakes are recoverable if keys are controlled; TRON/TON mistakes need a recovery SOP",
+        "tolerance": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Owner decision parameter - choose with the owner and sweep it in the sensitivity run.",
+          "status": "UNVERIFIED",
+          "note": "Not a market fact."
+        }
+      }
+    }
+  },
+  "simulation_priors_ASSUMPTIONS": {
+    "_note": "MODELLING ASSUMPTIONS for the simulator, not facts. Every value is low confidence/UNVERIFIED and must be calibrated or swept in the sensitivity analysis.",
+    "c2c_operator_minutes_per_receipt": {
+      "value": 2,
+      "unit": "minutes",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "Measure in persona E2E runs / ops specialist.",
+      "status": "UNVERIFIED",
+      "note": "ASSUMPTION; sweep 1-5"
+    },
+    "c2c_fake_receipt_attempt_share": {
+      "value": 0.005,
+      "unit": "fraction of c2c orders",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "Industry interviews / own logs after launch.",
+      "status": "UNVERIFIED",
+      "note": "ASSUMPTION; sweep 0.001-0.02"
+    },
+    "c2c_third_party_funded_share": {
+      "value": 0.001,
+      "unit": "fraction of c2c orders",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "Own logs; police/bank complaint counts.",
+      "status": "UNVERIFIED",
+      "note": "ASSUMPTION; sweep 0.0002-0.005"
+    },
+    "gateway_payment_completion_rate": {
+      "value": 0.9,
+      "unit": "fraction of started payments",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "Own funnel analytics after launch.",
+      "status": "UNVERIFIED",
+      "note": "ASSUMPTION; sweep 0.8-0.95"
+    },
+    "usdt_underpay_share": {
+      "value": 0.015,
+      "unit": "fraction of usdt orders",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "Own logs.",
+      "status": "UNVERIFIED",
+      "note": "ASSUMPTION; sweep 0.005-0.04"
+    },
+    "usdt_wrong_network_or_token_share": {
+      "value": 0.003,
+      "unit": "fraction of usdt orders",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "verify_how": "Own logs.",
+      "status": "UNVERIFIED",
+      "note": "ASSUMPTION; sweep 0.001-0.01"
+    }
+  }
+}

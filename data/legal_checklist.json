@@ -1,0 +1,1202 @@
+{
+  "_meta": {
+    "owner_agent": "04-legal-tax-compliance-ir",
+    "as_of": "2026-10-02",
+    "disclaimer": "Analysis, not legal advice. Confirm with a licensed Iranian lawyer and CPA.",
+    "research_limitation": "Costs and durations are null where not found: web-search budget ran out after 26 successful searches and page fetches were blocked. Do NOT replace nulls with guesses in the simulator; expose them as scenario inputs `legal_setup_cost_irt` and `legal_setup_days`.",
+    "cost_band_scale": "free | low | medium | high (qualitative, not a number)"
+  },
+  "steps": [
+    {
+      "id": "L00",
+      "order": 0,
+      "title_en": "Retain a licensed Iranian lawyer (fintech/e-commerce) and a CPA",
+      "title_fa": "انتخاب وکیل پایه یک (فین‌تک/تجارت الکترونیک) و حسابدار رسمی",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [],
+      "owner_action": "Brief them with docs/03-research/04-legal-tax-ir.md; ask for a written memo on: product classification (card issue/top-up, wallet, USDT-pay, pay-on-behalf), VAT base, Moadian scope, ToS review.",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Get a written quote; fees change yearly.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "medium",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Everything below rests on unverified analysis; the classification risk (unlicensed exchange/PSP) is unmanaged."
+    },
+    {
+      "id": "L01",
+      "order": 1,
+      "title_en": "Decide the legal form (pilot as individual vs LLC)",
+      "title_fa": "تصمیم درباره‌ی ساختار حقوقی (حقیقی در دوره‌ی آزمایشی یا شرکت با مسئولیت محدود)",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L00"
+      ],
+      "owner_action": "Use the memo + volume plan: >3 orders/day through any personal bank account already makes it a 'commercial account' (rule: >100 deposits/month and >35M IRT); plan the LLC before that.",
+      "cost_irt": {
+        "value": 0,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "Decision step: no external fee by definition (internal effort only)."
+      },
+      "cost_band": "free",
+      "duration_days": {
+        "value": 0,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "Decision step: completed in the lawyer/CPA meeting; no external queue."
+      },
+      "source_ids": [
+        "S44",
+        "S45"
+      ],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Personal accounts mix private and business money; liability is unlimited; tax assessment on bank turnover."
+    },
+    {
+      "id": "L02",
+      "order": 2,
+      "title_en": "Judicial e-notification and identity set-up of all partners/managers (national ID, mobile in own name, e-signature)",
+      "title_fa": "ثبت‌نام در سامانه‌های ابلاغ و احراز هویت شرکا و مدیران (اطلاع ثنا و ...)",
+      "applies_to": [
+        "llc",
+        "individual"
+      ],
+      "prerequisites": [
+        "L01"
+      ],
+      "owner_action": "Every partner/manager completes the government e-identity steps the registry portal asks for (UNVERIFIED which ones are mandatory in 1405; ask the agent).",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Get a written quote; fees change yearly.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "free",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Registration cannot start."
+    },
+    {
+      "id": "L03",
+      "order": 3,
+      "title_en": "Register the company (LLC) - name, articles, capital deposit, Official Gazette ad, registry certificate",
+      "title_fa": "ثبت شرکت با مسئولیت محدود (نام، اساسنامه، سپرده‌ی سرمایه، آگهی روزنامه رسمی، گواهی ثبت)",
+      "applies_to": [
+        "llc"
+      ],
+      "prerequisites": [
+        "L02"
+      ],
+      "owner_action": "Choose a name; fix capital (statute sets no fixed minimum for an LLC per one summary; capital must be paid in cash at registration - UNVERIFIED); at least two partners (statute; single-member structures UNVERIFIED); registered address with postal code.",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Get an all-in written quote: state fees depend on capital + newspaper ad + agent fee. One outlet (S54) publishes an article on costs; its body was not read.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "medium",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [
+        "S54"
+      ],
+      "gate": "pre_launch",
+      "risk_if_skipped": "No legal entity: personal liability and personal-account tax exposure."
+    },
+    {
+      "id": "L04",
+      "order": 4,
+      "title_en": "Obtain the economic code (کد اقتصادی) and open the tax file",
+      "title_fa": "دریافت کد اقتصادی و تشکیل پرونده‌ی مالیاتی",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L01"
+      ],
+      "owner_action": "Register on the Tax Organization portal; for companies this is normally linked to registration. Keep the unique tax-memory credentials.",
+      "cost_irt": {
+        "value": 0,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "medium",
+        "sources": [
+          {
+            "url": "https://www.zoomit.ir/tech-iran/414292-conditions-for-economic-code/",
+            "title": "[S46] Zoomit - کد اقتصادی چیست؛ شرایط، مراحل دریافت و نحوه استعلام آن",
+            "note": "per search summary (page not fetched directly)"
+          },
+          {
+            "url": "https://www.sepidarsystem.com/blog/economic-code/",
+            "title": "[S47] Sepidar - کد اقتصادی چیست و چه کاربردی دارد؟ مراحل ثبت نام",
+            "note": "per search summary (page not fetched directly)"
+          }
+        ],
+        "verify_how": "Re-check on the portal.",
+        "status": "reported",
+        "note": "Free per the Tax Organization announcement relayed by outlets."
+      },
+      "cost_band": "free",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [
+        "S46",
+        "S47"
+      ],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Cannot issue valid invoices, cannot open business banking or PSP onboarding."
+    },
+    {
+      "id": "L05",
+      "order": 5,
+      "title_en": "Register on the Moadian system and set up e-invoicing",
+      "title_fa": "ثبت‌نام در سامانه مودیان و راه‌اندازی صورتحساب الکترونیکی",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L04"
+      ],
+      "owner_action": "Obtain the tax-memory ID (شناسه یکتای حافظه مالیاتی) and a Moadian-compatible invoice export; issue an invoice per sale with VAT line.",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the Tax Organization/CPA; software vendors charge separately.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "low",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [
+        "S43"
+      ],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Penalty reported at 10% of sales or 20M rial (higher) for non-submission (one source)."
+    },
+    {
+      "id": "L06",
+      "order": 6,
+      "title_en": "Business bank account in the entity's own name",
+      "title_fa": "افتتاح حساب بانکی تجاری به نام شخص حقوقی/حقیقی خود",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L03",
+        "L04"
+      ],
+      "owner_action": "Open a current/business account; never receive customer money in third-party or rented accounts. Ask the bank for written confirmation of transfer limits and of the permitted activity description.",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Get a written quote; fees change yearly.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "low",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [
+        "S44"
+      ],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Triangular-fraud blocks, tax assessment on personal turnover, criminal exposure for account misuse."
+    },
+    {
+      "id": "L07",
+      "order": 7,
+      "title_en": "Trade licence from the Online Businesses Union (پروانه کسب)",
+      "title_fa": "پروانه کسب از اتحادیه کسب‌وکارهای مجازی",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L04"
+      ],
+      "owner_action": "Apply on the union portal with the economic code; declare the real activity (digital services/subscriptions/gift cards/virtual cards). Do not declare an activity you do not perform.",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Get a written quote; fees change yearly.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "low",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [
+        "S49"
+      ],
+      "gate": "pre_scale",
+      "risk_if_skipped": "Union fines; PSPs and Enamad may require it. (The union issued 2,445 licences in 1404 per one outlet.)"
+    },
+    {
+      "id": "L08",
+      "order": 8,
+      "title_en": "Domain (.ir recommended) and Iran-reachable hosting",
+      "title_fa": "ثبت دامنه‌ی ir و میزبانی قابل‌دسترس در داخل کشور",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L04"
+      ],
+      "owner_action": "Register the domain in the owner's/entity's own name; host the customer-facing app/API where the national network stays reachable if international links drop; keep treasury secrets on a separate environment. A statutory hosting-in-Iran duty for private e-commerce sites was NOT verified.",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Get a written quote; fees change yearly.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "low",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Outage during international-link disruptions; PSP callbacks fail."
+    },
+    {
+      "id": "L09",
+      "order": 9,
+      "title_en": "Enamad (e-trust symbol) application",
+      "title_fa": "درخواست نماد اعتماد الکترونیکی (اینماد)",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L04",
+        "L07",
+        "L08"
+      ],
+      "owner_action": "Declare the activity accurately. Display the symbol only after issuance. Do not claim 'licensed by the central bank'.",
+      "cost_irt": {
+        "value": 175000,
+        "unit": "IRT per 2 years",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "sources": [
+          {
+            "url": "https://www.zarinpal.com/blog/?p=7913",
+            "title": "[S48] Zarinpal blog - اینماد چیست؟ نحوه دریافت نماد اعتماد الکترونیکی 1405",
+            "note": "per search summary (page not fetched directly)"
+          }
+        ],
+        "verify_how": "Check on enamad.ir at application time.",
+        "status": "reported",
+        "note": "Single source."
+      },
+      "cost_band": "low",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [
+        "S48"
+      ],
+      "gate": "pre_scale",
+      "risk_if_skipped": "Gateway providers often require it; false display is a consumer-law/fraud risk."
+    },
+    {
+      "id": "L10",
+      "order": 10,
+      "title_en": "Payment rail onboarding (PSP gateway and/or card-to-card on the business account)",
+      "title_fa": "راه‌اندازی درگاه پرداخت و/یا کارت‌به‌کارت روی حساب تجاری",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L06",
+        "L09"
+      ],
+      "owner_action": "Ask the PSP in writing whether the product categories are allowed; if refused, do not mis-declare - change the product or the rail. Enforce payer = customer identity matching.",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Owned by 03-ir-payments-collection.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "low",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [
+        "S55"
+      ],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Mis-declared category = gateway termination and fund holds; unmatched third-party payers = fraud/AML exposure."
+    },
+    {
+      "id": "L11",
+      "order": 11,
+      "title_en": "Publish legal pages (ToS, privacy, refund, risk disclosure) after lawyer review",
+      "title_fa": "انتشار صفحات حقوقی پس از بازبینی وکیل",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L00"
+      ],
+      "owner_action": "Start from docs/08-compliance-risk/templates/*.fa.md; fill the [placeholders]; record version and acceptance per customer/order.",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Get a written quote; fees change yearly.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "medium",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Unenforceable terms; disclosure duty (third-party suspension risk) unmet."
+    },
+    {
+      "id": "L12",
+      "order": 12,
+      "title_en": "KYC/AML programme live: tiers, identity vendor, address screening, logs, retention",
+      "title_fa": "اجرای سیاست KYC/AML: سطوح، سرویس احراز هویت، پایش آدرس، لاگ و نگهداری سوابق",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L00",
+        "L11"
+      ],
+      "owner_action": "Adopt docs/08-compliance-risk/templates/kyc-aml-policy.fa.md; appoint a compliance officer (the owner at first); screen USDT addresses against the public OFAC SDN list and Tether freeze data.",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Identity-inquiry vendors charge per call; owned by 09-platform/12-pricing.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "medium",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [
+        "S15",
+        "S25"
+      ],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Conduit risk (laundering/fraud) and sanctions-tainted funds."
+    },
+    {
+      "id": "L13",
+      "order": 13,
+      "title_en": "Accounting set-up: legal books, VAT/income-tax accrual, quarterly VAT return calendar",
+      "title_fa": "راه‌اندازی حسابداری: دفاتر قانونی، ذخیره‌ی مالیات، تقویم اظهارنامه",
+      "applies_to": [
+        "llc",
+        "individual"
+      ],
+      "prerequisites": [
+        "L04",
+        "L05"
+      ],
+      "owner_action": "Engage the CPA; keep VAT collected in IRT (never swept into the USDT float); calendar the returns (individual 31 Ordibehesht; legal entity 31 Tir; VAT quarterly - UNVERIFIED).",
+      "cost_irt": {
+        "value": null,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Get a written quote; fees change yearly.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "cost_band": "medium",
+      "duration_days": {
+        "value": null,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "verify_how": "Ask the registrar/agent/portal for the current service-level time; queue lengths vary by city and season.",
+        "status": "UNVERIFIED",
+        "note": "Not found in this session's sources."
+      },
+      "source_ids": [],
+      "gate": "pre_launch",
+      "risk_if_skipped": "Penalties and cash shortfall at the first VAT payment."
+    },
+    {
+      "id": "L14",
+      "order": 14,
+      "title_en": "Compliance rehearsal (freeze / subpoena / provider-suspension drills) and soft launch with low caps",
+      "title_fa": "تمرین سناریوهای مسدودی/استعلام قضایی/تعلیق ارائه‌دهنده و راه‌اندازی با سقف پایین",
+      "applies_to": [
+        "individual",
+        "llc"
+      ],
+      "prerequisites": [
+        "L10",
+        "L11",
+        "L12",
+        "L13"
+      ],
+      "owner_action": "Run the pause-trigger playbook once; start with KYC tier T0/T1 limits only; review after 30 days.",
+      "cost_irt": {
+        "value": 0,
+        "unit": "IRT",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "Internal effort only; no external fee by definition."
+      },
+      "cost_band": "free",
+      "duration_days": {
+        "value": 30,
+        "unit": "days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "Proposed soft-launch window (analyst-proposed)."
+      },
+      "source_ids": [],
+      "gate": "pre_launch",
+      "risk_if_skipped": "First real incident is handled ad hoc."
+    }
+  ],
+  "go_no_go": {
+    "gates_must_all_be_true_before_public_launch": [
+      {
+        "id": "G1",
+        "requirement": "Written lawyer memo covering product classification, USDT-pay, wallet, pay-on-behalf and ToS",
+        "evidence": "signed memo on file",
+        "linked_steps": [
+          "L00",
+          "L11"
+        ]
+      },
+      {
+        "id": "G2",
+        "requirement": "Business identity: economic code + Moadian registration; bank account in the entity's own name; no third-party/rented accounts",
+        "evidence": "tax file, bank letter",
+        "linked_steps": [
+          "L04",
+          "L05",
+          "L06"
+        ]
+      },
+      {
+        "id": "G3",
+        "requirement": "Payment rail legitimacy: PSP written category approval or documented decision to use only business-account transfers; payer-name matching on",
+        "evidence": "PSP email/contract; test log",
+        "linked_steps": [
+          "L10"
+        ]
+      },
+      {
+        "id": "G4",
+        "requirement": "Every active SKU has risk_label + restriction_note; high-risk SKUs require explicit disclosure acceptance",
+        "evidence": "catalog export",
+        "linked_steps": [
+          "L11"
+        ]
+      },
+      {
+        "id": "G5",
+        "requirement": "ToS, refund policy, risk disclosure and privacy policy published with version and per-order acceptance record",
+        "evidence": "pages + DB fields",
+        "linked_steps": [
+          "L11"
+        ]
+      },
+      {
+        "id": "G6",
+        "requirement": "KYC/AML policy adopted; tiers enforced in code; logs and retention configured; compliance officer named",
+        "evidence": "policy doc + config",
+        "linked_steps": [
+          "L12"
+        ]
+      },
+      {
+        "id": "G7",
+        "requirement": "Sanctions hygiene: address screening on every inbound/outbound USDT transfer; counterparties reviewed in the last 30 days; max float per venue set",
+        "evidence": "screening log",
+        "linked_steps": [
+          "L12"
+        ]
+      },
+      {
+        "id": "G8",
+        "requirement": "Tax set-up: CPA engaged; VAT base decided; Moadian invoices emitted; VAT collected held in IRT",
+        "evidence": "CPA letter; ledger account 2100",
+        "linked_steps": [
+          "L05",
+          "L13"
+        ]
+      },
+      {
+        "id": "G9",
+        "requirement": "No marketing claim of being licensed/legal/CBI-approved unless true; Enamad shown only if issued; no 'dollar/USDT exchange' wording",
+        "evidence": "copy review",
+        "linked_steps": [
+          "L09",
+          "L11"
+        ]
+      },
+      {
+        "id": "G10",
+        "requirement": "Kill switches work per SKU, per payment rail and for USDT payment; staff roles and dual control on card-detail reveal",
+        "evidence": "drill log",
+        "linked_steps": [
+          "L14"
+        ]
+      },
+      {
+        "id": "G11",
+        "requirement": "USDT payment from Iran-resident customers and customer wallet cash-out are OFF unless the lawyer memo explicitly clears them",
+        "evidence": "feature flags",
+        "linked_steps": [
+          "L00"
+        ]
+      }
+    ],
+    "pause_triggers_any_one": [
+      {
+        "id": "P1",
+        "trigger": "Any notice, summons or information request from FATA, a prosecutor, the CBI or the Tax Organization",
+        "action": "Pause affected flows, preserve logs (legal hold), involve counsel; cooperate lawfully"
+      },
+      {
+        "id": "P2",
+        "trigger": "PSP/gateway termination or bank-account freeze",
+        "action": "Stop selling via that rail; do not reroute through third-party accounts; follow bank/PSP procedure"
+      },
+      {
+        "id": "P3",
+        "trigger": "OFAC/Tether action naming a counterparty, exchange or provider we use, or freezing an address we touched",
+        "action": "Pause treasury flows and dependent SKUs; re-screen; consult counsel; follow customer refund tiers"
+      },
+      {
+        "id": "P4",
+        "trigger": "Card issuer or content provider suspends our balances or accounts",
+        "action": "Pause that SKU, notify affected customers, apply risk-label refund tiers"
+      },
+      {
+        "id": "P5",
+        "trigger": "Third-party-payer / mismatched-payer rate above the proposed policy threshold",
+        "action": "Pause new-customer card-to-card; tighten tiers; report if required"
+      },
+      {
+        "id": "P6",
+        "trigger": "New CBI directive, law or court ruling that classifies one of our SKUs as FX/crypto/payment service",
+        "action": "Pause the SKU; get legal advice before resuming"
+      },
+      {
+        "id": "P7",
+        "trigger": "Refund/dispute rate above the proposed policy threshold over 30 days",
+        "action": "Investigate; pause the worst SKU/provider"
+      },
+      {
+        "id": "P8",
+        "trigger": "Tax audit notice, missed Moadian submissions or unfiled return",
+        "action": "Cure immediately with the CPA; do not trade into the problem"
+      },
+      {
+        "id": "P9",
+        "trigger": "Data breach or suspected leak of card/KYC data",
+        "action": "Disable reveals, rotate keys, notify affected users, involve counsel"
+      },
+      {
+        "id": "P10",
+        "trigger": "Evidence that a customer or operator is using us to evade a provider's KYC, geo-rules or a sanctions rule",
+        "action": "Block the account, refuse the order, document; do not assist"
+      }
+    ],
+    "proposed_thresholds": {
+      "third_party_payer_rate_pause_pct_7d": {
+        "value": 3,
+        "unit": "pct of paid orders in 7 days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "analyst-proposed policy parameter (NOT a legal fact): tune with data; mirrors P5"
+      },
+      "refund_dispute_rate_pause_pct_30d": {
+        "value": 5,
+        "unit": "pct of orders in 30 days",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "analyst-proposed policy parameter (NOT a legal fact): tune with data; mirrors P7"
+      },
+      "max_float_share_on_a_single_exchange_pct": {
+        "value": 40,
+        "unit": "pct of USDT float",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "analyst-proposed policy parameter (NOT a legal fact): concentration limit; owned by treasury specialist, shown here because sanctions/freeze risk is venue-specific"
+      }
+    }
+  },
+  "risk_register": {
+    "_note": "Ordinal scales (1-5); inherent = likelihood x impact; residual after mitigations; analyst judgement, not probabilities.",
+    "items": [
+      {
+        "id": "R02",
+        "category": "Payments",
+        "risk": "Gateway/bank terminates or freezes because the category looks FX/crypto-related",
+        "likelihood_1_5": 4,
+        "impact_1_5": 4,
+        "inherent_score": 16,
+        "mitigations": "Declare accurately; multiple lawful rails; daily sweeps; minimal balances",
+        "residual_likelihood_1_5": 3,
+        "residual_impact_1_5": 3,
+        "residual_score": 9
+      },
+      {
+        "id": "R03",
+        "category": "Sanctions",
+        "risk": "USDT sourced via SDN-designated exchanges or addresses later frozen by Tether",
+        "likelihood_1_5": 4,
+        "impact_1_5": 4,
+        "inherent_score": 16,
+        "mitigations": "Address screening; venue diversification; just-in-time float; float cap per venue; contingency fund",
+        "residual_likelihood_1_5": 3,
+        "residual_impact_1_5": 4,
+        "residual_score": 12
+      },
+      {
+        "id": "R06",
+        "category": "Criminal",
+        "risk": "Receiving funds from fraud victims (triangular fraud) or third parties; account blocked",
+        "likelihood_1_5": 4,
+        "impact_1_5": 4,
+        "inherent_score": 16,
+        "mitigations": "Payer-name match; verified instruments; no third-party payers; hold rules",
+        "residual_likelihood_1_5": 3,
+        "residual_impact_1_5": 3,
+        "residual_score": 9
+      },
+      {
+        "id": "R01",
+        "category": "Legal",
+        "risk": "Product classified as unlicensed FX/crypto brokerage or payment service (card top-up, wallet, USDT-pay, pay-on-behalf)",
+        "likelihood_1_5": 3,
+        "impact_1_5": 5,
+        "inherent_score": 15,
+        "mitigations": "Lawyer memo; closed-loop wallet, no cash-out; no USDT-in for residents; no exchange-style rate board or wording; caps and KYC",
+        "residual_likelihood_1_5": 2,
+        "residual_impact_1_5": 5,
+        "residual_score": 10
+      },
+      {
+        "id": "R07",
+        "category": "AML",
+        "risk": "Platform used as conduit for laundering or fraud proceeds",
+        "likelihood_1_5": 3,
+        "impact_1_5": 5,
+        "inherent_score": 15,
+        "mitigations": "KYC tiers; cumulative limits; anti-splitting rules; monitoring; records; cooperation",
+        "residual_likelihood_1_5": 2,
+        "residual_impact_1_5": 4,
+        "residual_score": 8
+      },
+      {
+        "id": "R04",
+        "category": "Counterparty",
+        "risk": "Card issuer / AI vendor suspends accounts, customers lose value",
+        "likelihood_1_5": 4,
+        "impact_1_5": 3,
+        "inherent_score": 12,
+        "mitigations": "Risk labels; disclosure acceptance; tiered refunds; per-card balance caps; diversified catalog",
+        "residual_likelihood_1_5": 4,
+        "residual_impact_1_5": 2,
+        "residual_score": 8
+      },
+      {
+        "id": "R05",
+        "category": "Tax",
+        "risk": "VAT/Moadian/bank-turnover non-compliance; margin wiped by VAT on gross",
+        "likelihood_1_5": 3,
+        "impact_1_5": 4,
+        "inherent_score": 12,
+        "mitigations": "Entity + CPA + e-invoicing; VAT mode decided; VAT held in IRT",
+        "residual_likelihood_1_5": 2,
+        "residual_impact_1_5": 3,
+        "residual_score": 6
+      },
+      {
+        "id": "R08",
+        "category": "Regulatory",
+        "risk": "New CBI directive or law makes SKUs illegal or requires a licence",
+        "likelihood_1_5": 3,
+        "impact_1_5": 4,
+        "inherent_score": 12,
+        "mitigations": "Per-SKU kill switches; legal watch; modular catalog",
+        "residual_likelihood_1_5": 3,
+        "residual_impact_1_5": 3,
+        "residual_score": 9
+      },
+      {
+        "id": "R10",
+        "category": "Security",
+        "risk": "Breach of card/KYC data",
+        "likelihood_1_5": 2,
+        "impact_1_5": 5,
+        "inherent_score": 10,
+        "mitigations": "Envelope encryption; reveal step-up; minimal data; incident plan",
+        "residual_likelihood_1_5": 2,
+        "residual_impact_1_5": 3,
+        "residual_score": 6
+      },
+      {
+        "id": "R13",
+        "category": "Owner",
+        "risk": "Personal exposure of the owner's assets under unlimited liability (individual form)",
+        "likelihood_1_5": 2,
+        "impact_1_5": 5,
+        "inherent_score": 10,
+        "mitigations": "LLC; separate accounts; insurance if available",
+        "residual_likelihood_1_5": 2,
+        "residual_impact_1_5": 3,
+        "residual_score": 6
+      },
+      {
+        "id": "R09",
+        "category": "Consumer",
+        "risk": "Disputes over deceptive claims, missing disclosures, refunds",
+        "likelihood_1_5": 3,
+        "impact_1_5": 3,
+        "inherent_score": 9,
+        "mitigations": "Templates; honest copy; Enamad only if issued; complaint SLA",
+        "residual_likelihood_1_5": 2,
+        "residual_impact_1_5": 2,
+        "residual_score": 4
+      },
+      {
+        "id": "R11",
+        "category": "Operations",
+        "risk": "Internet shutdown or hosting outage",
+        "likelihood_1_5": 3,
+        "impact_1_5": 3,
+        "inherent_score": 9,
+        "mitigations": "Iran-reachable hosting; offline operator procedures",
+        "residual_likelihood_1_5": 3,
+        "residual_impact_1_5": 2,
+        "residual_score": 6
+      },
+      {
+        "id": "R12",
+        "category": "Insider",
+        "risk": "Operator or staff misuse of card details / customer data",
+        "likelihood_1_5": 3,
+        "impact_1_5": 3,
+        "inherent_score": 9,
+        "mitigations": "RBAC, dual control, audit logs, reveal limits",
+        "residual_likelihood_1_5": 2,
+        "residual_impact_1_5": 2,
+        "residual_score": 4
+      },
+      {
+        "id": "R14",
+        "category": "Advertising",
+        "risk": "Misleading claims ('licensed', 'legal', fake Enamad) or exchange-style promotion",
+        "likelihood_1_5": 2,
+        "impact_1_5": 4,
+        "inherent_score": 8,
+        "mitigations": "Copy guard list; legal review of marketing",
+        "residual_likelihood_1_5": 1,
+        "residual_impact_1_5": 4,
+        "residual_score": 4
+      },
+      {
+        "id": "R15",
+        "category": "Currency unit",
+        "risk": "Redenomination (4 zeros) causes unit errors in thresholds, invoices, limits",
+        "likelihood_1_5": 2,
+        "impact_1_5": 2,
+        "inherent_score": 4,
+        "mitigations": "Integer Toman internally; conversion at boundary; tests",
+        "residual_likelihood_1_5": 1,
+        "residual_impact_1_5": 2,
+        "residual_score": 2
+      }
+    ]
+  },
+  "policy_defaults": {
+    "_note": "Analyst-proposed defaults for the app/simulator (NOT legal facts). Tune with data and lawyer advice. Anchors: 15M IRT/day/card card-to-card cap (S55) and 25M IRT/24h identified-deposit ceiling (S12).",
+    "kyc_tiers": [
+      {
+        "tier": "T0",
+        "name_fa": "تأیید موبایل",
+        "requirements": [
+          "phone OTP"
+        ],
+        "allowed_risk_labels": [
+          "low"
+        ],
+        "max_per_order_irt": {
+          "value": 5000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): about one third of the T1 per-order cap"
+        },
+        "max_rolling_24h_irt": {
+          "value": 5000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): cumulative across orders, not per order"
+        },
+        "max_rolling_30d_irt": {
+          "value": 20000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): cumulative"
+        }
+      },
+      {
+        "tier": "T1",
+        "name_fa": "هویت تأییدشده",
+        "requirements": [
+          "national ID + full name + date of birth",
+          "mobile number matched to the national ID (Shahkar-type inquiry)"
+        ],
+        "allowed_risk_labels": [
+          "low",
+          "medium"
+        ],
+        "max_per_order_irt": {
+          "value": 15000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): anchored to the per-card c2c cap"
+        },
+        "max_rolling_24h_irt": {
+          "value": 25000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): anchored to the identified-deposit ceiling"
+        },
+        "max_rolling_30d_irt": {
+          "value": 100000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): cumulative"
+        }
+      },
+      {
+        "tier": "T2",
+        "name_fa": "پرداخت‌کننده‌ی تأییدشده",
+        "requirements": [
+          "T1",
+          "at least one bank card/Sheba verified as owned by the same national ID",
+          "payments accepted only from verified instruments"
+        ],
+        "allowed_risk_labels": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "max_per_order_irt": {
+          "value": 50000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): no external anchor"
+        },
+        "max_rolling_24h_irt": {
+          "value": 100000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): no external anchor"
+        },
+        "max_rolling_30d_irt": {
+          "value": 500000000,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): no external anchor"
+        }
+      },
+      {
+        "tier": "T3",
+        "name_fa": "احراز هویت تقویت‌شده",
+        "requirements": [
+          "T2",
+          "liveness/video check or in-person",
+          "occupation and source-of-funds statement",
+          "mandatory operator + owner approval per order above T2 limits"
+        ],
+        "allowed_risk_labels": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "max_per_order_irt": {
+          "value": null,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Owner decision: set after lawyer advice and the first 30 days of data (case-by-case until then).",
+          "status": "UNVERIFIED",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): case-by-case; no automatic limit"
+        },
+        "max_rolling_24h_irt": {
+          "value": null,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Owner decision: set after lawyer advice and the first 30 days of data (case-by-case until then).",
+          "status": "UNVERIFIED",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): case-by-case"
+        },
+        "max_rolling_30d_irt": {
+          "value": null,
+          "unit": "IRT",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Owner decision: set after lawyer advice and the first 30 days of data (case-by-case until then).",
+          "status": "UNVERIFIED",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): case-by-case"
+        }
+      }
+    ],
+    "anti_structuring_rule": {
+      "value": "limits are cumulative per natural person over rolling windows; 3+ orders within 60 minutes whose sum exceeds the next tier's per-order limit are flagged for review; customers are never advised to split payments",
+      "as_of": "2026-10-02",
+      "confidence": "low",
+      "note": "analyst-proposed policy parameter (NOT a legal fact): required by CLAUDE.md section 3 (no structuring around caps)"
+    },
+    "price_lock": {
+      "quote_valid_minutes": {
+        "value": 15,
+        "unit": "minutes",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "analyst-proposed policy parameter (NOT a legal fact): round-0 plan suggests 10-15 min; architecture engine has a lock parameter"
+      },
+      "late_payment": {
+        "value": "accept at locked price only if the adverse rate move is below the engine threshold and inside the grace window; otherwise re-quote the shortfall or refund minus fee",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "analyst-proposed policy parameter (NOT a legal fact): mirrors architecture 9.4"
+      },
+      "under_payment": {
+        "value": "complete within the pay window or refund minus fee",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "analyst-proposed policy parameter (NOT a legal fact): mirrors architecture 9.4"
+      },
+      "over_payment": {
+        "value": "credit to the closed-loop wallet or refund to the verified payer instrument",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "analyst-proposed policy parameter (NOT a legal fact): mirrors architecture 9.4"
+      }
+    },
+    "rush_terms": {
+      "rush_fee_refund_if_sla_missed_pct": {
+        "value": 100,
+        "unit": "pct of the rush premium",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "analyst-proposed policy parameter (NOT a legal fact): customer-friendly default; reduces dispute risk"
+      },
+      "rush_fee_refund_after_work_started": {
+        "value": 0,
+        "unit": "pct of the rush premium",
+        "as_of": "2026-10-02",
+        "confidence": "low",
+        "note": "analyst-proposed policy parameter (NOT a legal fact): non-refundable once an operator has started (unless SLA missed)"
+      }
+    },
+    "refund_tiers": [
+      {
+        "stage": "before_payment_confirmed",
+        "refund_pct_of_price": {
+          "value": 100,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): nothing was collected or the payment is returned in full"
+        },
+        "note": "applies to all fulfilment modes"
+      },
+      {
+        "stage": "paid_not_started_(queued)",
+        "refund_pct_of_price": {
+          "value": 100,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): minus the non-recoverable payment-method fee if the customer cancels; 100% if we cancel"
+        },
+        "note": "all modes"
+      },
+      {
+        "stage": "in_progress_(fulfilling)",
+        "refund_pct_of_price": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Owner decision: set after lawyer advice and the first 30 days of data (case-by-case until then).",
+          "status": "UNVERIFIED",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): 100% if we fail; if the customer cancels, price minus irrecoverable provider/network costs already incurred (capped, disclosed)"
+        },
+        "note": "operator_assisted and api_auto"
+      },
+      {
+        "stage": "delivered_unused_within_24h",
+        "refund_pct_of_price": {
+          "value": 100,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): replacement or refund if defective; delivered digital services performed with consent are otherwise non-refundable for change of mind - lawyer to confirm vs the 7-day withdrawal rule"
+        },
+        "note": "voucher/gift-card/prefunded"
+      },
+      {
+        "stage": "third_party_suspension_after_delivery",
+        "refund_pct_of_price": {
+          "value": null,
+          "unit": "pct",
+          "as_of": "2026-10-02",
+          "confidence": "low",
+          "verify_how": "Owner decision: set after lawyer advice and the first 30 days of data (case-by-case until then).",
+          "status": "UNVERIFIED",
+          "note": "analyst-proposed policy parameter (NOT a legal fact): low-risk SKU: unused balance refunded within 7 days; medium: within 72h; high: within 48h and only if not caused by the customer; later: goodwill only"
+        },
+        "note": "tie to the product risk_label (see refund-policy.fa.md)"
+      }
+    ]
+  }
+}
