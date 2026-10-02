@@ -1,0 +1,29 @@
+{
+  "name": "hiclaude",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": ["packages/*", "apps/*"],
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "node scripts/typecheck.mjs",
+    "validate:data": "node scripts/validate-data.mjs",
+    "dev:api": "tsx watch apps/api/src/server.ts",
+    "dev:web": "npm run dev -w @hiclaude/web",
+    "demo": "node scripts/demo.mjs",
+    "sim": "tsx packages/sim/src/cli.ts",
+    "sim:suite": "tsx packages/sim/src/suite.ts",
+    "sim:compare": "tsx packages/sim/src/compare.ts",
+    "sim:sensitivity": "tsx packages/sim/src/sensitivity.ts",
+    "build": "npm run build -w @hiclaude/web",
+    "e2e": "playwright test -c e2e/playwright.config.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.8"
+  }
+}
