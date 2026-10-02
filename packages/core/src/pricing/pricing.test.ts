@@ -281,17 +281,18 @@ describe('priceQuote — rush, VAT, gateway fee, methods', () => {
     expect(big.breakdown.byMethod.gateway!.grossUp).toBe('cap')
     expect(gw(big).totalIrt! - gw(big).feeIrt).toBeGreaterThanOrEqual(big.breakdown.netIrt)
     const alt = P.providers.find((p) => p.id === 'altcard')!
-    const small = priceQuote(pricingInput({ amountUsdCents: 1000, provider: alt }))
+    const highCap = { ...P.paymentMethods, gateway: { ...P.paymentMethods.gateway, feeCapIrt: 100_000 } }
+    const small = priceQuote(pricingInput({ amountUsdCents: 1000, provider: alt, paymentMethods: highCap }))
     const g = gw(small)
     expect(small.breakdown.byMethod.gateway!.grossUp).toBe('closed_form')
-    expect(g.feeIrt).toBe(Math.min(16_000, Math.ceil(g.totalIrt! * 0.005) + 500))
+    expect(g.feeIrt).toBe(Math.min(100_000, Math.ceil(g.totalIrt! * 0.005) + 500))
     // customer pays more by roughly pct + fixed
     expect(g.totalIrt!).toBeGreaterThan(bank(small).totalIrt!)
     expect(g.totalIrt! - g.feeIrt).toBeGreaterThanOrEqual(small.breakdown.netIrt)
     // minimal: one rounding step less would leave less than the target
     const gp = P.paymentMethods.gateway
     const lower = g.totalIrt! - 1000
-    const feeLower = Math.min(gp.feeCapIrt, Math.ceil(lower * gp.feePct) + gp.feeFixedIrt)
+    const feeLower = Math.min(100_000, Math.ceil(lower * gp.feePct) + gp.feeFixedIrt)
     expect(lower - feeLower).toBeLessThan(small.breakdown.netIrt)
   })
 

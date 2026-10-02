@@ -1,16 +1,9 @@
-import { createContext, useContext, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from 'react'
+import { useContext, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from 'react'
 import { resolveHost, basePathOf, type HostResolution } from './detect'
 import type { HapticKind, MainButtonConfig, MessengerHost } from './types'
-import type { SimHost } from './simulated'
+import { HostContextRef, type HostCtx } from './context'
 
-interface HostCtx {
-  host: MessengerHost
-  sim?: SimHost
-  /** '' | '/tg' | '/bale' — prefix for every in-app link */
-  base: '' | '/tg' | '/bale'
-}
-
-const HostContext = createContext<HostCtx | null>(null)
+const HostContext = HostContextRef
 
 function applyHostVars(host: MessengerHost): void {
   const root = document.documentElement

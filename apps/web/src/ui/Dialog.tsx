@@ -29,7 +29,8 @@ export function Dialog({ open, onClose, title, description, children, footer, va
   const panelRef = useRef<HTMLDivElement>(null)
   const returnFocus = useRef<HTMLElement | null>(null)
   const host = useHostOptional()
-  const asSheet = variant === 'sheet' || (variant === 'auto' && true)
+  const inMini = !!host?.host.isMiniApp
+  const sheetOnly = variant === 'sheet' || inMini
 
   useEffect(() => {
     if (!open) return
@@ -68,7 +69,7 @@ export function Dialog({ open, onClose, title, description, children, footer, va
   }
   const widths = { sm: 'sm:max-w-sm', md: 'sm:max-w-lg', lg: 'sm:max-w-2xl' }
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center" onKeyDown={onKeyDown} data-theme-scope>
+    <div className={cn('fixed inset-0 z-50 flex justify-center', variant === 'modal' && !inMini ? 'items-center p-4' : sheetOnly ? 'items-end' : 'items-end sm:items-center sm:p-4')} onKeyDown={onKeyDown} data-theme-scope>
       <div className="absolute inset-0 animate-fade-in bg-black/50" onClick={dismissible ? onClose : undefined} aria-hidden />
       <div
         ref={panelRef}
@@ -79,9 +80,9 @@ export function Dialog({ open, onClose, title, description, children, footer, va
         tabIndex={-1}
         className={cn(
           'relative flex max-h-[92dvh] w-full flex-col bg-surface text-fg shadow-pop outline-none',
-          asSheet ? 'animate-sheet-up rounded-t-xl pb-[var(--safe-bottom)] sm:animate-pop-in sm:rounded-xl' : 'animate-pop-in rounded-xl',
-          widths[size],
-          host?.host.isMiniApp && 'sm:max-w-none sm:rounded-t-xl sm:rounded-b-none',
+          variant === 'modal' && !inMini ? 'animate-pop-in rounded-xl' : sheetOnly ? 'animate-sheet-up rounded-t-xl pb-[var(--safe-bottom)]' : 'animate-sheet-up rounded-t-xl pb-[var(--safe-bottom)] sm:animate-pop-in sm:rounded-xl sm:pb-0',
+          !sheetOnly && widths[size],
+          sheetOnly && 'sm:max-w-xl',
         )}
       >
         <div className="flex items-start justify-between gap-3 border-b border-line px-5 py-4">
