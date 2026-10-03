@@ -9,6 +9,7 @@ export const meta = {
 
 const ROOT = '/home/user/HiClaude'
 const keys = (args && Array.isArray(args.keys)) ? args.keys : []
+const NOTE = (args && args.note) ? `\n\nIMPORTANT RUN NOTE FROM THE LEAD: ${args.note}\n` : ''
 if (!keys.length) throw new Error('args.keys (array of specialist keys) is required')
 
 const RESEARCH_SCHEMA = {
@@ -83,7 +84,7 @@ HOW TO WORK
 - Only write the deliverables named in your mandate (plus scripts under scripts/research/). Do NOT git commit or push; the lead does that. Do not edit CLAUDE.md or other agents' files.
 - You may take up to ~90 minutes. Stop when the mandate is fully satisfied.
 
-FINISH by returning the structured summary (files_written, tldr, key_numbers, conflicts, open_questions, needs_from_other_specialists, validation_output).`
+FINISH by returning the structured summary (files_written, tldr, key_numbers, conflicts, open_questions, needs_from_other_specialists, validation_output).${NOTE}`
 
 const verifyPrompt = (key, r) => `You are an independent VERIFIER for specialist "${key}" on the HiClaude project (${ROOT}). Another agent wrote the deliverables; your job is to find what is wrong, unsupported, stale, inconsistent or non-compliant, and fix it in place. Today is 2026-10-02.
 
@@ -100,7 +101,7 @@ DO
 5. Guardrail audit (CLAUDE.md section 3): remove or replace any content that helps evade KYC/AML, sanctions, geo-restrictions, use borrowed/fake identities or cards, split payments to dodge caps, or farm referrals. Replace with the lawful alternative + the risk.
 6. Do not git commit/push. Do not touch other specialists' files.
 
-Return the structured verdict.`
+Return the structured verdict.${NOTE}`
 
 phase('Research')
 log(`Launching ${keys.length} specialists: ${keys.join(', ')}`)

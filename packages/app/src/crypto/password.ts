@@ -30,6 +30,10 @@ export function verifyPassword(password: string, stored: string): boolean {
   if (![N, r, p].every((n) => Number.isInteger(n) && n > 0) || N > 1 << 20) return false
   const salt = Buffer.from(parts[4] as string, 'base64url')
   const expected = parts[5] as string
-  const dk = scryptSync(password.normalize('NFKC'), salt, KEYLEN, { N, r, p, maxmem: 256 * N * r })
-  return timingSafeEqualStr(dk.toString('base64url'), expected)
+  try {
+    const dk = scryptSync(password.normalize('NFKC'), salt, KEYLEN, { N, r, p, maxmem: 256 * N * r })
+    return timingSafeEqualStr(dk.toString('base64url'), expected)
+  } catch {
+    return false // malformed parameters
+  }
 }

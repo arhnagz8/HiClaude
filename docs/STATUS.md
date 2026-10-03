@@ -39,6 +39,14 @@ _Last updated: 2026-10-02 (session start of long mission)_
   Builders do NOT commit; lead commits after review. If the session restarts: check TaskList / agent output files in
   `/tmp/claude-0/-home-user-HiClaude/e0406b7e-eb00-55e4-8e8b-4850c515b2e9/tasks/` (never `cat` them whole) and re-launch a builder with the same brief if its package is incomplete.
 
+
+## Incident log (2026-10-03 ~04:30 UTC)
+- All parallel agents were cut off by an API **session usage limit** (HTTP 429) around 23:40 UTC; the **shared WebSearch budget (200)** was also exhausted by the research agents (no further broad web research possible; later work must reuse repo evidence and label assumptions UNVERIFIED).
+- Research completed (docs/03-research): 01 card-providers, 02 exchanges/rails, 03 payments, 04 legal/tax, 05 sanctions/risk, 06 service catalog, 07 competitors (+ matching data/*.json). Some verifier stages failed (rate limit) -> treat as `draft`.
+- Research re-launched: workflow wf_0bbe06fa-4de (task wyf1fu01x): 08 macro-fx, 11 ux. Still missing: 09 platform-tech-security, 10 ops-growth, 12 economics.
+- Builders B1, B2, B4, B5a resumed via SendMessage (same agent ids). B7a (web) NOT yet resumed (hold to conserve usage; resume after the engine work stabilises).
+- Key research findings to propagate: OFAC designation of Nobitex/Wallex/Bitpin/Ramzinex (2026-06-02) CONFIRMED (STATUS earlier "rumour" note was wrong); first-pass plan section about using several partners' national IDs to raise deposit caps conflicts with CLAUDE.md guardrail 3 -> must be rewritten to lawful alternatives (business/OTC accounts) in the compliance patch; ID deposit cap 25M Toman/24h is THE binding capacity constraint (~97 USDT/day per allowance) -> sustainable GMV is far below the first-pass 30 orders/day without lawful scale paths; night halt 21:00-09:00 and 2,000 USDT/day cap active 2026-09-30..2026-10-04 (temporary).
+
 ## Next actions
 1. Write architecture spec v1 (`docs/05-architecture/architecture.md`) + `packages/contracts` (ports, schemas, events, Clock/Rng).
 2. When research lands: commit, then brief 12 (pricing-treasury-economics) as a stage-2 specialist that consumes 01/02/03/06/07/08.
