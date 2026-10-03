@@ -42,7 +42,7 @@ customer flag score provider days min max scope word keys role qty account actio
 tierLabel email subject text size count max'''.split())
 CUSTOMER_PREFIX_EXEMPT = ('admin.', 'sim.', 'notif.admin.')
 PLACE = re.compile(r'\{(\w+)\}')
-ASCII_DIGIT = re.compile(r'\d')
+ASCII_DIGIT = re.compile(r'[0-9]')
 LATIN_TOKEN = re.compile(r'[A-Za-z]+\d*[A-Za-z]*')
 BANNED = [r'مجوز', r'کاملاً قانونی', r'قانونی و مجاز', r'بانک مرکزی', r'بدون ریسک', r'صرافی', r'خرید دلار', r'فروش دلار', r'تضمین(?! نمی)', r'ضمانت']
 ARABIC = re.compile('[يكى]')           # arabic yeh/kaf/alef maksura

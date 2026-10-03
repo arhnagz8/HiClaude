@@ -3,7 +3,7 @@
  * Weekend = Friday. Thursday = half working day (no Paya settlement in the afternoon). Public holidays: built-in SOLAR-calendar holidays only
  * (Nowruz 1-4 & 12-13 Farvardin, 14-15 Khordad, 22 Bahman, 29 Esfand); lunar (religious) holidays move every year and are NOT built in -
  * supply them via `extraHolidays` (ISO "YYYY-MM-DD" in IRST) or `loadHolidayFile()` (data/calendar_ir.json when research 08 lands).
- * UNVERIFIED: the exact Paya cycle times below are placeholders (verify with the bank's published schedule).
+ * Paya cycles IRST 03:45, 09:45, 12:45, 18:45 per data/exchanges.json (low confidence; verify with the bank's published schedule).
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { MS, irstHourFraction, irstIsoDate, irstParts, jalaliOf, startOfIrstDay, type EpochMs } from '@hiclaude/contracts'
@@ -19,7 +19,7 @@ export interface PayaSchedule {
 }
 
 export const DEFAULT_PAYA_SCHEDULE: PayaSchedule = {
-  settleHours: [10, 14, 18], // placeholder, UNVERIFIED
+  settleHours: [3.75, 9.75, 12.75, 18.75], // data/exchanges.json assumptions.rial_settlement_calendar (confidence low): 03:45, 09:45, 12:45, 18:45
   minProcessingMs: 30 * MS.minute,
   thursdayLastHour: 13,
 }
@@ -30,7 +30,7 @@ export interface SatnaSchedule {
   thursdayCloseHour: number
   processingMs: number
 }
-export const DEFAULT_SATNA_SCHEDULE: SatnaSchedule = { openHour: 8, closeHour: 16.5, thursdayCloseHour: 12, processingMs: 15 * MS.minute }
+export const DEFAULT_SATNA_SCHEDULE: SatnaSchedule = { openHour: 8, closeHour: 14.5, thursdayCloseHour: 13.5, processingMs: 15 * MS.minute } // research: Satna accepted until ~14:30 (13:30 Thu)
 
 const SOLAR_HOLIDAYS: ReadonlyArray<[number, number]> = [
   [1, 1],
