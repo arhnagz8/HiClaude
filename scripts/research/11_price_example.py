@@ -39,16 +39,24 @@ def price(amount_usd, new_card, rush, method='gateway', sigma=D('0.012')):
         P = target_net; fee = D(0)
     P_round = (P / 1000).to_integral_value(rounding=ROUND_CEILING) * 1000
     rounding = P_round - P
-    # customer-facing grouping (truthful: lines sum to the total, no hidden remainder)
-    service_value = A * D('1') * unit / 1  # face value at replacement unit rate (USD par=USDT)
-    provider_fees = (funding_usd - A) * unit
-    our_fee = buf + risk + margin + rounding + (funding_usdt - funding_usd) * unit  # network alloc + buffers + margin + rounding
-    return dict(amount_usd=int(A), new_card=new_card, rush=rush, method=method,
-                total=int(P_round), service_value=int(service_value), provider_fees=int(provider_fees),
-                service_fee=int(our_fee), payment_fee=int(fee), rush_fee=int(rush_irt),
-                check=int(service_value + provider_fees + our_fee + fee + rush_irt) - int(P_round),
-                effective_rate=float((P_round - rush_irt - fee) / A),
-                buf_pct=float(buf_pct), cost=int(C), margin=int(margin))
+    # customer-facing grouping (truthful: lines sum EXACTLY to the total; rounding delta is folded into the lock/conversion line)
+    market = mid                                           # reference mid used for the "service value" line
+    service_value = A * market
+    provider_fees = (funding_usd - A) * market
+    conv_lock_raw = funding_usdt * (unit - market) + buf + D('0.3') * 0 + (funding_usdt - funding_usd) * market
+    service_fee = risk + margin
+    lines = dict(service_value=service_value, provider_fees=provider_fees,
+                 conversion_and_lock=conv_lock_raw + rounding, service_fee=service_fee,
+                 payment_fee=fee, rush_fee=rush_irt)
+    ints = {k: int(v.to_integral_value(rounding=ROUND_CEILING)) for k, v in lines.items()}
+    drift = int(P_round) - sum(ints.values())               # absorb ceil() drift into the lock/conversion line
+    ints['conversion_and_lock'] += drift
+    return dict(amount_usd=int(A), new_card=new_card, rush=rush, method=method, total=int(P_round), **ints,
+                check=sum(ints.values()) - int(P_round), drift_absorbed=drift,
+                effective_rate_per_usd=round(float((P_round - rush_irt - fee) / A)),
+                market_ref_per_usd=int(market),
+                markup_vs_market_pct=round(float((P_round - rush_irt - fee) / (A * market) - 1) * 100, 1),
+                volatility_buffer_pct=round(float(buf_pct) * 100, 2), cost=int(C), margin=int(margin))
 
 rows = []
 for rush in ('normal', 'fast', 'express'):
@@ -57,6 +65,6 @@ rows.append(price(100, True, 'normal', method='card_to_card'))
 rows.append(price(50, False, 'normal'))
 for r in rows:
     print(json.dumps(r, ensure_ascii=False))
-print('\nNote: check = components - total (rounding of int() casts only; must be within +-3 IRT).')
+print('\nNote: check must be 0 (lines sum exactly to the total).')
 print('Quote-lock drift example: if USDT moves +1.0 % during a 30-min lock the replacement cost of a $100 card rises by',
       int(price(100, True, 'normal')['cost'] * 0.01), 'IRT (already inside the volatility buffer).')

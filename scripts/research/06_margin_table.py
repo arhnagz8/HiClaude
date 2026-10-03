@@ -210,7 +210,7 @@ def compute_rows(cat, args):
             price = max(price, price_floor)
             per_level[label] = {"fx": fx, "supplier_usd": sup, "cost": cost, "price": price,
                                 "profit": D(price) - cost, "eff_rate": D(price) / D(str(unit))}
-        rows.append({"id": s["id"], "name": s["name_en"], "mode": mode, "usd": D(str(usd)), "unit": D(str(unit)), "margin": margin,
+        rows.append({"id": s["id"], "name": s["name"], "mode": mode, "usd": D(str(usd)), "unit": D(str(unit)), "margin": margin,
                      "levels": per_level, "sku": s})
     return levels, rows
 
@@ -429,7 +429,7 @@ def section_ranking(cat, args):
            "index = tier weight (S8/A4/B2/C1) x profit per order @base FX x repeat/yr. '*' = unit USD is an assumed typical order (no verified list price). "
            "Offer column shows legal gating: legal_review_required SKUs cannot launch until cleared.", "",
            "| # | SKU | tier | unit USD | price @base | profit/order | repeat/yr | GP per active customer-year (IRT) | index (M IRT) | share of total | offer |", "|--:|---|---|--:|--:|--:|--:|--:|--:|--:|---|"]
-    for i, r in enumerate(rows[:30], 1):
+    for i, r in enumerate(rows[:20], 1):
         out.append(f"| {i} | {r['id']}{'*' if r['assumed_price'] else ''} | {r['tier']} | {float(r['unit']):g} | {fmt(r['price'])} | {fmt(r['profit'])} | {float(r['rep']):g} | {fmt(r['gp_year'])} | {float(r['index'])/1e6:,.1f} | {pct(r['index']/tot)} | {r['offer']} |")
     by_cat = {}
     for r in rows:

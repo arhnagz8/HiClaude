@@ -22,12 +22,13 @@ GMV_USD = 150_000.0   # illustrative monthly GMV (~$5k/day); EL shares are scale
 TAKE = 0.10           # revenue / GMV (lead's pricing model: ~8-15% of price)
 
 POLICIES = {
-    # exposure in days of monthly GMV held in each scope
-    "baseline (JIT, caps applied)": dict(provider_float=1.5, exchange_balance=0.5, treasury_wallet=2.0, hot_wallet=1.0, bank_balance=1.0, voucher_inventory=0.0,
+    # exposure in days of monthly GMV held in each scope.  exchange_balance is LOCK-AWARE (specialist 02, C13): with the 72h withdrawal lock
+    # (L = 3 days) bought USDT sits on the exchange for >= 3 days, so the structural cap is L + 1 = 4 days, not 1 day.
+    "baseline (JIT, caps applied)": dict(provider_float=1.5, exchange_balance=4.0, treasury_wallet=2.0, hot_wallet=1.0, bank_balance=1.0, voucher_inventory=0.0,
                                          otc_balance=0.0, inbound_usdt_quarantine=0.0),
-    "idle-heavy (no caps)":          dict(provider_float=7.0, exchange_balance=3.0, treasury_wallet=5.0, hot_wallet=3.0, bank_balance=3.0, voucher_inventory=2.0,
+    "idle-heavy (no caps)":          dict(provider_float=7.0, exchange_balance=7.0, treasury_wallet=5.0, hot_wallet=3.0, bank_balance=3.0, voucher_inventory=2.0,
                                          otc_balance=0.0, inbound_usdt_quarantine=0.0),
-    "ultra-lean (JIT hourly)":       dict(provider_float=0.5, exchange_balance=0.25, treasury_wallet=1.0, hot_wallet=0.5, bank_balance=0.5, voucher_inventory=0.0,
+    "ultra-lean (JIT hourly)":       dict(provider_float=0.5, exchange_balance=3.25, treasury_wallet=1.0, hot_wallet=0.5, bank_balance=0.5, voucher_inventory=0.0,
                                          otc_balance=0.0, inbound_usdt_quarantine=0.0),
 }
 

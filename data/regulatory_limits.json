@@ -10,33 +10,6 @@
  },
  "rules": [
   {
-   "id": "CBI-2022-12-CAP-50M-TO-25M",
-   "issuer": "Central Bank of Iran (CBI)",
-   "scope": "per platform user / transaction cap at crypto exchanges (exact scope unclear)",
-   "effective_from": "2022-12",
-   "effective_to": null,
-   "rule_status": "unknown",
-   "value": {
-    "from_irt_per_day": 50000000,
-    "to_irt_per_day": 25000000
-   },
-   "unit": "IRT per day",
-   "as_of": "2026-10-02",
-   "confidence": "low",
-   "sources": [
-    {
-     "url": "https://mihanblockchain.com/iranian-crypto-exchanges-issue-user-notice-according-to-new-cbi-guidelines/",
-     "title": "Mihan Blockchain: deposit/withdraw at Iranian exchanges limited to 100M Toman/day",
-     "note": "per search summary"
-    }
-   ],
-   "status": "conflicting",
-   "verify_how": "Find the original Azar-1401 CBI circular text (mihanblockchain/iranbroker archive for Azar 1401) and compare with the 1403 Shaparak instruction.",
-   "note": "Do not use for modelling; kept so the conflict is visible. See 'Conflicts & adjudication' in the research doc.",
-   "enforcement": "Per ONE search summary: in Azar 1401 (Dec 2022) CBI cut the per-day cap of crypto platforms from 50M to 25M Toman. This conflicts with the ID-deposit-cap dating (17 Shahrivar 1403 = 2024-09-07) in rule SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M; likely a different measure or a mis-dating by the summariser.",
-   "durability": "unknown"
-  },
-  {
    "id": "CBI-DAILY-100M-DEPOSIT-WITHDRAW-CAP",
    "issuer": "CBI (per exchange notices to users)",
    "scope": "per user per day, deposit and withdrawal at exchanges",
@@ -58,6 +31,52 @@
    "verify_how": "Open the article and read date + exact scope; check if it limits Rial withdrawal, crypto withdrawal, or both.",
    "note": "Effective date unknown; may be superseded by the 25M ID-deposit cap for deposits.",
    "enforcement": "Exchanges issued user notices citing 'new CBI guidelines' limiting daily deposit and withdrawal to 100M Toman (headline only; date and scope not in the summary).",
+   "durability": "unknown"
+  },
+  {
+   "id": "CBI-RIAL-WITHDRAW-LIMITS-LIFTED",
+   "issuer": "CBI",
+   "scope": "Rial withdrawal limits at exchanges",
+   "effective_from": null,
+   "effective_to": null,
+   "rule_status": "unknown",
+   "value": "lifted",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "sources": [
+    {
+     "url": "https://iranbroker.net/news/rial-withdrawal-limits-lifted-iranian-exchanges/",
+     "title": "IranBroker: Rial withdrawal limits at Iranian exchanges lifted",
+     "note": "per search summary"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "Open article for date.",
+   "note": "Date unknown.",
+   "enforcement": "Headline: Rial-withdrawal limits at domestic exchanges lifted (date unknown; implies an earlier limit existed, probably after Oct 2024).",
+   "durability": "unknown"
+  },
+  {
+   "id": "CBI-USER-FUNDS-NO-INVESTMENT",
+   "issuer": "CBI",
+   "scope": "exchanges' use of users' Rial balances",
+   "effective_from": null,
+   "effective_to": null,
+   "rule_status": "active",
+   "value": "prohibited",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "sources": [
+    {
+     "url": "https://mihanblockchain.com/iran-central-bank-crypto-platforms-funds-rule/",
+     "title": "Mihan Blockchain: CBI - investing users' Rial balances at exchanges is banned",
+     "note": "per search summary"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "Read the notice date and text.",
+   "note": "Date unknown. Relevance: Rial balances parked at exchanges are customer-fund-like; do not park large Rial float there.",
+   "enforcement": "Per headline summary: exchanges may not invest or operationally use users' deposited Rial balances.",
    "durability": "unknown"
   },
   {
@@ -109,6 +128,33 @@
    "durability": "high - rule existed by 21 Shahrivar 1402 (2023-09-12, Nipoto help article) and is still cited in 1405 exchange pages"
   },
   {
+   "id": "CBI-2022-12-CAP-50M-TO-25M",
+   "issuer": "Central Bank of Iran (CBI)",
+   "scope": "per platform user / transaction cap at crypto exchanges (exact scope unclear)",
+   "effective_from": "2022-12",
+   "effective_to": null,
+   "rule_status": "unknown",
+   "value": {
+    "from_irt_per_day": 50000000,
+    "to_irt_per_day": 25000000
+   },
+   "unit": "IRT per day",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "sources": [
+    {
+     "url": "https://mihanblockchain.com/iranian-crypto-exchanges-issue-user-notice-according-to-new-cbi-guidelines/",
+     "title": "Mihan Blockchain: deposit/withdraw at Iranian exchanges limited to 100M Toman/day",
+     "note": "per search summary"
+    }
+   ],
+   "status": "conflicting",
+   "verify_how": "Find the original Azar-1401 CBI circular text (mihanblockchain/iranbroker archive for Azar 1401) and compare with the 1403 Shaparak instruction.",
+   "note": "Do not use for modelling; kept so the conflict is visible. See 'Conflicts & adjudication' in the research doc.",
+   "enforcement": "Per ONE search summary: in Azar 1401 (Dec 2022) CBI cut the per-day cap of crypto platforms from 50M to 25M Toman. This conflicts with the ID-deposit-cap dating (17 Shahrivar 1403 = 2024-09-07) in rule SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M; likely a different measure or a mis-dating by the summariser.",
+   "durability": "unknown"
+  },
+  {
    "id": "SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M",
    "issuer": "Shaparak / CBI instruction relayed to exchanges",
    "scope": "ID-based deposits (واریز شناسه‌دار) to crypto exchanges, per payer Sheba (IBAN) per 24 h (media also say per national ID)",
@@ -153,9 +199,9 @@
    ],
    "status": "reported",
    "verify_how": "Ask two exchanges + your bank: is the 25M/24h counted per payer account, per national ID, per exchange, or globally? Test with a 26M ID deposit and read the returned amount.",
-   "note": "Scope conflict: per Sheba (instruction text) vs per national ID (headline). Whether the cap is shared across exchanges is UNVERIFIED. Previous cap reported as 50M Toman.",
-   "enforcement": "Amount above the cap is rejected: only 25M Toman is credited to the exchange account and the remainder is returned to the source account (per summaries). Reported as effective Saturday 17 Shahrivar 1403 (= 2024-09-07, a Saturday).",
-   "durability": "high - still quoted as in force on exchange pages in 1405 (Tabdeal page: 'max daily deposit 25M Toman per CBI restriction'); nominal Toman cap erodes with depreciation"
+   "note": "Scope conflict: per Sheba (instruction text) vs per national ID (headline). Whether the cap is shared across exchanges is UNVERIFIED. Previous cap UNVERIFIED: one summary says 50M Toman but dates a 50M-to-25M cut to Azar 1401 (see rule CBI-2022-12-CAP-50M-TO-25M).",
+   "enforcement": "Amount above the cap is rejected: only 25M Toman is credited to the exchange account and the remainder is returned to the source account (per summaries). One summary dates the cut to Saturday 17 Shahrivar 1403 (= 2024-09-07, a Saturday).",
+   "durability": "high - quoted as in force by an undated Tabdeal page ('max daily deposit 25M Toman per CBI restriction') and by the first-pass doc of 2026-10-02; nominal Toman cap erodes with depreciation"
   },
   {
    "id": "CBI-2024-10-SHAPARAK-FIAT-CRYPTO-RESTRICTION",
@@ -339,50 +385,134 @@
    "durability": "unknown"
   },
   {
-   "id": "CBI-USER-FUNDS-NO-INVESTMENT",
-   "issuer": "CBI",
-   "scope": "exchanges' use of users' Rial balances",
-   "effective_from": null,
+   "id": "US-2026-06-02-OFAC-SDN-IR-EXCHANGES",
+   "issuer": "US Treasury OFAC",
+   "scope": "Nobitex, Wallex, Bitpin, Ramzinex + four executives (SDN, full blocking)",
+   "effective_from": "2026-06-02",
    "effective_to": null,
    "rule_status": "active",
-   "value": "prohibited",
+   "value": {
+    "entities": [
+     "Nobitex",
+     "Wallex",
+     "Bitpin",
+     "Ramzinex"
+    ],
+    "share_of_iran_digital_asset_inflows_2025_pct": {
+     "nobitex": ">50",
+     "wallex": "~12",
+     "bitpin": "~10",
+     "four_total": ">=72"
+    },
+    "attributed_volume_2025_usd_bn": 7.7
+   },
    "as_of": "2026-10-02",
-   "confidence": "low",
+   "confidence": "high",
    "sources": [
     {
-     "url": "https://mihanblockchain.com/iran-central-bank-crypto-platforms-funds-rule/",
-     "title": "Mihan Blockchain: CBI - investing users' Rial balances at exchanges is banned",
+     "url": "https://www.scorechain.com/blog/ofac-iran-crypto-sanctions-june-2026",
+     "title": "Scorechain: OFAC sanctions Iran's four largest crypto exchanges",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://blog.globalledger.io/research-investigations/ofac-nobitex-iranian-crypto-exchanges",
+     "title": "Global Ledger: OFAC targets Nobitex and other Iranian exchanges",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://crystalintelligence.com/sanctions/crypto-sanctions-screening-ofac-targets-iran-exchanges/",
+     "title": "Crystal Intelligence: crypto sanctions screening - OFAC targets Iran exchanges",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://www.trmlabs.com/resources/blog/three-enforcement-layers-in-five-months-ofac-designates-irans-domestic-crypto-exchanges",
+     "title": "TRM Labs: three enforcement layers in five months - OFAC designates Iran's domestic exchanges",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://complianceconcourse.willkie.com/articles/ofac-designates-irans-largest-digital-asset-exchanges/",
+     "title": "Willkie Compliance Concourse: OFAC designates Iran's largest digital asset exchanges",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
+     "title": "Elliptic: OFAC sanctions Nobitex and three other Iranian exchanges",
      "note": "per search summary"
     }
    ],
    "status": "reported",
-   "verify_how": "Read the notice date and text.",
-   "note": "Date unknown. Relevance: Rial balances parked at exchanges are customer-fund-like; do not park large Rial float there.",
-   "enforcement": "Per headline summary: exchanges may not invest or operationally use users' deposited Rial balances.",
-   "durability": "unknown"
+   "verify_how": "Check OFAC SDN list (sanctionssearch.ofac.treas.gov) for the four names; ask the card provider whether it screens deposits from these exchanges.",
+   "note": "Not legal advice. Compliance specialist (05) owns the exposure analysis.",
+   "enforcement": "Secondary-sanctions exposure for non-US persons dealing with them; providers/chains may screen deposits originating from these exchanges. Iranian denials in Feb 2026 related to an EARLIER OFAC action (Zedcex/Zedxion, 2026-01-30) and were fact-checked as correct at that time (file 05); after 2026-06-02 the four exchanges issued statements that services continue (file 05).",
+   "durability": "high - SDN listings are durable"
   },
   {
-   "id": "CBI-RIAL-WITHDRAW-LIMITS-LIFTED",
-   "issuer": "CBI",
-   "scope": "Rial withdrawal limits at exchanges",
-   "effective_from": null,
+   "id": "US-2026-08-07-OFAC-SDN-ABANTETHER",
+   "issuer": "US Treasury OFAC",
+   "scope": "Aban Tether + Shelbit Exchange + operator + four front companies (SDN, E.O. 13902)",
+   "effective_from": "2026-08-07",
    "effective_to": null,
-   "rule_status": "unknown",
-   "value": "lifted",
+   "rule_status": "active",
+   "value": {
+    "entities": [
+     "Aban Tether",
+     "Shelbit Exchange",
+     "Siavash Kayvanpour (operator named by OFAC)",
+     "4 affiliated front companies (Georgia, Poland, UAE)"
+    ],
+    "owner_file": "data/sanctions_timeline.json event SE-2026-08-07-ABAN-SHELBIT"
+   },
+   "as_of": "2026-10-02",
+   "confidence": "medium",
+   "sources": [
+    {
+     "url": "data/sanctions_timeline.json",
+     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+     "note": "internal cross-reference, not re-verified by 02"
+    },
+    {
+     "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+     "title": "CoinDesk 2026-08-07: US widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) - as cited in file 05",
+     "note": "cited by file 05; page not seen by 02"
+    },
+    {
+     "url": "https://ofac.treasury.gov/faqs/1257",
+     "title": "OFAC FAQ 1257: E.O. 13902 digital-asset exchanges / non-US person exposure - as cited in file 05",
+     "note": "cited by file 05; page not seen by 02"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "Check the OFAC SDN list for 'Aban Tether'; read 05's event and its adjudication.",
+   "note": "Cross-reference only; 05 owns adjudication. Not legal advice.",
+   "enforcement": "Not found by 02's own searches; taken from the sanctions specialist's file (verified/high there; 8 outlets + OFAC FAQ 1257 per its summaries). 05 recommends removing all five designated venues (Nobitex, Wallex, Bitpin, Ramzinex, Aban Tether) from any allowed-USDT-source list.",
+   "durability": "high - SDN listings are durable"
+  },
+  {
+   "id": "US-2026-09-17-OFAC-BITBANK",
+   "issuer": "US Treasury OFAC ('Operation Economic Outcast')",
+   "scope": "BitBank digital-asset exchange (SDN), customer cited: Hormuz Safe Marine Services Authority",
+   "effective_from": "2026-09-17",
+   "effective_to": null,
+   "rule_status": "active",
+   "value": {
+    "entity": "BitBank",
+    "owner_file": "data/sanctions_timeline.json event SE-2026-09-17-BITBANK",
+    "risk_register": "7 domestic-market exchanges designated across 3 actions (2026-06-02, 08-07, 09-17) per data/risk_register.json"
+   },
    "as_of": "2026-10-02",
    "confidence": "low",
    "sources": [
     {
-     "url": "https://iranbroker.net/news/rial-withdrawal-limits-lifted-iranian-exchanges/",
-     "title": "IranBroker: Rial withdrawal limits at Iranian exchanges lifted",
-     "note": "per search summary"
+     "url": "data/sanctions_timeline.json",
+     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+     "note": "internal cross-reference, not re-verified by 02"
     }
    ],
    "status": "reported",
-   "verify_how": "Open article for date.",
-   "note": "Date unknown.",
-   "enforcement": "Headline: Rial-withdrawal limits at domestic exchanges lifted (date unknown; implies an earlier limit existed, probably after Oct 2024).",
-   "durability": "unknown"
+   "verify_how": "Read file 05 event and OFAC Recent Actions.",
+   "note": "Cross-reference only.",
+   "enforcement": "Taken from file 05 (only the Treasury press-release title was seen there). Not a venue 02 researched; listed so the allow/deny list stays complete.",
+   "durability": "high - SDN listings are durable"
   },
   {
    "id": "CBI-2026-09-30-NIGHT-HALT",
@@ -508,136 +638,6 @@
    "note": "At R=257,000 IRT/USDT the cap equals 514M IRT/day per user, far above the 25M IRT/24h ID-deposit cap, so it only binds if the user already holds Rial balance.",
    "enforcement": "Headlines: 'purchase only up to 2,000 USDT'; Hamshahri calls it a quota (سهمیه‌ای) per user; AbanTether: daily buy limited to 2,000 USDT. Whether per exchange or across exchanges is UNVERIFIED (assumed per exchange).",
    "durability": "low - temporary"
-  },
-  {
-   "id": "US-2026-08-07-OFAC-SDN-ABANTETHER",
-   "issuer": "US Treasury OFAC",
-   "scope": "Aban Tether + Shelbit Exchange + operator + four front companies (SDN, E.O. 13902)",
-   "effective_from": "2026-08-07",
-   "effective_to": null,
-   "rule_status": "active",
-   "value": {
-    "entities": [
-     "Aban Tether",
-     "Shelbit Exchange",
-     "Siavash Kayvanpour (operator named by OFAC)",
-     "4 affiliated front companies (Georgia, Poland, UAE)"
-    ],
-    "owner_file": "data/sanctions_timeline.json event SE-2026-08-07-ABAN-SHELBIT"
-   },
-   "as_of": "2026-10-02",
-   "confidence": "medium",
-   "sources": [
-    {
-     "url": "data/sanctions_timeline.json",
-     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
-     "note": "internal cross-reference, not re-verified by 02"
-    },
-    {
-     "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
-     "title": "CoinDesk 2026-08-07: US widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) - as cited in file 05",
-     "note": "cited by file 05; page not seen by 02"
-    },
-    {
-     "url": "https://ofac.treasury.gov/faqs/1257",
-     "title": "OFAC FAQ 1257: E.O. 13902 digital-asset exchanges / non-US person exposure - as cited in file 05",
-     "note": "cited by file 05; page not seen by 02"
-    }
-   ],
-   "status": "reported",
-   "verify_how": "Check the OFAC SDN list for 'Aban Tether'; read 05's event and its adjudication.",
-   "note": "Cross-reference only; 05 owns adjudication. Not legal advice.",
-   "enforcement": "Not found by 02's own searches; taken from the sanctions specialist's file (verified/high there; 8 outlets + OFAC FAQ 1257 per its summaries). 05 recommends removing all five designated venues (Nobitex, Wallex, Bitpin, Ramzinex, Aban Tether) from any allowed-USDT-source list.",
-   "durability": "high - SDN listings are durable"
-  },
-  {
-   "id": "US-2026-09-17-OFAC-BITBANK",
-   "issuer": "US Treasury OFAC ('Operation Economic Outcast')",
-   "scope": "BitBank digital-asset exchange (SDN), customer cited: Hormuz Safe Marine Services Authority",
-   "effective_from": "2026-09-17",
-   "effective_to": null,
-   "rule_status": "active",
-   "value": {
-    "entity": "BitBank",
-    "owner_file": "data/sanctions_timeline.json event SE-2026-09-17-BITBANK",
-    "risk_register": "7 domestic-market exchanges designated across 3 actions (2026-06-02, 08-07, 09-17) per data/risk_register.json"
-   },
-   "as_of": "2026-10-02",
-   "confidence": "low",
-   "sources": [
-    {
-     "url": "data/sanctions_timeline.json",
-     "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
-     "note": "internal cross-reference, not re-verified by 02"
-    }
-   ],
-   "status": "reported",
-   "verify_how": "Read file 05 event and OFAC Recent Actions.",
-   "note": "Cross-reference only.",
-   "enforcement": "Taken from file 05 (only the Treasury press-release title was seen there). Not a venue 02 researched; listed so the allow/deny list stays complete.",
-   "durability": "high - SDN listings are durable"
-  },
-  {
-   "id": "US-2026-06-02-OFAC-SDN-IR-EXCHANGES",
-   "issuer": "US Treasury OFAC",
-   "scope": "Nobitex, Wallex, Bitpin, Ramzinex + four executives (SDN, full blocking)",
-   "effective_from": "2026-06-02",
-   "effective_to": null,
-   "rule_status": "active",
-   "value": {
-    "entities": [
-     "Nobitex",
-     "Wallex",
-     "Bitpin",
-     "Ramzinex"
-    ],
-    "share_of_iran_digital_asset_inflows_2025_pct": {
-     "nobitex": ">50",
-     "wallex": "~12",
-     "bitpin": "~10",
-     "four_total": ">=72"
-    },
-    "attributed_volume_2025_usd_bn": 7.7
-   },
-   "as_of": "2026-10-02",
-   "confidence": "high",
-   "sources": [
-    {
-     "url": "https://www.scorechain.com/blog/ofac-iran-crypto-sanctions-june-2026",
-     "title": "Scorechain: OFAC sanctions Iran's four largest crypto exchanges",
-     "note": "per search summary"
-    },
-    {
-     "url": "https://blog.globalledger.io/research-investigations/ofac-nobitex-iranian-crypto-exchanges",
-     "title": "Global Ledger: OFAC targets Nobitex and other Iranian exchanges",
-     "note": "per search summary"
-    },
-    {
-     "url": "https://crystalintelligence.com/sanctions/crypto-sanctions-screening-ofac-targets-iran-exchanges/",
-     "title": "Crystal Intelligence: crypto sanctions screening - OFAC targets Iran exchanges",
-     "note": "per search summary"
-    },
-    {
-     "url": "https://www.trmlabs.com/resources/blog/three-enforcement-layers-in-five-months-ofac-designates-irans-domestic-crypto-exchanges",
-     "title": "TRM Labs: three enforcement layers in five months - OFAC designates Iran's domestic exchanges",
-     "note": "per search summary"
-    },
-    {
-     "url": "https://complianceconcourse.willkie.com/articles/ofac-designates-irans-largest-digital-asset-exchanges/",
-     "title": "Willkie Compliance Concourse: OFAC designates Iran's largest digital asset exchanges",
-     "note": "per search summary"
-    },
-    {
-     "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
-     "title": "Elliptic: OFAC sanctions Nobitex and three other Iranian exchanges",
-     "note": "per search summary"
-    }
-   ],
-   "status": "reported",
-   "verify_how": "Check OFAC SDN list (sanctionssearch.ofac.treas.gov) for the four names; ask the card provider whether it screens deposits from these exchanges.",
-   "note": "Not legal advice. Compliance specialist (05) owns the exposure analysis.",
-   "enforcement": "Secondary-sanctions exposure for non-US persons dealing with them; providers/chains may screen deposits originating from these exchanges. Iranian denials in Feb 2026 related to an EARLIER OFAC action (Zedcex/Zedxion, 2026-01-30) and were fact-checked as correct at that time (file 05); after 2026-06-02 the four exchanges issued statements that services continue (file 05).",
-   "durability": "high - SDN listings are durable"
   }
  ],
  "events": [

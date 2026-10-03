@@ -155,6 +155,8 @@ _add("sim_spec", "docs/05-architecture/sim-spec.md", "Lead's simulator spec (ass
 _add("s05_sanctions", "data/sanctions_timeline.json", "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)", "internal cross-reference, not re-verified by 02")
 _add("coindesk_aban", "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges", "CoinDesk 2026-08-07: US widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) - as cited in file 05", "cited by file 05; page not seen by 02")
 _add("ofac_faq1257", "https://ofac.treasury.gov/faqs/1257", "OFAC FAQ 1257: E.O. 13902 digital-asset exchanges / non-US person exposure - as cited in file 05", "cited by file 05; page not seen by 02")
+_add("s07_competitors", "docs/03-research/07-ir-competitors.md", "07-ir-competitors specialist doc (internal cross-reference): hypothesis that competitors net two-sided FX flows", "internal cross-reference, hypothesis only")
+_add("s01_providers", "data/providers.json", "01-card-providers specialist file (internal cross-reference): provider networks, minimum deposits, network fees (UNVERIFIED for all providers except mpay networks)", "internal cross-reference, not re-verified by 02")
 _add("s03_gateways", "data/gateways.json", "03-ir-payments-collection specialist file (internal cross-reference): Paya cycles, gateway closures pattern", "internal cross-reference, not re-verified by 02")
 
 
@@ -267,9 +269,9 @@ RULES = [
     rule("SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M", "Shaparak / CBI instruction relayed to exchanges", "ID-based deposits (واریز شناسه‌دار) to crypto exchanges, per payer Sheba (IBAN) per 24 h (media also say per national ID)",
          "2024-09-07", None, "active",
          25000000, "IRT per 24h per Sheba/ID", "medium", IDCAP_SRC, "reported",
-         "Amount above the cap is rejected: only 25M Toman is credited to the exchange account and the remainder is returned to the source account (per summaries). Reported as effective Saturday 17 Shahrivar 1403 (= 2024-09-07, a Saturday).",
-         "high - still quoted as in force on exchange pages in 1405 (Tabdeal page: 'max daily deposit 25M Toman per CBI restriction'); nominal Toman cap erodes with depreciation",
-         "Scope conflict: per Sheba (instruction text) vs per national ID (headline). Whether the cap is shared across exchanges is UNVERIFIED. Previous cap reported as 50M Toman.",
+         "Amount above the cap is rejected: only 25M Toman is credited to the exchange account and the remainder is returned to the source account (per summaries). One summary dates the cut to Saturday 17 Shahrivar 1403 (= 2024-09-07, a Saturday).",
+         "high - quoted as in force by an undated Tabdeal page ('max daily deposit 25M Toman per CBI restriction') and by the first-pass doc of 2026-10-02; nominal Toman cap erodes with depreciation",
+         "Scope conflict: per Sheba (instruction text) vs per national ID (headline). Whether the cap is shared across exchanges is UNVERIFIED. Previous cap UNVERIFIED: one summary says 50M Toman but dates a 50M-to-25M cut to Azar 1401 (see rule CBI-2022-12-CAP-50M-TO-25M).",
          "Ask two exchanges + your bank: is the 25M/24h counted per payer account, per national ID, per exchange, or globally? Test with a 26M ID deposit and read the returned amount."),
     rule("CBI-2024-10-SHAPARAK-FIAT-CRYPTO-RESTRICTION", "CBI", "fiat-to-crypto conversions through Shaparak", "2024-10", None, "unknown",
          "restricted", None, "low", ("crystal_timeline",), "reported",
@@ -364,7 +366,8 @@ REG_META = {
 
 
 def build_regulatory():
-    return {"_meta": REG_META, "rules": RULES, "events": EVENTS, "current_state": CURRENT_STATE}
+    rules = sorted(RULES, key=lambda r: ((r["effective_from"] or "0000"), r["id"]))
+    return {"_meta": REG_META, "rules": rules, "events": EVENTS, "current_state": CURRENT_STATE}
 
 
 # --------------------------------------------------------------------------------------------
@@ -492,7 +495,15 @@ def build_exchanges():
     e["withdraw"]["api_withdraw_flow"] = R("POST /users/wallets/withdraw (10 req/3 min) then POST /users/wallets/withdraw-confirm (30 req/h) unless address is whitelisted; API key needs WITHDRAW permission (+IP whitelist recommended); network param selects TRC20-style network codes (e.g. TRX, BSC, TON, ETH, SOL, MATIC, ARB per symbols list)", None, "high", ("nobitex_docs_wd", "nobitex_docs_intro", "nobitex_docs_symbols"), "verified", "Read withdraw_coin docs. Which networks carry USDT: GET /v2/options -> coins[usdt].networkList.")
     e["trading_hours"] = R("24/7 in normal conditions (assumed; no hours statement in API docs); halted 21:00-09:00 IRST 2026-09-30..2026-10-04 per CBI order", None, "low", HALT_SRC, "reported", "Exchange status page / Telegram.")
     e["api"] = {
-        "public_orderbook_url": R("https://apiv2.nobitex.ir/v3/orderbook/USDTIRT  (also GET /v3/orderbook/all; GET /v2/depth/USDTIRT; GET /v2/trades/USDTIRT; GET /market/stats?srcCurrency=usdt&dstCurrency=rls; GET /market/udf/history). Host api.nobitex.ir also appears in community SDKs.", None, "high", ("nobitex_docs_market", "go_nobitex"), "verified", "curl the URL from an Iranian IP.", "Response asks/bids arrays of [price, qty] strings, lastTradePrice, lastUpdate (ms)."),
+        "public_orderbook_url": R("https://apiv2.nobitex.ir/v3/orderbook/USDTIRT", None, "high", ("nobitex_docs_market", "go_nobitex"), "verified", "curl the URL from an Iranian IP.", "Response: status, lastUpdate (ms), lastTradePrice, asks/bids arrays of [price, qty] strings (prices in Rial). Host api.nobitex.ir also appears in community SDKs; the docs host is apiv2.nobitex.ir."),
+        "other_public_endpoints": R([
+            {"method": "GET", "path": "/v3/orderbook/all", "purpose": "all order books in one call (preferred for multi-market use)", "limit": "300/min"},
+            {"method": "GET", "path": "/v2/depth/USDTIRT", "purpose": "aggregated depth (experimental)", "limit": "300/min"},
+            {"method": "GET", "path": "/v2/trades/USDTIRT", "purpose": "recent trades", "limit": "60/min"},
+            {"method": "GET", "path": "/market/stats?srcCurrency=usdt&dstCurrency=rls", "purpose": "best bid/ask, 24h stats", "limit": "20/min"},
+            {"method": "GET", "path": "/market/udf/history?symbol=USDTIRT&resolution=D&to=<unix>", "purpose": "OHLC candles", "limit": "not stated"},
+            {"method": "GET", "path": "/v2/options", "purpose": "live network fees/minimums, level withdraw limits, min orders, fee steps", "limit": "not stated"},
+        ], None, "high", ("nobitex_docs_market", "nobitex_docs_other"), "verified", "Read the docs sections", "Base URL https://apiv2.nobitex.ir"),
         "auth": R("Public market endpoints need no auth. Private: header 'Authorization: Token <hex>' (X-TOTP for some calls) OR API key (permissions READ/TRADE/WITHDRAW, IP whitelist, expiry) with headers Nobitex-Key, Nobitex-Timestamp (UTC s) and Nobitex-Signature = base64(Ed25519(timestamp+method+url+body)); recommended User-Agent 'TraderBot/<name>'", None, "high", ("nobitex_docs_intro", "nobitex_docs_general"), "verified", "Read intro section."),
         "rate_limit": R({"orderbook_v3_per_min": 300, "depth_v2_per_min": 300, "trades_per_min": 60, "market_stats_per_min": 20, "order_placement_shared_per_10min": 300, "withdraw_request_per_3min": 10, "withdraw_confirm_per_hour": 30, "ws_connections_per_ip": 100, "ws_channels_per_connection": 450, "cache_note": "calls <1 s apart return cached data; poll every 1-10 s", "penalties": "429 TooManyRequests with backOff; ignoring it blocks the token 2 min; >100 bad-token requests in 30 min blocks the IP"}, None, "high", ("nobitex_docs_market", "nobitex_docs_general", "nobitex_docs_wd", "nobitex_docs_ws"), "verified", "Re-read the 'rate limit' lines of each endpoint in the docs."),
         "websocket": R("wss://ws.nobitex.ir/connection/websocket (Centrifugo; channel e.g. public:orderbook-USDTIRT; ping/pong within 25 s)", None, "high", ("nobitex_docs_ws",), "verified", "Connect with centrifuge-js/python."),
@@ -519,7 +530,8 @@ def build_exchanges():
     e["deposit"]["methods"] = R(["ID-based deposit", "direct bank-network Rial deposit (per Wallex blog: not dependent on payment gateways)", "crypto deposit"], None, "low", ("wallex_blog_gw",), "reported", "Open the Rial deposit screen.")
     e["withdraw"]["irt"]["note_registered_accounts"] = R("Rial/crypto withdrawals use registered IBANs/cards (SDK endpoints account/ibans, account/card-numbers) and account/crypto-withdrawal", None, "low", ("wallex_pypi",), "reported", "Read Wallex API docs.")
     e["api"] = {
-        "public_orderbook_url": R("https://api.wallex.ir/v1/depth?symbol=USDTTMN  (also GET /v1/markets, /v1/trades?symbol=, /v1/udf/history)", None, "medium", ("wallex_pypi", "go_wallex"), "reported", V_API, "Paths from the unofficial wallex 0.5.2 SDK source; official docs https://api-docs.wallex.ir/ not fetched."),
+        "public_orderbook_url": R("https://api.wallex.ir/v1/depth?symbol=USDTTMN", None, "medium", ("wallex_pypi", "go_wallex"), "reported", V_API, "Path from the unofficial wallex 0.5.2 SDK source; official docs https://api-docs.wallex.ir/ not fetched."),
+        "other_public_endpoints": R([{"method": "GET", "path": "/v1/markets"}, {"method": "GET", "path": "/v1/currencies"}, {"method": "GET", "path": "/v1/trades?symbol=USDTTMN&page=1&per_page=200"}, {"method": "GET", "path": "/v1/udf/history"}], None, "medium", ("wallex_pypi",), "reported", V_API, "Base URL https://api.wallex.ir; private endpoints under /v1/account/* (profile, balances, fee, orders, crypto-withdrawal, ibans, card-numbers)."),
         "auth": R("Header 'x-api-key: <key>' (go-wallex README: X-API-Key); older SDK used 'Authorization: Bearer <token>'", None, "medium", ("go_wallex", "wallex_pypi"), "reported", V_API),
         "rate_limit": U(V_API),
         "websocket": R("socket.io at https://api.wallex.ir/socket.io", None, "low", ("wallex_pypi",), "reported", V_API),
@@ -539,7 +551,8 @@ def build_exchanges():
     e["fees"]["usdt_irt_maker_pct"] = R(0.20, "pct", "low", ("zoomit_compare",), "reported", V_FEE)
     e["fees"]["typical_spread_vs_mid_pct"] = A(0.10, "pct", "No depth data.")
     e["api"] = {
-        "public_orderbook_url": R("https://api.bitpin.ir/api/v1/mth/orderbook/USDT_IRT/  (also GET /api/v1/mkt/markets/ and /api/v1/mkt/currencies/; alternative hosts seen in SDKs: api.bitpin.org, api.bitpin.market)", None, "medium", ("bitpin_sdk", "bitpin_pypi"), "reported", V_API, "From a recent (Aug 2026) unofficial SDK README; older SDKs used v2 'mkt/orderbook/{market_id}'. Official docs https://docs.bitpin.ir/ not fetched."),
+        "public_orderbook_url": R("https://api.bitpin.ir/api/v1/mth/orderbook/USDT_IRT/", None, "medium", ("bitpin_sdk", "bitpin_pypi"), "reported", V_API, "From a recent (Aug 2026) unofficial SDK README; older SDKs used v2 'mkt/orderbook/{market_id}'. Official docs https://docs.bitpin.ir/ not fetched. Alternative hosts seen in SDKs: api.bitpin.org, api.bitpin.market."),
+        "other_public_endpoints": R([{"method": "GET", "path": "/api/v1/mkt/markets/", "purpose": "markets, precision"}, {"method": "GET", "path": "/api/v1/mkt/currencies/"}], None, "medium", ("bitpin_sdk",), "reported", V_API, "Base URL https://api.bitpin.ir"),
         "auth": R("POST /api/v1/usr/authenticate/ with api_key + secret_key -> access token (older: /v1/usr/api/login/ + refresh_token)", None, "medium", ("bitpin_sdk", "bitpin_pypi"), "reported", V_API),
         "rate_limit": R("HTTP 429 returned; SDKs implement 429-aware retries (exact limit not documented in sources seen)", None, "low", ("bitpin_sdk",), "reported", V_API),
         "websocket": R("wss://centrifugo.bitpin.ir/connection/websocket (Centrifugo; channel prefix 'orderbook:')", None, "medium", ("bitpin_sdk",), "reported", V_API),
@@ -579,10 +592,11 @@ def build_exchanges():
     e["fees"]["usdt_irt_maker_pct"] = R(0.33, "pct", "low", ("tabdeal_commissions",), "reported", V_FEE)
     e["fees"]["typical_spread_vs_mid_pct"] = A(0.15, "pct", "No depth data.")
     e["deposit"]["min_deposit_irt"] = R(150000, "IRT", "medium", ("tabdeal_commissions",), "reported", V_CAP)
-    e["deposit"]["id_based_cap_irt_per_24h"] = R(25000000, "IRT per 24h", "medium", ("tabdeal_commissions",) + IDCAP_SRC[:2], "reported", "Confirm on the deposit page.", "Tabdeal page: 'max daily deposit 25M Toman per CBI restriction'.")
+    e["deposit"]["id_based_cap_irt_per_24h"] = R(25000000, "IRT per 24h", "medium", ("tabdeal_commissions",) + IDCAP_SRC[:2], "reported", "Confirm on the deposit page.", "Tabdeal commissions page (undated in the summary): 'max daily deposit 25M Toman per CBI restriction'.")
     e["withdraw"]["irt"]["min_irt"] = R(50000, "IRT", "medium", ("tabdeal_commissions",), "reported", V_CAP, "No maximum stated; daily Toman withdrawal limit depends on 30-day volume.")
     e["api"] = {
-        "public_orderbook_url": R("https://api1.tabdeal.org/r/api/v1/depth?symbol=USDT_IRT  (also /ping, /time, /exchangeInfo, /trades)", None, "medium", ("tabdeal_sdk",), "reported", V_API, "Built from official SDK: base_read_url = {base}/r/api/{version}/ + 'depth'; base default https://api.tabdeal.org (alt api1.tabdeal.org). Version 'v1' assumed."),
+        "public_orderbook_url": R("https://api1.tabdeal.org/r/api/v1/depth?symbol=USDT_IRT", None, "medium", ("tabdeal_sdk",), "reported", V_API, "Built from official SDK: base_read_url = {base}/r/api/{version}/ + 'depth'; base default https://api.tabdeal.org (alt api1.tabdeal.org). Version 'v1' assumed."),
+        "other_public_endpoints": R([{"method": "GET", "path": "/r/api/v1/ping"}, {"method": "GET", "path": "/r/api/v1/time"}, {"method": "GET", "path": "/r/api/v1/exchangeInfo"}, {"method": "GET", "path": "/r/api/v1/trades?symbol=USDT_IRT"}], None, "low", ("tabdeal_sdk",), "reported", V_API, "Paths composed from SDK method names; version segment assumed."),
         "auth": R("HMAC-signed Binance-style (api_key + api_secret); public market endpoints unsigned", None, "medium", ("tabdeal_sdk",), "reported", V_API),
         "rate_limit": U(V_API),
         "websocket": R("wss://api1.tabdeal.org/stream/", None, "medium", ("tabdeal_sdk",), "reported", V_API),
@@ -602,7 +616,8 @@ def build_exchanges():
     e["fees"]["typical_spread_vs_mid_pct"] = A(0.25, "pct", "OTC-style instant-buy venue: assume wider embedded spread than order-book venues.")
     e["withdraw"]["irt"]["daily_cap_irt"] = R(2000000000, "IRT per day", "low", ("arzdigital_aban_halt",), "reported", V_CAP, "Per search summary: daily Rial withdrawal up to 2 billion Toman, in separate requests.")
     e["api"] = {
-        "public_orderbook_url": R("https://mono.abantether.com/coins/price  and  https://mono.abantether.com/api/v1/otc/coin-price/  (price lists, not order books)", None, "low", ("aban_sdk",), "reported", V_API, "From the org-published Python SDK source; instant/OTC pricing model, no depth."),
+        "public_orderbook_url": R("https://mono.abantether.com/coins/price", None, "low", ("aban_sdk",), "reported", V_API, "Price list, not an order book (instant/OTC pricing model, no depth). From the org-published Python SDK source."),
+        "other_public_endpoints": R([{"method": "GET", "path": "https://mono.abantether.com/api/v1/otc/coin-price/", "purpose": "OTC coin price"}], None, "low", ("aban_sdk",), "reported", V_API, "OTC order endpoints: POST https://api.abantether.com/order_handler/orders/otc/market | limit; cancel POST /otc/orders/cancel."),
         "auth": R("API key / access token (SDK Client(api_key=ACCESS_TOKEN)); OTC orders POST https://api.abantether.com/order_handler/orders/otc/market|limit; cancel POST /otc/orders/cancel", None, "low", ("aban_sdk",), "reported", V_API),
         "rate_limit": U(V_API),
         "websocket": U(V_API),
@@ -616,9 +631,10 @@ def build_exchanges():
 
     # ---------------- Exir ----------------
     e = blank_exchange("exir", "Exir", "اکسیر", "C", "medium", "2026 operating status UNVERIFIED; official API docs on GitHub last updated 2022 (v0).")
-    e["status"] = U(V_STATUS, None, "Named among exchanges notified of the ID-deposit cap (2024, per Iranbroker summary); launched Feb 2017 per CMC/GetDelta summary; no 2026 evidence found.")
+    e["status"] = U(V_STATUS, None, "Named among exchanges notified of the ID-deposit cap (article date unknown, per Iranbroker summary); launched Feb 2017 per CMC/GetDelta summary; no 2026 evidence found.")
     e["api"] = {
-        "public_orderbook_url": R("https://api.exir.io/v0/orderbooks?symbol=usdt-irt  (also /v0/ticker?symbol=, /v0/trades?symbol=)", None, "low", ("exir_docs",), "reported", V_API, "Docs example uses btc-eur on v0; HollaEx-style symbols (usdt-irt) assumed; docs last pushed 2022-10 - may be stale."),
+        "public_orderbook_url": R("https://api.exir.io/v0/orderbooks?symbol=usdt-irt", None, "low", ("exir_docs",), "reported", V_API, "Docs example uses btc-eur on v0; HollaEx-style symbols (usdt-irt) assumed; docs last pushed 2022-10 - may be stale."),
+        "other_public_endpoints": R([{"method": "GET", "path": "/v0/ticker?symbol=usdt-irt"}, {"method": "GET", "path": "/v0/trades?symbol=usdt-irt"}], None, "low", ("exir_docs",), "reported", V_API, "Base URL https://api.exir.io"),
         "auth": R("Authorization: Bearer <ACCESS_TOKEN>", None, "medium", ("exir_docs",), "reported", V_API),
         "rate_limit": U(V_API),
         "websocket": R("socket.io https://api.exir.io/realtime (events orderbook, trades; optional symbol query)", None, "medium", ("exir_docs",), "reported", V_API),
@@ -659,7 +675,8 @@ def build_exchanges():
     e["fees"]["fee_schedule"] = U("Open https://bit24.cash/fee/ (fees by user level) and copy it.", None, "Page exists ('commissions by user level') but was not reachable.")
     e["withdraw"]["crypto_lock_hours_after_irt_deposit"] = R(72, "hours", "medium", ("arzdigital_bit24",) + LOCK_SRC[:2], "reported", "Ask support.", "ArzDigital Bit24 page appeared in the 72 h lock search results.")
     e["api"] = {
-        "public_orderbook_url": R("https://rest.bit24.cash/pro/capi/v1/markets/orderbooks  (also pro/capi/v1/markets; lite/capi/v1/deposit/networks and withdraw/networks)", None, "low", ("bit24_sdk",), "reported", V_API, "From unofficial SDK path strings; docs https://docs.bit24.cash."),
+        "public_orderbook_url": R("https://rest.bit24.cash/pro/capi/v1/markets/orderbooks", None, "low", ("bit24_sdk",), "reported", V_API, "From unofficial SDK path strings; docs https://docs.bit24.cash."),
+        "other_public_endpoints": R([{"method": "GET", "path": "/pro/capi/v1/markets"}, {"method": "GET", "path": "/lite/capi/v1/deposit/networks", "purpose": "likely lists deposit networks"}, {"method": "GET", "path": "/lite/capi/v1/withdraw/networks", "purpose": "likely lists withdrawal networks and fees (UNVERIFIED)"}], None, "low", ("bit24_sdk",), "reported", V_API, "Base URL https://rest.bit24.cash; private order endpoints under pro/capi/v1/orders/*."),
         "auth": R("api_key + api_secret (SDK)", None, "low", ("bit24_sdk",), "reported", V_API),
         "rate_limit": U(V_API),
         "websocket": U(V_API),
@@ -744,7 +761,7 @@ def build_networks():
     bk = "Background knowledge, NOT verified in this session."
     return {
         "note": "On-chain fees are paid by the exchange; what the owner pays is the exchange's flat withdrawal fee (exchanges.withdraw.network_fees). Provider-side supported networks come from the card-providers specialist (first-pass: mpay supports TRC20 + BEP20).",
-        "provider_supported_default": R({"mpay": ["TRC20", "BEP20"]}, None, "low", ("first_pass",), "reported", "Provider deposit page.", "Secondary source (first-pass doc)."),
+        "provider_supported_default": R({"mpay": ["TRC20", "BEP20"]}, None, "low", ("first_pass", "s01_providers"), "reported", "Provider deposit page.", "Secondary source (first-pass doc); file 01 carries the same two networks at low confidence and lists minimum deposit and network fee as UNVERIFIED for every provider."),
         "recommended_default_and_fallback": R({"default": "TRC20 if provider supports it and exchange fee <= ~1 USDT, else BEP20", "fallback": "BEP20 or TON (cheap) - choose per live exchange fee table"}, None, "low", ("first_pass", "ramzinex_blog"), "reported", "Compare live fees via Nobitex /v2/options and exchange pages.", "Design rule of thumb from observed fee spread 0.8-3.5 USDT."),
         "networks": {
             "TRC20": {
@@ -806,6 +823,35 @@ def build_assumptions():
     }
 
 
+
+def build_sim_defaults():
+    """Consolidated defaults for packages/sim ExchangeSim (see docs/05-architecture/sim-spec.md section 1)."""
+    return {
+        "note": "Each entry is either sourced (status reported/verified) or an ASSUMPTION flagged UNVERIFIED. Scenario files (data/scenarios/*.json) override these. Regulatory regimes are events: see data/regulatory_limits.json.",
+        "fees_taker_pct": R({"default": 0.25, "range": [0.20, 0.35]}, "pct", "medium", ("nobitex_pricing", "zoomit_compare", "zoomarz_nobitex"), "conflicting", "See exchanges[].fees", "Base-tier taker fee for USDT/IRT; falls with 30-day volume (Nobitex Toman market down to 0.06 %)."),
+        "fees_maker_pct": R({"default": 0.20, "range": [0.13, 0.25]}, "pct", "low", ("zoomit_compare",), "conflicting", "See exchanges[].fees"),
+        "spread_half_pct": A({"low": 0.03, "base": 0.10, "high": 0.30}, "pct", "Tier-A order-book venues; OTC-style venues 0.25-0.35 base (see conversion_model)."),
+        "venue_premium_vs_median_pct": R({"tier_a_band": [-0.82, -0.51], "all_venues_band": [-3.04, 4.53], "basis": "single-day snapshot 10 Mehr 1405 (Wallex, Nobitex vs median of all)"}, "pct", "low", ("nabzgheymat_0710",), "reported", "Sample all venues at the same second for several days", "One snapshot only; draw venue offsets from a mean-zero distribution of about +/-1 % for tier A and +/-3 % for all venues."),
+        "depth_impact": U("Sample the order book at 100/500/2,000 USDT market-buy sizes for 24 h and fit impact in bps per 1,000 USDT.", "bps per 1,000 USDT"),
+        "trading_hours": R({"normal": "24/7 (assumption)", "night_halt_event": {"from": "21:00", "to": "09:00", "tz": "Asia/Tehran", "precedent": "2026-09-30 21:00 to 2026-10-04 21:00", "daily_buy_cap_usdt": 2000}}, None, "medium", HALT_SRC[:4], "reported", "Exchange notices", "Normal hours are an assumption; halt is sourced."),
+        "id_deposit_cap_irt_per_24h_per_allowance": R(25000000, "IRT per 24h", "medium", IDCAP_SRC[:4], "reported", "See rule SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M"),
+        "id_deposit_credit_cycles_irst": R(["03:45", "09:45", "12:45", "18:45"], "time", "low", ("s03_gateways",), "reported", "Bank/PSP documentation (specialist 03)", "Credit timing of ID deposits assumed to follow Paya cycles; holidays one cycle; Friday weekend."),
+        "withdraw_lock_hours_after_irt_deposit": R({"hours": 72, "mode": "per_deposit_rolling"}, "hours", "medium", LOCK_SRC[:4], "reported", "See rule FATA-72H-SETTLEMENT-LOCK", "Mode is a conservative assumption."),
+        "withdraw_count_caps_per_24h": R({"crypto": 10, "rial": 3, "venue": "nobitex"}, "count", "high", ("nobitex_docs_rial",), "verified", "Official docs"),
+        "network_fee_usdt": R({"TRC20": {"low": 1.0, "base": 2.0, "high": 3.5}, "BEP20": 0.8, "TON": 0.8}, "USDT", "low", ("first_pass", "ramzinex_blog"), "reported", "Nobitex GET /v2/options; other venues' withdrawal screens", "Venue-dependent flat fees; base 2.0 is a midpoint assumption."),
+        "min_order": R({"nobitex_rial_markets_irt": 300000, "nobitex_usdt_markets_usdt": 11}, None, "high", ("nobitex_docs_trade",), "verified", "GET /v2/options"),
+        "outages": {
+            "hack": R({"precedent": "Nobitex 2025-06-18, about USD 90M burned, service offline", "restoration_days": None}, None, "medium", ("crowdfund_hack", "s05_sanctions"), "reported", "Nobitex status posts (28 Khordad - Tir 1404); ask the exchange", "Restoration time UNVERIFIED in files 02 and 05; use scenario-defined outage lengths (days) and balance loss."),
+            "internet_shutdown": R({"precedent": "late Feb 2026 near-total shutdown; Nobitex kept operating", "effect": "API/web unreachable from ordinary Iranian connections for days"}, None, "medium", ("cointelegraph_nobitex", "cryptojobs_shutdown"), "reported", "Scenario authors set duration"),
+            "gateway_blackout": R({"precedent": "6 Dey 1403 (2024-12-26) exchange gateways blocked; partial reopening Jan 2025"}, None, "medium", GW_SRC[:4], "reported", "Check current status"),
+        },
+        "freezes_and_designations": {
+            "issuer_freeze": R({"precedent": "Tether froze about USD 550M Iran-linked USDT in 2026; CBI wallets >344M (April) and >131M (2026-07-16)", "sim_hook": "tether_mass_freeze (file 05)"}, "USD million", "medium", ("cryptonomist_tether", "s05_sanctions"), "reported", "File 05"),
+            "ofac_designation": R({"precedents": ["2026-06-02 four venues", "2026-08-07 Aban Tether", "2026-09-17 BitBank"], "sim_effect": "venue becomes DISALLOWED as a USDT source in application policy (file 05/risk register); its public price may still feed the world", "sim_hook": "ofac_exchange_designation (file 05)"}, None, "medium", OFAC_SRC[:3] + OFAC_ABAN_SRC[:1], "reported", "File 05"),
+        },
+    }
+
+
 def build_exchanges_file():
     return {
         "_meta": {
@@ -822,6 +868,7 @@ def build_exchanges_file():
         "network_economics": build_networks(),
         "otc_p2p": build_otc(),
         "assumptions": build_assumptions(),
+        "sim_defaults": build_sim_defaults(),
     }
 
 

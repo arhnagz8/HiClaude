@@ -140,7 +140,7 @@
   "search_gaps": [
    {
     "area": "competitor Toman quotes (>=3 dated per flagship SKU)",
-    "status": "NOT MET - 3 of 20 flagship SKUs have partial, undated quotes (Steam $20, Steam $100, Copilot Pro); ChatGPT Plus / Spotify / Netflix quotes are non-comparable shared-access offers.",
+    "status": "NOT MET - 5 of 20 flagship SKUs hold any quote and 3 hold a comparable one (Steam $20, Steam $100, Copilot Pro), all undated; ChatGPT Plus / Spotify / Netflix quotes are non-comparable shared-access offers.",
     "next_queries": [
      "قیمت اکانت کلود پرو امروز (seller names)",
      "قیمت اشتراک جمینای پرو امروز تومان",
@@ -875,7 +875,7 @@
  "skus": [
   {
    "id": "chatgpt-go",
-   "name_en": "ChatGPT Go",
+   "name": "ChatGPT Go",
    "name_fa": "چت‌جی‌پی‌تی گو",
    "vendor": "OpenAI",
    "category": "ai",
@@ -1042,7 +1042,7 @@
   },
   {
    "id": "chatgpt-plus",
-   "name_en": "ChatGPT Plus",
+   "name": "ChatGPT Plus",
    "name_fa": "چت‌جی‌پی‌تی پلاس",
    "vendor": "OpenAI",
    "category": "ai",
@@ -1291,7 +1291,7 @@
   },
   {
    "id": "chatgpt-pro-100",
-   "name_en": "ChatGPT Pro ($100 tier)",
+   "name": "ChatGPT Pro ($100 tier)",
    "name_fa": "چت‌جی‌پی‌تی پرو ۱۰۰ دلاری",
    "vendor": "OpenAI",
    "category": "ai",
@@ -1466,7 +1466,7 @@
   },
   {
    "id": "chatgpt-pro-200",
-   "name_en": "ChatGPT Pro ($200 tier)",
+   "name": "ChatGPT Pro ($200 tier)",
    "name_fa": "چت‌جی‌پی‌تی پرو ۲۰۰ دلاری",
    "vendor": "OpenAI",
    "category": "ai",
@@ -1641,7 +1641,7 @@
   },
   {
    "id": "openai-api-credit",
-   "name_en": "OpenAI API prepaid credits",
+   "name": "OpenAI API prepaid credits",
    "name_fa": "اعتبار API اوپن‌ای‌آی",
    "vendor": "OpenAI",
    "category": "ai",
@@ -1801,7 +1801,7 @@
   },
   {
    "id": "claude-pro",
-   "name_en": "Claude Pro",
+   "name": "Claude Pro",
    "name_fa": "کلود پرو",
    "vendor": "Anthropic",
    "category": "ai",
@@ -1996,7 +1996,7 @@
   },
   {
    "id": "claude-max-5x",
-   "name_en": "Claude Max 5x",
+   "name": "Claude Max 5x",
    "name_fa": "کلود مکس ۵ برابر",
    "vendor": "Anthropic",
    "category": "ai",
@@ -2145,7 +2145,7 @@
   },
   {
    "id": "claude-max-20x",
-   "name_en": "Claude Max 20x",
+   "name": "Claude Max 20x",
    "name_fa": "کلود مکس ۲۰ برابر",
    "vendor": "Anthropic",
    "category": "ai",
@@ -2300,7 +2300,7 @@
   },
   {
    "id": "claude-api-credit",
-   "name_en": "Claude API prepaid credits",
+   "name": "Claude API prepaid credits",
    "name_fa": "اعتبار API کلود",
    "vendor": "Anthropic",
    "category": "ai",
@@ -2438,7 +2438,7 @@
   },
   {
    "id": "google-ai-plus",
-   "name_en": "Google AI Plus",
+   "name": "Google AI Plus",
    "name_fa": "گوگل ای‌آی پلاس",
    "vendor": "Google",
    "category": "ai",
@@ -2558,7 +2558,7 @@
   },
   {
    "id": "google-ai-pro",
-   "name_en": "Google AI Pro (Gemini)",
+   "name": "Google AI Pro (Gemini)",
    "name_fa": "گوگل ای‌آی پرو (جمینای)",
    "vendor": "Google",
    "category": "ai",
@@ -2679,7 +2679,7 @@
   },
   {
    "id": "google-ai-ultra-100",
-   "name_en": "Google AI Ultra (5x tier)",
+   "name": "Google AI Ultra (5x tier)",
    "name_fa": "گوگل ای‌آی اولترا (۵ برابر)",
    "vendor": "Google",
    "category": "ai",
@@ -2799,7 +2799,7 @@
   },
   {
    "id": "google-ai-ultra-200",
-   "name_en": "Google AI Ultra (20x tier)",
+   "name": "Google AI Ultra (20x tier)",
    "name_fa": "گوگل ای‌آی اولترا (۲۰ برابر)",
    "vendor": "Google",
    "category": "ai",
@@ -2919,7 +2919,7 @@
   },
   {
    "id": "perplexity-pro",
-   "name_en": "Perplexity Pro",
+   "name": "Perplexity Pro",
    "name_fa": "پرپلکسیتی پرو",
    "vendor": "Perplexity",
    "category": "ai",
@@ -3076,7 +3076,7 @@
   },
   {
    "id": "perplexity-max",
-   "name_en": "Perplexity Max",
+   "name": "Perplexity Max",
    "name_fa": "پرپلکسیتی مکس",
    "vendor": "Perplexity",
    "category": "ai",
@@ -3233,7 +3233,7 @@
   },
   {
    "id": "midjourney-basic",
-   "name_en": "Midjourney Basic",
+   "name": "Midjourney Basic",
    "name_fa": "میدجرنی بیسیک",
    "vendor": "Midjourney",
    "category": "ai",
@@ -3390,7 +3390,7 @@
   },
   {
    "id": "midjourney-standard",
-   "name_en": "Midjourney Standard",
+   "name": "Midjourney Standard",
    "name_fa": "میدجرنی استاندارد",
    "vendor": "Midjourney",
    "category": "ai",
@@ -3547,7 +3547,7 @@
   },
   {
    "id": "midjourney-pro",
-   "name_en": "Midjourney Pro",
+   "name": "Midjourney Pro",
    "name_fa": "میدجرنی پرو",
    "vendor": "Midjourney",
    "category": "ai",
@@ -3703,7 +3703,7 @@
   },
   {
    "id": "cursor-pro",
-   "name_en": "Cursor Pro",
+   "name": "Cursor Pro",
    "name_fa": "کرسر پرو",
    "vendor": "Anysphere (Cursor)",
    "category": "ai",
@@ -3860,7 +3860,7 @@
   },
   {
    "id": "cursor-pro-plus",
-   "name_en": "Cursor Pro+",
+   "name": "Cursor Pro+",
    "name_fa": "کرسر پرو پلاس",
    "vendor": "Anysphere (Cursor)",
    "category": "ai",
@@ -3979,7 +3979,7 @@
   },
   {
    "id": "cursor-ultra",
-   "name_en": "Cursor Ultra",
+   "name": "Cursor Ultra",
    "name_fa": "کرسر اولترا",
    "vendor": "Anysphere (Cursor)",
    "category": "ai",
@@ -4099,7 +4099,7 @@
   },
   {
    "id": "copilot-pro",
-   "name_en": "GitHub Copilot Pro",
+   "name": "GitHub Copilot Pro",
    "name_fa": "گیت‌هاب کوپایلت پرو",
    "vendor": "GitHub (Microsoft)",
    "category": "ai",
@@ -4298,7 +4298,7 @@
   },
   {
    "id": "copilot-pro-plus",
-   "name_en": "GitHub Copilot Pro+",
+   "name": "GitHub Copilot Pro+",
    "name_fa": "گیت‌هاب کوپایلت پرو پلاس",
    "vendor": "GitHub (Microsoft)",
    "category": "ai",
@@ -4460,7 +4460,7 @@
   },
   {
    "id": "copilot-max",
-   "name_en": "GitHub Copilot Max",
+   "name": "GitHub Copilot Max",
    "name_fa": "گیت‌هاب کوپایلت مکس",
    "vendor": "GitHub (Microsoft)",
    "category": "ai",
@@ -4580,7 +4580,7 @@
   },
   {
    "id": "replit-core",
-   "name_en": "Replit Core",
+   "name": "Replit Core",
    "name_fa": "ریپلیت کور",
    "vendor": "Replit",
    "category": "ai",
@@ -4736,7 +4736,7 @@
   },
   {
    "id": "lovable-pro",
-   "name_en": "Lovable Pro",
+   "name": "Lovable Pro",
    "name_fa": "لاوبل پرو",
    "vendor": "Lovable",
    "category": "ai",
@@ -4855,7 +4855,7 @@
   },
   {
    "id": "suno-pro",
-   "name_en": "Suno Pro",
+   "name": "Suno Pro",
    "name_fa": "سونو پرو",
    "vendor": "Suno",
    "category": "ai",
@@ -5011,7 +5011,7 @@
   },
   {
    "id": "suno-premier",
-   "name_en": "Suno Premier",
+   "name": "Suno Premier",
    "name_fa": "سونو پریمیر",
    "vendor": "Suno",
    "category": "ai",
@@ -5167,7 +5167,7 @@
   },
   {
    "id": "elevenlabs-pro",
-   "name_en": "ElevenLabs Pro",
+   "name": "ElevenLabs Pro",
    "name_fa": "الون‌لبز پرو",
    "vendor": "ElevenLabs",
    "category": "ai",
@@ -5287,7 +5287,7 @@
   },
   {
    "id": "runway-pro",
-   "name_en": "Runway Pro",
+   "name": "Runway Pro",
    "name_fa": "رانوی پرو",
    "vendor": "Runway",
    "category": "ai",
@@ -5406,7 +5406,7 @@
   },
   {
    "id": "heygen-pro",
-   "name_en": "HeyGen Pro",
+   "name": "HeyGen Pro",
    "name_fa": "هی‌جن پرو",
    "vendor": "HeyGen",
    "category": "ai",
@@ -5526,7 +5526,7 @@
   },
   {
    "id": "supergrok-lite",
-   "name_en": "SuperGrok Lite",
+   "name": "SuperGrok Lite",
    "name_fa": "سوپرگراک لایت",
    "vendor": "xAI",
    "category": "ai",
@@ -5645,7 +5645,7 @@
   },
   {
    "id": "supergrok",
-   "name_en": "SuperGrok",
+   "name": "SuperGrok",
    "name_fa": "سوپرگراک",
    "vendor": "xAI",
    "category": "ai",
@@ -5764,7 +5764,7 @@
   },
   {
    "id": "supergrok-heavy",
-   "name_en": "SuperGrok Heavy",
+   "name": "SuperGrok Heavy",
    "name_fa": "سوپرگراک هیوی",
    "vendor": "xAI",
    "category": "ai",
@@ -5884,7 +5884,7 @@
   },
   {
    "id": "aws-credit-topup",
-   "name_en": "AWS account balance / card load",
+   "name": "AWS account balance / card load",
    "name_fa": "شارژ حساب AWS",
    "vendor": "Amazon Web Services",
    "category": "cloud",
@@ -6020,7 +6020,7 @@
   },
   {
    "id": "gcp-credit-topup",
-   "name_en": "Google Cloud billing balance / card load",
+   "name": "Google Cloud billing balance / card load",
    "name_fa": "شارژ حساب Google Cloud",
    "vendor": "Google",
    "category": "cloud",
@@ -6156,7 +6156,7 @@
   },
   {
    "id": "azure-credit-topup",
-   "name_en": "Microsoft Azure billing balance / card load",
+   "name": "Microsoft Azure billing balance / card load",
    "name_fa": "شارژ حساب Azure",
    "vendor": "Microsoft",
    "category": "cloud",
@@ -6268,7 +6268,7 @@
   },
   {
    "id": "digitalocean-droplet-6",
-   "name_en": "DigitalOcean Droplet (entry, $6/month)",
+   "name": "DigitalOcean Droplet (entry, $6/month)",
    "name_fa": "سرور دیجیتال‌اوشن",
    "vendor": "DigitalOcean",
    "category": "cloud",
@@ -6388,7 +6388,7 @@
   },
   {
    "id": "hetzner-cloud-entry",
-   "name_en": "Hetzner Cloud (entry plan)",
+   "name": "Hetzner Cloud (entry plan)",
    "name_fa": "سرور هتزنر",
    "vendor": "Hetzner",
    "category": "cloud",
@@ -6509,7 +6509,7 @@
   },
   {
    "id": "vultr-cloud-6",
-   "name_en": "Vultr Cloud Compute (entry)",
+   "name": "Vultr Cloud Compute (entry)",
    "name_fa": "سرور ولتر",
    "vendor": "Vultr",
    "category": "cloud",
@@ -6629,7 +6629,7 @@
   },
   {
    "id": "linode-nanode-5",
-   "name_en": "Linode / Akamai (entry)",
+   "name": "Linode / Akamai (entry)",
    "name_fa": "سرور لینود",
    "vendor": "Akamai (Linode)",
    "category": "cloud",
@@ -6749,7 +6749,7 @@
   },
   {
    "id": "cloudflare-pro",
-   "name_en": "Cloudflare Pro plan",
+   "name": "Cloudflare Pro plan",
    "name_fa": "کلودفلر پرو",
    "vendor": "Cloudflare",
    "category": "cloud",
@@ -6860,7 +6860,7 @@
   },
   {
    "id": "vercel-pro",
-   "name_en": "Vercel Pro",
+   "name": "Vercel Pro",
    "name_fa": "ورسل پرو",
    "vendor": "Vercel",
    "category": "cloud",
@@ -6971,7 +6971,7 @@
   },
   {
    "id": "domain-com",
-   "name_en": "Domain registration (.com, 1 year)",
+   "name": "Domain registration (.com, 1 year)",
    "name_fa": "ثبت دامنه .com",
    "vendor": "Registrars (Namecheap etc.)",
    "category": "cloud",
@@ -7083,7 +7083,7 @@
   },
   {
    "id": "google-workspace-starter",
-   "name_en": "Google Workspace Business Starter",
+   "name": "Google Workspace Business Starter",
    "name_fa": "گوگل ورک‌اسپیس",
    "vendor": "Google",
    "category": "cloud",
@@ -7194,7 +7194,7 @@
   },
   {
    "id": "adobe-cc-all-apps",
-   "name_en": "Adobe Creative Cloud All Apps",
+   "name": "Adobe Creative Cloud All Apps",
    "name_fa": "ادوبی کریتیو کلود (همه اپ‌ها)",
    "vendor": "Adobe",
    "category": "productivity",
@@ -7315,7 +7315,7 @@
   },
   {
    "id": "adobe-photoshop-single",
-   "name_en": "Adobe Photoshop (single app)",
+   "name": "Adobe Photoshop (single app)",
    "name_fa": "ادوبی فتوشاپ",
    "vendor": "Adobe",
    "category": "productivity",
@@ -7435,7 +7435,7 @@
   },
   {
    "id": "adobe-photography",
-   "name_en": "Adobe Photography plan",
+   "name": "Adobe Photography plan",
    "name_fa": "ادوبی فتوگرافی",
    "vendor": "Adobe",
    "category": "productivity",
@@ -7555,7 +7555,7 @@
   },
   {
    "id": "canva-pro",
-   "name_en": "Canva Pro",
+   "name": "Canva Pro",
    "name_fa": "کانوا پرو",
    "vendor": "Canva",
    "category": "productivity",
@@ -7712,7 +7712,7 @@
   },
   {
    "id": "figma-professional",
-   "name_en": "Figma Professional (full seat)",
+   "name": "Figma Professional (full seat)",
    "name_fa": "فیگما پروفشنال",
    "vendor": "Figma",
    "category": "productivity",
@@ -7831,7 +7831,7 @@
   },
   {
    "id": "notion-plus",
-   "name_en": "Notion Plus",
+   "name": "Notion Plus",
    "name_fa": "نوشن پلاس",
    "vendor": "Notion",
    "category": "productivity",
@@ -7950,7 +7950,7 @@
   },
   {
    "id": "slack-pro",
-   "name_en": "Slack Pro",
+   "name": "Slack Pro",
    "name_fa": "اسلک پرو",
    "vendor": "Slack (Salesforce)",
    "category": "productivity",
@@ -8069,7 +8069,7 @@
   },
   {
    "id": "zoom-workplace-pro",
-   "name_en": "Zoom Workplace Pro",
+   "name": "Zoom Workplace Pro",
    "name_fa": "زوم پرو",
    "vendor": "Zoom",
    "category": "productivity",
@@ -8180,7 +8180,7 @@
   },
   {
    "id": "m365-personal",
-   "name_en": "Microsoft 365 Personal",
+   "name": "Microsoft 365 Personal",
    "name_fa": "مایکروسافت ۳۶۵ شخصی",
    "vendor": "Microsoft",
    "category": "productivity",
@@ -8300,7 +8300,7 @@
   },
   {
    "id": "m365-family",
-   "name_en": "Microsoft 365 Family",
+   "name": "Microsoft 365 Family",
    "name_fa": "مایکروسافت ۳۶۵ خانواده",
    "vendor": "Microsoft",
    "category": "productivity",
@@ -8421,7 +8421,7 @@
   },
   {
    "id": "m365-premium",
-   "name_en": "Microsoft 365 Premium",
+   "name": "Microsoft 365 Premium",
    "name_fa": "مایکروسافت ۳۶۵ پریمیوم",
    "vendor": "Microsoft",
    "category": "productivity",
@@ -8541,7 +8541,7 @@
   },
   {
    "id": "dropbox-plus",
-   "name_en": "Dropbox Plus",
+   "name": "Dropbox Plus",
    "name_fa": "دراپ‌باکس پلاس",
    "vendor": "Dropbox",
    "category": "productivity",
@@ -8652,7 +8652,7 @@
   },
   {
    "id": "grammarly-premium",
-   "name_en": "Grammarly Premium",
+   "name": "Grammarly Premium",
    "name_fa": "گرامرلی پریمیوم",
    "vendor": "Grammarly",
    "category": "productivity",
@@ -8771,7 +8771,7 @@
   },
   {
    "id": "telegram-premium",
-   "name_en": "Telegram Premium",
+   "name": "Telegram Premium",
    "name_fa": "تلگرام پریمیوم",
    "vendor": "Telegram",
    "category": "messaging",
@@ -8889,7 +8889,7 @@
   },
   {
    "id": "telegram-stars",
-   "name_en": "Telegram Stars",
+   "name": "Telegram Stars",
    "name_fa": "استارز تلگرام",
    "vendor": "Telegram",
    "category": "messaging",
@@ -9022,7 +9022,7 @@
   },
   {
    "id": "google-ads-credit",
-   "name_en": "Google Ads credit",
+   "name": "Google Ads credit",
    "name_fa": "اعتبار گوگل ادز",
    "vendor": "Google",
    "category": "ads",
@@ -9149,7 +9149,7 @@
   },
   {
    "id": "meta-ads-credit",
-   "name_en": "Meta (Facebook/Instagram) Ads credit",
+   "name": "Meta (Facebook/Instagram) Ads credit",
    "name_fa": "اعتبار تبلیغات متا",
    "vendor": "Meta",
    "category": "ads",
@@ -9262,7 +9262,7 @@
   },
   {
    "id": "tiktok-ads-credit",
-   "name_en": "TikTok Ads credit",
+   "name": "TikTok Ads credit",
    "name_fa": "اعتبار تبلیغات تیک‌تاک",
    "vendor": "TikTok",
    "category": "ads",
@@ -9375,7 +9375,7 @@
   },
   {
    "id": "x-ads-credit",
-   "name_en": "X (Twitter) Ads credit",
+   "name": "X (Twitter) Ads credit",
    "name_fa": "اعتبار تبلیغات ایکس",
    "vendor": "X Corp",
    "category": "ads",
@@ -9488,7 +9488,7 @@
   },
   {
    "id": "telegram-ads-credit",
-   "name_en": "Telegram Ads balance",
+   "name": "Telegram Ads balance",
    "name_fa": "اعتبار تبلیغات تلگرام",
    "vendor": "Telegram",
    "category": "ads",
@@ -9604,7 +9604,7 @@
   },
   {
    "id": "netflix-ads",
-   "name_en": "Netflix Standard with ads",
+   "name": "Netflix Standard with ads",
    "name_fa": "نتفلیکس استاندارد با تبلیغات",
    "vendor": "Netflix",
    "category": "media",
@@ -9727,7 +9727,7 @@
   },
   {
    "id": "netflix-standard",
-   "name_en": "Netflix Standard",
+   "name": "Netflix Standard",
    "name_fa": "نتفلیکس استاندارد",
    "vendor": "Netflix",
    "category": "media",
@@ -9858,7 +9858,7 @@
   },
   {
    "id": "netflix-premium",
-   "name_en": "Netflix Premium",
+   "name": "Netflix Premium",
    "name_fa": "نتفلیکس پریمیوم",
    "vendor": "Netflix",
    "category": "media",
@@ -10058,7 +10058,7 @@
   },
   {
    "id": "spotify-individual",
-   "name_en": "Spotify Premium Individual",
+   "name": "Spotify Premium Individual",
    "name_fa": "اسپاتیفای پریمیوم تک‌نفره",
    "vendor": "Spotify",
    "category": "media",
@@ -10224,7 +10224,7 @@
   },
   {
    "id": "spotify-duo",
-   "name_en": "Spotify Premium Duo",
+   "name": "Spotify Premium Duo",
    "name_fa": "اسپاتیفای دو نفره",
    "vendor": "Spotify",
    "category": "media",
@@ -10346,7 +10346,7 @@
   },
   {
    "id": "youtube-premium",
-   "name_en": "YouTube Premium Individual",
+   "name": "YouTube Premium Individual",
    "name_fa": "یوتیوب پریمیوم",
    "vendor": "Google",
    "category": "media",
@@ -10469,7 +10469,7 @@
   },
   {
    "id": "youtube-premium-lite",
-   "name_en": "YouTube Premium Lite",
+   "name": "YouTube Premium Lite",
    "name_fa": "یوتیوب پریمیوم لایت",
    "vendor": "Google",
    "category": "media",
@@ -10591,7 +10591,7 @@
   },
   {
    "id": "youtube-premium-family",
-   "name_en": "YouTube Premium Family",
+   "name": "YouTube Premium Family",
    "name_fa": "یوتیوب پریمیوم خانوادگی",
    "vendor": "Google",
    "category": "media",
@@ -10714,7 +10714,7 @@
   },
   {
    "id": "disney-plus-premium",
-   "name_en": "Disney+ Premium",
+   "name": "Disney+ Premium",
    "name_fa": "دیزنی پلاس پریمیوم",
    "vendor": "Disney",
    "category": "media",
@@ -10836,7 +10836,7 @@
   },
   {
    "id": "apple-one-individual",
-   "name_en": "Apple One Individual",
+   "name": "Apple One Individual",
    "name_fa": "اپل وان تک‌نفره",
    "vendor": "Apple",
    "category": "media",
@@ -10975,7 +10975,7 @@
   },
   {
    "id": "apple-one-family",
-   "name_en": "Apple One Family",
+   "name": "Apple One Family",
    "name_fa": "اپل وان خانوادگی",
    "vendor": "Apple",
    "category": "media",
@@ -11114,7 +11114,7 @@
   },
   {
    "id": "apple-music-individual",
-   "name_en": "Apple Music Individual",
+   "name": "Apple Music Individual",
    "name_fa": "اپل موزیک",
    "vendor": "Apple",
    "category": "media",
@@ -11252,7 +11252,7 @@
   },
   {
    "id": "steam-wallet-20",
-   "name_en": "Steam Wallet code $20",
+   "name": "Steam Wallet code $20",
    "name_fa": "گیفت کارت استیم ۲۰ دلاری",
    "vendor": "Valve",
    "category": "gaming",
@@ -11459,7 +11459,7 @@
   },
   {
    "id": "steam-wallet-50",
-   "name_en": "Steam Wallet code $50",
+   "name": "Steam Wallet code $50",
    "name_fa": "گیفت کارت استیم ۵۰ دلاری",
    "vendor": "Valve",
    "category": "gaming",
@@ -11605,7 +11605,7 @@
   },
   {
    "id": "steam-wallet-100",
-   "name_en": "Steam Wallet code $100",
+   "name": "Steam Wallet code $100",
    "name_fa": "گیفت کارت استیم ۱۰۰ دلاری",
    "vendor": "Valve",
    "category": "gaming",
@@ -11780,7 +11780,7 @@
   },
   {
    "id": "ps-plus-essential-12m",
-   "name_en": "PlayStation Plus Essential 12 months",
+   "name": "PlayStation Plus Essential 12 months",
    "name_fa": "پلی‌استیشن پلاس اسنشیال ۱۲ ماهه",
    "vendor": "Sony",
    "category": "gaming",
@@ -11903,7 +11903,7 @@
   },
   {
    "id": "ps-plus-essential-1m",
-   "name_en": "PlayStation Plus Essential 1 month",
+   "name": "PlayStation Plus Essential 1 month",
    "name_fa": "پلی‌استیشن پلاس اسنشیال ۱ ماهه",
    "vendor": "Sony",
    "category": "gaming",
@@ -12025,7 +12025,7 @@
   },
   {
    "id": "ps-plus-extra-12m",
-   "name_en": "PlayStation Plus Extra 12 months",
+   "name": "PlayStation Plus Extra 12 months",
    "name_fa": "پلی‌استیشن پلاس اکسترا ۱۲ ماهه",
    "vendor": "Sony",
    "category": "gaming",
@@ -12148,7 +12148,7 @@
   },
   {
    "id": "psn-wallet-50",
-   "name_en": "PSN wallet card $50",
+   "name": "PSN wallet card $50",
    "name_fa": "گیفت کارت پلی‌استیشن ۵۰ دلاری",
    "vendor": "Sony",
    "category": "gaming",
@@ -12263,7 +12263,7 @@
   },
   {
    "id": "xbox-game-pass-ultimate",
-   "name_en": "Xbox Game Pass Ultimate",
+   "name": "Xbox Game Pass Ultimate",
    "name_fa": "ایکس‌باکس گیم پس اولتیمیت",
    "vendor": "Microsoft",
    "category": "gaming",
@@ -12385,7 +12385,7 @@
   },
   {
    "id": "nintendo-switch-online-12m",
-   "name_en": "Nintendo Switch Online 12 months (Individual)",
+   "name": "Nintendo Switch Online 12 months (Individual)",
    "name_fa": "نینتندو سوییچ آنلاین",
    "vendor": "Nintendo",
    "category": "gaming",
@@ -12507,7 +12507,7 @@
   },
   {
    "id": "riot-valorant-points",
-   "name_en": "Riot gift card (Valorant Points / RP)",
+   "name": "Riot gift card (Valorant Points / RP)",
    "name_fa": "گیفت کارت ریوت (والورانت)",
    "vendor": "Riot Games",
    "category": "gaming",
@@ -12619,7 +12619,7 @@
   },
   {
    "id": "roblox-robux-card",
-   "name_en": "Roblox gift card / Robux",
+   "name": "Roblox gift card / Robux",
    "name_fa": "گیفت کارت روبلاکس",
    "vendor": "Roblox",
    "category": "gaming",
@@ -12732,7 +12732,7 @@
   },
   {
    "id": "pubg-mobile-uc",
-   "name_en": "PUBG Mobile UC top-up",
+   "name": "PUBG Mobile UC top-up",
    "name_fa": "شارژ یوسی پابجی موبایل",
    "vendor": "Tencent / Krafton",
    "category": "gaming",
@@ -12848,7 +12848,7 @@
   },
   {
    "id": "free-fire-diamonds",
-   "name_en": "Free Fire diamonds top-up",
+   "name": "Free Fire diamonds top-up",
    "name_fa": "شارژ الماس فری‌فایر",
    "vendor": "Garena",
    "category": "gaming",
@@ -12964,7 +12964,7 @@
   },
   {
    "id": "codm-cp",
-   "name_en": "Call of Duty Mobile CP top-up",
+   "name": "Call of Duty Mobile CP top-up",
    "name_fa": "شارژ سی‌پی کالاف دیوتی موبایل",
    "vendor": "Activision",
    "category": "gaming",
@@ -13079,7 +13079,7 @@
   },
   {
    "id": "fortnite-vbucks",
-   "name_en": "Fortnite V-Bucks card",
+   "name": "Fortnite V-Bucks card",
    "name_fa": "گیفت کارت وی‌باکس فورتنایت",
    "vendor": "Epic Games",
    "category": "gaming",
@@ -13191,7 +13191,7 @@
   },
   {
    "id": "blizzard-balance",
-   "name_en": "Battle.net balance card",
+   "name": "Battle.net balance card",
    "name_fa": "گیفت کارت بلیزارد",
    "vendor": "Blizzard (Microsoft)",
    "category": "gaming",
@@ -13303,7 +13303,7 @@
   },
   {
    "id": "apple-gift-card-us-25",
-   "name_en": "Apple gift card (US) $25",
+   "name": "Apple gift card (US) $25",
    "name_fa": "گیفت کارت اپل ۲۵ دلاری",
    "vendor": "Apple",
    "category": "appstore",
@@ -13445,7 +13445,7 @@
   },
   {
    "id": "google-play-gift-card-us-25",
-   "name_en": "Google Play gift card (US) $25",
+   "name": "Google Play gift card (US) $25",
    "name_fa": "گیفت کارت گوگل پلی ۲۵ دلاری",
    "vendor": "Google",
    "category": "appstore",
@@ -13574,7 +13574,7 @@
   },
   {
    "id": "apple-developer-program",
-   "name_en": "Apple Developer Program (1 year)",
+   "name": "Apple Developer Program (1 year)",
    "name_fa": "حساب توسعه‌دهنده اپل",
    "vendor": "Apple",
    "category": "appstore",
@@ -13688,7 +13688,7 @@
   },
   {
    "id": "google-play-developer",
-   "name_en": "Google Play developer registration",
+   "name": "Google Play developer registration",
    "name_fa": "ثبت‌نام توسعه‌دهنده گوگل پلی",
    "vendor": "Google",
    "category": "appstore",
@@ -13802,7 +13802,7 @@
   },
   {
    "id": "coursera-plus",
-   "name_en": "Coursera Plus",
+   "name": "Coursera Plus",
    "name_fa": "کورسرا پلاس",
    "vendor": "Coursera",
    "category": "education",
@@ -13913,7 +13913,7 @@
   },
   {
    "id": "udemy-course",
-   "name_en": "Udemy course purchase",
+   "name": "Udemy course purchase",
    "name_fa": "خرید دوره یودمی",
    "vendor": "Udemy",
    "category": "education",
@@ -14027,7 +14027,7 @@
   },
   {
    "id": "duolingo-super",
-   "name_en": "Duolingo Super",
+   "name": "Duolingo Super",
    "name_fa": "دولینگو سوپر",
    "vendor": "Duolingo",
    "category": "education",
@@ -14139,7 +14139,7 @@
   },
   {
    "id": "ielts-exam-fee",
-   "name_en": "IELTS exam fee",
+   "name": "IELTS exam fee",
    "name_fa": "هزینه آزمون آیلتس",
    "vendor": "IELTS (British Council / IDP / Cambridge)",
    "category": "education",
@@ -14255,7 +14255,7 @@
   },
   {
    "id": "toefl-ibt-fee",
-   "name_en": "TOEFL iBT fee",
+   "name": "TOEFL iBT fee",
    "name_fa": "هزینه آزمون تافل",
    "vendor": "ETS",
    "category": "education",
@@ -14372,7 +14372,7 @@
   },
   {
    "id": "gre-general-fee",
-   "name_en": "GRE General Test fee",
+   "name": "GRE General Test fee",
    "name_fa": "هزینه آزمون GRE",
    "vendor": "ETS",
    "category": "education",
@@ -14488,7 +14488,7 @@
   },
   {
    "id": "pte-academic-fee",
-   "name_en": "PTE Academic fee",
+   "name": "PTE Academic fee",
    "name_fa": "هزینه آزمون PTE",
    "vendor": "Pearson",
    "category": "education",
@@ -14604,7 +14604,7 @@
   },
   {
    "id": "duolingo-english-test",
-   "name_en": "Duolingo English Test",
+   "name": "Duolingo English Test",
    "name_fa": "آزمون دولینگو",
    "vendor": "Duolingo",
    "category": "education",
@@ -14716,7 +14716,7 @@
   },
   {
    "id": "university-application-fee",
-   "name_en": "University application fee",
+   "name": "University application fee",
    "name_fa": "هزینه اپلای دانشگاه",
    "vendor": "Universities / Common App / UCAS",
    "category": "education",
@@ -14828,11 +14828,12 @@
    "supplier_fit": "agent",
    "automation": "manual",
    "rush_eligible": true,
-   "official_url": "the destination's official visa portal (e.g. travel.state.gov, VFS/TLScontact)"
+   "official_url": null,
+   "official_hint": "the destination's official visa portal (e.g. travel.state.gov, VFS/TLScontact)"
   },
   {
    "id": "embassy-visa-fee",
-   "name_en": "Embassy / visa-centre fee payment",
+   "name": "Embassy / visa-centre fee payment",
    "name_fa": "پرداخت هزینه ویزا و سفارت",
    "vendor": "Consulates / VFS / TLScontact",
    "category": "education",
@@ -14945,11 +14946,12 @@
    "supplier_fit": "agent",
    "automation": "manual",
    "rush_eligible": true,
-   "official_url": "the destination's official visa portal (e.g. travel.state.gov, VFS/TLScontact)"
+   "official_url": null,
+   "official_hint": "the destination's official visa portal (e.g. travel.state.gov, VFS/TLScontact)"
   },
   {
    "id": "upwork-connects",
-   "name_en": "Upwork Connects / balance",
+   "name": "Upwork Connects / balance",
    "name_fa": "کانکت آپورک",
    "vendor": "Upwork",
    "category": "freelance",
@@ -15063,7 +15065,7 @@
   },
   {
    "id": "fiverr-balance",
-   "name_en": "Fiverr balance / orders",
+   "name": "Fiverr balance / orders",
    "name_fa": "اعتبار فایور",
    "vendor": "Fiverr",
    "category": "freelance",
@@ -15177,7 +15179,7 @@
   },
   {
    "id": "paypal-balance",
-   "name_en": "PayPal balance / payment",
+   "name": "PayPal balance / payment",
    "name_fa": "پی‌پال",
    "vendor": "PayPal",
    "category": "freelance",
@@ -15291,7 +15293,7 @@
   },
   {
    "id": "wise-balance",
-   "name_en": "Wise balance / transfer",
+   "name": "Wise balance / transfer",
    "name_fa": "وایز",
    "vendor": "Wise",
    "category": "freelance",
@@ -15405,7 +15407,7 @@
   },
   {
    "id": "payoneer-balance",
-   "name_en": "Payoneer balance",
+   "name": "Payoneer balance",
    "name_fa": "پیونیر",
    "vendor": "Payoneer",
    "category": "freelance",
@@ -15519,7 +15521,7 @@
   },
   {
    "id": "nordvpn-subscription",
-   "name_en": "VPN subscription (NordVPN etc.)",
+   "name": "VPN subscription (NordVPN etc.)",
    "name_fa": "اشتراک وی‌پی‌ان",
    "vendor": "NordVPN et al.",
    "category": "vpn_security",
@@ -15633,7 +15635,7 @@
   },
   {
    "id": "bitwarden-premium",
-   "name_en": "Bitwarden Premium",
+   "name": "Bitwarden Premium",
    "name_fa": "بیت‌واردن پریمیوم",
    "vendor": "Bitwarden",
    "category": "vpn_security",
@@ -15744,7 +15746,7 @@
   },
   {
    "id": "intl-mobile-topup",
-   "name_en": "International mobile top-up",
+   "name": "International mobile top-up",
    "name_fa": "شارژ سیم‌کارت خارجی",
    "vendor": "Aggregators (Reloadly-type)",
    "category": "telecom",
@@ -15855,7 +15857,7 @@
   },
   {
    "id": "esim-travel",
-   "name_en": "Travel eSIM data pack",
+   "name": "Travel eSIM data pack",
    "name_fa": "ای‌سیم سفر",
    "vendor": "eSIM resellers (Airalo-type)",
    "category": "telecom",
@@ -15966,7 +15968,7 @@
   },
   {
    "id": "amazon-gift-card-us-50",
-   "name_en": "Amazon gift card (US) $50",
+   "name": "Amazon gift card (US) $50",
    "name_fa": "گیفت کارت آمازون ۵۰ دلاری",
    "vendor": "Amazon",
    "category": "shopping",
@@ -16081,7 +16083,7 @@
   },
   {
    "id": "aliexpress-order",
-   "name_en": "AliExpress order payment",
+   "name": "AliExpress order payment",
    "name_fa": "پرداخت سفارش علی‌اکسپرس",
    "vendor": "AliExpress",
    "category": "shopping",
@@ -16197,7 +16199,7 @@
   },
   {
    "id": "temu-order",
-   "name_en": "Temu order payment",
+   "name": "Temu order payment",
    "name_fa": "پرداخت سفارش تمو",
    "vendor": "Temu",
    "category": "shopping",
@@ -16310,7 +16312,7 @@
   },
   {
    "id": "booking-com-hotel",
-   "name_en": "Hotel booking (Booking.com-type)",
+   "name": "Hotel booking (Booking.com-type)",
    "name_fa": "رزرو هتل",
    "vendor": "Booking.com et al.",
    "category": "travel",
@@ -16426,7 +16428,7 @@
   },
   {
    "id": "airbnb-stay",
-   "name_en": "Airbnb stay",
+   "name": "Airbnb stay",
    "name_fa": "اقامت ایربی‌ان‌بی",
    "vendor": "Airbnb",
    "category": "travel",
@@ -16539,7 +16541,7 @@
   },
   {
    "id": "intl-flight-ticket",
-   "name_en": "International flight ticket (agent payment)",
+   "name": "International flight ticket (agent payment)",
    "name_fa": "بلیت هواپیمای خارجی",
    "vendor": "Airlines / OTAs",
    "category": "travel",
@@ -16650,11 +16652,12 @@
    "supplier_fit": "agent",
    "automation": "manual",
    "rush_eligible": true,
-   "official_url": "the airline's own booking page"
+   "official_url": null,
+   "official_hint": "the airline's own booking page"
   },
   {
    "id": "travel-insurance",
-   "name_en": "Schengen / travel insurance",
+   "name": "Schengen / travel insurance",
    "name_fa": "بیمه مسافرتی",
    "vendor": "Insurers",
    "category": "travel",
@@ -16765,11 +16768,12 @@
    "supplier_fit": "agent",
    "automation": "manual",
    "rush_eligible": true,
-   "official_url": "the insurer's own quote page"
+   "official_url": null,
+   "official_hint": "the insurer's own quote page"
   },
   {
    "id": "vcard-new-card-load-25",
-   "name_en": "New virtual card + $25 minimum load (entry bundle)",
+   "name": "New virtual card + $25 minimum load (entry bundle)",
    "name_fa": "کارت مجازی جدید + شارژ ۲۵ دلار",
    "vendor": "Provider (mpay-type)",
    "category": "cards",
@@ -16931,7 +16935,7 @@
   },
   {
    "id": "vcard-topup-50",
-   "name_en": "Virtual card top-up $50",
+   "name": "Virtual card top-up $50",
    "name_fa": "شارژ کارت مجازی 50 دلار",
    "vendor": "Provider (mpay-type)",
    "category": "cards",
@@ -17089,7 +17093,7 @@
   },
   {
    "id": "vcard-topup-100",
-   "name_en": "Virtual card top-up $100",
+   "name": "Virtual card top-up $100",
    "name_fa": "شارژ کارت مجازی 100 دلار",
    "vendor": "Provider (mpay-type)",
    "category": "cards",
@@ -17247,7 +17251,7 @@
   },
   {
    "id": "vcard-topup-250",
-   "name_en": "Virtual card top-up $250",
+   "name": "Virtual card top-up $250",
    "name_fa": "شارژ کارت مجازی 250 دلار",
    "vendor": "Provider (mpay-type)",
    "category": "cards",
@@ -17405,7 +17409,7 @@
   },
   {
    "id": "vcard-topup-500",
-   "name_en": "Virtual card top-up $500",
+   "name": "Virtual card top-up $500",
    "name_fa": "شارژ کارت مجازی 500 دلار",
    "vendor": "Provider (mpay-type)",
    "category": "cards",

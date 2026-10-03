@@ -54,35 +54,53 @@ EVENTS = [
 ]
 
 
+CBI_WAVES = [  # OFAC address listings of Central Bank of Iran USDT wallets (+ Tether freezes)  [S21, S22, S23; day of April per specialist 04 F13]
+    (date(2026, 4, 24), "CBI wallets (2) - Tether froze >$344M"),
+    (date(2026, 7, 16), "CBI wallets (4) - Tether froze $131M"),
+]
+
+
+def _rates(label: str, dates: list[date], start: date) -> float:
+    win = months_between(start, AS_OF)
+    lam = len(dates) / win
+    print(f"{label}: {len(dates)} in {win:.2f} months (since {start}) -> {lam:.3f}/month")
+    for t in (1, 3, 6):
+        print(f"    P(>=1 within {t} mo) = {1 - exp(-lam * t):.1%}")
+    return lam
+
+
 def designation_hazard() -> None:
-    print("=== 1. Designation events (OFAC, Iran-linked exchanges) ===")
+    print("=== 1. OFAC actions on Iran-linked digital assets ===")
     first = EVENTS[0][0]
-    win_all = months_between(first, AS_OF)
-    n_all = len(EVENTS)
-    lam_all = n_all / win_all
-    print(f"All events: {n_all} in {win_all:.2f} months (since {first}) -> {lam_all:.3f} events/month")
+    ex_dates = [e[0] for e in EVENTS]
+    lam_all_ex = _rates("Exchange designations, all", ex_dates, first)
     dom = [e for e in EVENTS if e[3]]
     first_dom = dom[0][0]
-    win_dom = months_between(first_dom, AS_OF)
-    lam_dom = len(dom) / win_dom
     ex_dom = sum(e[2] for e in dom)
-    print(f"Domestic-market events: {len(dom)} in {win_dom:.2f} months (since {first_dom}) -> {lam_dom:.3f} events/month,"
-          f" {ex_dom} exchanges designated -> {ex_dom / win_dom:.2f} exchanges/month")
-    for lam, tag in ((lam_all, "since Jan-30"), (lam_dom, "since Jun-2")):
-        for t in (1, 3, 6):
-            print(f"  P(>=1 new Iran-crypto designation action within {t} mo | lambda {lam:.2f} [{tag}]) = {1 - exp(-lam * t):.1%}")
+    lam_dom = _rates("Exchange designations, domestic-market", [e[0] for e in dom], first_dom)
+    win_dom = months_between(first_dom, AS_OF)
+    print(f"    domestic-market exchanges designated: {ex_dom} -> {ex_dom / win_dom:.2f} exchanges/month")
+    # all actions incl. CBI address-listing waves
+    allacts = sorted(ex_dates + [d for d, _ in CBI_WAVES])
+    gaps = [(b - a).days for a, b in zip(allacts, allacts[1:])]
+    _rates("ALL actions (exchange designations + CBI address waves)", allacts, first)
+    _rates("ALL actions since 2026-06-02", [d for d in allacts if d >= first_dom], first_dom)
+    print(f"    gaps between consecutive actions (days): {gaps}; mean {sum(gaps) / len(gaps):.1f}  (specialist 04's 4-action subset: gaps 39, 44, 63 -> mean 48.7)")
+    cbi_rate = len(CBI_WAVES) / months_between(first, AS_OF)
+    print(f"CBI address-listing waves: {len(CBI_WAVES)} in {months_between(first, AS_OF):.2f} months -> {cbi_rate:.3f}/month -> P(>=1 in a month) = {1 - exp(-cbi_rate):.1%}  (register SAN-05 p=0.22)")
 
     print("\nPer-exchange monthly hazard for a NOT-yet-designated Iranian exchange")
     print("  h = min(1, r / N_rem) * s    r = exchanges designated per month, N_rem = pool - already designated, s = size-bias factor")
     r = ex_dom / win_dom
     already = ex_dom  # 7 (Nobitex, Wallex, Bitpin, Ramzinex, Aban Tether, Shelbit, BitBank)
     print(f"  r = {r:.2f}/month; already designated (domestic-market) = {already}")
-    print("  pool N_total | N_rem | uniform h | s=0.15 | s=0.30 | s=0.50")
+    print("  Pool sizes: 13 = names in brief 02; 15 = + Shelbit, BitBank; 20 = specialist 02's landscape of 18 venues + Shelbit + BitBank")
+    print("  pool N_total | N_rem | uniform h | s=0.15 | s=0.30 | s=0.45 | s=0.60")
     for n_total in (13, 15, 20):
         n_rem = max(1, n_total - already)
         uni = min(1.0, r / n_rem)
-        print(f"  {n_total:>12} | {n_rem:>5} | {uni:>9.1%} | {uni * 0.15:>6.1%} | {uni * 0.30:>6.1%} | {uni * 0.50:>6.1%}")
-    print("  -> prior used in register: base 6%/month, low 2%, high 15% (SAN-01)")
+        print(f"  {n_total:>12} | {n_rem:>5} | {uni:>9.1%} | {uni * 0.15:>6.1%} | {uni * 0.30:>6.1%} | {uni * 0.45:>6.1%} | {uni * 0.60:>6.1%}")
+    print("  -> prior in register: base 6%/month (= pool 20 x s 0.45, or pool 15 x s 0.30), low 2% (pool 20, s 0.15), high 15% (pool 13-15, s 0.45-0.6)")
 
 
 # ---------------------------------------------------------------------------------------------
@@ -121,6 +139,8 @@ def float_caps() -> None:
     print("Equity |   eps 3% |   eps 5% |  eps 10%   (max USD float per single provider)")
     for eq in (20_000, 50_000, 100_000, 250_000, 1_000_000):
         print(f"{eq:>6,} | {eq * .03:>8,.0f} | {eq * .05:>8,.0f} | {eq * .10:>8,.0f}")
+    print("\nLock-aware exchange exposure (specialist 02 C13): USDT bought with Toman cannot leave the exchange for L=3 days (72h lock)")
+    print("  => structural exchange balance >= L days of purchases; cap = L + 1 = 4 days (not 1 day); float pipeline = D x (L + g), g = 2 buffer days (02)")
     print("\nDemand-side float (cadence 1 day, buffer 0.5 day -> 1.5 days of demand):")
     for d in (500, 1_000, 3_000, 10_000):
         print(f"  D=${d:>6,}/day -> F_demand = ${d * 1.5:>8,.0f}; providers needed at 5%-of-equity cap for Equity 50k: {max(1, -(-d * 1.5 // (50_000 * .05))):.0f}")

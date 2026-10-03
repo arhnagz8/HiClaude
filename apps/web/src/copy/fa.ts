@@ -108,7 +108,8 @@ export const fa = {
       "last4": "چهار رقم آخر کارت را وارد کنید.",
       "minLength": "حداقل {n} نویسه وارد کنید.",
       "maxLength": "حداکثر {n} نویسه مجاز است."
-    }
+    },
+    "rangeHint": "از {min} تا {max}"
   },
   "host": {
     "telegram": "تلگرام",
@@ -146,6 +147,34 @@ export const fa = {
     "refund": "بازگشت وجه",
     "risk": "افشای ریسک",
     "miniApp": "مینی‌اپ"
+  },
+  "quote": {
+    "payable": "مبلغ قابل پرداخت",
+    "irtEquivalent": "معادل تقریبی {amount}",
+    "showBreakdown": "جزئیات قیمت",
+    "hideBreakdown": "بستن جزئیات",
+    "totalIrt": "جمع کل",
+    "effectiveRate": "نرخ مؤثر هر دلار: {rate}",
+    "reconcileNote": "هزینه‌های جزئی دیگر در یک ردیف جمع شده‌اند",
+    "otherLine": "سایر هزینه‌های عملیاتی",
+    "lockLabel": "قیمت تا",
+    "lockHint": "این قیمت برای مدت محدود تضمین شده است.",
+    "lockExpired": "مهلت قیمت تمام شد",
+    "requoting": "در حال دریافت قیمت جدید…",
+    "refresh": "قیمت جدید",
+    "priceChangedTitle": "قیمت به‌روز شد",
+    "priceChangedBody": "به‌دلیل تغییر نرخ، قیمت {direction} یافت: از {from} به {to} ({delta}).",
+    "directionUp": "افزایش",
+    "directionDown": "کاهش",
+    "acceptNew": "قیمت جدید را می‌پذیرم",
+    "failed": "دریافت قیمت ممکن نشد",
+    "enterAmount": "مبلغ را وارد کنید تا قیمت محاسبه شود.",
+    "savings": "حدود {pct} ارزان‌تر از میانگین بازار (طبق مرجع قیمت ما؛ ممکن است با نرخ لحظه‌ای تفاوت داشته باشد).",
+    "savingsNote": "مقایسه با نرخ مرجع بازار در همین لحظه انجام شده و تضمین قیمت آینده نیست.",
+    "perMethodTitle": "قیمت به تفکیک روش پرداخت",
+    "cheapest": "کم‌ترین قیمت",
+    "usdtDiscount": "پرداخت با تتر {pct} ارزان‌تر است ({amount} کمتر).",
+    "unavailable": "در دسترس نیست"
   },
   "risk": {
     "label": "ریسک",

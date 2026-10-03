@@ -96,19 +96,20 @@ export function aggregateRates(input: AggregateRatesInput): RateSnapshot {
     usable = keep
   }
 
-  // stale: nothing usable
+  // nothing usable: either no fresh ticker at all (stale) or every fresh ticker was rejected as an outlier (anomaly)
   if (usable.length === 0) {
-    const status: RateStatus = 'stale'
-    notes.push(freshCount === 0 && tickers.length > 0 ? 'no fresh ticker available' : 'no usable ticker')
+    const status: RateStatus = freshCount === 0 ? 'stale' : 'anomaly'
+    notes.push(freshCount === 0 ? 'no fresh ticker available' : 'anomaly: every fresh ticker was rejected as an outlier')
+    const fresh = sorted.filter((t) => validTicker(t) && now - t.asOf <= staleAfterMs && (paramsById.get(t.exchangeId)?.enabled ?? true))
     return {
       id: input.id ?? `rs_${now}`,
       ts: now,
       tickers: [...tickers],
-      executableAsk: prev?.executableAsk ?? 0,
+      executableAsk: prev?.executableAsk ?? (fresh.length ? median(fresh.map((t) => t.ask)) : 0),
       executableAskExchangeId: undefined,
-      executableBid: prev?.executableBid ?? 0,
+      executableBid: prev?.executableBid ?? (fresh.length ? median(fresh.map((t) => t.bid)) : 0),
       executableBidExchangeId: undefined,
-      mid: prev?.mid ?? 0,
+      mid: prev?.mid ?? (fresh.length ? median(fresh.map((t) => (t.bid + t.ask) / 2)) : 0),
       status,
       volatility: { ...vol },
       excluded,

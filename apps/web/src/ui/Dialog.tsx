@@ -69,7 +69,7 @@ export function Dialog({ open, onClose, title, description, children, footer, va
   }
   const widths = { sm: 'sm:max-w-sm', md: 'sm:max-w-lg', lg: 'sm:max-w-2xl' }
   return createPortal(
-    <div className={cn('fixed inset-0 z-50 flex justify-center', variant === 'modal' && !inMini ? 'items-center p-4' : sheetOnly ? 'items-end' : 'items-end sm:items-center sm:p-4')} onKeyDown={onKeyDown} data-theme-scope>
+    <div className={cn('fixed inset-0 z-[60] flex justify-center', variant === 'modal' && !inMini ? 'items-center p-4' : sheetOnly ? 'items-end' : 'items-end sm:items-center sm:p-4')} onKeyDown={onKeyDown} data-theme-scope>
       <div className="absolute inset-0 animate-fade-in bg-black/50" onClick={dismissible ? onClose : undefined} aria-hidden />
       <div
         ref={panelRef}

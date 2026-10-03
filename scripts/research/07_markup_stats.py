@@ -38,6 +38,8 @@ import re
 import sys
 from pathlib import Path
 
+sys.dont_write_bytecode = True  # importing scripts/pricing_model.py must not write tracked .pyc files
+
 ROOT = Path(__file__).resolve().parents[2]
 JSON_PATH = ROOT / "data" / "competitors.json"
 CSV_PATH = ROOT / "data" / "raw" / "competitor_observations.csv"

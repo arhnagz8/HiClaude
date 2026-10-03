@@ -29,6 +29,8 @@ export default {
         danger: c('danger'),
         'danger-soft': c('danger-soft'),
         info: c('info'),
+        accent: c('accent'),
+        'accent-soft': c('accent-soft'),
         'info-soft': c('info-soft'),
         'risk-low': c('success'),
         'risk-medium': c('warning'),

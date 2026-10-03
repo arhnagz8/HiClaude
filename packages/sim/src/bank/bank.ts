@@ -295,13 +295,15 @@ export class BankSim implements BankPort, SimComponent {
   private scheduleCredit(c: StatementCredit): StatementCredit {
     this.credits.push(c)
     this.pendingCredits += c.amountIrt
-    this.env.sim.at(c.postedAt, () => {
+    const apply = (): void => {
       this.balanceIrt += c.amountIrt
       this.totalCredited += c.amountIrt
       this.pendingCredits -= c.amountIrt
       this.env.stats.inc('bank.credits_posted')
       this.env.log.emit('bank.credit', 'bank', { ref: c.ref, amount: c.amountIrt, channel: c.channel, at: c.at })
-    }, { label: 'bank.credit', priority: 20 })
+    }
+    if (c.postedAt <= this.env.clock.now()) apply()
+    else this.env.sim.at(c.postedAt, apply, { label: 'bank.credit', priority: 20 })
     return c
   }
 

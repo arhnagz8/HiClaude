@@ -103,6 +103,15 @@
       ],
       "best case": []
     },
+    "cross_specialist_reconciliation": [
+      "02 C13: exchange balance cap changed from 1 day to lock days + 1 (about 4 days) because of the 72h withdrawal lock (CTL-04; expected-loss baseline recomputed).",
+      "02: gateway closure evidenced for Dey 1403 (2024-12-26), not Dey 1404 (EXC-05 corrected; duration lengthened to median 10 days).",
+      "02: pool of 18 venues used for the designation hazard (pool 20 with Shelbit and BitBank); halt/cap episode 2026-09-30 to 2026-10-04 recorded in EXC-03.",
+      "04: April CBI action dated 2026-04-24 (timeline event dated); AML retention >= 5 years vs 10 years recommended (CTL-16); currency-smuggling fine 2x value added to LEG-01; usdtPaymentForResidents=false aligns with CTL-23.",
+      "04: its action-cadence statistic uses 4 actions (gaps 39/44/63, mean 48.7 days) and omits the 2026-08-07 Aban Tether/Shelbit designation; including all six actions the mean gap is 46.0 days.",
+      "06: OpenAI exclusion of Iran and the 2024-07-09 API block (per summaries) strengthen VND-01 and the AI-subscription label.",
+      "03: Shaparak instructions on crypto/VPN/betting merchants support PAY-01; TRC20 contract address TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t corroborated by exchange-API samples."
+    ],
     "evidence_limits": "Likelihood parameters are modelling priors. Anchors with data: Tether freeze rates (BlockSec 2025), OFAC designation cadence (2026), CBI freeze waves. Provider/exchange failure base rates could NOT be sourced in-session (search budget exhausted) and are flagged low confidence with verify_how.",
     "not_legal_advice": "Analysis only; confirm with licensed professionals (CLAUDE.md s3.4)."
   },
@@ -122,8 +131,8 @@
       "reputation": 2
     },
     "residual_rating_counts": {
-      "high": 9,
-      "medium": 33,
+      "high": 10,
+      "medium": 32,
       "low": 22
     },
     "inherent_rating_counts": {
@@ -132,7 +141,7 @@
       "medium": 21,
       "low": 1
     },
-    "expected_events_per_year_always_applicable": 29.88,
+    "expected_events_per_year_always_applicable": 29.76,
     "note": "Sum of monthly probabilities x 12 over always-applicable risks; a rough event-count intensity, not a forecast. Conditional risks (applies_when) excluded."
   },
   "controls": [
@@ -158,7 +167,7 @@
       "id": "CTL-04",
       "title": "Float caps per counterparty",
       "type": "preventive",
-      "description": "Provider float <= eps x equity (eps 3-5%); exchange balance <= 1 day of conversion needs; treasury hot wallet <= 2 days of outflow; review weekly (see 05_base_rates.py section 3)."
+      "description": "Provider float <= eps x equity (eps 3-5%); exchange balance <= (lock days + 1) days of conversion needs, i.e. about 4 days under the 72h withdrawal lock (specialist 02 C13: USDT bought with Toman cannot leave the exchange for 3 days, so a 1-day cap is structurally impossible); treasury wallet <= 2 days of outflow; hot wallet <= 1 day; review weekly (see 05_base_rates.py section 3)."
     },
     {
       "id": "CTL-05",
@@ -230,7 +239,7 @@
       "id": "CTL-16",
       "title": "Record-keeping and provenance",
       "type": "detective",
-      "description": "Retain KYC, orders, fund provenance tags, screening logs, decision records for 10 years (US IEEPA limitation period was extended to 10 years in 2024 - analyst recollection, verify); tamper-evident storage."
+      "description": "Retain KYC, orders, fund provenance tags, screening logs, decision records. Iranian AML law minimum >= 5 years (specialist 04 F34, low confidence); recommended 10 years for sanctions-related records (US IEEPA limitation period was extended to 10 years in 2024 - analyst recollection, verify); tamper-evident storage."
     },
     {
       "id": "CTL-17",
@@ -272,7 +281,7 @@
       "id": "CTL-23",
       "title": "Customer USDT inbound disabled by default",
       "type": "preventive",
-      "description": "Do not accept customer-paid USDT until counsel approves a screening policy; Toman rails only. Rationale: most Iranian USDT originates at SDN exchanges."
+      "description": "Do not accept customer-paid USDT until counsel approves a screening policy; Toman rails only. Rationale: most Iranian USDT originates at SDN exchanges; specialist 04 independently recommends usdtPaymentForResidents=false on legal-classification grounds."
     },
     {
       "id": "CTL-24",
@@ -396,9 +405,14 @@
             "url": "https://the-decoder.com/anthropic-bans-companies-majority-controlled-by-china-russia-iran-and-north-korea-from-claude/",
             "title": "[S35] The Decoder - Anthropic bans companies majority-controlled by China, Russia, Iran, North Korea (2025-09-05); also RTE, Medianama, Malay Mail",
             "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+          },
+          {
+            "url": "docs/03-research/06-service-catalog.md",
+            "title": "[S48] Specialist 06 research doc: Anthropic supported-countries page read first-hand; OpenAI supported-countries page + Caixin 2024-06-26 (API block of unsupported countries from 2024-07-09) per search summaries - internal, not re-verified here",
+            "note": "internal repo file, not independently verified"
           }
         ],
-        "note": "Anthropic supported-regions list (seen directly) excludes Iran; OpenAI per weaker sources"
+        "note": "Anthropic supported-regions list (seen directly) excludes Iran; OpenAI's list excludes Iran and API traffic from unsupported countries is blocked since 2024-07-09 (per summaries via specialist 06)"
       },
       "restriction_note": {
         "value": "Vendor does not support Iran; the account may be suspended without notice and the vendor may not refund. Provider card programs may also restrict Iran-linked use.",
@@ -737,11 +751,16 @@
             "url": "https://the-decoder.com/anthropic-bans-companies-majority-controlled-by-china-russia-iran-and-north-korea-from-claude/",
             "title": "[S35] The Decoder - Anthropic bans companies majority-controlled by China, Russia, Iran, North Korea (2025-09-05); also RTE, Medianama, Malay Mail",
             "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+          },
+          {
+            "url": "docs/03-research/06-service-catalog.md",
+            "title": "[S48] Specialist 06 research doc: Anthropic supported-countries page read first-hand; OpenAI supported-countries page + Caixin 2024-06-26 (API block of unsupported countries from 2024-07-09) per search summaries - internal, not re-verified here",
+            "note": "internal repo file, not independently verified"
           }
         ]
       },
       "restriction_note": {
-        "value": "Iran is not a supported region (Anthropic list seen directly); accounts can be suspended without notice.",
+        "value": "Iran is not a supported region (Anthropic list seen directly; OpenAI's list excludes Iran per summaries); accounts can be suspended without notice.",
         "unit": "text",
         "as_of": "2026-10-02",
         "confidence": "medium",
@@ -755,6 +774,11 @@
             "url": "https://the-decoder.com/anthropic-bans-companies-majority-controlled-by-china-russia-iran-and-north-korea-from-claude/",
             "title": "[S35] The Decoder - Anthropic bans companies majority-controlled by China, Russia, Iran, North Korea (2025-09-05); also RTE, Medianama, Malay Mail",
             "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+          },
+          {
+            "url": "docs/03-research/06-service-catalog.md",
+            "title": "[S48] Specialist 06 research doc: Anthropic supported-countries page read first-hand; OpenAI supported-countries page + Caixin 2024-06-26 (API block of unsupported countries from 2024-07-09) per search summaries - internal, not re-verified here",
+            "note": "internal repo file, not independently verified"
           }
         ]
       }
@@ -855,9 +879,14 @@
               "url": "https://hoodline.com/2026/09/treasury-sanctions-iran-s-bitbank-crypto-exchange-tied-to-zanjani-irgc-cash/",
               "title": "[S28] Hoodline - Treasury sanctions Iranian exchange BitBank (2026-09-17); also Crowdfund Insider, TFTC, TRM Labs, Startup Fortune, VOA",
               "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "docs/03-research/02-ir-exchanges-usdt-rails.md",
+              "title": "[S44] Specialist 02 research doc: policy timeline 2022-2026, Mehr-1405 halt (2026-09-30 to 10-04), 72h lock, gateway closure Dey 1403 (2024-12-26), 18-venue landscape, late-Feb-2026 shutdown - internal, not re-verified here",
+              "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "h = min(1, r/N_rem) x s; r = 1.75 exchanges/month, pool 15, N_rem 8, s 0.3 -> 6.5%; grid 2.0%-14.6% (05_base_rates.py).",
+          "note": "h = min(1, r/N_rem) x s; r = 1.75 exchanges/month; pool 20 (specialist 02's 18-venue landscape + Shelbit + BitBank), N_rem 13, size-bias s 0.45 for mid-size (Tier B) venues -> 6.0%; pool 15 / s 0.3 -> 6.5%; grid 2.0%-17.5% (05_base_rates.py).",
           "low": 0.02,
           "high": 0.15,
           "annual_equivalent": 0.5241,
@@ -1237,8 +1266,8 @@
         "unit": "scale_1_5",
         "as_of": "2026-10-02",
         "confidence": "low",
-        "note": "bucket of annual probability 93.1% (<1%, 1-5%, 5-20%, 20-50%, >50%)",
-        "annual_probability": 0.9313
+        "note": "bucket of annual probability 94.9% (<1%, 1-5%, 5-20%, 20-50%, >50%)",
+        "annual_probability": 0.9493
       },
       "impact": {
         "value": 2,
@@ -1285,7 +1314,7 @@
       },
       "sim": {
         "probability_per_month": {
-          "value": 0.2,
+          "value": 0.22,
           "unit": "probability/month",
           "as_of": "2026-10-02",
           "confidence": "medium",
@@ -1293,6 +1322,11 @@
             {
               "url": "https://www.trmlabs.com/resources/blog/ofac-sanctions-crypto-addresses-associated-with-the-central-bank-of-iran-freezes-usd-344-million",
               "title": "[S21] TRM Labs - OFAC Sanctions Crypto Addresses Associated with the Central Bank of Iran, Freezes USD 344 Million",
+              "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "https://www.chainalysis.com/blog/central-bank-of-iran-designation-ofac-update-april-2026/",
+              "title": "[S22] Chainalysis - OFAC Updates Central Bank of Iran Designation Following Tether Seizure (April 2026)",
               "note": "per search summary (page not retrievable: egress blocked or not fetched)"
             },
             {
@@ -1304,12 +1338,17 @@
               "url": "https://thedefiant.io/news/regulation/tether-says-it-helped-freeze-nearly-550-million-in-iran-linked-usdt",
               "title": "[S24] The Defiant - Tether says it helped freeze nearly $550M in Iran-linked USDT (also CryptoTicker, Coinpedia, Cryptonomist, KuCoin News)",
               "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "docs/03-research/04-legal-tax-ir.md",
+              "title": "[S47] Specialist 04 research doc: CBI sole regulator, currency-smuggling fine 2x value, AML record retention >= 5 years, CBI wallet freeze dated 2026-04-24 (F13), usdtPaymentForResidents=false rule - internal, not re-verified here",
+              "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "Two CBI waves in ~9 months of 2026 -> 0.22/month; spread effect is an assumption (macro specialist to calibrate).",
+          "note": "Two CBI waves (2026-04-24, 2026-07-16) in 8.05 months = 0.248/month -> 22%/month; spread effect is an assumption (macro specialist to calibrate).",
           "low": 0.1,
-          "high": 0.3,
-          "annual_equivalent": 0.9313,
+          "high": 0.35,
+          "annual_equivalent": 0.9493,
           "formula": "annual = 1-(1-pm)^12",
           "verify_how": "Calibrate against observed incident logs (ops) and the sources in 'sources'; replace prior when a base rate is verified"
         },
@@ -1870,9 +1909,14 @@
               "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
               "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
               "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "docs/03-research/04-legal-tax-ir.md",
+              "title": "[S47] Specialist 04 research doc: CBI sole regulator, currency-smuggling fine 2x value, AML record retention >= 5 years, CBI wallet freeze dated 2026-04-24 (F13), usdtPaymentForResidents=false rule - internal, not re-verified here",
+              "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "Conditional on customer-USDT acceptance; share inferred from S1 volume shares - low confidence.",
+          "note": "Conditional on customer-USDT acceptance; share inferred from S1 volume shares - low confidence. Specialist 04 independently recommends the flag usdtPaymentForResidents=false on classification grounds.",
           "low": 0.5,
           "high": 0.95,
           "annual_equivalent": 1.0,
@@ -2308,9 +2352,14 @@
               "url": "https://fortune.com/crypto/2025/06/18/nobitex-gonjeshke-darande-predatory-sparrow-iran-israel-hack",
               "title": "[S33] Fortune - Nobitex / Predatory Sparrow hack (2025-06-18); also PBS, Crowdfund Insider, Scorechain, Bitdefender",
               "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "docs/03-research/02-ir-exchanges-usdt-rails.md",
+              "title": "[S44] Specialist 02 research doc: policy timeline 2022-2026, Mehr-1405 halt (2026-09-30 to 10-04), 72h lock, gateway closure Dey 1403 (2024-12-26), 18-venue landscape, late-Feb-2026 shutdown - internal, not re-verified here",
+              "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "Reference class: several large exchange hacks per year worldwide; war-time uplift x3 (assumption).",
+          "note": "Reference class: several large exchange hacks per year worldwide; war-time uplift x3 (assumption). Nobitex 2025: source code was leaked a day after the hack (specialist 02); amount range $81-100M by outlet.",
           "low": 0.003,
           "high": 0.02,
           "annual_equivalent": 0.0919,
@@ -2503,8 +2552,8 @@
           "confidence": "low",
           "sources": [
             {
-              "url": "docs/03-research/_briefs/02-ir-exchanges-usdt-rails.md",
-              "title": "[S44] Internal brief 02 (policy items: Mehr-1405 night halt, 2,000 USDT/day cap, ID-based 25M Toman cap, Dey gateway closure) - unverified here",
+              "url": "docs/03-research/02-ir-exchanges-usdt-rails.md",
+              "title": "[S44] Specialist 02 research doc: policy timeline 2022-2026, Mehr-1405 halt (2026-09-30 to 10-04), 72h lock, gateway closure Dey 1403 (2024-12-26), 18-venue landscape, late-Feb-2026 shutdown - internal, not re-verified here",
               "note": "internal repo file, not independently verified"
             },
             {
@@ -2513,7 +2562,7 @@
               "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "Frequency inferred from several rule changes in 2025-26 reported in the lead's research and brief 02; specialist 02 to calibrate.",
+          "note": "Specialist 02's timeline lists ~9 conversion-restricting rule changes in ~46 months (Dec-2022 to Oct-2026; many low confidence) = ~0.2/month -> 18%/month; prior 15% (8-30%). Latest episode: halt 21:00-09:00 + 2,000 USDT/day cap from 2026-09-30 21:00 to 2026-10-04 21:00 (4 days, extension unknown); the 72h lock and 25M IRT ID cap are standing constraints handled by the treasury planner, not by this risk.",
           "low": 0.08,
           "high": 0.3,
           "annual_equivalent": 0.8578,
@@ -2528,7 +2577,8 @@
           "params": {
             "scope": "toman_to_usdt_rail",
             "hours_per_day_unavailable": 12,
-            "duration_days": 30
+            "duration_days": 7,
+            "duration_days_p90": 30
           }
         },
         "secondary_impacts": [
@@ -2635,7 +2685,7 @@
     {
       "id": "EXC-05",
       "title": "Payment-gateway closure on the exchange's Toman rails",
-      "description": "Fiat deposit rails go dark (gateway closure episodes, e.g. Dey 1404 per brief 02), blocking Toman-to-USDT conversion.",
+      "description": "Fiat deposit rails go dark. Evidence (specialist 02): CBI/Shaparak blocked exchange payment gateways on 2024-12-26 (Dey 1403), partially reversed in Jan 2025 on conditions (ten data items); only a few small/medium exchanges reopened at first. No closure inside the last 90 days. The brief's 'Dey 1404' closure is NOT evidenced.",
       "category": "exchange",
       "scope": "exchange",
       "likelihood": {
@@ -2647,7 +2697,7 @@
         "annual_probability": 0.5241
       },
       "impact": {
-        "value": 2,
+        "value": 3,
         "unit": "scale_1_5",
         "as_of": "2026-10-02",
         "confidence": "low",
@@ -2666,7 +2716,7 @@
         "CTL-06"
       ],
       "inherent": {
-        "value": 10,
+        "value": 15,
         "unit": "score_1_25",
         "as_of": "2026-10-02",
         "confidence": "low",
@@ -2674,18 +2724,18 @@
         "rating": "high"
       },
       "residual": {
-        "value": 5,
+        "value": 10,
         "unit": "score_1_25",
         "as_of": "2026-10-02",
         "confidence": "low",
         "note": "after controls: likelihood reduced by dL, impact by dI (expert judgement, not tested)",
         "residual_likelihood": 5,
-        "residual_impact": 1,
+        "residual_impact": 2,
         "control_effect": {
           "dL": 0,
           "dI": 1
         },
-        "rating": "medium"
+        "rating": "high"
       },
       "sim": {
         "probability_per_month": {
@@ -2695,12 +2745,12 @@
           "confidence": "low",
           "sources": [
             {
-              "url": "docs/03-research/_briefs/02-ir-exchanges-usdt-rails.md",
-              "title": "[S44] Internal brief 02 (policy items: Mehr-1405 night halt, 2,000 USDT/day cap, ID-based 25M Toman cap, Dey gateway closure) - unverified here",
+              "url": "docs/03-research/02-ir-exchanges-usdt-rails.md",
+              "title": "[S44] Specialist 02 research doc: policy timeline 2022-2026, Mehr-1405 halt (2026-09-30 to 10-04), 72h lock, gateway closure Dey 1403 (2024-12-26), 18-venue landscape, late-Feb-2026 shutdown - internal, not re-verified here",
               "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "Prior; specialist 02 to verify the Dey gateway-closure facts.",
+          "note": "One clustered episode (Oct-Dec 2024 restrictions, 2024-12-26 closure, partial reopening Jan 2025) in ~24 months -> ~4%/month; prior 6% (2-15%). Duration lengthened to median 10 days / p90 30 days to match the observed weeks-long episode.",
           "low": 0.02,
           "high": 0.15,
           "annual_equivalent": 0.5241,
@@ -2714,8 +2764,8 @@
           "type": "downtime_hours",
           "params": {
             "scope": "toman_to_usdt_rail",
-            "hours_median": 72,
-            "hours_p90": 240
+            "hours_median": 240,
+            "hours_p90": 720
           }
         },
         "correlation_groups": [
@@ -4054,9 +4104,14 @@
               "url": "https://community.openai.com/t/access-to-chatgpt-from-iran-without-vpn-may-2025-is-access-restored/1250817",
               "title": "[S36] OpenAI community thread - access to ChatGPT from Iran (May 2025); weak/secondary sources only",
               "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "docs/03-research/06-service-catalog.md",
+              "title": "[S48] Specialist 06 research doc: Anthropic supported-countries page read first-hand; OpenAI supported-countries page + Caixin 2024-06-26 (API block of unsupported countries from 2024-07-09) per search summaries - internal, not re-verified here",
+              "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "Prior; policy facts S34 (seen directly), S35; ban-wave frequency is an assumption.",
+          "note": "Prior; policy facts S34 (seen directly; specialist 06 also read Anthropic's supported-countries page first-hand), S35; OpenAI: Iran excluded from its supported-countries list and API traffic from unsupported countries blocked since 2024-07-09 (S48 per summaries); ban-wave frequency is an assumption.",
           "low": 0.02,
           "high": 0.15,
           "annual_equivalent": 0.4596,
@@ -4471,9 +4526,14 @@
               "url": "docs/business-plan-full-context.md",
               "title": "[S42] Internal first-pass research by the lead (2026-10-02) - unverified secondary claims on mpay and exchange limits",
               "note": "internal repo file, not independently verified"
+            },
+            {
+              "url": "docs/03-research/03-ir-payments-collection.md",
+              "title": "[S46] Specialist 03 research doc: Shaparak stance on crypto/VPN/betting merchants, card-to-card caps, tax-visibility rule, TRC20 contract corroboration - internal, not re-verified here",
+              "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "Prior; terms per lead's first-pass research (specialist 03 to verify).",
+          "note": "Prior. Specialist 03: Shaparak told payment-yars to cut merchants selling crypto, VPN, betting; classification of gift-card / virtual-card / USDT-backed top-ups is not named anywhere seen -> UNVERIFIED, treated high.",
           "low": 0.01,
           "high": 0.08,
           "annual_equivalent": 0.3062,
@@ -5583,8 +5643,8 @@
     },
     {
       "id": "LEG-01",
-      "title": "Iranian enforcement action against a crypto-linked business",
-      "description": "FATA/police/CBI measures lead to account blocks, seizures or summons.",
+      "title": "Iranian enforcement action or classification as unlicensed FX/crypto dealing",
+      "description": "FATA/police/CBI measures lead to account blocks, seizures or summons; if the product is classed as unlicensed FX dealing the law treats it as 'currency smuggling' (fine 2x the rial value + confiscation, per specialist 04 F08; classification risk R01 there).",
       "category": "legal",
       "scope": "legal",
       "likelihood": {
@@ -5645,7 +5705,14 @@
           "unit": "probability/month",
           "as_of": "2026-10-02",
           "confidence": "low",
-          "note": "Prior; specialist 04 owns the analysis.",
+          "sources": [
+            {
+              "url": "docs/03-research/04-legal-tax-ir.md",
+              "title": "[S47] Specialist 04 research doc: CBI sole regulator, currency-smuggling fine 2x value, AML record retention >= 5 years, CBI wallet freeze dated 2026-04-24 (F13), usdtPaymentForResidents=false rule - internal, not re-verified here",
+              "note": "internal repo file, not independently verified"
+            }
+          ],
+          "note": "Prior; specialist 04 owns the analysis (its R01 classification risk residual 10; R03 sanctioned-venue risk residual 12).",
           "low": 0.001,
           "high": 0.015,
           "annual_equivalent": 0.047,
@@ -5664,6 +5731,16 @@
             "recovery_prob": 0.5
           }
         },
+        "secondary_impacts": [
+          {
+            "type": "fine_irt",
+            "params": {
+              "kind": "fx_dealing_fine",
+              "multiple_of_rial_value": 2.0,
+              "scope": "transactions deemed unlicensed FX dealing"
+            }
+          }
+        ],
         "correlation_groups": [
           "REGULATORY_TIGHTENING_IR"
         ]
@@ -5920,8 +5997,8 @@
         "unit": "scale_1_5",
         "as_of": "2026-10-02",
         "confidence": "low",
-        "note": "bucket of annual probability 85.8% (<1%, 1-5%, 5-20%, 20-50%, >50%)",
-        "annual_probability": 0.8578
+        "note": "bucket of annual probability 78.4% (<1%, 1-5%, 5-20%, 20-50%, >50%)",
+        "annual_probability": 0.7843
       },
       "impact": {
         "value": 3,
@@ -5966,7 +6043,7 @@
       },
       "sim": {
         "probability_per_month": {
-          "value": 0.15,
+          "value": 0.12,
           "unit": "probability/month",
           "as_of": "2026-10-02",
           "confidence": "low",
@@ -5980,12 +6057,17 @@
               "url": "https://www.theblock.co/post/403436/us-sanctions-nobitex-iranian-crypto-exchanges-economic-fury-campaign",
               "title": "[S9] The Block - US sanctions Nobitex and other Iranian crypto exchanges under 'Economic Fury' campaign",
               "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "docs/03-research/02-ir-exchanges-usdt-rails.md",
+              "title": "[S44] Specialist 02 research doc: policy timeline 2022-2026, Mehr-1405 halt (2026-09-30 to 10-04), 72h lock, gateway closure Dey 1403 (2024-12-26), 18-venue landscape, late-Feb-2026 shutdown - internal, not re-verified here",
+              "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "Rate inferred from ~3 major episodes in ~16 months (2025-06, 2026-01 protest period, 2026 war) - dates/durations not verified; calibrate with NetBlocks/IODA.",
-          "low": 0.08,
+          "note": "Rate inferred from >= 2 major episodes in ~16 months (June-2025 war period; late-Feb-2026 near-total shutdown per specialist 02; a Jan-2026 episode is unconfirmed) = ~0.125/month -> 12%; dates/durations not verified; calibrate with NetBlocks/IODA.",
+          "low": 0.06,
           "high": 0.25,
-          "annual_equivalent": 0.8578,
+          "annual_equivalent": 0.7843,
           "formula": "annual = 1-(1-pm)^12",
           "verify_how": "NetBlocks / IODA / Cloudflare Radar timeline for Iran 2025-2026; Persian media for durations"
         },

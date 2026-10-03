@@ -18,27 +18,27 @@ This is compliance analysis, **not legal or tax advice**; confirm with licensed 
 - **«شایعه» مربوط به رویداد دیگری بود:** ۱۰ بهمن ۱۴۰۴ (۳۰ ژانویه ۲۰۲۶) فقط دو شرکت ثبت‌شده در بریتانیا (Zedcex و Zedxion) تحریم شدند و نوبیتکس، زومیت و امپی‌اف‌اینکس درست می‌گفتند که صرافی‌های ایرانی هدف نبودند. ماجرای خرداد یک اقدام جدا و بعدی است.
 - **روند ادامه دارد:** ۱۶ مرداد (۷ اوت): آبان‌تتر و شلبیت؛ ۲ شهریور (۲۴ اوت): آغاز «عملیات Economic Outcast» (ریسک تحریم ثانویه برای خارجی‌ها در پنج بخش از جمله دارایی دیجیتال)؛ ۲۶ شهریور (۱۷ سپتامبر): بیت‌بانک. پنج صرافی پرکاربرد داخلی (نوبیتکس، والکس، بیت‌پین، رمزینکس، آبان‌تتر) همین حالا SDN هستند. طبق پرسش‌وپاسخ ۱۲۵۷ هر صرافی ارز دیجیتال که در بخش مالی ایران فعالیت کند قابل تحریم است؛ برآورد مدل برای تحریم بعدیِ هر صرافیِ هنوز تحریم‌نشده حدود ۶٪ در ماه است (بازه ۲ تا ۱۵٪).
 - **اثر مستقیم روی ریل تتر:** تتر از آذر ۱۴۰۲ آدرس‌های فهرست SDN را بدون نیاز به درخواست نهادهای مجری قانون فریز می‌کند. تتری که از صرافی‌های تحریم‌شده به ارائه‌دهنده‌ی خارجی (مثل mpay) برود «ارتباط مستقیم با نهاد تحریمی» حساب می‌شود و می‌تواند به ردّ واریز، توقف یا بستن حساب برسد. پرداخت تتری مشتری هم احتمالاً از همین صرافی‌هاست؛ پیش‌فرض: دریافت تتر از مشتری غیرفعال.
-- **فریز تتر عملاً برگشت‌ناپذیر است:** در ۲۰۲۵ حدود ۴٬۱۶۳ آدرس و ۱٫۲۶ میلیارد دلار فریز شد؛ فقط ۳٫۶٪ آدرس‌ها از فهرست سیاه خارج شدند و بیش از ۶۹۸ میلیون دلار سوزانده شد. در ۲۰۲۶ حدود ۵۵۰ میلیون دلار مرتبط با ایران فریز شد (۳۴۴ میلیون در فروردین/اردیبهشت و ۱۳۱ میلیون در ۲۵ تیر، هر دو کیف‌پول‌های بانک مرکزی). در شبیه‌ساز احتمال بازیابی ۳٫۶٪ است.
+- **فریز تتر عملاً برگشت‌ناپذیر است:** در ۲۰۲۵ حدود ۴٬۱۶۳ آدرس و ۱٫۲۶ میلیارد دلار فریز شد؛ فقط ۳٫۶٪ آدرس‌ها از فهرست سیاه خارج شدند و بیش از ۶۹۸ میلیون دلار سوزانده شد. در ۲۰۲۶ حدود ۵۵۰ میلیون دلار مرتبط با ایران فریز شد (۳۴۴ میلیون در ۴ اردیبهشت (۲۴ آوریل) و ۱۳۱ میلیون در ۲۵ تیر، هر دو کیف‌پول‌های بانک مرکزی). در شبیه‌ساز احتمال بازیابی ۳٫۶٪ است.
 - **ونداری:** فهرست رسمی کشورهای پشتیبانی‌شده‌ی Anthropic را مستقیم دیدیم و ایران در آن نیست؛ برای OpenAI منابع ضعیف‌تری داریم اما نتیجه یکی است ⇒ برچسب ریسک «بالا» و افشای ریسک به مشتری برای اشتراک‌های هوش مصنوعی.
-- **ارائه‌دهنده‌ی کارت (مثل mpay):** مدل، احتمال یک رویداد شدید (خروج، فریز، بستن به‌دلیل ایران، ورشکستگی بالادستی) را حدود ۴۲٪ در سال برای هر ارائه‌دهنده‌ی «خاکستری» می‌گیرد (فرض مدل‌سازی، نه آمار مستند). ⇒ سقف موجودی هر ارائه‌دهنده ≤ ۵٪ سرمایه، شارژ دقیقاً به‌اندازه‌ی نیاز (JIT)، حداقل دو ارائه‌دهنده و ذخیره‌ی زیان طرف‌حساب. زیان دائمیِ مورد انتظار در سناریوی پایه ≈ ۰٫۵۹٪ حجم فروش (با ضریب عدم‌قطعیت دو برابر ≈ ۱٫۱۷٪)؛ بدون سقف و با موجودی بی‌کاربرد حدود ۲٪.
-- **صرافی و امنیت عملیاتی:** هک نوبیتکس (۲۸ خرداد ۱۴۰۴ / ۱۸ ژوئن ۲۰۲۵) حدود ۹۰ میلیون دلار را سوزاند؛ موجودی روی صرافی را حداقلی نگه دارید. کیف‌پول چندامضایی، فهرست آدرس مجاز با تأخیر ۲۴ تا ۷۲ ساعته، مراقبت در برابر آدرس‌پویزنینگ، احراز هویت سخت‌افزاری/TOTP (نه فقط پیامک) برای ادمین‌ها و تلگرام، و تفکیک وظایف اپراتورها.
+- **ارائه‌دهنده‌ی کارت (مثل mpay):** مدل، احتمال یک رویداد شدید (خروج، فریز، بستن به‌دلیل ایران، ورشکستگی بالادستی) را حدود ۴۲٪ در سال برای هر ارائه‌دهنده‌ی «خاکستری» می‌گیرد (فرض مدل‌سازی، نه آمار مستند). ⇒ سقف موجودی هر ارائه‌دهنده ≤ ۵٪ سرمایه، شارژ دقیقاً به‌اندازه‌ی نیاز (JIT)، حداقل دو ارائه‌دهنده و ذخیره‌ی زیان طرف‌حساب. زیان دائمیِ مورد انتظار در سناریوی پایه ≈ ۰٫۷۴٪ حجم فروش (با ضریب عدم‌قطعیت دو برابر ≈ ۱٫۴۸٪)؛ بدون سقف و با موجودی بی‌کاربرد حدود ۲٫۲٪.
+- **صرافی و امنیت عملیاتی:** هک نوبیتکس (۲۸ خرداد ۱۴۰۴ / ۱۸ ژوئن ۲۰۲۵) حدود ۹۰ میلیون دلار را سوزاند؛ موجودی روی صرافی را حداقلی نگه دارید (به‌خاطر قفل ۷۲ ساعته حداقل ساختاری حدود ۴ روز خرید است، نه ۱ روز؛ یافته‌ی متخصص صرافی‌ها). کیف‌پول چندامضایی، فهرست آدرس مجاز با تأخیر ۲۴ تا ۷۲ ساعته، مراقبت در برابر آدرس‌پویزنینگ، احراز هویت سخت‌افزاری/TOTP (نه فقط پیامک) برای ادمین‌ها و تلگرام، و تفکیک وظایف اپراتورها.
 - **کنترل‌های قانونی:** غربالگری روزانه‌ی فهرست SDN و فهرست سیاه تتر، سقف موجودی، کلید قطع اضطراری (kill switch)، نگهداری سوابق (پیشنهاد ۱۰ سال)، برنامه‌ی واکنش به حادثه، افشای ریسک به مشتری و مشاور حقوقی. **ما هیچ روشی برای دور زدن تحریم، غربالگری یا ژئوبلاک نمی‌نویسیم**؛ مثلاً «کیف‌پول واسط برای پنهان‌کردن مبدأ» کنترل نیست و پنهان‌سازی محسوب می‌شود. جایگزین قانونی و ریسک باقی‌مانده در بخش ۷٫۹ آمده است.
-- **ثبت ریسک:** ۶۴ ریسک و ۳۰ کنترل با پارامتر شبیه‌ساز در `data/risk_register.json` و ۱۶ رویداد در `data/sanctions_timeline.json`. بزرگ‌ترین ریسک‌های باقی‌مانده: تحریم بعدیِ صرافیِ مورد استفاده، قطع درگاه، مسدودی حساب بانکی، عقب‌نشینی طرف‌حساب‌های غیرآمریکایی، سخت‌گیری تتر، موج بن اکانت‌های AI و قطع اینترنت.
-- **محدودیت شواهد (صادقانه):** سهمیه‌ی جست‌وجوی نشست تمام شد؛ فقط ۲۹ جست‌وجو (هدف: ۴۰ به بالا) انجام شد و تنها یک صفحه مستقیم خوانده شد. بخش تحریم‌ها قوی است؛ نرخ خرابی ارائه‌دهنده/صرافی «پیش‌فرض مدل‌سازی با اطمینان کم» است و باید با اجرای مجدد تحقیق تکمیل شود. این سند مشاوره‌ی حقوقی نیست.
+- **ثبت ریسک:** ۶۴ ریسک و ۳۰ کنترل با پارامتر شبیه‌ساز در `data/risk_register.json` و ۱۶ رویداد در `data/sanctions_timeline.json`. بزرگ‌ترین ریسک‌های باقی‌مانده: تحریم بعدیِ صرافیِ مورد استفاده، قطع درگاه (پذیرنده یا صرافی)، مسدودی حساب بانکی، عقب‌نشینی طرف‌حساب‌های غیرآمریکایی، سخت‌گیری تتر، موج بن اکانت‌های AI و قطع اینترنت.
+- **محدودیت شواهد (صادقانه):** سهمیه‌ی جست‌وجوی نشست تمام شد؛ فقط ۲۹ جست‌وجو (هدف: ۴۰ به بالا) انجام شد و فقط دو منبع مستقیم خوانده شد (فهرست کشورهای پشتیبانی‌شده‌ی Anthropic و آینه‌ی عمومی فهرست آدرس‌های OFAC)؛ اعداد با فایل‌های متخصصان ۰۲، ۰۳، ۰۴ و ۰۶ هم‌خوانی‌سنجی شد. بخش تحریم‌ها قوی است؛ نرخ خرابی ارائه‌دهنده/صرافی «پیش‌فرض مدل‌سازی با اطمینان کم» است و باید با اجرای مجدد تحقیق تکمیل شود. این سند مشاوره‌ی حقوقی نیست.
 
 ## TL;DR
 
 1. **2026-06-02 (12 Khordad 1405): OFAC designated Nobitex, Wallex, Bitpin and Ramzinex** (E.O. 13902 + E.O. 13224) plus four Nobitex leaders. Verdict: **verified, confidence high (subjective ~0.97)**. The "rumour about two foreign firms" is the earlier 2026-01-30 Zedcex/Zedxion action - a different event [S6-S9, S15-S20].
-2. Sequence: 01-30 Zedcex/Zedxion; April CBI wallets ($344M frozen, listed next day); 06-02 four exchanges; 07-16 four more CBI wallets ($131M); **08-07 Aban Tether + Shelbit**; 08-24 Operation Economic Outcast; 09-17 BitBank. Seven domestic-market exchanges are SDNs; no wind-down general licence for them was seen [S1, S21-S28].
-3. **OFAC FAQ 1257**: non-US persons dealing with these exchanges risk designation or correspondent-account restrictions; any digital-asset exchange operating in Iran's financial sector is designable. Cadence: 0.50 designation events/month since 01-30 (0.75 since 06-02) => P(at least one new Iran-crypto action in 3 months) 77-89%; prior for the next designation of a still-undesignated Iranian exchange **6%/month (2-15%)** [S8; 05_base_rates.py].
+2. Sequence: 01-30 Zedcex/Zedxion; 04-24 CBI wallets ($344M frozen, listed next day); 06-02 four exchanges; 07-16 four more CBI wallets ($131M); **08-07 Aban Tether + Shelbit**; 08-24 Operation Economic Outcast; 09-17 BitBank. Seven domestic-market exchanges are SDNs; no wind-down general licence for them was seen [S1, S21-S28].
+3. **OFAC FAQ 1257**: non-US persons dealing with these exchanges risk designation or correspondent-account restrictions; any digital-asset exchange operating in Iran's financial sector is designable. Cadence: 0.50 exchange-designation events/month since 01-30 (0.75 since 06-02); counting the two CBI address waves, 0.75 actions/month (1.0 since 06-02) => P(at least one new OFAC action on Iran-linked crypto within 3 months) 78-89% (designations only) or 89-95% (all actions); prior for the next designation of a still-undesignated Iranian exchange **6%/month (2-15%)** [S8; 05_base_rates.py].
 4. **Tether**: auto-freezes OFAC-listed addresses (policy since Dec-2023); 2025: 4,163 addresses, $1.26bn, **only 3.6% ever unfrozen**, >$698M burned, 84% on Tron; 2026: ~$550M Iran-linked (CBI $344M + $131M); Senate PSI minority report: 846 wallets, 84% USDT-only, ~$35M slipped past the freezes [S24, S25, S29, S31].
-5. **USDT from the SDN exchanges is direct sanctioned-entity exposure** at any provider that screens; customer-paid USDT is mostly SDN-originated (the four June exchanges alone were ~78% of attributed 2025 volume). Default: customer USDT inbound disabled; model cost if enabled unscreened: +1.3% of GMV in expected loss [S1; 05_expected_loss.py].
+5. **USDT from the SDN exchanges is direct sanctioned-entity exposure** at any provider that screens; customer-paid USDT is likely mostly SDN-originated (inference: the four June exchanges alone were ~78% of attributed 2025 volume). Default: customer USDT inbound disabled; model cost if enabled unscreened: +1.3% of GMV in expected loss [S1; 05_expected_loss.py].
 6. **Vendors**: Anthropic's official supported-regions list (read directly) omits Iran; OpenAI likewise per weaker sources => product risk_label = high, mandatory disclosure [S34-S36].
 7. **Custodial card providers (mpay-like)**: modelled hazards per month: exit 0.5%, freeze 1.8%, geo de-risk 2.0%, upstream insolvency 0.2% => ~42% chance per year of at least one severe event per gray provider (prior, not an empirical base rate). Float cap <= 5% of equity per provider, just-in-time funding, >= 2 providers.
-8. **Expected permanent loss (model)**: 0.59% of GMV baseline (x2 uncertainty loading = 1.17%); 2.0% with idle balances and no caps; 0.29% ultra-lean. Reserve ~ $10.5k-$21k per $150k monthly GMV.
-9. **Exchange risk**: Nobitex hack 2025-06-18 (~$90M burned, service down); keep exchange balances <= ~1 day of needs; hacks 0.8%/month, insolvency 0.2%/month, rule changes 15%/month (priors).
-10. **Register**: 64 risks (9 high residual: SAN-01, PAY-01, PAY-02, SAN-04, SAN-08, VND-01, EXC-03, INF-01, VND-02), 30 controls, 5 correlation groups, scenario links to the MISSION scenarios.
-11. **Evidence limits**: 29 searches (14 extended, 6 in Persian), 1 page read directly; WebFetch blocked on every other host tried; the session-wide search budget was exhausted. Sections 4-6 base rates are flagged priors with `verify_how`.
+8. **Expected permanent loss (model)**: 0.74% of GMV baseline (x2 uncertainty loading = 1.48%); 2.2% with idle balances and no caps (~3x worse); 0.42% ultra-lean - the exchange leg cannot go below the 72h-lock floor (below). Reserve ~ $13k-$27k per $150k monthly GMV.
+9. **Exchange risk**: Nobitex hack 2025-06-18 (~$90M burned, service down); keep exchange balances at the structural minimum - lock days + 1, about 4 days under the 72h withdrawal lock (specialist 02, C13; my earlier '1 day' cap was wrong); hacks 0.8%/month, insolvency 0.2%/month, rule changes 15%/month (priors).
+10. **Register**: 64 risks (10 high residual: SAN-01, PAY-01, PAY-02, SAN-04, SAN-08, VND-01, EXC-03, EXC-05, INF-01, VND-02), 30 controls, 5 correlation groups, scenario links to the MISSION scenarios.
+11. **Evidence limits**: 29 searches (14 extended, 6 in Persian); 2 sources read directly (Anthropic supported regions; a public mirror of the OFAC address list); other hosts blocked; the session-wide search budget was exhausted. Figures were cross-checked against specialists 02, 03, 04 and 06. Sections 4-6 base rates are flagged priors with `verify_how`.
 12. **Guardrail**: no evasion content. Intermediate wallets, chain-hopping, borrowed identities, geo-spoofing and payment splitting are not mitigations; lawful alternatives and residual risk are in section 7.9.
 
 ## Evidence limits and method
@@ -46,8 +46,9 @@ This is compliance analysis, **not legal or tax advice**; confirm with licensed 
 | Item | Detail |
 |---|---|
 | Searches | 29 successful WebSearch calls (14 `extended`, 15 `standard`; 6 Persian). Target was 40+. The session-wide cap of 200 WebSearch calls (shared with the lead and parallel specialists) was reached; the two further attempts returned "not performed". No workaround was attempted. |
-| Direct reads | 1 page: Anthropic supported regions [S34] (Iran absent). Everything else is "per search summary". |
-| Blocked hosts (WebFetch EGRESS_BLOCKED, tried once each) | home.treasury.gov, ofac.treasury.gov, chainalysis.com, scorechain.com, trmlabs.com, elliptic.co, coindesk.com, theblock.co, blocksec.com, globalsecurity.org, en.wikipedia.org, zoomit.ir (three URLs in one parallel batch), cryptoslate.com, mishcon.com, paulhastings.com, orrick.com, sanctionsnews.bakermckenzie.com, help.openai.com, fatf-gafi.org, fincen.gov, justice.gov, tether.io, hsgac.senate.gov. A GitHub mirror of the SDN address list was out of scope for this session's repositories and was not added. |
+| Direct reads | 2 sources: Anthropic supported regions [S34] (Iran absent) and a public GitHub mirror of OFAC's SDN digital-currency address lists [S45] via raw.githubusercontent.com (reachable; the GitHub API returned 403 and the repository-scoped GitHub MCP denied access - neither retried). Everything else is "per search summary". |
+| Cross-reading | After they landed, the research docs of specialists 02 (exchanges), 03 (payments), 04 (legal/tax) and 06 (catalog) were read read-only; reconciliations are in Conflicts C10-C14 and `data/risk_register.json` `meta.cross_specialist_reconciliation`. Their facts are cited as internal files [S44, S46-S48], not re-verified. |
+| Blocked hosts (WebFetch EGRESS_BLOCKED, tried once each) | home.treasury.gov, ofac.treasury.gov, chainalysis.com, scorechain.com, trmlabs.com, elliptic.co, coindesk.com, theblock.co, blocksec.com, globalsecurity.org, en.wikipedia.org, zoomit.ir (three URLs in one parallel batch), cryptoslate.com, mishcon.com, paulhastings.com, orrick.com, sanctionsnews.bakermckenzie.com, help.openai.com, fatf-gafi.org, fincen.gov, justice.gov, tether.io, hsgac.senate.gov. |
 | Strong | 2026 sanctions timeline (many independent summaries), Tether freeze statistics, Anthropic policy. |
 | Weak / priors | Provider and exchange failure base rates, OpenAI wording, mpay terms, address-poisoning and SIM-swap statistics, internet-shutdown dates, 2024-2025 OFAC actions. All flagged `confidence: low` or `UNVERIFIED` with `verify_how`. |
 | Follow-up plan (needs raised search budget) | (1) OFAC SDN entries + any published addresses for the 10 designated entities; (2) full texts of Treasury releases sb0519, 2026-01-30, 2026-08-07, 2026-09-17, sb0644; (3) 2024-2025 OFAC Iran-crypto actions; (4) any wind-down GL; (5) crypto-card/exchange failure base rates (academic + incident lists); (6) mpay and other providers' ToS (restricted jurisdictions, forfeiture, refund); (7) OpenAI/Google/Microsoft/Netflix/Spotify supported-country pages; (8) Nobitex post-hack restoration timeline; (9) NetBlocks/IODA Iran 2025-2026; (10) address-poisoning and SIM-swap statistics; (11) OFAC recordkeeping period; (12) whether commercial analytics vendors contract with Iran-based businesses. |
@@ -68,7 +69,7 @@ This is compliance analysis, **not legal or tax advice**; confirm with licensed 
 | F10 | BitBank designated | 2026-09-17 (26 Shahrivar 1405) | date | 2026-09-17 | high | S28 |
 | F11 | Zedcex + Zedxion (UK-registered) designated | 2026-01-30 (10 Bahman 1404) | date | 2026-01-30 | high | S10-S14 |
 | F12 | Operation Economic Outcast launched; 5 GLs suspended effective | 2026-08-24; 2026-09-08 | date | 2026-09-08 | high | S27 |
-| F13 | CBI wallets frozen, April 2026 (two wallets; OFAC listed them the next day) | >$344M | USD | 2026-04 | high | S21, S22, S24 |
+| F13 | CBI wallets frozen (two wallets; OFAC listed them the next day) | >$344M (344.2M per 04) | USD | 2026-04-24 | high | S21, S22, S24, S47 |
 | F14 | CBI wallets, four more listed 2026-07-16; Tether froze | $131M | USD | 2026-07-16 | high | S23, S24 |
 | F15 | CBI USDT blocked in total / estimated CBI holdings (Elliptic) | ~$475M / >= $507M | USD | 2026-07-16 | medium | S23 |
 | F16 | Tether-stated Iran-linked freezes in 2026 | ~$550M | USD | 2026-09-28 | medium | S24, S25 |
@@ -86,14 +87,18 @@ This is compliance analysis, **not legal or tax advice**; confirm with licensed 
 | F28 | Binance processed ~$7.8bn of Iran-linked flows (2018-2022), almost all with Nobitex | $7.8bn | USD | 2022 | medium | S39 |
 | F29 | Anthropic supported-regions list omits Iran | seen directly | - | 2026-10-02 | high | S34 |
 | F30 | Anthropic 2025-09-05 policy bars entities >50% owned by companies headquartered in unsupported regions (China, Russia, Iran, North Korea) | text | - | 2025-09-05 | medium | S35 |
-| F31 | OpenAI: Iran unsupported; IP blocked; Iranian payment methods rejected; VPN use risks suspension | text | - | 2026-10-02 | low | S36 |
+| F31 | OpenAI: Iran excluded from its supported-countries list; API traffic from unsupported countries blocked since 2024-07-09; Iranian IPs/payment methods rejected; VPN use risks suspension | text | - | 2026-10-02 | medium | S36, S48 |
 | F32 | The four exchanges state services continue and user assets are safe | statements | - | 2026-06-03 | high (that they were made) | S19 |
 | F33 | Persian-community reports of account/wallet restrictions after moving funds out of Nobitex | anecdotal | - | 2026-06 | low | S38 |
 | F34 | Designation event rate since 01-30 / since 06-02 | 0.497 / 0.748 | events/month | 2026-10-02 | medium (derived) | S5, S12, S26, S28 |
-| F35 | P(at least one new Iran-crypto OFAC action within 3 months) | 77.5 - 89.4 | pct | 2026-10-02 | low (model) | derived |
-| F36 | Prior: designation hazard for a still-undesignated Iranian exchange | 6 (2-15) | pct/month | 2026-10-02 | low (model) | S8, S26, S28 |
+| F35 | P(at least one new OFAC action on Iran-linked crypto within 3 months): designations only / all actions incl. CBI waves | 77.5-89.4 / 89.3-95.0 | pct | 2026-10-02 | low (model) | derived |
+| F36 | Prior: designation hazard for a still-undesignated Iranian exchange | 6 (2-15) | pct/month | 2026-10-02 | low (model) | S8, S26, S28, S44 |
 | F37 | Prior: provider severe-event hazards (exit / freeze / insolvency / geo de-risk) | 0.5 / 1.8 / 0.2 / 2.0 | pct/month | 2026-10-02 | low (model) | S42 |
-| F38 | Model expected permanent loss (baseline JIT policy; x2 loading) | 0.585 (1.17) | pct of GMV | 2026-10-02 | low (model) | 05_expected_loss.py |
+| F38 | Model expected permanent loss (baseline JIT policy, lock-aware; x2 loading) | 0.741 (1.48) | pct of GMV | 2026-10-02 | low (model) | 05_expected_loss.py |
+| F39 | USDT-labelled addresses in a public mirror of OFAC's SDN list (114 Tron-format); ETH-labelled | 167; 150 | count | 2026-10-02 | low (freshness unverifiable; tool-summarised counts) | S45 |
+| F40 | CBI/Shaparak blocked exchange payment gateways (Dey 1403), partially reversed Jan 2025 | 2024-12-26 | date | 2024-12-26 | medium | S44 |
+| F41 | CBI nightly USDT halt 21:00-09:00 plus 2,000 USDT/user/day buy cap | 2026-09-30 21:00 to 2026-10-04 21:00 | window | 2026-10-02 | medium | S44 |
+| F42 | 72h withdrawal lock after Rial deposits (FATA-directed) => USDT bought sits on the exchange >= 3 days; exchange cap = lock days + 1 | 72 h; 4 days | hours; days | 2026-10-02 | medium | S44, S47 |
 
 ## Details
 
@@ -109,7 +114,7 @@ This is compliance analysis, **not legal or tax advice**; confirm with licensed 
 | 2025 (date n/a) | Reported Tether freeze of 112 Iran-linked wallets (~$700M) | single analyst; inconsistent with BlockSec's $1.26bn annual total | conflicting, low | S40, S29 |
 | 2026-01-30 (10 Bahman 1404) | OFAC designates **Zedcex Exchange Ltd, Zedxion Exchange Ltd** (UK-registered), Babak Zanjani and 7 individuals (6 IRGC-linked) | first-ever designation of crypto exchanges for operating in Iran's financial sector (E.O. 13902); TRM: ~$1bn IRGC-linked stablecoin flows | verified | S10-S14 |
 | ~2026-02-01 | Nobitex, OMPFinex, Way2Pay, Zoomit: "Iranian exchanges are not sanctioned; the news is about two UK firms" | correct at the time | verified (statements) | S15-S18 |
-| 2026-04 (Farvardin/Ordibehesht 1405) | Tether helps freeze >$344M in two wallets; OFAC lists them as CBI digital-currency addresses next day | day not seen | verified | S21, S22, S24 |
+| 2026-04-24 (4 Ordibehesht 1405) | Tether helps freeze >$344M in two wallets; OFAC lists them as CBI digital-currency addresses next day | day per specialist 04 (F13); my summaries gave only "April" | verified | S21, S22, S24, S47 |
 | **2026-06-02 (12 Khordad 1405)** | **OFAC designates Nobitex, Wallex, Bitpin, Ramzinex + 4 Nobitex leaders** ("Economic Fury"; Treasury release sb0519) | see 1.2-1.4 | **verified** | S1-S9, S20 |
 | 2026-06-03 | The four exchanges publish statements: services continue, assets safe | Bitpin: "only the legal structure was listed" | verified (statements) | S19 |
 | 2026-07-16 (25 Tir 1405) | OFAC lists four more CBI wallets; Tether freezes $131M | after the ceasefire broke down; CBI blocked total ~$475M | verified | S23, S24 |
@@ -130,8 +135,8 @@ Question: Elliptic, Chainalysis, Scorechain, Crystal and others report that OFAC
 | T2 independent analytics firms | TRM [S1], Chainalysis [S4], Elliptic [S5], Scorechain [S3], Crystal [S2], Global Ledger [S43], each with screening guidance | corroboration of entities, volumes and legal bases |
 | T3 law firms | Seven client alerts on Operation Economic Outcast [S27] treat the exchange designations as settled | later actions build on it |
 | T4 news | The Block, Cointelegraph, The National, IranWire, Iran International, Radio Farda, Euronews Persian, TGJU [S9, S20] | broad coverage including Persian-language outlets |
-| T5 affected parties | Nobitex, Bitpin, Wallex, Ramzinex statements the next day: services continue, assets safe, "sanctions were foreseen" [S19] | the exchanges acknowledge the listing - no denial |
-| Counter-evidence | Nobitex/OMPFinex/Way2Pay/Zoomit denials: "news concerns only Zedcex and Zedxion" [S15-S18] | accurate for **January**; they predate the June action (Zoomit article ids 456181/456187 vs 460670/460684) |
+| T5 affected parties | Nobitex, Bitpin, Wallex, Ramzinex statements the next day: services continue, assets safe, sanctions scenarios were foreseen (paraphrase) [S19] | the exchanges acknowledge the listing - no denial |
+| Counter-evidence | Nobitex/OMPFinex/Way2Pay/Zoomit denials: "news concerns only Zedcex and Zedxion" [S15-S18] | accurate for **January**; they predate the June action (post dates are inferred: the denials discuss only Zedcex/Zedxion, and Zoomit article ids 456181/456187 precede 460670/460684) |
 
 **Decision: verified; confidence high (subjective probability ~0.97).** The rumour label belongs to the 2026-01-30 episode; Persian Telegram channels then mis-reported a UK-only designation as an attack on domestic exchanges, and the correct denials remain indexed and can be mistaken for denials of June. Residual uncertainty: (i) full text of sb0519 and the SDN entries were not seen; (ii) per-entity legal basis (summaries say both E.O. 13902 and 13224 for "the four"; Treasury's Nobitex narrative cites terrorism-related payments, IRGC and sanctions evasion); (iii) whether wallet addresses were published (UNVERIFIED). **Falsifier:** a direct OFAC SDN search that fails to return the four names would overturn this; the owner's counsel should run it (open question Q1).
 
@@ -151,7 +156,7 @@ Question: Elliptic, Chainalysis, Scorechain, Crystal and others report that OFAC
 #### 1.4 Secondary-sanctions exposure
 
 - **FAQ 1257 (paraphrase from two summaries [S8])**: non-US persons are exposed for dealing with the designated exchanges; OFAC may designate persons that have "materially assisted, sponsored, or provided financial, material, or technological support" for them, or restrict correspondent / payable-through accounts of foreign financial institutions that knowingly conducted significant transactions for them. Designation under E.O. 13902 for operating in the Iranian financial sector means any digital-asset service provider determined to operate in that sector can be designated.
-- **Chainalysis/Scorechain read-across [S3, S4]**: an explicit SDN designation triggers secondary-sanctions risk for global counterparties and gives stablecoin issuers a direct legal justification for bulk address freezes.
+- **Analytics-firm read-across [S2, S3, S43]** (commentary in a cluster of summaries): an explicit SDN designation triggers secondary-sanctions risk for global counterparties and gives stablecoin issuers a direct legal justification for bulk address freezes.
 - **Operation Economic Outcast (2026-08-24)** [S27] extends this posture to foreign entities across five sectors including digital assets; effect on a reseller is indirect but large: providers outside the US de-risk Iran-linked flows (risks SAN-04, PRV-05).
 - **"Causing a violation"** (analyst reasoning; confirm with counsel): if the owner forwards SDN-sourced USDT to a provider that is a US person or has a US nexus, that provider may itself breach sanctions by accepting it; they therefore screen and reject. This is the mechanism behind provider KYC triggers and deposit rejections, and the reason the USDT leg cannot be made "clean" by relabelling.
 
@@ -164,12 +169,14 @@ Question: Elliptic, Chainalysis, Scorechain, Crystal and others report that OFAC
 
 | Quantity | Value | Formula / note |
 |---|---|---|
-| Events (Jan-30 to Oct-2) | 4 in 8.05 months = 0.497/month | Zedcex/Zedxion; 4 exchanges; Aban Tether + Shelbit; BitBank |
-| Domestic-market events since 06-02 | 3 in 4.01 months = 0.748/month; 7 exchanges = 1.75/month | |
-| P(>=1 new action in 1 / 3 / 6 months) | 39% / 78% / 95% (lambda 0.50); 53% / 89% / 99% (lambda 0.75) | 1 - exp(-lambda t) |
-| Per-exchange monthly hazard, undesignated | h = min(1, r / N_rem) x s, with r = 1.75, pool 15 (N_rem 8), size-bias s = 0.3 => **6.5%**; grid 2.0% (pool 20, s 0.15) to 14.6% (pool 13, s 0.5) | register SAN-01: 6% (2-15%) |
+| Exchange designations (Jan-30 to Oct-2) | 4 in 8.05 months = 0.497/month | Zedcex/Zedxion; 4 exchanges; Aban Tether + Shelbit; BitBank |
+| Domestic-market designations since 06-02 | 3 in 4.01 months = 0.748/month; 7 exchanges = 1.75/month | |
+| All OFAC actions incl. CBI address waves | 6 in 8.05 months = 0.745/month (4 since 06-02 = 0.998/month); mean gap 46.0 days | adds 2026-04-24 and 2026-07-16; specialist 04's 4-action subset (it omits 08-07) gives gaps 39/44/63 = 48.7 days |
+| P(>=1 new action in 1 / 3 / 6 months) | designations only: 39% / 78% / 95% (0.50) and 53% / 89% / 99% (0.75); all actions: 53% / 89% / 99% (0.745) and 63% / 95% / 99.7% (0.998) | 1 - exp(-lambda t) |
+| CBI address-listing waves | 2 in 8.05 months = 0.248/month -> 22%/month | register SAN-05 |
+| Per-exchange monthly hazard, undesignated | h = min(1, r / N_rem) x s; r = 1.75; pool 20 (specialist 02's 18 venues + Shelbit + BitBank), N_rem 13, s = 0.45 for a mid-size Tier-B venue => **6.0%**; pool 15, s = 0.30 => 6.5%; grid 2.0% (pool 20, s 0.15) to 17.5% (pool 13, s 0.60) | register SAN-01: 6% (2-15%) |
 
-The pool is the names in brief 02 (Nobitex, Wallex, Bitpin, Ramzinex, Tabdeal, Aban Tether, Exir, OMPFinex, Tetherland, Novin Tether, Excoino, Bit24, Arzinja) plus Shelbit and BitBank; seven are designated. Absence of the rest from retrieved summaries is not proof they are clean (`watchlist_exchanges` in the timeline file is UNVERIFIED).
+The pool: specialist 02's landscape lists 18 venues - Tier A Nobitex, Wallex, Bitpin, Ramzinex; Tier B Tabdeal, Aban Tether, Bit24; Tier C Exir, OMPFinex, Tetherland, NovinTether, Excoino, Arzinja, Arzpaya, Eritron, Rabin Cash, Kifpool, Pingi - plus Shelbit and BitBank = 20; seven are designated. Many Tier-C names show no 2026 activity, so the effective pool may be smaller. Absence of the rest from retrieved summaries is not proof they are clean (`watchlist_exchanges` in the timeline file is UNVERIFIED).
 
 ### 2. Tether freezes
 
@@ -199,7 +206,7 @@ The pool is the names in brief 02 (Nobitex, Wallex, Bitpin, Ramzinex, Tabdeal, A
 
 #### 2.4 Impact on Iranian users
 
-Iranian explainers (Zoomit, Arzdigital, Tabdeal Academy, Iranbroker [S37]) treat freezing as a live asset-security risk for users. Elliptic reports outflows from Nobitex surged within minutes of the 2025 strikes and continued through blackouts; Reuters (2022) traced $7.8bn of Binance-Iran flows almost entirely to Nobitex [S38, S39], i.e. exchange wallets are well labelled. Persian-community posts describe account or wallet restrictions after moving funds from Nobitex to other wallets or foreign exchanges (anecdotal, low confidence). A widely repeated Persian tip - "do not transfer between exchanges directly; hop through a non-custodial wallet" - **is not a control**: exposure analysis follows the transaction graph, and relabelling hops to hide an origin is the type of obfuscation compliance teams treat as aggravating. We do not recommend it.
+Iranian explainers (Zoomit, Arzdigital, Tabdeal Academy, Iranbroker [S37]) treat freezing as a live asset-security risk for users. Elliptic reports outflows from Nobitex surged within minutes of the first US-Israeli strikes (year not stated in the summaries; the June-2026 context suggests the 2026 conflict) and continued through blackouts; Reuters (2022) traced $7.8bn of Binance-Iran flows almost entirely to Nobitex [S38, S39], i.e. exchange wallets are well labelled. Persian-community posts describe account or wallet restrictions after moving funds from Nobitex to other wallets or foreign exchanges (anecdotal, low confidence). A widely repeated Persian tip - "do not transfer between exchanges directly; hop through a non-custodial wallet" - **is not a control**: exposure analysis follows the transaction graph, and relabelling hops to hide an origin is the type of obfuscation compliance teams treat as aggravating. We do not recommend it.
 
 #### 2.5 Recovery paths
 
@@ -223,7 +230,7 @@ Blockchain-analytics firms label exchange wallets by clustering deposit-sweep pa
 | Provider / vendor | What is known | Evidence | Geo-IP / enforcement | Bans / forfeiture | risk_label | Verify |
 |---|---|---|---|---|---|---|
 | Anthropic (Claude) | Iran is **not** in the supported-regions list; 2025-09-05 ToS update bars entities >50% owned by firms headquartered in unsupported regions (China, Russia, Iran, North Korea) "due to legal, regulatory, and security risks" | page heading: "Here are the countries, regions, and territories we can currently support access from:" [S34, seen directly]; policy per summaries [S35] | lead's first-pass research says IP is checked in real time [S42] (unverified) | not retrieved | **high** | Anthropic usage terms and supported-regions page (screenshot with date) |
-| OpenAI (ChatGPT/API) | Iran unsupported; Iranian IPs blocked; Iranian payment methods rejected; VPN use may lead to suspension | weak: community thread and SEO sites [S36] | IP + payment-country checks reported | reported | **high** | help.openai.com "supported countries" page |
+| OpenAI (ChatGPT/API) | Iran excluded from the supported-countries list; API traffic from unsupported countries blocked since 2024-07-09; Iranian IPs and payment methods rejected; VPN use may lead to suspension | OpenAI Help Center supported-countries page and Caixin 2024-06-26 (per specialist 06's search summaries) [S48]; community thread and SEO sites (weak) [S36] | IP + payment-country checks reported | reported | **high** | help.openai.com "supported countries" page (blocked for me) |
 | mpay.cards (custodial USDT card) | marketed as "no KYC"; region "varies"; no public API/partner programme; ~3/5 Trustpilot with fund-loss complaints; domain young | lead's research only [S42]; **ToS not retrieved** | unknown | unknown | **high** | read ToS, ask support in writing about Iran-resident eligibility, test small |
 | Other crypto-card providers (Pintopay, Wanttopay, VirtCardPay, AnyXPay ...) | not retrieved here | specialist 01 owns | unknown | unknown | high (default) | specialist 01 table |
 | Voucher aggregators (Bitrefill-type) | not retrieved | - | unknown | unknown | medium (default) | read Iran policy |
@@ -283,31 +290,32 @@ No empirical failure frequency for crypto-card startups was retrievable (search 
 
 #### 4.6 Expected permanent counterparty loss (`05_expected_loss.py`; illustrative GMV $150k/month, take rate 10%)
 
-EL per risk per month: `pm x pct_frozen x (1 - recovery_prob) x exposure_days / 30` for float freezes; `pm x loss share` for fines/frauds. Temporary freezes (carry cost) and downtime/demand shocks are excluded here.
+EL per risk per month: `pm x pct_frozen x (1 - recovery_prob) x exposure_days / 30` for float freezes; `pm x loss share` for fines/frauds. Temporary freezes (carry cost) and downtime/demand shocks are excluded here. **Lock-aware exchange exposure** (specialist 02, C13): because Rial-bought USDT cannot leave the exchange for 72h, the structural exchange balance is >= 3 days of purchases and the cap is lock days + 1 = 4 days; my first draft used 0.5 days, which understated expected loss (0.585% -> 0.741%).
 
 | Policy (days of GMV held: provider / exchange / treasury / hot / bank) | EL % of monthly GMV | x2 loading |
 |---|---|---|
-| Baseline JIT with caps (1.5 / 0.5 / 2.0 / 1.0 / 1.0) | **0.585%** | 1.171% |
-| Idle-heavy, no caps (7 / 3 / 5 / 3 / 3) | 2.009% | 4.018% |
-| Ultra-lean hourly JIT (0.5 / 0.25 / 1.0 / 0.5 / 0.5) | 0.290% | 0.579% |
-| Baseline components | provider float 0.257%, treasury-wallet freeze 0.172%, fines/frauds 0.082%, all-USDT tail 0.028%, bank 0.020%, exchange 0.019%, hot wallet 0.007% | |
+| Baseline JIT with caps (1.5 / 4.0 / 2.0 / 1.0 / 1.0) | **0.741%** | 1.481% |
+| Idle-heavy, no caps (7 / 7 / 5 / 3 / 3) | 2.187% | 4.373% |
+| Ultra-lean hourly JIT (0.5 / 3.25 / 1.0 / 0.5 / 0.5) | 0.423% | 0.845% |
+| Baseline components | provider float 0.257%, treasury-wallet freeze 0.172%, exchange balance 0.155%, fines/frauds 0.082%, all-USDT tail 0.048%, bank 0.020%, hot wallet 0.007% | |
 | Conditional add-ons | customer USDT inbound unscreened +1.30%; USDT sourced from a designated exchange +0.69%; provider share > 60% +0.06% | |
 
-Top baseline contributors: TKN-01 0.096%, SAN-08 0.076%, SAN-02 0.060%, PRV-05 0.050%, TKN-03 0.045%, PRV-02 0.045%. Reserve sizing: 12 months of baseline EL at $150k GMV/month = $10.5k (x2 = $21k). Caps and JIT cut expected loss ~3.4x versus an idle policy: the cheapest control in the register.
+Top baseline contributors: TKN-01 0.096%, SAN-01 0.096%, SAN-08 0.076%, SAN-02 0.060%, PRV-05 0.050%, TKN-03 0.045%. Reserve sizing: 12 months of baseline EL at $150k GMV/month = $13.3k (x2 = $26.7k). Caps and JIT cut expected loss ~3.0x versus an idle policy (2.19% -> 0.74%): the cheapest control in the register; the exchange leg stays at its 72h-lock floor, which is why even the ultra-lean policy only reaches 0.42%.
 
 ### 5. Exchange counterparty risk
 
 | Date | Exchange | Incident | Duration / outcome | Status |
 |---|---|---|---|---|
 | 2025-06-18 | Nobitex | Predatory Sparrow hack; ~$90M burned; app and website down | restoration time not found (UNVERIFIED) | verified [S33] |
-| 2025-06 | Iranian exchanges | outflow surge within minutes of the first strikes; Nobitex kept processing during a shutdown | days to weeks of disruption | reported [S5, S38] |
+| date not stated (2025 or 2026 strikes) | Iranian exchanges | outflow surge within minutes of the first US-Israeli strikes; Nobitex kept processing during a government-imposed shutdown (Reuters) | duration not stated | reported [S5, S38] |
 | 2026-06-02 onward | Nobitex, Wallex, Bitpin, Ramzinex | designation; statements say services continue; anecdotal withdrawal restrictions on onward transfers | ongoing | verified / low [S19, S38] |
 | 2026-08-07 onward | Aban Tether | designation | ongoing | verified [S26] |
-| Dey 1404 | Iranian gateways | gateway-closure episode per brief 02 | not verified | UNVERIFIED [S44] |
+| 2024-12-26 (Dey 1403) | Iranian exchanges' payment gateways | CBI/Shaparak blocked the gateways; partially reversed in Jan 2025 on conditions (ten data items); only a few small/medium exchanges reopened at first | weeks-long; no closure in the last 90 days | reported, medium [S44] (the brief's "Dey 1404" is NOT evidenced) |
+| 2026-09-30 to 2026-10-04 | All Iranian USDT trading | CBI-ordered nightly halt 21:00-09:00 and 2,000 USDT/user/day buy cap; extension unknown | 4 days (so far) | reported, medium [S44] |
 
 Global reference class (analyst recollection, **not verified in-session**; use only to shape the duration mixture): Mt. Gox 2014 (first repayments ~10 years later); FTX Nov 2022 (~27 months to first distributions); Celsius Jun 2022 (~19 months); WazirX hack Jul 2024 (~$235M; ~15 months to restructured relaunch); Bybit hack Feb 2025 (~$1.46B; solvent, withdrawals continued); Garantex takedown Mar 2025. Verify via major outlets before citing.
 
-**Duration mixture for simulation** (priors): hack-but-solvent (EXC-01) median 7 days frozen, p90 ~14, recovery 70%; insolvency (EXC-02) 540 days, recovery 50%; fiat-rail/gateway closure (EXC-05) median 72h, p90 240h; designation of the venue (SAN-01) 30 days, 60% of balance stuck (USDT form), recovery 80%; policy changes (EXC-03) 12h/day unavailable for 30 days. **Exchange balance cap:** <= 1 day of conversion needs; no idle balances.
+**Duration mixture for simulation** (priors): hack-but-solvent (EXC-01) median 7 days frozen, p90 ~14, recovery 70%; insolvency (EXC-02) 540 days, recovery 50%; fiat-rail/gateway closure (EXC-05) median 240h (10 days), p90 720h, matching the weeks-long Dey-1403 episode; designation of the venue (SAN-01) 30 days, 60% of balance stuck (USDT form), recovery 80%; policy changes (EXC-03) 12h/day unavailable for a median 7 days (p90 30; the latest episode is 4 days). **Exchange balance cap: lock days + 1 = about 4 days of conversion needs** (the 72h lock makes <= 1 day structurally impossible - specialist 02, C13); no idle balances beyond that.
 
 ### 6. Operational security (control design; no new incident statistics were researched)
 
@@ -329,6 +337,7 @@ Global reference class (analyst recollection, **not verified in-session**; use o
 #### 7.1 SDN screening specification (implementable)
 
 - **Data:** the OFAC SDN list is public. Fetch the consolidated list (XML/CSV; digital-currency addresses appear as identifiers of type "Digital Currency Address - <ticker>", e.g. USDT, ETH, XBT) from OFAC's sanctions-list service; poll at least twice daily, diff against the previous version, store version hash and fetch time. *(Format and endpoint from analyst knowledge - the OFAC host was blocked; verify.)* Add the project's own deny list from `data/sanctions_timeline.json` `entities` (designated exchanges) and the Tether blacklist.
+- **Reality check on size and format [S45, read directly]:** a public GitHub mirror (0xB10C) that regenerates the lists nightly from OFAC's `sdn_advanced.xml` (per its README; files `sanctioned_addresses_<TICKER>.txt/.json` on the `lists` branch, 18 currencies) contained **167 USDT-labelled addresses (114 in Tron format, 53 EVM) and 150 ETH addresses** when read on 2026-10-02 (counts are the fetch tool's summary; its TRX and XBT counts of exactly 500 and 1,000 look like truncation and are not used; freshness cannot be verified because the API returned 403). The list has no entity labels, so I could not map the six CBI wallets or any exchange address to it (Q15). Takeaway: the sanctioned-address set is small (hundreds to low thousands) - embed it, diff it nightly, and screen by exact match.
 - **Commercial analytics** (Chainalysis, TRM, Elliptic) are US/EU vendors that may refuse Iran-based customers; **never obtain access through another person's or entity's identity**. If unavailable, the free list-based controls plus caps and provenance logs are the compliant baseline.
 - **Matching:** addresses by exact match (Tron base58 is case-sensitive; compare EVM addresses lowercased); names with transliteration variants (Persian to Latin) and manual review; keep reviewer notes.
 - **Tether check:** call `isBlackListed(address)` on the USDT contracts - Tron `TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t`, Ethereum `0xdAC17F958D2ee523a2206206994597C13D831ec7` (well-known; verify on the explorers).
@@ -357,7 +366,7 @@ States per provider / exchange / rail / product: **Normal -> Watch -> Restricted
 #### 7.4 Incident response and record-keeping
 
 - **Playbooks (CTL-15):** provider freeze; exchange hack/halt; key compromise; designation event; Tether freeze of an own wallet; internet blackout; data leak; wrong-address transfer. First-hour actions: contain (kill switch), preserve logs, notify counsel and owner, freeze new fulfilment on the affected rail, draft customer notice. Quarterly tabletop.
-- **Records (CTL-16):** KYC, orders, provenance tags per USDT lot, screening logs, decisions, ToS snapshots; retention **10 years** (the US limitation period for sanctions violations was extended to 10 years in 2024 - analyst recollection, verify; Iranian commercial retention to be confirmed by specialist 04); tamper-evident storage.
+- **Records (CTL-16):** KYC, orders, provenance tags per USDT lot, screening logs, decisions, ToS snapshots; retention: Iranian AML law minimum >= 5 years (specialist 04 F34, low confidence) and **10 years recommended** for sanctions-related records (the US limitation period for sanctions violations was extended to 10 years in 2024 - analyst recollection, verify); tamper-evident storage.
 
 #### 7.5 Customer-facing risk disclosure (draft for counsel; Persian)
 
@@ -379,7 +388,7 @@ States per provider / exchange / rail / product: **Normal -> Watch -> Restricted
 
 #### 7.8 Mitigation economics
 
-Caps and JIT cost nothing but network fees and operator time; a screening service is free for list-based controls; counsel and a reserve are the real costs (reserve 0.6%-1.2% of GMV until funded). Compared with an idle policy, the modelled expected loss falls from 2.0% to 0.6% of GMV.
+Caps and JIT cost nothing but network fees and operator time; a screening service is free for list-based controls; counsel and a reserve are the real costs (reserve 0.7%-1.5% of GMV until funded). Compared with an idle policy, the modelled expected loss falls from 2.2% to 0.7% of GMV.
 
 #### 7.9 Owner goals that seem to need evasion: lawful alternative and risk
 
@@ -391,10 +400,14 @@ Caps and JIT cost nothing but network fees and operator time; a screening servic
 | Accept customer USDT | accept unscreened and forward | disabled by default; counsel-approved screening policy before enabling | +1.3% of GMV expected loss if unscreened; taint |
 | Recover frozen funds | impersonation, pressure | formal petition with counsel | likely total loss |
 
+#### 7.10 Using SDN venues' public price feeds (answer to specialist 02)
+
+Question from 02: may the platform read the public USDT/IRT order books of Nobitex, Wallex, Bitpin or Ramzinex as price inputs? Analysis (not legal advice; counsel to confirm, Q16): reading a free, unauthenticated public endpoint is not a funds transfer and creates no account, fee or property dealing, so the incremental exposure for a non-US, Iran-based operator is low but not zero - the risk rises with anything that looks like a relationship (accounts, API keys, trading, paying fees, sending funds, US-person developers or US-hosted systems touching the endpoints). Recommended policy: (1) primary price inputs from non-designated venues and aggregators; (2) designated venues only as read-only cross-checks inside a >= 3-feed median, public endpoints only, no keys, no accounts, no trading; (3) a feature flag that removes them in one step; (4) log the decision and the counsel opinion; (5) drop them entirely if any US-person or US-hosted component touches the path. These venues carry most of Iran's liquidity (78% of attributed 2025 volume), so excluding them degrades price quality; that trade-off is the owner's, with counsel (D11).
+
 ### 8. Risk register (summary; full detail in `data/risk_register.json`)
 
 - **Scales:** likelihood by annual probability (<1%, 1-5%, 5-20%, 20-50%, >50%); impact relative to equity and monthly margin (5 = >30% of equity or business-ending). Ratings: low 1-4, medium 5-9, high 10-15, critical 16-25. Likelihood is **derived from** the simulator's `probability_per_month` so the two never diverge.
-- **Counts:** 64 risks - sanctions 9, stablecoin/chain 6, exchange 8, provider 11, vendor 5, payments 6, opsec 8, legal 4, infrastructure 4, treasury 1, reputation 2. Inherent: 8 critical, 34 high, 21 medium, 1 low. Residual after controls: 9 high, 33 medium, 22 low. Expected events/year across always-applicable risks: ~29.9 (intensity measure, not a forecast).
+- **Counts:** 64 risks - sanctions 9, stablecoin/chain 6, exchange 8, provider 11, vendor 5, payments 6, opsec 8, legal 4, infrastructure 4, treasury 1, reputation 2. Inherent: 8 critical, 34 high, 21 medium, 1 low. Residual after controls: 10 high, 32 medium, 22 low. Expected events/year across always-applicable risks: ~29.8 (intensity measure, not a forecast).
 
 | ID | Risk | p/month | Impact | Inherent | Residual |
 |---|---|---|---|---|---|
@@ -405,7 +418,8 @@ Caps and JIT cost nothing but network fees and operator time; a screening servic
 | SAN-08 | Tether tightens policy under Senate/Treasury pressure | 4.0% | 4 | 16 | 12 (high) |
 | VND-01 | AI vendor ban wave on Iran-linked accounts | 5.0% | 4 | 16 | 12 (high) |
 | EXC-03 | Conversion rule changes (72h lock, night halts, caps) | 15.0% | 3 | 15 | 10 (high) |
-| INF-01 | National internet shutdown or throttling | 15.0% | 3 | 15 | 10 (high) |
+| EXC-05 | Gateway closure on the exchange's Toman rails | 6.0% | 3 | 15 | 10 (high) |
+| INF-01 | National internet shutdown or throttling | 12.0% | 3 | 15 | 10 (high) |
 | VND-02 | Vendor blocks prepaid/virtual BIN ranges | 8.0% | 3 | 15 | 10 (high) |
 | SAN-02 | Retroactive taint of funds from an exchange later designated | 2.0% | 4 | 16 | 9 (medium) |
 | PRV-05 | Provider geo-blocks or terminates Iran-resident customers | 2.0% | 4 | 16 | 8 (medium) |
@@ -416,7 +430,7 @@ Caps and JIT cost nothing but network fees and operator time; a screening servic
 - **Correlation groups** (probability multipliers while active): `WAR_ESCALATION`, `SANCTIONS_WAVE`, `PROVIDER_STRESS`, `REGULATORY_TIGHTENING_IR`, `FIN_STRESS`; **scenario links**: "sanctions event" -> SANCTIONS_WAVE; "provider freeze" -> PROVIDER_STRESS; "internet shutdown" -> WAR_ESCALATION; "gateway blackout" -> REGULATORY_TIGHTENING_IR; "CBI cap cut" -> REGULATORY_TIGHTENING_IR + FIN_STRESS; "devaluation shock" -> FIN_STRESS; "worst case" -> union; "best case" -> all p x 0.5.
 - **Exposure modifiers** (`meta.exposure_modifiers`): sourcing USDT from a designated exchange multiplies TKN-01 x6, TKN-03 x3, SAN-02 x3; unscreened customer USDT multiplies TKN-01 x3, TKN-03 x2; provider share > 60% multiplies PRV-01/02/05 x1.5 (assumptions).
 - **Simulator mechanics:** each month draw Bernoulli(p x multipliers, capped at 1) per active risk with the seeded `Rng`; durations lognormal with `mu = ln(median)`, `sigma = ln(p90/median)/1.2816` (e.g. INF-01: median 120h, p90 480h -> sigma 1.08); five impact types (`float_freeze_pct`, `downtime_hours`, `fine_irt`, `demand_multiplier`, `fee_change`) are defined in `meta.sim_semantics`; unrecovered frozen share is written off to a counterparty-loss account.
-- **Tornado inputs (low / base / high, p per month):** SAN-01 2 / 6 / 15%; PRV-02 0.8 / 1.8 / 5%; PRV-05 0.8 / 2 / 6%; PRV-01 0.2 / 0.5 / 1.5%; TKN-01 0.4 / 1.5 / 5% (recovery fixed 3.6%); EXC-03 8 / 15 / 30%; INF-01 8 / 15 / 25%; VND-01 2 / 5 / 15%; SAN-04 1.5 / 4 / 10%; SAN-08 1.5 / 4 / 12%; float days 0.5 / 1.5 / 7.
+- **Tornado inputs (low / base / high, p per month):** SAN-01 2 / 6 / 15%; PRV-02 0.8 / 1.8 / 5%; PRV-05 0.8 / 2 / 6%; PRV-01 0.2 / 0.5 / 1.5%; TKN-01 0.4 / 1.5 / 5% (recovery fixed 3.6%); EXC-03 8 / 15 / 30%; EXC-05 2 / 6 / 15%; INF-01 6 / 12 / 25%; SAN-05 10 / 22 / 35%; VND-01 2 / 5 / 15%; SAN-04 1.5 / 4 / 10%; SAN-08 1.5 / 4 / 12%; float days 0.5 / 1.5 / 7.
 
 ## Implications
 
@@ -426,14 +440,14 @@ Caps and JIT cost nothing but network fees and operator time; a screening servic
 - Build: SDN/Tether screening service, provider health dashboard (KRIs 4.4), kill-switch states, address allow-list admin, provenance tags per USDT lot, ToS snapshot store.
 
 **Pricing engine**
-- Add a **counterparty-loss premium** of 0.6% of GMV (baseline expected loss) up to 1.2% (x2 uncertainty) until the reserve covers 12 months; make it a data parameter, not a constant. Recompute when float days, provider share or the register change.
+- Add a **counterparty-loss premium** of 0.7% of GMV (baseline expected loss, lock-aware) up to 1.5% (x2 uncertainty) until the reserve covers 12 months; make it a data parameter, not a constant. Recompute when float days, provider share or the register change. Specialist 12 should adopt the lock-aware exchange cap (lock days + 1) rather than my earlier 1-day rule.
 - Treat SAN-05 events (Tether/OFAC waves) as spread-widening triggers (+1pp for 7 days) and shorten price-lock TTL; pass through PRV-04 provider fee changes automatically.
 
 **Simulator**
 - Load `data/risk_register.json` and `data/sanctions_timeline.json`; implement the five impact types, correlation groups, exposure modifiers; report tornado on the inputs above. Historic events (`sim_hook` values) can be scripted as scenario shocks: `ofac_exchange_designation`, `tether_mass_freeze`, `sanctions_wave`, `tether_policy_tightening`, `exchange_hack`, `war_escalation`.
 
 **Owner decisions (to be taken explicitly)**
-1. USDT sources: only non-designated venues, re-checked daily (D1). 2. Customer USDT: keep disabled until counsel approves (D2). 3. Float caps per counterparty and who may change them (D3). 4. At least two providers per product line (D4). 5. Retain sanctions counsel and keep opinions on file (D5). 6. Approve risk labels and the Persian disclosure (D6). 7. Fund the reserve (D7). 8. Delegate kill-switch authority and on-call (D8). 9. Cap the share of revenue from AI subscriptions (D9). 10. Re-run this research monthly; designations move weekly (D10).
+1. USDT sources: only non-designated venues, re-checked daily (D1). 2. Customer USDT: keep disabled until counsel approves (D2). 3. Float caps per counterparty and who may change them (D3). 4. At least two providers per product line (D4). 5. Retain sanctions counsel and keep opinions on file (D5). 6. Approve risk labels and the Persian disclosure (D6). 7. Fund the reserve (D7). 8. Delegate kill-switch authority and on-call (D8). 9. Cap the share of revenue from AI subscriptions (D9). 10. Re-run this research monthly; designations move weekly (D10). 11. Decide, with counsel, whether SDN venues' public prices may be used as read-only cross-checks (D11, section 7.10).
 
 ## Conflicts & adjudication
 
@@ -447,7 +461,12 @@ Caps and JIT cost nothing but network fees and operator time; a screening servic
 | C6 | Shelbit/Aban Tether magnitude: "$5M case" vs "$4B scheme" | S26 and relays | use OFAC-attributed direct flows (>$1M and >$2M); $4B unexplained | low |
 | C7 | Four individuals: names rendered "Aghamir" and "Kharrazi" | S5, S20 | same two co-founders; names recorded as Kharrazi (also Aghamir) | medium |
 | C8 | When the "digital asset sector" entered the E.O. 13902 framework (June vs Outcast 08-24) | S8, S27 | not established; both the FAQ and June designations use E.O. 13902 | low |
-| C9 | OpenAI Iran policy: only weak sources | S36 | treated as unsupported, confidence low; verify at help.openai.com | low |
+| C9 | OpenAI Iran policy: weak sources in my searches vs specialist 06's help-centre and Caixin summaries | S36 vs S48 | Iran excluded; API block from 2024-07-09; confidence medium; verify at help.openai.com | medium |
+| C10 | Gateway closure year: brief says "Dey 1404"; specialist 02 evidences only Dey 1403 (2024-12-26) | brief 02 vs S44 | Dey 1403 adopted; EXC-05 corrected and lengthened | medium |
+| C11 | Exchange balance cap: my draft "<= 1 day of needs" vs the 72h withdrawal lock (specialist 02, C13) | S44 | structural minimum is lock days (3) so the cap is lock days + 1 = 4 days; CTL-04 and the expected-loss baseline changed (0.585% -> 0.741%) | medium |
+| C12 | Date of the CBI wallet freeze: "April 2026" (my summaries) vs 2026-04-24 (specialist 04 F13) | S21, S22 vs S47 | 2026-04-24 adopted; amount 344.2M | medium |
+| C13 | Cadence statistic: specialist 04's four-action mean gap 48.7 days omits the 2026-08-07 designation | S47 vs S26 | six actions incl. 08-07 give a mean gap of 46.0 days (0.745 actions/month) | medium |
+| C14 | Record retention: >= 5 years (Iranian AML law, specialist 04, low) vs 10 years (US limitation period, my recollection) | S47 | keep >= 5 as legal floor, retain sanctions-related records 10 years; confirm with counsel | low |
 
 ## Open questions
 
@@ -467,6 +486,9 @@ Caps and JIT cost nothing but network fees and operator time; a screening servic
 | Q12 | OFAC recordkeeping period (10 years?) and Iranian retention rules | OFAC regulations text; specialist 04 |
 | Q13 | Does the USDT contract expose `isBlackListed` as assumed (Tron and Ethereum)? | Tronscan/Etherscan contract read |
 | Q14 | Does OFAC practice treat customers of designated exchanges as exposed? | counsel opinion; OFAC FAQ updates |
+| Q15 | Which entries in the public OFAC-address mirror belong to the CBI wallets (Apr/Jul 2026) or to any designated exchange? | download SDN advanced XML and read the identifier remarks per entity; compare with the mirror files |
+| Q16 | May SDN venues' public price feeds be used as read-only cross-checks (section 7.10)? | counsel opinion; OFAC FAQ on informational materials / services |
+| Q17 | How fresh is the mirror (last regeneration date) and do its counts match OFAC's own file? | commit history of the mirror (needs GitHub access); diff against sdn_advanced.xml |
 
 ## Sources
 
@@ -515,4 +537,8 @@ All items are "per search summary" unless marked **seen directly**; blocked host
 - [S41] https://cryptotimes.io/2026/10/02/us-treasury-blocks-russia-linked-a7-network-iran-used-to-move-money - A7 network; Treasury sb0644 title.
 - [S42] docs/business-plan-full-context.md - internal first-pass research (unverified secondary claims on mpay and exchange limits).
 - [S43] https://blog.globalledger.io/research-investigations/ofac-nobitex-iranian-crypto-exchanges - Global Ledger; also transnetinc.com, sanctionslawyers.net, Crystal "Crypto use in Iran".
-- [S44] docs/03-research/_briefs/02-ir-exchanges-usdt-rails.md - internal brief 02 (policy items, unverified here).
+- [S44] docs/03-research/02-ir-exchanges-usdt-rails.md - specialist 02 research doc: policy timeline 2022-2026, Mehr-1405 halt (2026-09-30 to 10-04), 72h lock, gateway closure Dey 1403, 18-venue landscape, late-Feb-2026 shutdown (internal; not re-verified here).
+- [S45] https://raw.githubusercontent.com/0xB10C/ofac-sanctioned-digital-currency-addresses/lists/sanctioned_addresses_USDT.txt (and README on `main`) - public mirror of OFAC SDN digital-currency addresses; **seen directly 2026-10-02**; counts per the fetch tool's summary (USDT 167, ETH 150); freshness unverifiable.
+- [S46] docs/03-research/03-ir-payments-collection.md - specialist 03: Shaparak stance on crypto/VPN/betting merchants, card-to-card caps, TRC20 contract corroboration (internal).
+- [S47] docs/03-research/04-legal-tax-ir.md - specialist 04: CBI as sole regulator, currency-smuggling fine, AML retention, CBI freeze dated 2026-04-24, usdtPaymentForResidents=false (internal).
+- [S48] docs/03-research/06-service-catalog.md - specialist 06: Anthropic page first-hand; OpenAI help-centre page and Caixin 2024-06-26 per summaries (internal).

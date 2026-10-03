@@ -72,7 +72,7 @@ export function chainConfigFromParams(p: PlatformParams): ChainConfig {
 
 export type AnomalyKind = 'wrong_network' | 'wrong_token' | 'underpay' | 'overpay' | 'duplicate'
 
-interface Tx {
+export interface ChainTx {
   txHash: string
   network: Network
   from: string
@@ -124,8 +124,8 @@ export class ChainSim implements ChainPort, SimComponent {
   private ours = new Map<string, Set<string>>() // network -> our addresses
   private allocated = new Map<string, { address: string; memo?: string }>() // `${net}:${orderId}`
   private owners = new Map<string, string>() // `${net}:${addr}` -> owner label (non-ours)
-  private txs = new Map<string, Tx>()
-  private txOrder: Tx[] = []
+  private txs = new Map<string, ChainTx>()
+  private txOrder: ChainTx[] = []
   private incomingListeners = new Map<string, ((t: ChainTransfer) => void)[]>()
   private flagged = new Map<string, 'review' | 'blocked'>()
   private wallets = new Map<Network, string>()
@@ -366,10 +366,10 @@ export class ChainSim implements ChainPort, SimComponent {
     let bad: Result<never> | null = null
     switch (req.kind) {
       case 'underpay':
-        bad = push(this.injectIncoming({ network: req.network, to: req.to, amount: Math.max(1, Math.floor(req.expectedAmount * (1 - frac))), from: req.from, memo: req.memo, at }))
+        bad = push(this.injectIncoming({ network: req.network, to: req.to, amount: Math.max(1, Math.round(req.expectedAmount * (1 - frac))), from: req.from, memo: req.memo, at }))
         break
       case 'overpay':
-        bad = push(this.injectIncoming({ network: req.network, to: req.to, amount: Math.ceil(req.expectedAmount * (1 + frac)), from: req.from, memo: req.memo, at }))
+        bad = push(this.injectIncoming({ network: req.network, to: req.to, amount: Math.round(req.expectedAmount * (1 + frac)), from: req.from, memo: req.memo, at }))
         break
       case 'wrong_token':
         bad = push(this.injectIncoming({ network: req.network, to: req.to, amount: req.expectedAmount, from: req.from, memo: req.memo, at, token: 'USDC' }))
@@ -395,7 +395,7 @@ export class ChainSim implements ChainPort, SimComponent {
   }
 
   /** Core transfer. Debits a tracked sender at broadcast; credits the receiver at confirmation. */
-  transfer(req: TransferRequest): Result<Tx> {
+  transfer(req: TransferRequest): Result<ChainTx> {
     const net = req.network
     if (!(req.amount > 0) || !Number.isSafeInteger(req.amount)) return err(portError('VALIDATION', 'amount must be a positive integer'))
     if (!this.isValidAddress(net, req.to)) return err(portError('VALIDATION', `invalid ${net} destination address`))
@@ -421,7 +421,7 @@ export class ChainSim implements ChainPort, SimComponent {
     const includedAt = at + Math.round(bt * (1 + this.rng.next() * 1.5))
     const failed = !bottomless && this.rng.bool(cfg.failProb)
     const confirmedAt = includedAt + Math.max(0, this.requiredConfirmations(net) - 1) * bt
-    const tx: Tx = {
+    const tx: ChainTx = {
       txHash: req.txHash ?? this.newTxHash(net),
       network: net,
       from: req.from,
@@ -457,7 +457,7 @@ export class ChainSim implements ChainPort, SimComponent {
     return ok(tx)
   }
 
-  private settle(tx: Tx): void {
+  private settle(tx: ChainTx): void {
     if (tx.settled) return
     tx.settled = true
     this.inflight -= tx.amount
@@ -499,7 +499,7 @@ export class ChainSim implements ChainPort, SimComponent {
     return { delayMult, feeMult }
   }
 
-  private view(tx: Tx, now: EpochMs): ChainTransfer {
+  private view(tx: ChainTx, now: EpochMs): ChainTransfer {
     let confirmations = 0
     if (now >= tx.includedAt) confirmations = 1 + Math.floor((now - tx.includedAt) / Math.max(1, this.blockTimeMs(tx.network)))
     let status: ChainTransfer['status'] = 'pending'

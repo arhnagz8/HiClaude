@@ -352,10 +352,10 @@
       ]
     },
     {
-      "id": "SE-2026-04-CBI-344M",
-      "date": "2026-04-15",
-      "date_jalali": "1405-01-26",
-      "date_precision": "month",
+      "id": "SE-2026-04-24-CBI-344M",
+      "date": "2026-04-24",
+      "date_jalali": "1405-02-04",
+      "date_precision": "day (per specialist 04 F13)",
       "title": "Tether helps freeze >$344M USDT in two wallets; OFAC lists the same wallets as Central Bank of Iran digital-currency addresses the next day",
       "kind": "freeze",
       "actor": "Tether + OFAC",
@@ -372,8 +372,8 @@
           "name_fa": "بانک مرکزی ایران"
         }
       ],
-      "summary": "Sequence matters: the freeze happened first and OFAC's listing followed the next day (TRM, Chainalysis). Exact day in April not seen in the summaries (15th used as a placeholder).",
-      "adjudication": "Date precision: month only. Amount >$344M consistent across TRM, Chainalysis and later Tether statement.",
+      "summary": "Sequence matters: the freeze happened first and OFAC's listing followed the next day (TRM, Chainalysis).",
+      "adjudication": "My own summaries gave only 'April 2026'; specialist 04's file dates it 2026-04-24 and gives $344.2M (citing the same TRM/Chainalysis coverage) - adopted, medium-high confidence. Amount >$344M consistent across TRM, Chainalysis, 04 and the later Tether statement.",
       "impact_on_reseller": "Shows OFAC/Tether can freeze nine-figure USDT sums on Tron within a day; the central bank itself held USDT to support the rial (Elliptic: >= $507M accumulated).",
       "sim_hook": "tether_mass_freeze",
       "facts": {
@@ -397,9 +397,14 @@
               "url": "https://thedefiant.io/news/regulation/tether-says-it-helped-freeze-nearly-550-million-in-iran-linked-usdt",
               "title": "[S24] The Defiant - Tether says it helped freeze nearly $550M in Iran-linked USDT (also CryptoTicker, Coinpedia, Cryptonomist, KuCoin News)",
               "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+            },
+            {
+              "url": "docs/03-research/04-legal-tax-ir.md",
+              "title": "[S47] Specialist 04 research doc: CBI sole regulator, currency-smuggling fine 2x value, AML record retention >= 5 years, CBI wallet freeze dated 2026-04-24 (F13), usdtPaymentForResidents=false rule - internal, not re-verified here",
+              "note": "internal repo file, not independently verified"
             }
           ],
-          "note": "'more than'"
+          "note": "'more than'; 04 gives 344.2M"
         }
       },
       "sources": [
@@ -417,6 +422,11 @@
           "url": "https://thedefiant.io/news/regulation/tether-says-it-helped-freeze-nearly-550-million-in-iran-linked-usdt",
           "title": "[S24] The Defiant - Tether says it helped freeze nearly $550M in Iran-linked USDT (also CryptoTicker, Coinpedia, Cryptonomist, KuCoin News)",
           "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "docs/03-research/04-legal-tax-ir.md",
+          "title": "[S47] Specialist 04 research doc: CBI sole regulator, currency-smuggling fine 2x value, AML record retention >= 5 years, CBI wallet freeze dated 2026-04-24 (F13), usdtPaymentForResidents=false rule - internal, not re-verified here",
+          "note": "internal repo file, not independently verified"
         }
       ]
     },
@@ -1105,7 +1115,7 @@
           "designation": "n/a"
         }
       ],
-      "summary": "Treasury/The Block text refers to 'internet blackouts that followed U.S. combat operations in Iran'; CoinDesk (2026-07-16) says the CBI listing followed the ceasefire breakdown; Reuters (via crypto.news) says Nobitex kept processing during a government-imposed shutdown.",
+      "summary": "Treasury/The Block text refers to 'internet blackouts that followed U.S. combat operations in Iran'; CoinDesk (2026-07-16) says the CBI listing followed the ceasefire breakdown; Reuters (via crypto.news) says Nobitex kept processing during a government-imposed shutdown. Specialist 02's timeline places a near-total internet shutdown in late February 2026 with Nobitex still operating (citing Cointelegraph and Crypto.jobs summaries).",
       "adjudication": "Start date of the 2026 conflict was not established from the summaries; the Treasury text relayed on 2026-06-02 already refers to blackouts that followed US combat operations, so it began before then. No date is asserted here. The macro specialist (08) owns this scenario; this record only links INF/EXC/SAN risks.",
       "impact_on_reseller": "Correlated shocks: internet shutdown + exchange attacks + sanctions waves + FX spikes.",
       "sim_hook": "war_escalation",
@@ -1125,6 +1135,11 @@
           "url": "https://crypto.news/iran-crypto-giant-nobitex-hit-by-sanctions-questions-reuters/",
           "title": "[S38] crypto.news relaying Reuters - Nobitex kept processing during internet shutdown; also Yahoo Finance '700% crypto outflows'",
           "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "docs/03-research/02-ir-exchanges-usdt-rails.md",
+          "title": "[S44] Specialist 02 research doc: policy timeline 2022-2026, Mehr-1405 halt (2026-09-30 to 10-04), 72h lock, gateway closure Dey 1403 (2024-12-26), 18-venue landscape, late-Feb-2026 shutdown - internal, not re-verified here",
+          "note": "internal repo file, not independently verified"
         }
       ]
     }
@@ -1225,9 +1240,9 @@
       "name": "Central Bank of Iran (USDT wallets)",
       "name_fa": "بانک مرکزی ایران",
       "sdn_status": "sdn_identifiers",
-      "designation_date": "2026-04-15",
-      "event_id": "SE-2026-04-CBI-344M",
-      "role": "6 wallets listed Apr/Jul 2026",
+      "designation_date": "2026-04-24",
+      "event_id": "SE-2026-04-24-CBI-344M",
+      "role": "6 wallets listed 2026-04-24 (2) and 2026-07-16 (4)",
       "usdt_source_allowed": false
     }
   ],
@@ -1460,12 +1475,77 @@
       ],
       "note": "3 events / 4.01 months"
     },
+    "all_actions_per_month_since_2026_01_30": {
+      "value": 0.745,
+      "unit": "events/month",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://www.elliptic.co/blog/ofac-sanctions-nobitex-and-three-other-iranian-cryptoasset-exchanges",
+          "title": "[S5] Elliptic - OFAC sanctions Nobitex and three other Iranian cryptoasset exchanges",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.elliptic.co/insights/ofac-sanctions-exchanges-zedcex-and-zedxion-for-assisting-in-iranian-sanctions-evasion-and-irgc-operations/",
+          "title": "[S12] Elliptic - OFAC sanctions exchanges Zedcex and Zedxion",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.trmlabs.com/resources/blog/ofac-sanctions-crypto-addresses-associated-with-the-central-bank-of-iran-freezes-usd-344-million",
+          "title": "[S21] TRM Labs - OFAC Sanctions Crypto Addresses Associated with the Central Bank of Iran, Freezes USD 344 Million",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/business/2026/07/16/u-s-adds-four-iran-central-bank-crypto-wallets-to-sanctions-tether-freezes-usd131-million-of-contents",
+          "title": "[S23] CoinDesk - U.S. adds four Iran central bank crypto wallets to sanctions, Tether freezes $131M (2026-07-16)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/policy/2026/08/07/u-s-widens-iran-crypto-crackdown-with-sanctions-on-two-exchanges",
+          "title": "[S26] CoinDesk - U.S. widens Iran crypto crackdown with sanctions on two exchanges (Shelbit, Aban Tether) 2026-08-07; also Mishcon, TFTC, CoinPaprika, VeriHound",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://hoodline.com/2026/09/treasury-sanctions-iran-s-bitbank-crypto-exchange-tied-to-zanjani-irgc-cash/",
+          "title": "[S28] Hoodline - Treasury sanctions Iranian exchange BitBank (2026-09-17); also Crowdfund Insider, TFTC, TRM Labs, Startup Fortune, VOA",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ],
+      "note": "6 actions (4 exchange designations + 2 CBI address-listing waves) / 8.05 months; since 2026-06-02: 4 / 4.01 = 0.998/month; mean gap 46.0 days (specialist 04's 4-action subset: 48.7)"
+    },
     "p_at_least_one_new_action_next_3_months": {
-      "value": 0.775,
+      "value": 0.893,
       "unit": "probability",
       "as_of": "2026-10-02",
       "confidence": "low",
-      "note": "1-exp(-0.497*3) = 77.5%; at 0.748/month = 89.4%. Model, not forecast."
+      "note": "exchange designations only: 1-exp(-0.497*3)=77.5% (0.748/month: 89.4%); ALL actions incl. CBI waves: 89.3% (0.745/month) to 95.0% (0.998/month). Model, not forecast.",
+      "low": 0.775,
+      "high": 0.95
+    },
+    "cbi_address_waves_per_month": {
+      "value": 0.248,
+      "unit": "events/month",
+      "as_of": "2026-10-02",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://www.trmlabs.com/resources/blog/ofac-sanctions-crypto-addresses-associated-with-the-central-bank-of-iran-freezes-usd-344-million",
+          "title": "[S21] TRM Labs - OFAC Sanctions Crypto Addresses Associated with the Central Bank of Iran, Freezes USD 344 Million",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.chainalysis.com/blog/central-bank-of-iran-designation-ofac-update-april-2026/",
+          "title": "[S22] Chainalysis - OFAC Updates Central Bank of Iran Designation Following Tether Seizure (April 2026)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        },
+        {
+          "url": "https://www.coindesk.com/business/2026/07/16/u-s-adds-four-iran-central-bank-crypto-wallets-to-sanctions-tether-freezes-usd131-million-of-contents",
+          "title": "[S23] CoinDesk - U.S. adds four Iran central bank crypto wallets to sanctions, Tether freezes $131M (2026-07-16)",
+          "note": "per search summary (page not retrievable: egress blocked or not fetched)"
+        }
+      ],
+      "note": "2 waves (2026-04-24, 2026-07-16) / 8.05 months -> P(>=1 in a month) 22%"
     },
     "p_next_designation_of_an_undesignated_domestic_exchange_per_month": {
       "value": 0.06,
@@ -1489,7 +1569,7 @@
           "note": "per search summary (page not retrievable: egress blocked or not fetched)"
         }
       ],
-      "note": "h = min(1, r/N_rem)*s with r=1.75 exchanges/month, pool 15, N_rem=8, size-bias s=0.3 -> 6.5%; grid 2.0%-14.6%",
+      "note": "h = min(1, r/N_rem)*s with r=1.75 exchanges/month; pool 20 (specialist 02's 18 venues + Shelbit + BitBank), N_rem 13, s 0.45 -> 6.0% (pool 15, s 0.3 -> 6.5%); grid 2.0%-17.5%",
       "low": 0.02,
       "high": 0.15
     },

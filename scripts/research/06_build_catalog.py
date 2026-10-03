@@ -329,15 +329,17 @@ def sku(id_, en, fa, vendor, cat, *, usd=None, usd_conf="low", usd_src=(), usd_k
         pv, pconf, psrc, pnote = pay
         pay_rec = R(pv, None, pconf, "fact", psrc, pnote, "Re-test with the actual funding card; log decline code and date." if pconf == "low" else None)
     out = {
-        "id": id_, "name_en": en, "name_fa": fa, "vendor": vendor, "category": cat, "flagship": flagship,
+        "id": id_, "name": en, "name_fa": fa, "vendor": vendor, "category": cat, "flagship": flagship,
         "fulfilment_modes": list(modes), "default_mode": default, "modes_requiring_legal_review": list(legal_review_modes), "mode_d_allowed": False,
         "usd_price": usd_rec, "billing": billing, "payment_instruments": pay_rec,
         "risk_label": risk_rec, "restriction_note": note_rec, "risk_factors": list(factors),
         "offer_recommendation": offer, "demand_tier": dem_rec, "typical_order_usd": order_rec, "repeat_per_year": rep_rec,
         "competitor_toman_prices": quotes or [], "recommended_margin_pct": margin_rec, "min_margin_irt": floor_rec,
         "support_burden": support, "fraud_refund_risk": refund, "supplier_fit": supplier, "automation": automation, "rush_eligible": bool(rush and offerable),
-        "official_url": OFFICIAL.get(official) if official else None,
+        "official_url": (OFFICIAL.get(official) if official and OFFICIAL.get(official, "").startswith("http") else None),
     }
+    if official and not OFFICIAL.get(official, "http").startswith("http"):
+        out["official_hint"] = OFFICIAL[official]
     if new_card:
         out["new_card"] = True
     if options:
@@ -838,7 +840,7 @@ MPAY_BLOCK = {
 TIER_WEIGHTS = {k: R(v, "relative sampling weight", "low", "assumption", [], "Modelling convention for sampling SKUs by demand tier in the simulator (S:8, A:4, B:2, C:1); calibrate against competitor market-size evidence (specialist 07).", "Fit to observed order mix after launch / competitor data.") for k, v in (("S", 8), ("A", 4), ("B", 2), ("C", 1))}
 
 SEARCH_GAPS = [
-    {"area": "competitor Toman quotes (>=3 dated per flagship SKU)", "status": "NOT MET - 3 of 20 flagship SKUs have partial, undated quotes (Steam $20, Steam $100, Copilot Pro); ChatGPT Plus / Spotify / Netflix quotes are non-comparable shared-access offers.",
+    {"area": "competitor Toman quotes (>=3 dated per flagship SKU)", "status": "NOT MET - 5 of 20 flagship SKUs hold any quote and 3 hold a comparable one (Steam $20, Steam $100, Copilot Pro), all undated; ChatGPT Plus / Spotify / Netflix quotes are non-comparable shared-access offers.",
      "next_queries": ["قیمت اکانت کلود پرو امروز (seller names)", "قیمت اشتراک جمینای پرو امروز تومان", "قیمت اکانت میدجرنی تومان امروز", "قیمت اشتراک یوتیوب پریمیوم تومان امروز", "قیمت گیفت کارت پلی استیشن امروز", "قیمت اشتراک ادوبی کریتیو کلود تومان", "قیمت کانوا پرو تومان", "قیمت لایسنس آفیس ۳۶۵ تومان", "قیمت شارژ ارزی کارت مجازی ۱۰۰ دلار تومان امروز"]},
     {"area": "official USD prices not captured", "status": "AWS/GCP/Azure (usage-based), domains, Google Workspace, Zoom, Dropbox, Coursera, Udemy, Duolingo, exam fees (IELTS/TOEFL/GRE/PTE/DET), visa fees, VPN, Telegram Premium/Stars, game top-ups (UC/Free Fire/CP/V-Bucks/Valorant/Roblox), eSIM, flights - value null or prior-knowledge flagged UNVERIFIED.",
      "next_queries": ["TOEFL iBT test fee 2026 Iran test centers", "IELTS fee 2026 Armenia Turkey UAE", "GRE general test fee 2026", "Telegram Premium price 2026 USD Fragment TON", "PUBG Mobile UC price table 2026", "Namecheap .com price 2026", "Google Workspace Business Starter price 2026", "Coursera Plus price 2026"]},
@@ -898,15 +900,14 @@ def md_tables():
         if not rows:
             continue
         out.append(f"#### {names[c]} ({len(rows)} SKUs)\n")
-        out.append("| SKU id | official USD (cadence) | conf | modes | risk | offer | demand | order USD | quotes |")
-        out.append("|---|---|---|---|---|---|---|--:|--:|")
+        out.append("| SKU id | official USD | billing | price conf | modes (default) | risk | policy evidence | offer | demand | order USD | quotes |")
+        out.append("|---|--:|---|---|---|---|---|---|---|--:|--:|")
         for s in rows:
             u = s["usd_price"]
-            usd = "null (UNVERIFIED)" if u["value"] is None else f"{u['value']:g}"
-            if u["value"] is not None and u.get("kind") == "prior":
-                usd += " (prior)"
+            usd = "null" if u["value"] is None else f"{u['value']:g}" + (" (prior)" if u.get("kind") == "prior" else "")
             order = s["typical_order_usd"]["value"]
-            out.append(f"| `{s['id']}`{' *' if s['flagship'] else ''} | {usd} ({s['billing']}) | {u['confidence'] if u['value'] is not None else '-'} | {''.join(s['fulfilment_modes'])}→{s['default_mode']} | {s['risk_label']['value']} | {s['offer_recommendation']} | {s['demand_tier']['value']} | {order if order is not None else '-'} | {len(s['competitor_toman_prices'])} |")
+            pol = "sourced" if s["restriction_note"].get("sources") else "prior"
+            out.append(f"| `{s['id']}`{' *' if s['flagship'] else ''} | {usd} | {s['billing']} | {u['confidence'] if u['value'] is not None else '-'} | {'/'.join(s['fulfilment_modes'])} ({s['default_mode']}) | {s['risk_label']['value']} | {pol} | {s['offer_recommendation']} | {s['demand_tier']['value']} | {order if order is not None else '-'} | {len(s['competitor_toman_prices'])} |")
         out.append("")
     return "\n".join(out)
 

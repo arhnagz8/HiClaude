@@ -862,7 +862,7 @@
    },
    "api": {
     "public_orderbook_url": {
-     "value": "https://apiv2.nobitex.ir/v3/orderbook/USDTIRT  (also GET /v3/orderbook/all; GET /v2/depth/USDTIRT; GET /v2/trades/USDTIRT; GET /market/stats?srcCurrency=usdt&dstCurrency=rls; GET /market/udf/history). Host api.nobitex.ir also appears in community SDKs.",
+     "value": "https://apiv2.nobitex.ir/v3/orderbook/USDTIRT",
      "as_of": "2026-10-02",
      "confidence": "high",
      "sources": [
@@ -879,7 +879,64 @@
      ],
      "status": "verified",
      "verify_how": "curl the URL from an Iranian IP.",
-     "note": "Response asks/bids arrays of [price, qty] strings, lastTradePrice, lastUpdate (ms)."
+     "note": "Response: status, lastUpdate (ms), lastTradePrice, asks/bids arrays of [price, qty] strings (prices in Rial). Host api.nobitex.ir also appears in community SDKs; the docs host is apiv2.nobitex.ir."
+    },
+    "other_public_endpoints": {
+     "value": [
+      {
+       "method": "GET",
+       "path": "/v3/orderbook/all",
+       "purpose": "all order books in one call (preferred for multi-market use)",
+       "limit": "300/min"
+      },
+      {
+       "method": "GET",
+       "path": "/v2/depth/USDTIRT",
+       "purpose": "aggregated depth (experimental)",
+       "limit": "300/min"
+      },
+      {
+       "method": "GET",
+       "path": "/v2/trades/USDTIRT",
+       "purpose": "recent trades",
+       "limit": "60/min"
+      },
+      {
+       "method": "GET",
+       "path": "/market/stats?srcCurrency=usdt&dstCurrency=rls",
+       "purpose": "best bid/ask, 24h stats",
+       "limit": "20/min"
+      },
+      {
+       "method": "GET",
+       "path": "/market/udf/history?symbol=USDTIRT&resolution=D&to=<unix>",
+       "purpose": "OHLC candles",
+       "limit": "not stated"
+      },
+      {
+       "method": "GET",
+       "path": "/v2/options",
+       "purpose": "live network fees/minimums, level withdraw limits, min orders, fee steps",
+       "limit": "not stated"
+      }
+     ],
+     "as_of": "2026-10-02",
+     "confidence": "high",
+     "sources": [
+      {
+       "url": "https://raw.githubusercontent.com/nobitex/docs-api/master/source/includes/_market_data.md",
+       "title": "Nobitex API docs: public market data (orderbook v3, depth v2, trades, stats, UDF)",
+       "note": "read directly"
+      },
+      {
+       "url": "https://raw.githubusercontent.com/nobitex/docs-api/master/source/includes/_other.md",
+       "title": "Nobitex API docs: /v2/options (system settings)",
+       "note": "read directly"
+      }
+     ],
+     "status": "verified",
+     "verify_how": "Read the docs sections",
+     "note": "Base URL https://apiv2.nobitex.ir"
     },
     "auth": {
      "value": "Public market endpoints need no auth. Private: header 'Authorization: Token <hex>' (X-TOTP for some calls) OR API key (permissions READ/TRADE/WITHDRAW, IP whitelist, expiry) with headers Nobitex-Key, Nobitex-Timestamp (UTC s) and Nobitex-Signature = base64(Ed25519(timestamp+method+url+body)); recommended User-Agent 'TraderBot/<name>'",
@@ -1598,7 +1655,7 @@
    },
    "api": {
     "public_orderbook_url": {
-     "value": "https://api.wallex.ir/v1/depth?symbol=USDTTMN  (also GET /v1/markets, /v1/trades?symbol=, /v1/udf/history)",
+     "value": "https://api.wallex.ir/v1/depth?symbol=USDTTMN",
      "as_of": "2026-10-02",
      "confidence": "medium",
      "sources": [
@@ -1615,7 +1672,39 @@
      ],
      "status": "reported",
      "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
-     "note": "Paths from the unofficial wallex 0.5.2 SDK source; official docs https://api-docs.wallex.ir/ not fetched."
+     "note": "Path from the unofficial wallex 0.5.2 SDK source; official docs https://api-docs.wallex.ir/ not fetched."
+    },
+    "other_public_endpoints": {
+     "value": [
+      {
+       "method": "GET",
+       "path": "/v1/markets"
+      },
+      {
+       "method": "GET",
+       "path": "/v1/currencies"
+      },
+      {
+       "method": "GET",
+       "path": "/v1/trades?symbol=USDTTMN&page=1&per_page=200"
+      },
+      {
+       "method": "GET",
+       "path": "/v1/udf/history"
+      }
+     ],
+     "as_of": "2026-10-02",
+     "confidence": "medium",
+     "sources": [
+      {
+       "url": "https://pypi.org/project/wallex/",
+       "title": "wallex 0.5.2 (unofficial SDK): https://api.wallex.ir/v1/{markets,depth,trades,udf/history,account/...}",
+       "note": "read directly"
+      }
+     ],
+     "status": "reported",
+     "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
+     "note": "Base URL https://api.wallex.ir; private endpoints under /v1/account/* (profile, balances, fee, orders, crypto-withdrawal, ibans, card-numbers)."
     },
     "auth": {
      "value": "Header 'x-api-key: <key>' (go-wallex README: X-API-Key); older SDK used 'Authorization: Bearer <token>'",
@@ -2223,7 +2312,7 @@
    },
    "api": {
     "public_orderbook_url": {
-     "value": "https://api.bitpin.ir/api/v1/mth/orderbook/USDT_IRT/  (also GET /api/v1/mkt/markets/ and /api/v1/mkt/currencies/; alternative hosts seen in SDKs: api.bitpin.org, api.bitpin.market)",
+     "value": "https://api.bitpin.ir/api/v1/mth/orderbook/USDT_IRT/",
      "as_of": "2026-10-02",
      "confidence": "medium",
      "sources": [
@@ -2240,7 +2329,32 @@
      ],
      "status": "reported",
      "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
-     "note": "From a recent (Aug 2026) unofficial SDK README; older SDKs used v2 'mkt/orderbook/{market_id}'. Official docs https://docs.bitpin.ir/ not fetched."
+     "note": "From a recent (Aug 2026) unofficial SDK README; older SDKs used v2 'mkt/orderbook/{market_id}'. Official docs https://docs.bitpin.ir/ not fetched. Alternative hosts seen in SDKs: api.bitpin.org, api.bitpin.market."
+    },
+    "other_public_endpoints": {
+     "value": [
+      {
+       "method": "GET",
+       "path": "/api/v1/mkt/markets/",
+       "purpose": "markets, precision"
+      },
+      {
+       "method": "GET",
+       "path": "/api/v1/mkt/currencies/"
+      }
+     ],
+     "as_of": "2026-10-02",
+     "confidence": "medium",
+     "sources": [
+      {
+       "url": "https://github.com/amirSamanQ/python-bitpin",
+       "title": "python-bitpin README (unofficial, Aug 2026): REST /api/v1, orderbook, units, Centrifugo WS",
+       "note": "read directly"
+      }
+     ],
+     "status": "reported",
+     "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
+     "note": "Base URL https://api.bitpin.ir"
     },
     "auth": {
      "value": "POST /api/v1/usr/authenticate/ with api_key + secret_key -> access token (older: /v1/usr/api/login/ + refresh_token)",
@@ -3182,7 +3296,7 @@
      ],
      "status": "reported",
      "verify_how": "Confirm on the deposit page.",
-     "note": "Tabdeal page: 'max daily deposit 25M Toman per CBI restriction'."
+     "note": "Tabdeal commissions page (undated in the summary): 'max daily deposit 25M Toman per CBI restriction'."
     },
     "min_deposit_irt": {
      "value": 150000,
@@ -3442,7 +3556,7 @@
    },
    "api": {
     "public_orderbook_url": {
-     "value": "https://api1.tabdeal.org/r/api/v1/depth?symbol=USDT_IRT  (also /ping, /time, /exchangeInfo, /trades)",
+     "value": "https://api1.tabdeal.org/r/api/v1/depth?symbol=USDT_IRT",
      "as_of": "2026-10-02",
      "confidence": "medium",
      "sources": [
@@ -3455,6 +3569,38 @@
      "status": "reported",
      "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
      "note": "Built from official SDK: base_read_url = {base}/r/api/{version}/ + 'depth'; base default https://api.tabdeal.org (alt api1.tabdeal.org). Version 'v1' assumed."
+    },
+    "other_public_endpoints": {
+     "value": [
+      {
+       "method": "GET",
+       "path": "/r/api/v1/ping"
+      },
+      {
+       "method": "GET",
+       "path": "/r/api/v1/time"
+      },
+      {
+       "method": "GET",
+       "path": "/r/api/v1/exchangeInfo"
+      },
+      {
+       "method": "GET",
+       "path": "/r/api/v1/trades?symbol=USDT_IRT"
+      }
+     ],
+     "as_of": "2026-10-02",
+     "confidence": "low",
+     "sources": [
+      {
+       "url": "https://pypi.org/project/tabdeal-python/",
+       "title": "tabdeal-python 0.4.7 (official SDK by Tabdeal-Exchange org): client.py/spot.py",
+       "note": "read directly"
+      }
+     ],
+     "status": "reported",
+     "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
+     "note": "Paths composed from SDK method names; version segment assumed."
     },
     "auth": {
      "value": "HMAC-signed Binance-style (api_key + api_secret); public market endpoints unsigned",
@@ -4008,7 +4154,7 @@
    },
    "api": {
     "public_orderbook_url": {
-     "value": "https://mono.abantether.com/coins/price  and  https://mono.abantether.com/api/v1/otc/coin-price/  (price lists, not order books)",
+     "value": "https://mono.abantether.com/coins/price",
      "as_of": "2026-10-02",
      "confidence": "low",
      "sources": [
@@ -4020,7 +4166,28 @@
      ],
      "status": "reported",
      "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
-     "note": "From the org-published Python SDK source; instant/OTC pricing model, no depth."
+     "note": "Price list, not an order book (instant/OTC pricing model, no depth). From the org-published Python SDK source."
+    },
+    "other_public_endpoints": {
+     "value": [
+      {
+       "method": "GET",
+       "path": "https://mono.abantether.com/api/v1/otc/coin-price/",
+       "purpose": "OTC coin price"
+      }
+     ],
+     "as_of": "2026-10-02",
+     "confidence": "low",
+     "sources": [
+      {
+       "url": "https://github.com/Abantether-com/abantether-python-sdk",
+       "title": "abantether-python-sdk 0.1.4 (org-published): api.abantether.com OTC endpoints",
+       "note": "read directly"
+      }
+     ],
+     "status": "reported",
+     "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
+     "note": "OTC order endpoints: POST https://api.abantether.com/order_handler/orders/otc/market | limit; cancel POST /otc/orders/cancel."
     },
     "auth": {
      "value": "API key / access token (SDK Client(api_key=ACCESS_TOKEN)); OTC orders POST https://api.abantether.com/order_handler/orders/otc/market|limit; cancel POST /otc/orders/cancel",
@@ -4130,7 +4297,7 @@
     "confidence": "low",
     "status": "UNVERIFIED",
     "verify_how": "Open the exchange site/app, check it loads and quotes USDT/IRT, check Telegram/Instagram channel for notices in the last 30 days, and its listing on arzdigital/iranbroker.",
-    "note": "Named among exchanges notified of the ID-deposit cap (2024, per Iranbroker summary); launched Feb 2017 per CMC/GetDelta summary; no 2026 evidence found."
+    "note": "Named among exchanges notified of the ID-deposit cap (article date unknown, per Iranbroker summary); launched Feb 2017 per CMC/GetDelta summary; no 2026 evidence found."
    },
    "ofac_designated": {
     "value": null,
@@ -4508,7 +4675,7 @@
    },
    "api": {
     "public_orderbook_url": {
-     "value": "https://api.exir.io/v0/orderbooks?symbol=usdt-irt  (also /v0/ticker?symbol=, /v0/trades?symbol=)",
+     "value": "https://api.exir.io/v0/orderbooks?symbol=usdt-irt",
      "as_of": "2026-10-02",
      "confidence": "low",
      "sources": [
@@ -4521,6 +4688,30 @@
      "status": "reported",
      "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
      "note": "Docs example uses btc-eur on v0; HollaEx-style symbols (usdt-irt) assumed; docs last pushed 2022-10 - may be stale."
+    },
+    "other_public_endpoints": {
+     "value": [
+      {
+       "method": "GET",
+       "path": "/v0/ticker?symbol=usdt-irt"
+      },
+      {
+       "method": "GET",
+       "path": "/v0/trades?symbol=usdt-irt"
+      }
+     ],
+     "as_of": "2026-10-02",
+     "confidence": "low",
+     "sources": [
+      {
+       "url": "https://github.com/exirio/apidocs",
+       "title": "Exir REST API docs (Slate, last push 2022-10; v0 paths)",
+       "note": "read directly"
+      }
+     ],
+     "status": "reported",
+     "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
+     "note": "Base URL https://api.exir.io"
     },
     "auth": {
      "value": "Authorization: Bearer <ACCESS_TOKEN>",
@@ -6851,7 +7042,7 @@
    },
    "api": {
     "public_orderbook_url": {
-     "value": "https://rest.bit24.cash/pro/capi/v1/markets/orderbooks  (also pro/capi/v1/markets; lite/capi/v1/deposit/networks and withdraw/networks)",
+     "value": "https://rest.bit24.cash/pro/capi/v1/markets/orderbooks",
      "as_of": "2026-10-02",
      "confidence": "low",
      "sources": [
@@ -6864,6 +7055,36 @@
      "status": "reported",
      "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
      "note": "From unofficial SDK path strings; docs https://docs.bit24.cash."
+    },
+    "other_public_endpoints": {
+     "value": [
+      {
+       "method": "GET",
+       "path": "/pro/capi/v1/markets"
+      },
+      {
+       "method": "GET",
+       "path": "/lite/capi/v1/deposit/networks",
+       "purpose": "likely lists deposit networks"
+      },
+      {
+       "method": "GET",
+       "path": "/lite/capi/v1/withdraw/networks",
+       "purpose": "likely lists withdrawal networks and fees (UNVERIFIED)"
+      }
+     ],
+     "as_of": "2026-10-02",
+     "confidence": "low",
+     "sources": [
+      {
+       "url": "https://github.com/amiwrpremium/python-bit24",
+       "title": "python-bit24 (unofficial SDK for docs.bit24.cash): rest.bit24.cash pro/capi/v1/...",
+       "note": "read directly"
+      }
+     ],
+     "status": "reported",
+     "verify_how": "Open the official API docs of the exchange (link in api.docs_url) and test the public endpoint with curl from an Iranian IP; record the exact path, symbol format, unit (Toman vs Rial) and rate limit.",
+     "note": "Base URL https://rest.bit24.cash; private order endpoints under pro/capi/v1/orders/*."
     },
     "auth": {
      "value": "api_key + api_secret (SDK)",
@@ -9982,11 +10203,16 @@
      "url": "docs/business-plan-full-context.md",
      "title": "First-pass research doc in this repo (secondary: itself compiled from search summaries)",
      "note": "internal, secondary"
+    },
+    {
+     "url": "data/providers.json",
+     "title": "01-card-providers specialist file (internal cross-reference): provider networks, minimum deposits, network fees (UNVERIFIED for all providers except mpay networks)",
+     "note": "internal cross-reference, not re-verified by 02"
     }
    ],
    "status": "reported",
    "verify_how": "Provider deposit page.",
-   "note": "Secondary source (first-pass doc)."
+   "note": "Secondary source (first-pass doc); file 01 carries the same two networks at low confidence and lists minimum deposit and network fee as UNVERIFIED for every provider."
   },
   "recommended_default_and_fallback": {
    "value": {
@@ -10513,6 +10739,438 @@
    "status": "UNVERIFIED",
    "note": "ASSUMPTION (model parameter, not a sourced fact). Illustrates batching; Nobitex allows max 10 crypto withdrawals per 24 h.",
    "verify_how": "Sample live data for 24h (order book depth/spread) and replace with measured median."
+  }
+ },
+ "sim_defaults": {
+  "note": "Each entry is either sourced (status reported/verified) or an ASSUMPTION flagged UNVERIFIED. Scenario files (data/scenarios/*.json) override these. Regulatory regimes are events: see data/regulatory_limits.json.",
+  "fees_taker_pct": {
+   "value": {
+    "default": 0.25,
+    "range": [
+     0.2,
+     0.35
+    ]
+   },
+   "unit": "pct",
+   "as_of": "2026-10-02",
+   "confidence": "medium",
+   "sources": [
+    {
+     "url": "https://nobitex.ir/pricing/",
+     "title": "Nobitex: fees and service costs",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://www.zoomit.ir/cryptocurrency/443544-crypto-tether-fee-iran-exchanges/",
+     "title": "Zoomit: where to buy USDT - fee comparison across Iranian exchanges",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://zoomarz.com/tether-to-toman-conversion-fee-in-nobitex/",
+     "title": "ZoomArz: USDT to Toman conversion fee at Nobitex (0.2 %)",
+     "note": "per search summary"
+    }
+   ],
+   "status": "conflicting",
+   "verify_how": "See exchanges[].fees",
+   "note": "Base-tier taker fee for USDT/IRT; falls with 30-day volume (Nobitex Toman market down to 0.06 %)."
+  },
+  "fees_maker_pct": {
+   "value": {
+    "default": 0.2,
+    "range": [
+     0.13,
+     0.25
+    ]
+   },
+   "unit": "pct",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "sources": [
+    {
+     "url": "https://www.zoomit.ir/cryptocurrency/443544-crypto-tether-fee-iran-exchanges/",
+     "title": "Zoomit: where to buy USDT - fee comparison across Iranian exchanges",
+     "note": "per search summary"
+    }
+   ],
+   "status": "conflicting",
+   "verify_how": "See exchanges[].fees"
+  },
+  "spread_half_pct": {
+   "value": {
+    "low": 0.03,
+    "base": 0.1,
+    "high": 0.3
+   },
+   "unit": "pct",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "note": "ASSUMPTION (model parameter, not a sourced fact). Tier-A order-book venues; OTC-style venues 0.25-0.35 base (see conversion_model).",
+   "verify_how": "Sample live data for 24h (order book depth/spread) and replace with measured median."
+  },
+  "venue_premium_vs_median_pct": {
+   "value": {
+    "tier_a_band": [
+     -0.82,
+     -0.51
+    ],
+    "all_venues_band": [
+     -3.04,
+     4.53
+    ],
+    "basis": "single-day snapshot 10 Mehr 1405 (Wallex, Nobitex vs median of all)"
+   },
+   "unit": "pct",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "sources": [
+    {
+     "url": "https://nabzgheymat.ir/%D9%82%DB%8C%D9%85%D8%AA-%D8%AA%D8%AA%D8%B1-%D8%A7%D9%85%D8%B1%D9%88%D8%B2-%D8%AC%D9%85%D8%B9%D9%87-%DB%B1%DB%B0-%D9%85%D9%87%D8%B1-%DB%B1%DB%B4%DB%B0%DB%B5-%E2%94%82-%D9%81%D8%A7%D8%B5%D9%84%D9%87/",
+     "title": "NabzGheymat: USDT price Friday 10 Mehr 1405",
+     "note": "per search summary"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "Sample all venues at the same second for several days",
+   "note": "One snapshot only; draw venue offsets from a mean-zero distribution of about +/-1 % for tier A and +/-3 % for all venues."
+  },
+  "depth_impact": {
+   "value": null,
+   "unit": "bps per 1,000 USDT",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Sample the order book at 100/500/2,000 USDT market-buy sizes for 24 h and fit impact in bps per 1,000 USDT."
+  },
+  "trading_hours": {
+   "value": {
+    "normal": "24/7 (assumption)",
+    "night_halt_event": {
+     "from": "21:00",
+     "to": "09:00",
+     "tz": "Asia/Tehran",
+     "precedent": "2026-09-30 21:00 to 2026-10-04 21:00",
+     "daily_buy_cap_usdt": 2000
+    }
+   },
+   "as_of": "2026-10-02",
+   "confidence": "medium",
+   "sources": [
+    {
+     "url": "https://www.zoomit.ir/iran-news/468234-tether-night-trading-halted/",
+     "title": "Zoomit: night USDT trading halted; purchase limited to 2,000 USDT",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://iranwire.com/fa/news-1/158313-%D9%85%D8%A8%D8%A7%D8%AF%D9%84%D9%87-%D8%AA%D8%AA%D8%B1-%D8%A7%D8%B2-%D8%B3%D8%A7%D8%B9%D8%AA-%DB%B2%DB%B1-%D9%87%D8%B1-%D8%B4%D8%A8-%D8%AA%D8%A7-%DB%B9-%D8%B5%D8%A8%D8%AD-%D8%B1%D9%88%D8%B2-%D8%A8%D8%B9%D8%AF-%D9%85%D9%85%D9%86%D9%88%D8%B9-%D8%B4%D8%AF/",
+     "title": "IranWire: USDT exchange banned 21:00-09:00",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://itresan.com/495987/usdt-night-trading-restriction-iran/",
+     "title": "ITResan: night USDT trading halted, daily buy cap 2,000 USDT",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://fararu.com/fa/news/1006444/%D8%AA%D8%B9%D8%B7%DB%8C%D9%84%DB%8C-%D9%85%D8%B9%D8%A7%D9%85%D9%84%D8%A7%D8%AA-%D8%B4%D8%A8%D8%A7%D9%86%D9%87-%D8%AA%D8%AA%D8%B1-%D8%AF%D8%B1-%D8%B5%D8%B1%D8%A7%D9%81%DB%8C-%D9%87%D8%A7%DB%8C-%D8%AF%DB%8C%D8%AC%DB%8C%D8%AA%D8%A7%D9%84",
+     "title": "Fararu: closure of night USDT trading at exchanges",
+     "note": "per search summary"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "Exchange notices",
+   "note": "Normal hours are an assumption; halt is sourced."
+  },
+  "id_deposit_cap_irt_per_24h_per_allowance": {
+   "value": 25000000,
+   "unit": "IRT per 24h",
+   "as_of": "2026-10-02",
+   "confidence": "medium",
+   "sources": [
+    {
+     "url": "https://www.zarinpal.com/blog/%D8%AF%D8%B3%D8%AA%D9%88%D8%B1-%D8%AC%D8%AF%DB%8C%D8%AF-%D8%A8%D8%A7%D9%86%DA%A9-%D9%85%D8%B1%DA%A9%D8%B2%DB%8C%D8%9B-%DA%A9%D8%A7%D9%87%D8%B4-%D8%B3%D9%82%D9%81-%D9%88%D8%A7%D8%B1%DB%8C%D8%B2-%D8%B4/",
+     "title": "Zarinpal blog: new CBI order - ID-based deposit cap to crypto exchanges reduced",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://www.irasin.ir/news/60520/%D9%85%D8%AD%D8%AF%D9%88%D8%AF%DB%8C%D8%AA-%D8%AC%D8%AF%DB%8C%D8%AF-%D8%A8%D8%B1%D8%A7%DB%8C-%DA%A9%D8%B3%D8%A8-%D9%88%DA%A9%D8%A7%D8%B1%D9%87%D8%A7%DB%8C-%D8%B1%D9%85%D8%B2%D8%A7%D8%B1%D8%B2%DB%8C-%D8%A8%D8%A7%D9%86%DA%A9-%D9%85%D8%B1%DA%A9%D8%B2%DB%8C-%D8%B3%D9%82%D9%81-%D9%88%D8%A7%D8%B1%DB%8C%D8%B2-%D8%B4%D9%86%D8%A7%D8%B3%D9%87-%D8%AF%D8%A7%D8%B1",
+     "title": "Irasin: new restriction for crypto businesses - CBI cuts ID-based deposit cap",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://digiato.com/iran-technology-news/new-restriction-cryptocurrency-businesses",
+     "title": "Digiato: new restriction for crypto businesses - CBI cuts ID-based deposit cap",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://mihanblockchain.com/deposit-limit-per-id-reduced-to-25m-toman/",
+     "title": "Mihan Blockchain: CBI notice - 25M Toman daily deposit limit per national ID",
+     "note": "per search summary"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "See rule SHAPARAK-2024-09-ID-DEPOSIT-CAP-25M"
+  },
+  "id_deposit_credit_cycles_irst": {
+   "value": [
+    "03:45",
+    "09:45",
+    "12:45",
+    "18:45"
+   ],
+   "unit": "time",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "sources": [
+    {
+     "url": "data/gateways.json",
+     "title": "03-ir-payments-collection specialist file (internal cross-reference): Paya cycles, gateway closures pattern",
+     "note": "internal cross-reference, not re-verified by 02"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "Bank/PSP documentation (specialist 03)",
+   "note": "Credit timing of ID deposits assumed to follow Paya cycles; holidays one cycle; Friday weekend."
+  },
+  "withdraw_lock_hours_after_irt_deposit": {
+   "value": {
+    "hours": 72,
+    "mode": "per_deposit_rolling"
+   },
+   "unit": "hours",
+   "as_of": "2026-10-02",
+   "confidence": "medium",
+   "sources": [
+    {
+     "url": "https://peivast.com/p/173791",
+     "title": "Peivast: 72-hour settlement limit became a challenge for exchanges",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://iranbroker.net/interview-with-senior-managers-of-tetherland-exchange/",
+     "title": "IranBroker: FATA - every transaction must settle after 72h; Tetherland managers react",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://pingi.co/help/deposit-and-withdraw/72h-limit",
+     "title": "Pingi help: why is there a 72-hour crypto withdrawal limit",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://kifpool.me/terms_fa",
+     "title": "Kifpool terms of service",
+     "note": "per search summary"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "See rule FATA-72H-SETTLEMENT-LOCK",
+   "note": "Mode is a conservative assumption."
+  },
+  "withdraw_count_caps_per_24h": {
+   "value": {
+    "crypto": 10,
+    "rial": 3,
+    "venue": "nobitex"
+   },
+   "unit": "count",
+   "as_of": "2026-10-02",
+   "confidence": "high",
+   "sources": [
+    {
+     "url": "https://raw.githubusercontent.com/nobitex/docs-api/master/source/includes/_withdraw_rial.md",
+     "title": "Nobitex API docs: Rial withdrawals",
+     "note": "read directly"
+    }
+   ],
+   "status": "verified",
+   "verify_how": "Official docs"
+  },
+  "network_fee_usdt": {
+   "value": {
+    "TRC20": {
+     "low": 1.0,
+     "base": 2.0,
+     "high": 3.5
+    },
+    "BEP20": 0.8,
+    "TON": 0.8
+   },
+   "unit": "USDT",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "sources": [
+    {
+     "url": "docs/business-plan-full-context.md",
+     "title": "First-pass research doc in this repo (secondary: itself compiled from search summaries)",
+     "note": "internal, secondary"
+    },
+    {
+     "url": "https://ramzinex.com/blog/how-to-buy-tether-with-low-fee/",
+     "title": "Ramzinex blog: buying USDT with low fee",
+     "note": "per search summary"
+    }
+   ],
+   "status": "reported",
+   "verify_how": "Nobitex GET /v2/options; other venues' withdrawal screens",
+   "note": "Venue-dependent flat fees; base 2.0 is a midpoint assumption."
+  },
+  "min_order": {
+   "value": {
+    "nobitex_rial_markets_irt": 300000,
+    "nobitex_usdt_markets_usdt": 11
+   },
+   "as_of": "2026-10-02",
+   "confidence": "high",
+   "sources": [
+    {
+     "url": "https://raw.githubusercontent.com/nobitex/docs-api/master/source/includes/_market_trade.md",
+     "title": "Nobitex API docs: spot orders, units (Rial), min order",
+     "note": "read directly"
+    }
+   ],
+   "status": "verified",
+   "verify_how": "GET /v2/options"
+  },
+  "outages": {
+   "hack": {
+    "value": {
+     "precedent": "Nobitex 2025-06-18, about USD 90M burned, service offline",
+     "restoration_days": null
+    },
+    "as_of": "2026-10-02",
+    "confidence": "medium",
+    "sources": [
+     {
+      "url": "https://www.crowdfundinsider.com/2025/06/242814-nearly-100m-burned-irans-largest-crypto-exchange-nobitex-suffers-major-hack/",
+      "title": "Crowdfund Insider: nearly $100M burned - Nobitex hack",
+      "note": "per search summary"
+     },
+     {
+      "url": "data/sanctions_timeline.json",
+      "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+      "note": "internal cross-reference, not re-verified by 02"
+     }
+    ],
+    "status": "reported",
+    "verify_how": "Nobitex status posts (28 Khordad - Tir 1404); ask the exchange",
+    "note": "Restoration time UNVERIFIED in files 02 and 05; use scenario-defined outage lengths (days) and balance loss."
+   },
+   "internet_shutdown": {
+    "value": {
+     "precedent": "late Feb 2026 near-total shutdown; Nobitex kept operating",
+     "effect": "API/web unreachable from ordinary Iranian connections for days"
+    },
+    "as_of": "2026-10-02",
+    "confidence": "medium",
+    "sources": [
+     {
+      "url": "https://cointelegraph.com/news/the-nobitex-dilemma-how-irans-biggest-crypto-exchange-stays-off-the-ofac-blacklist",
+      "title": "Cointelegraph: The Nobitex dilemma",
+      "note": "per search summary"
+     },
+     {
+      "url": "https://crypto.jobs/news/iran-s-internet-shutdown-highlights-compliance-challenges-for-crypto-exchanges",
+      "title": "Crypto.jobs: Iran internet shutdown highlights compliance challenges for exchanges",
+      "note": "per search summary"
+     }
+    ],
+    "status": "reported",
+    "verify_how": "Scenario authors set duration"
+   },
+   "gateway_blackout": {
+    "value": {
+     "precedent": "6 Dey 1403 (2024-12-26) exchange gateways blocked; partial reopening Jan 2025"
+    },
+    "as_of": "2026-10-02",
+    "confidence": "medium",
+    "sources": [
+     {
+      "url": "https://mihanblockchain.com/iranian-exchanges-direct-rial-payment-halt/",
+      "title": "Mihan Blockchain: direct Rial deposit at exchanges halted",
+      "note": "per search summary"
+     },
+     {
+      "url": "https://www.zoomit.ir/tech-iran/434377-payment-gateway-of-small-and-medium-cryptocurrency-exchanges-was-reopened/",
+      "title": "Zoomit: only gateways of a few small/medium exchanges reopened (Fintech association head)",
+      "note": "per search summary"
+     },
+     {
+      "url": "https://fararu.com/fa/news/831729/%D9%86%D8%A8%D8%B1%D8%AF-%D8%B4%D8%A7%D9%BE%D8%B1%DA%A9-%D8%B5%D8%B1%D8%A7%D9%81%DB%8C-%D9%87%D8%A7%DB%8C-%D8%A7%DB%8C%D8%B1%D8%A7%D9%86%DB%8C-%D8%A7%D8%B1%D8%B2-%D8%AF%DB%8C%D8%AC%DB%8C%D8%AA%D8%A7%D9%84-%D8%A7%D8%AC%D8%B1%D8%A7%DB%8C-%D8%B4%D8%B1%D8%B7-%D8%B4%D8%B1%D9%88%D8%B7-%DA%AF%D8%A7%D9%86%D9%87-%DB%8C%D8%A7-%D9%BE%D8%A7%DB%8C%D8%A7%D9%86-%DA%A9%D8%A7%D8%B1",
+      "title": "Fararu: Shaparak vs Iranian exchanges - ten conditions or end of business?",
+      "note": "per search summary"
+     },
+     {
+      "url": "https://intellinews.com/iran-central-bank-blocks-crypto-payments-amid-industry-backlash-359655",
+      "title": "bne IntelliNews: Iran central bank blocks crypto payments amid industry backlash",
+      "note": "per search summary"
+     }
+    ],
+    "status": "reported",
+    "verify_how": "Check current status"
+   }
+  },
+  "freezes_and_designations": {
+   "issuer_freeze": {
+    "value": {
+     "precedent": "Tether froze about USD 550M Iran-linked USDT in 2026; CBI wallets >344M (April) and >131M (2026-07-16)",
+     "sim_hook": "tether_mass_freeze (file 05)"
+    },
+    "unit": "USD million",
+    "as_of": "2026-10-02",
+    "confidence": "medium",
+    "sources": [
+     {
+      "url": "https://en.cryptonomist.ch/2026/09/28/tether-usdt-freezing-iran/",
+      "title": "Cryptonomist: Tether USDT freezing Iran hits $550M in 2026",
+      "note": "per search summary"
+     },
+     {
+      "url": "data/sanctions_timeline.json",
+      "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+      "note": "internal cross-reference, not re-verified by 02"
+     }
+    ],
+    "status": "reported",
+    "verify_how": "File 05"
+   },
+   "ofac_designation": {
+    "value": {
+     "precedents": [
+      "2026-06-02 four venues",
+      "2026-08-07 Aban Tether",
+      "2026-09-17 BitBank"
+     ],
+     "sim_effect": "venue becomes DISALLOWED as a USDT source in application policy (file 05/risk register); its public price may still feed the world",
+     "sim_hook": "ofac_exchange_designation (file 05)"
+    },
+    "as_of": "2026-10-02",
+    "confidence": "medium",
+    "sources": [
+     {
+      "url": "https://www.scorechain.com/blog/ofac-iran-crypto-sanctions-june-2026",
+      "title": "Scorechain: OFAC sanctions Iran's four largest crypto exchanges",
+      "note": "per search summary"
+     },
+     {
+      "url": "https://blog.globalledger.io/research-investigations/ofac-nobitex-iranian-crypto-exchanges",
+      "title": "Global Ledger: OFAC targets Nobitex and other Iranian exchanges",
+      "note": "per search summary"
+     },
+     {
+      "url": "https://crystalintelligence.com/sanctions/crypto-sanctions-screening-ofac-targets-iran-exchanges/",
+      "title": "Crystal Intelligence: crypto sanctions screening - OFAC targets Iran exchanges",
+      "note": "per search summary"
+     },
+     {
+      "url": "data/sanctions_timeline.json",
+      "title": "05-sanctions-counterparty-risk specialist file (internal cross-reference; its own sources are per search summary)",
+      "note": "internal cross-reference, not re-verified by 02"
+     }
+    ],
+    "status": "reported",
+    "verify_how": "File 05"
+   }
   }
  },
  "conversion_cost_table": {

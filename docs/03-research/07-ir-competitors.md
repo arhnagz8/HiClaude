@@ -37,7 +37,7 @@ Evidence tags used below: **[F]** fact as reported in a search summary (page not
 - **Positioning evidence.** Of 54 listed page titles, 24% claim speed, 26% price, 2% a guarantee, 4% authenticity/trust: trust/guarantee is the open lane.
 - **Choice model / elasticity.** No empirical estimate possible. Priors [A]: firm-level elasticity -10 (-5 to -20), speed premium 10% (3-25), trust premium 10% (3-25); an 8% undercut multiplies a 10% share by ~2.3x under the blended prior until matched.
 - **Market size [A].** Reseller-served GMV USD 474m/yr (p10 186m, p90 1,200m); revenue pool USD 27m (9-80m); ~40k orders/day industry-wide (16k-101k); a new brand at 0.5% share: USD 2.3m GMV in year 1.
-- **Price war.** No dated episode found. Percentage-fee card loads have negative headroom (-0.9 to -3.0 pp vs our floor); subscriptions have +14 pp at the median.
+- **Price war.** No dated episode found. If rivals' rates equal the market, percentage-fee card loads have negative headroom (-0.9 to -3.0 pp vs our floor); subscriptions have +14 pp at the median.
 - **Next.** Run the 2-hour mystery-shopper protocol (section 8) and re-run this brief after the search cap is raised (`CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION`; allow the competitor hosts under the environment's Network access, Allowed domains).
 
 ## 0. How to read this file
@@ -92,8 +92,8 @@ Evidence tags used below: **[F]** fact as reported in a search summary (page not
 | F35 | Cafearz Android app on Cafe Bazaar and Myket | true | bool | 2026-10-02 | low | S40 |
 | F36 | Kifpool exchange fees: store 0.25-0.5%; USDT market 0.2% | see text | % | 2026-10-02 | low | S30 |
 | F37 | Kifpool Mastercard price (undated, historical; only USD ~0.97 at today's rate) | 250,000 | IRT | undated | low | S29 |
-| F38 | Our modelled break-even, USD 100 load, existing card | +6.95 | % over free USD | 2026-10-02 | medium | D (S09) |
-| F39 | Our modelled break-even, ChatGPT Plus, existing card | 5,772,655 (+11.67) | IRT (% over parity) | 2026-10-02 | medium | D (S09) |
+| F38 | Our modelled break-even, USD 100 load, existing card (depends on the lead's unverified 3% provider fee) | +6.95 | % over free USD | 2026-10-02 | low | D (S09) |
+| F39 | Our modelled break-even, ChatGPT Plus, existing card (same caveat) | 5,772,655 (+11.67) | IRT (% over parity) | 2026-10-02 | low | D (S09) |
 | F40 | Adjacent: Iran Tourist Card EUR 22 flat, 7% online top-up (inbound tourists) | 22 / 7 | EUR / % | 2026-10-02 | low | S32 |
 
 ## Details
@@ -245,7 +245,7 @@ Sensitivity of our break-even (USD 100 load, existing card) to the provider fee 
 
 Provider fee required for our break-even to equal a visible competitor fee: 4% needs 0.13% (risk 2%) or 2.14% (risk 0%); 5% needs 1.11% / 3.14%; 6% needs 2.08% / 4.13%; 7% needs 3.05% / 5.12%. Entry basket (new card + load): our break-even +18.37% (USD 50), +12.07% (USD 100), +8.29% (USD 250), +7.03% (USD 500) against Dollarisho's explicit 24%, 14%, 8%, 6%: they are above our floor at USD 50-100 and roughly level at USD 250-500.
 
-**Reading.** If competitor rates equal the market, a 4-6% visible fee sits at or below our modelled floor, so they either (a) mark up the rate, (b) fund cheaper than we model (netting, direct issuer terms, lower risk cost), or (c) run thin margins. This must be tested with same-day all-in quotes before any price list is fixed. USDT is ~0.6% cheaper than cash USD (256,900 vs 258,465), a small cost edge if competitors price off Bonbast.
+**Reading.** If competitor rates equal the market, a 4-6% visible fee sits mostly below our modelled floor (only the 6% tier at USD 1,000 is 0.12 pp above it), so they either (a) mark up the rate, (b) fund cheaper than we model (netting, direct issuer terms, lower risk cost), or (c) run thin margins. This must be tested with same-day all-in quotes before any price list is fixed. USDT is ~0.6% cheaper than cash USD (256,900 vs 258,465), a small cost edge if competitors price off Bonbast.
 
 ### 3. Fee-structure archetypes
 
