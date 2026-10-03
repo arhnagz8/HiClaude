@@ -258,17 +258,18 @@ describe('BankCalendar', () => {
     expect(cal.isHoliday(fromIrst(2027, 2, 11, 12))).toBe(true) // 22 Bahman 1405
   })
   it('Paya request on a weekday morning settles at the next cycle; evening goes to the next business day', () => {
-    // Saturday 2026-10-03 09:00 -> 10:00 cycle
-    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 3, 9, 0))).toBe(fromIrst(2026, 10, 3, 10))
-    // 09:45 -> not enough processing time for 10:00 (needs 30 min) -> 14:00
-    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 3, 9, 45))).toBe(fromIrst(2026, 10, 3, 14))
-    // 19:00 -> next business day 10:00 (Sunday 4 Oct)
-    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 3, 19))).toBe(fromIrst(2026, 10, 4, 10))
+    // cycles IRST: 03:45, 09:45, 12:45, 18:45. Saturday 2026-10-03 09:00 -> 09:45 cycle
+    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 3, 9, 0))).toBe(fromIrst(2026, 10, 3, 9, 45))
+    // 09:30 -> needs 30 min processing for the 09:45 cycle: 10:00 -> next is 12:45
+    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 3, 9, 30))).toBe(fromIrst(2026, 10, 3, 12, 45))
+    // 19:00 -> next business day first cycle 03:45 (Sunday 4 Oct)
+    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 3, 19))).toBe(fromIrst(2026, 10, 4, 3, 45))
   })
   it('Paya skips Thursday afternoon, Friday and goes to Saturday', () => {
-    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 1, 8))).toBe(fromIrst(2026, 10, 1, 10)) // Thu morning cycle exists
-    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 1, 10, 30))).toBe(fromIrst(2026, 10, 3, 10)) // Thu >= 13:00 cycles do not run
-    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 2, 9))).toBe(fromIrst(2026, 10, 3, 10)) // Friday
+    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 1, 8))).toBe(fromIrst(2026, 10, 1, 9, 45))
+    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 1, 10, 30))).toBe(fromIrst(2026, 10, 1, 12, 45))
+    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 1, 13, 0))).toBe(fromIrst(2026, 10, 3, 3, 45)) // 18:45 cycle does not run on Thursday
+    expect(cal.nextPayaSettlement(fromIrst(2026, 10, 2, 9))).toBe(fromIrst(2026, 10, 3, 3, 45)) // Friday
   })
   it('Paya skips holidays', () => {
     // Fri 2027-03-19 (28 Esfand 1405)... request on 29 Esfand (Sat 20 Mar 2027) holiday -> wait until after 1-4 Farvardin
@@ -279,8 +280,8 @@ describe('BankCalendar', () => {
   it('Satna settles within minutes in banking hours, else at next opening', () => {
     expect(cal.nextSatnaSettlement(fromIrst(2026, 10, 3, 9))).toBe(fromIrst(2026, 10, 3, 9, 15))
     expect(cal.nextSatnaSettlement(fromIrst(2026, 10, 3, 6))).toBe(fromIrst(2026, 10, 3, 8, 15))
-    expect(cal.nextSatnaSettlement(fromIrst(2026, 10, 3, 17))).toBe(fromIrst(2026, 10, 4, 8, 15))
-    expect(cal.nextSatnaSettlement(fromIrst(2026, 10, 1, 13))).toBe(fromIrst(2026, 10, 3, 8, 15)) // Thu after noon -> Saturday
+    expect(cal.nextSatnaSettlement(fromIrst(2026, 10, 3, 15))).toBe(fromIrst(2026, 10, 4, 8, 15))
+    expect(cal.nextSatnaSettlement(fromIrst(2026, 10, 1, 13, 30))).toBe(fromIrst(2026, 10, 3, 8, 15)) // Thu after 13:30 -> Saturday
   })
   it('nextBusinessMoment finds the next business-day hour', () => {
     const t = cal.nextBusinessMoment(fromIrst(2026, 10, 2, 5), 9) // Friday -> Saturday 09:00

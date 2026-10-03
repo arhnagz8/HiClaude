@@ -38,6 +38,8 @@ export interface TemplateSet {
   bale?: string
   sms?: string
   in_app?: string
+  /** optional short title of the in-app entry (shown above the body) */
+  in_app_title?: string
 }
 
 /** Events that must reach the customer even if messengers are unavailable (SMS fallback). */
@@ -149,11 +151,29 @@ function applyFilter(value: unknown, filter: string): string {
   }
 }
 
-/** `{{var}}` / `{{var|filter}}` interpolation. Missing variables render as an empty string (never "undefined"). */
+/**
+ * `{{var}}` / `{{var|filter}}` (our defaults) and `{var}` (data/copy.fa.json style) interpolation.
+ * Missing variables render as an empty string (never "undefined").
+ */
 export function interpolate(template: string, vars: Vars): string {
-  return template.replace(/\{\{\s*([\w.]+)\s*(?:\|\s*([^}]+?)\s*)?\}\}/g, (_m, key: string, filter?: string) => {
-    const v = vars[key]
-    if (filter) return applyFilter(v, filter)
-    return v === undefined || v === null ? '' : String(v)
-  })
+  return template
+    .replace(/\{\{\s*([\w.]+)\s*(?:\|\s*([^}]+?)\s*)?\}\}/g, (_m, key: string, filter?: string) => {
+      const v = vars[key]
+      if (filter) return applyFilter(v, filter)
+      return v === undefined || v === null ? '' : String(v)
+    })
+    .replace(/\{([A-Za-z_]\w*)\}/g, (_m, key: string) => {
+      const v = vars[key]
+      return v === undefined || v === null ? '' : String(v)
+    })
+}
+
+/** copy.fa.json event names → our event ids. Unlisted names are used as-is (`order.payReminder`, `dispute.opened`, …). */
+export const COPY_EVENT_ALIASES: Record<string, string> = {
+  'auth.otp': 'otp',
+  'account.welcome': 'welcome',
+  'payment.under': 'payment.underpaid',
+  'payment.receiptReceived': 'payment.review',
+  'referral.reward': 'referral.rewarded',
+  'wallet.topup': 'wallet.credited',
 }

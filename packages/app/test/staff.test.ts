@@ -1,6 +1,6 @@
 import { AppError, type StaffRole } from '@hiclaude/contracts'
 import { describe, expect, it } from 'vitest'
-import { LOGIN_LOCK_MS, MAX_FAILED_LOGINS, PERMISSIONS, ROLE_PERMISSIONS, STAFF_SESSION_TTL_MS, can, rbacMatrixMarkdown, totp } from '../src'
+import { createApp, LOGIN_LOCK_MS, MAX_FAILED_LOGINS, PERMISSIONS, ROLE_PERMISSIONS, STAFF_SESSION_TTL_MS, can, rbacMatrixMarkdown, totp } from '../src'
 import { makeTestApp } from './helpers'
 
 describe('RBAC matrix', () => {
@@ -72,10 +72,14 @@ describe('StaffService — users & sessions', () => {
     expect(() => s.authenticate(undefined)).toThrowError(AppError)
   })
 
-  it('refuses to seed demo staff in live mode', () => {
+  it('live mode: no demo staff, demo seeding refused, a real master key is mandatory', () => {
     const t = makeTestApp()
-    // simulate by constructing a live context: staff service reads mode from ctx
-    expect(() => (t.app.services.staff as unknown as { ctx: { mode: string } }).ctx.mode === 'live').not.toThrow()
+    const base = { clock: t.clock, rng: t.rng, params: t.params, dbPath: ':memory:', ports: t.ports }
+    expect(() => createApp({ ...base, mode: 'live' })).toThrow(/master key/)
+    const live = createApp({ ...base, mode: 'live', masterKeyHex: 'ab'.repeat(32) })
+    expect(live.services.staff.listUsers()).toEqual([])
+    expect(() => live.services.staff.seedDemoStaff()).toThrowError(/live/)
+    live.close()
   })
 
   it('sessions expire and can be logged out', () => {

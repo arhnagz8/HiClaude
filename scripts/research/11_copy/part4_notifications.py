@@ -160,3 +160,11 @@ COPY = {
 "notif.admin.unmatchedPayment.inapp.title": "واریز نامشخص",
 "notif.admin.unmatchedPayment.inapp.body": "{amount} در {time} به هیچ سفارشی منطبق نشد.",
 }
+
+# Lint/compliance fixes for strings that live in the web snapshot (apps/web/src/copy/fa.ts); web owner should adopt these.
+OVERRIDE = {
+"quote.lockHint": "این قیمت تا پایان تایمر برای شما قفل است.",
+"quote.savingsNote": "مقایسه با نرخ مرجع بازار در همین لحظه انجام شده و پیش‌بینی قیمت آینده نیست.",
+"system.ratesHaltedBody": "بازار ارز محدود یا بسته است؛ قیمت‌ها با احتیاط بیشتری محاسبه می‌شوند.",
+}
+COPY["notif.auth.otp.sms"] = "کد تأیید {brand}: {code}\nبه کسی ندهید.\n@{domain} #{code}"

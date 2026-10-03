@@ -13,6 +13,7 @@ import {
   err,
   ok,
   portError,
+  startOfIrstDay,
   type EpochMs,
   type GatewayCreateRequest,
   type GatewayVerifyResult,
@@ -180,9 +181,9 @@ export class GatewaySim implements PaymentGatewayPort, SimComponent {
   private onVerified(p: PayPage, now: EpochMs): void {
     this.f.collected += p.amountIrt
     this.f.fees += p.feeIrt
-    const earliest = now + this.cfg.settlementDelayHours * MS.hour
-    let settleAt = this.bank.calendar.nextBusinessMoment(Math.max(earliest, this.blackoutUntil), this.cfg.settlementHour)
-    if (settleAt < earliest) settleAt = earliest
+    // T+n: the first business-day settlement hour on or after the start of the day following (now + delay - 1 day)
+    const dayAfter = startOfIrstDay(now + this.cfg.settlementDelayHours * MS.hour - MS.day) + MS.day
+    const settleAt = this.bank.calendar.nextBusinessMoment(Math.max(dayAfter, this.blackoutUntil), this.cfg.settlementHour)
     const net = p.amountIrt - p.feeIrt
     let b = this.batches.get(settleAt)
     if (!b) {

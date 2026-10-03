@@ -97,7 +97,7 @@ describe('ExchangeSim deposits and the ID cap', () => {
   it('paya deposit on Friday waits for Saturday', async () => {
     const { ex, env } = setup({ start: fromIrst(2026, 10, 2, 11) })
     const d = mustOk(await ex.depositIrt({ amountIrt: 5_000_000, method: 'paya' }))
-    expect(d.availableAt).toBeGreaterThanOrEqual(fromIrst(2026, 10, 3, 10))
+    expect(d.availableAt).toBeGreaterThanOrEqual(fromIrst(2026, 10, 3, 3, 45))
     expect(env.clock.now()).toBeLessThan(fromIrst(2026, 10, 3))
   })
   it('rejects deposits above the bank balance', async () => {

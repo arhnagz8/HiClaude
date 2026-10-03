@@ -32,6 +32,8 @@ export interface CatalogLoadReport {
   source: 'file' | 'defaults'
   loaded: number
   skipped: { index: number; id?: string; error: string }[]
+  /** why defaults were used instead of the file, if applicable */
+  note?: string
 }
 
 export type AvailabilityReason = 'inactive' | 'provider_unknown' | 'provider_disabled' | 'kill_switch' | 'tier_not_allowed' | 'customer_blocked'
@@ -74,7 +76,10 @@ export class CatalogService {
       try {
         const raw = unwrapRecords(JSON.parse(readFileSync(path, 'utf8'))) as unknown
         const arr = Array.isArray(raw) ? raw : isPlainObject(raw) && Array.isArray(raw.products) ? raw.products : undefined
-        if (arr) {
+        if (!arr) {
+          report.note = 'catalog file has no products[] array (research-format files such as data/catalog.json with `skus` need the calibration step) — using defaults'
+          this.ctx.logger.warn(report.note)
+        } else {
           report.source = 'file'
           const seen = new Set<string>()
           arr.forEach((item, index) => {
@@ -92,7 +97,8 @@ export class CatalogService {
       }
       if (report.source === 'file' && products.length === 0) {
         report.source = 'defaults'
-        this.ctx.logger.warn('catalog file contains no valid products — using defaults')
+        report.note = 'catalog file contains no valid products — using defaults'
+        this.ctx.logger.warn(report.note)
       }
     }
     if (report.source === 'defaults') products = defaultProducts()

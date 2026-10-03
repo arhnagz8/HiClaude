@@ -103,12 +103,12 @@ describe('BankSim credits', () => {
   it('paya inbound credits at the next cycle', async () => {
     const { env, bank } = setup(undefined, fromIrst(2026, 10, 3, 9))
     const r = bank.injectCustomerTransfer({ amountIrt: 50_000_000, senderCardMasked: 'IBAN', channel: 'paya' })
-    expect(r.postedAt).toBe(fromIrst(2026, 10, 3, 10))
-    env.sim.runUntil(fromIrst(2026, 10, 3, 9, 59))
+    expect(r.postedAt).toBe(fromIrst(2026, 10, 3, 9, 45))
+    env.sim.runUntil(fromIrst(2026, 10, 3, 9, 44))
     expect((await bank.balance()).ok && (await bank.balance()).ok).toBe(true)
     const b1 = await bank.balance()
     expect(b1.ok && b1.value).toBe(100_000_000)
-    env.sim.runUntil(fromIrst(2026, 10, 3, 10, 1))
+    env.sim.runUntil(fromIrst(2026, 10, 3, 9, 46))
     const b2 = await bank.balance()
     expect(b2.ok && b2.value).toBe(150_000_000)
   })
@@ -120,7 +120,7 @@ describe('BankSim transfers out', () => {
     const r = await bank.transferOut({ toIban: 'IR1', amountIrt: 10_000_000, reason: 'exchange deposit' })
     expect(r.ok).toBe(true)
     if (!r.ok) return
-    expect(r.value.settleAt).toBe(fromIrst(2026, 10, 3, 10)) // 09:00 request + 30 min processing <= 10:00 cycle
+    expect(r.value.settleAt).toBe(fromIrst(2026, 10, 3, 9, 45)) // 09:00 request + 30 min processing <= 09:45 cycle
     expect(r.value.feeIrt).toBe(1_500)
     const bal = await bank.balance()
     expect(bal.ok && bal.value).toBe(100_000_000 - 10_000_000 - 1_500)
@@ -129,10 +129,10 @@ describe('BankSim transfers out', () => {
   it('requested on Friday settles Saturday; Thursday afternoon settles Saturday', async () => {
     const fri = setup(undefined, fromIrst(2026, 10, 2, 11))
     const r1 = await fri.bank.transferOut({ toIban: 'IR1', amountIrt: 1_000_000, reason: 'x' })
-    expect(r1.ok && r1.value.settleAt).toBe(fromIrst(2026, 10, 3, 10))
+    expect(r1.ok && r1.value.settleAt).toBe(fromIrst(2026, 10, 3, 3, 45))
     const thu = setup(undefined, fromIrst(2026, 10, 1, 14))
     const r2 = await thu.bank.transferOut({ toIban: 'IR1', amountIrt: 1_000_000, reason: 'x' })
-    expect(r2.ok && r2.value.settleAt).toBe(fromIrst(2026, 10, 3, 10))
+    expect(r2.ok && r2.value.settleAt).toBe(fromIrst(2026, 10, 3, 3, 45))
   })
   it('amounts above the Paya limit use Satna with a bounded percentage fee', async () => {
     const { bank } = setup((c) => {

@@ -34,12 +34,15 @@ for p in PARTS:
     for k, v in m.COPY.items():
         if k in copy: E(f'duplicate key {k} ({p.name})')
         copy[k] = v
+    for k, v in getattr(m, 'OVERRIDE', {}).items():   # compliance/lint fixes of web-snapshot strings (reported to the web owner)
+        if k not in base: E(f'override of unknown base key {k}')
+        copy[k] = v
 
 # ---------- lint ----------
 ALLOWED_VARS = set('''brand domain code time minutes hours amount balance rate pct n id name product tier method reason url diff old new left total done
 current network host phone page legalName regNo version date value limit perOrder perDay level terms refund privacy q source status outcome target
 customer flag score provider days min max scope word keys role qty account action step min max free title hint feature field label
-tierLabel email subject text size count max'''.split())
+tierLabel email subject text size count max direction from to delta'''.split())
 CUSTOMER_PREFIX_EXEMPT = ('admin.', 'sim.', 'notif.admin.')
 PLACE = re.compile(r'\{(\w+)\}')
 ASCII_DIGIT = re.compile(r'[0-9]')

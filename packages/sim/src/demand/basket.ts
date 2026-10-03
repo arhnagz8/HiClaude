@@ -139,3 +139,51 @@ export function samplePaymentMistake(rng: Rng, seg: Segment, cfg: SegmentsConfig
   }
   return 'none'
 }
+
+/** Catalog `category` (data/catalog.json) / provider vocabulary → sim product family used by segments. */
+export const FAMILY_ALIASES: Readonly<Record<string, string>> = {
+  ai: 'ai_subscription',
+  productivity: 'ai_subscription',
+  media: 'streaming',
+  cards: 'virtual_card',
+  gaming: 'gift_card',
+  appstore: 'gift_card',
+  cloud: 'cloud',
+  education: 'education',
+  freelance: 'cloud',
+  ads: 'cloud',
+  travel: 'virtual_card',
+  shopping: 'virtual_card',
+}
+export const canonicalFamily = (x: string): string => FAMILY_ALIASES[x] ?? x
+
+/**
+ * Tolerant stats from data/catalog.json (`skus[]` with Record-wrapped `typical_order_usd`, `repeat_per_year`, `category`):
+ * per sim family median typical order (USD) and mean repeat_per_year. Used for assumptions tables / sanity checks, not applied silently.
+ */
+export function catalogFamilyStats(catalogRaw: unknown): Record<string, { skus: number; medianTypicalUsd: number; meanRepeatPerYear: number }> {
+  const root = catalogRaw as { skus?: unknown } | undefined
+  const skus = Array.isArray(root?.skus) ? (root!.skus as Array<Record<string, unknown>>) : []
+  const num = (x: unknown): number | undefined => {
+    const v = x && typeof x === 'object' && 'value' in (x as object) ? (x as { value: unknown }).value : x
+    return typeof v === 'number' && Number.isFinite(v) ? v : undefined
+  }
+  const acc = new Map<string, { usd: number[]; rep: number[] }>()
+  for (const s of skus) {
+    const cat = typeof s.category === 'string' ? s.category : undefined
+    if (!cat) continue
+    const f = canonicalFamily(cat)
+    const e = acc.get(f) ?? { usd: [], rep: [] }
+    const u = num(s.typical_order_usd)
+    const r = num(s.repeat_per_year)
+    if (u !== undefined) e.usd.push(u)
+    if (r !== undefined) e.rep.push(r)
+    acc.set(f, e)
+  }
+  const out: Record<string, { skus: number; medianTypicalUsd: number; meanRepeatPerYear: number }> = {}
+  for (const [f, e] of [...acc.entries()].sort((a, b) => (a[0] < b[0] ? -1 : 1))) {
+    const s = [...e.usd].sort((a, b) => a - b)
+    out[f] = { skus: Math.max(e.usd.length, e.rep.length), medianTypicalUsd: s.length ? (s[Math.floor((s.length - 1) / 2)] as number + s[Math.ceil((s.length - 1) / 2)] as number) / 2 : 0, meanRepeatPerYear: e.rep.length ? e.rep.reduce((a, b) => a + b, 0) / e.rep.length : 0 }
+  }
+  return out
+}

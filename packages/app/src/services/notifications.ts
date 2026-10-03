@@ -11,11 +11,11 @@
  * OTP codes are never persisted in clear text (the stored text is redacted).
  */
 import { existsSync, readFileSync } from 'node:fs'
-import type { DomainEvent, EventBus, Customer, PortError } from '@hiclaude/contracts'
+import { formatIrt, formatJalaliDateTime, formatUsdt, type DomainEvent, type EventBus, type Customer, type PortError } from '@hiclaude/contracts'
 import type { AppContext } from '../context'
 import type { NotificationChannel, NotificationRecord } from '../repos'
 import { isPlainObject } from '../util'
-import { CRITICAL_EVENTS, DEFAULT_TEMPLATES, interpolate, type NotificationEvent, type TemplateSet } from './notificationTemplates'
+import { COPY_EVENT_ALIASES, CRITICAL_EVENTS, DEFAULT_TEMPLATES, interpolate, type NotificationEvent, type TemplateSet } from './notificationTemplates'
 
 export const RETRY_BACKOFF_MS = [60_000, 300_000, 1_800_000, 7_200_000, 21_600_000] as const
 export const MAX_NOTIFICATION_ATTEMPTS = RETRY_BACKOFF_MS.length
@@ -62,7 +62,7 @@ export class NotificationService {
 
   // ───────────────────────── templates ─────────────────────────
   /** Register/override a template. `channel` 'default' replaces the fallback text. */
-  registerTemplate(event: NotificationEvent, channel: NotificationChannel | 'default', text: string): void {
+  registerTemplate(event: NotificationEvent, channel: NotificationChannel | 'default' | 'in_app_title', text: string): void {
     const set = this.templates.get(event) ?? { default: text }
     set[channel] = text
     this.templates.set(event, set)
@@ -78,16 +78,45 @@ export class NotificationService {
   }
 
   /**
-   * Apply a flat copy map. Accepted key shapes: `notify.<event>`, `notify.<event>.<channel>` (also `notif.` / `notifications.` prefixes;
-   * `_` in event names is treated as `.`). Values may be strings or `{ value: "…" }` records. Returns the number of templates applied.
+   * Apply a flat copy map (data/copy.fa.json). Accepted keys:
+   *   `notif.<domain>.<name>.msg`          messenger text (telegram + bale, and the fallback for other channels)
+   *   `notif.<domain>.<name>.sms`          SMS text
+   *   `notif.<domain>.<name>.inapp.body`   in-app body        (`.inapp.title` = in-app title)
+   *   `notify.<event>[.<channel>]`         our own flat form (channel: telegram|bale|sms|in_app|default)
+   * Placeholders are `{var}` (copy file) or `{{var|filter}}`. Values may also be `{ value: "…" }` Records.
+   * Event names are mapped through COPY_EVENT_ALIASES (e.g. `auth.otp` → `otp`). `.email.*`, `notif.btn.*` and `notif.admin.*` keys are ignored.
+   * Returns the number of templates applied.
    */
   loadCopy(map: Record<string, unknown>): number {
     let n = 0
     for (const [key, raw] of Object.entries(map)) {
-      const m = /^(?:notify|notif|notifications)\.(.+)$/.exec(key)
-      if (!m) continue
       const text = typeof raw === 'string' ? raw : isPlainObject(raw) && typeof raw.value === 'string' ? raw.value : undefined
       if (text === undefined) continue
+      const c = /^notif\.(.+?)\.(msg|sms|inapp\.body|inapp\.title)$/.exec(key)
+      if (c) {
+        const name = c[1] as string
+        if (name.startsWith('btn.') || name.startsWith('admin.')) continue
+        const event = COPY_EVENT_ALIASES[name] ?? name
+        switch (c[2]) {
+          case 'msg':
+            this.registerTemplate(event, 'default', text)
+            this.registerTemplate(event, 'telegram', text)
+            this.registerTemplate(event, 'bale', text)
+            break
+          case 'sms':
+            this.registerTemplate(event, 'sms', text)
+            break
+          case 'inapp.body':
+            this.registerTemplate(event, 'in_app', text)
+            break
+          default:
+            this.registerTemplate(event, 'in_app_title', text)
+        }
+        n++
+        continue
+      }
+      const m = /^(?:notify|notifications)\.(.+)$/.exec(key)
+      if (!m) continue
       let event = m[1] as string
       let channel: NotificationChannel | 'default' = 'default'
       const cm = /^(.+)\.(telegram|bale|sms|in_app|default)$/.exec(event)
@@ -95,8 +124,7 @@ export class NotificationService {
         event = cm[1] as string
         channel = cm[2] as NotificationChannel | 'default'
       }
-      event = event.replace(/_/g, '.')
-      this.registerTemplate(event, channel, text)
+      this.registerTemplate(event.replace(/_/g, '.'), channel, text)
       n++
     }
     return n
@@ -113,7 +141,10 @@ export class NotificationService {
     const b = this.ctx.params().brand
     const support = b.supportTelegram ?? b.supportBale ?? b.supportPhone ?? ''
     if (tpl === undefined) return typeof vars.text === 'string' ? vars.text : String(event)
-    return interpolate(tpl, { brand: b.nameFa, support, ...vars })
+    const all = { brand: b.nameFa, support, domain: b.domain, ...vars }
+    const body = interpolate(tpl, all)
+    const title = channel === 'in_app' ? this.templates.get(event)?.in_app_title : undefined
+    return title ? `${interpolate(title, all)}\n${body}` : body
   }
 
   // ───────────────────────── enqueue ─────────────────────────
@@ -173,10 +204,10 @@ export class NotificationService {
    */
   async sendOtp(phone: string, code: string): Promise<{ ok: boolean; error?: string }> {
     const now = this.ctx.clock.now()
-    const text = this.render('otp', 'sms', { otp: code })
+    const text = this.render('otp', 'sms', { otp: code, code, time: '۵ دقیقه' })
     let rowId: string | undefined
     try {
-      const redacted = this.render('otp', 'sms', { otp: '•'.repeat(code.length) })
+      const redacted = this.render('otp', 'sms', { otp: '•'.repeat(code.length), code: '•'.repeat(code.length), time: '۵ دقیقه' })
       rowId = this.ctx.repos.notifications.insert({
         id: this.ctx.ids.next('ntf'), groupId: this.ctx.ids.next('ntg'), event: 'otp', channel: 'sms', target: phone, status: 'pending', critical: true, text: redacted, attempts: 0, createdAt: now,
       }).id
@@ -342,7 +373,16 @@ export class NotificationService {
     const product = this.ctx.repos.products.get(o.productId)
     return {
       customerId: o.customerId,
-      vars: { code: o.code, product: product?.titleFa ?? o.productId, payAmount: o.payAmount, amount: o.payAmount, expiresAt: o.payExpiresAt },
+      vars: {
+        code: o.code,
+        product: product?.titleFa ?? o.productId,
+        payAmount: o.payAmount,
+        expiresAt: o.payExpiresAt,
+        // pre-formatted for copy.fa.json style `{amount}` / `{time}` / `{url}` placeholders
+        amount: o.payCurrency === 'IRT' ? formatIrt(o.payAmount) : formatUsdt(o.payAmount),
+        time: formatJalaliDateTime(o.payExpiresAt),
+        url: `https://${this.ctx.params().brand.domain}/orders/${o.id}`,
+      },
     }
   }
 

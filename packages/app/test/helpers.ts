@@ -85,7 +85,7 @@ export function mkOrder(t: TestApp, customerId: string, quoteId: string, over: P
   return t.app.repos.orders.insert(o, idemKey)
 }
 
-export function mkTask(t: TestApp, orderId: string, over: Partial<FulfilmentTask> = {}): FulfilmentTask {
+export function mkTask(t: TestApp, orderId: string, over: Partial<FulfilmentTask> = {}) {
   const now = t.clock.now()
   return t.app.repos.tasks.insert({
     id: t.app.ids.next('tsk'),

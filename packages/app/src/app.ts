@@ -144,7 +144,7 @@ export function createApp(deps: AppDeps, opts: CreateAppOptions = {}): App {
   })
 
   const unwire = opts.wireNotifications === false ? () => {} : notifications.wireEvents(bus)
-  if ((opts.seedDemoStaff ?? mode !== 'live') && mode !== 'live') staff.seedDemoStaff()
+  if (mode !== 'live' && (opts.seedDemoStaff ?? true)) staff.seedDemoStaff()
 
   let closed = false
   return {
