@@ -1,0 +1,146 @@
+{
+ "workflow": "wf_367e3693-fcb",
+ "label": "v2:9dff3b1ea42dfb45fb0ededb7ef348eaed82bc7a6f5daf0f481a328c9b5d1881",
+ "result": {
+  "files_written": [
+   "/home/user/HiClaude/docs/03-research/01-card-providers.md",
+   "/home/user/HiClaude/data/providers.json",
+   "/home/user/HiClaude/scripts/research/01_provider_costs.py",
+   "/home/user/HiClaude/scripts/research/01_build_data.py"
+  ],
+  "tldr": [
+   "The mandate was NOT fully met. The session's WebSearch budget was already exhausted (200/200), so 0 of the 40+ required searches ran. WebFetch returned EGRESS_BLOCKED for mpay.cards, trustpilot, pintopay, bitrefill, reloadly, wanttopay, virtcardpay, redotpay and docs.stripe.com. No provider page, ToS, review page or API doc was seen first-hand. Overall confidence is low.",
+   "Everything in the deliverables comes from the repo's first-pass research (secondary), specialist 05/06 outputs, or is null + UNVERIFIED + verify_how. No Iran-eligibility ToS quote could be obtained, so every provider carries 'unknown_assume_ineligible_until_written_confirmation'. BaaS issuers and exchange-issued cards are marked 'ineligible_expected'.",
+   "mpay (secondary, low): issue USD 4.99, min load USD 25, monthly USD 0, networks TRC20/BEP20, top-up % unpublished (3.0% placeholder, band 0-5%). No public API or partner programme found, so all operations are panel/operator. Trustpilot is about 3/5 with fund-blocked complaints. The Dec-2025 USD 3M round is unverified.",
+   "Cost model: with the 3% placeholder, mpay overhead above face is USD 0.75/1.50/3.00/15.00 for top-ups of 25/50/100/500. New card + load is USD 5.74/6.49/7.99/19.99, i.e. 22.96%/12.98%/7.99%/4.00% of face. At tickets of USD 50 or less the fixed issue fee, not the percentage, decides profitability. Minimum new-card load for <=8% overhead is about USD 99.80.",
+   "Alternatives covered: 4 with reported fees (PintoPay, VirtCardPay, Wanttopay, AnyXPay), 6 with no data (uCards, Kripicard, PayX, MPChat, RedotPay, Cryptomus), 2 exchange cards, 5 voucher aggregators and 6 BaaS issuers. The supplier strategy has a three-gate rule: written eligibility reply, small live test, counsel-reviewed ToS snapshot. Float cap is <=5% of equity and <=3 days. A capability matrix mapped to ProviderCapabilities and a 40-query re-run plan are included.",
+   "data/providers.json validates OK (24 providers, 639 records, 487 UNVERIFIED). No git commit or push was done."
+  ],
+  "key_numbers": [
+   {
+    "name": "mpay issue fee",
+    "value": 4.99,
+    "unit": "USD per card",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "mpay minimum load",
+    "value": 25,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "mpay top-up pct (placeholder, not published)",
+    "value": 3,
+    "unit": "pct (band 0-5)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "mpay overhead, new card + 25 USD load",
+    "value": 22.96,
+    "unit": "pct of face (USD 5.74)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "mpay overhead, new card + 100 USD load",
+    "value": 7.99,
+    "unit": "pct of face (USD 7.99)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "mpay overhead, top-up only 100 USD",
+    "value": 3,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "Minimum new-card load for overhead <=8%",
+    "value": 99.8,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "VirtCardPay Basic",
+    "value": "issue 3 USD + ~4% load",
+    "unit": "USD / pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "PintoPay",
+    "value": "issue ~35 USD + ~2.5% + ~0.25 USD transaction fee",
+    "unit": "USD / pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "Wanttopay Prepaid",
+    "value": "issue 0, 0.30 USD per transaction, load % unknown",
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "AnyXPay",
+    "value": "issue ~50 USD + 4%",
+    "unit": "USD / pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "Expected counterparty loss rate on float (judgemental prior)",
+    "value": 2.455,
+    "unit": "pct of float per month",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "Expected loss, USD 100 held 3 days",
+    "value": 0.2455,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "Searches executed",
+    "value": 0,
+    "unit": "count (40+ required)",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   }
+  ],
+  "conflicts": [
+   "mpay issue fee and min load are rated 'medium' in data/catalog.json and data/competitors.json but trace to one internal chain of secondary summaries. I rated them 'low' here until verified first-hand. Values are unchanged.",
+   "mpay top-up 3.0% (lead's model) vs 'unpublished' (first-pass text) is not a true conflict. It is stored as topup_pct_assumed (3.0) with topup_pct = null.",
+   "'No KYC' marketing vs the sanctions/counterparty-risk view: treated as compatible. No-KYC onboarding does not mean ToS permits Iran-resident customers, so eligibility is unknown and assumed ineligible.",
+   "The PintoPay (0.25 USD) and Wanttopay (0.30 USD) 'transaction' fees could be per spend or per load. I modelled them conservatively as per load.",
+   "Binance's stated policy blocks Iran users, while the AMLBot/Reuters relay reports large flows for an Iranian exchange. Policy governs eligibility, so I do not rely on enforcement gaps."
+  ],
+  "open_questions": [
+   "Does mpay (or any alternative) accept Iran-resident business customers? Quote the ToS clause, snapshot it with a hash, get a written support reply and a counsel review.",
+   "What are mpay's real top-up %, fixed fee, FX %, decline fee, inactivity fee and refund-of-unused-balance rule? Fund a test account and read the fee table and statement.",
+   "What are mpay's legal entity, jurisdiction, licences and team, and is the Dec-2025 USD 3M round real? Check Whois, the ToS, a press release and Crunchbase.",
+   "What are mpay's per-card, daily and monthly limits, min deposit, credit time and confirmations? Check the in-account limits screen and a test deposit.",
+   "Does mpay have any private API, white-label or partner programme? Send a written enquiry to sales or support.",
+   "Run the 40-query re-run plan in section 9 of the doc (EN + FA) once the search budget is raised. It covers Trustpilot dates, Persian forums, the uCards/Kripicard/PayX/MPChat/RedotPay/Cryptomus fee data, the aggregator API/reseller terms and the BaaS eligibility wording.",
+   "Which card BIN/region and billing-address behaviour apply at each target merchant class? Issue a test card and run a USD 5 test per merchant class."
+  ],
+  "needs_from_other_specialists": [
+   "Lead: raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION and re-run brief 01. Without it, 01, 05 and probably others cannot refresh provider facts.",
+   "02-ir-exchanges-usdt-rails: the live TRC20/BEP20 USDT withdrawal fees to replace the 1 USDT assumption in the cost model, and minimum withdrawal sizes.",
+   "05-sanctions-counterparty-risk and 04-legal-tax: counsel-grade view on whether serving Iran-resident cardholders through a foreign provider breaches that provider's ToS or applicable sanctions rules. Also the lawful structure, if any, for a foreign issuing entity.",
+   "06-service-catalog-demand: merchant-by-merchant acceptance tests of prepaid/virtual cards (AI vendors, ads, travel), and whether SKU margins hold at the real issue fee for small tickets.",
+   "12-pricing-treasury-economics: use the issue-fee-as-separate-line, the minimum new-card load (about USD 100) and the 2.455%/month float-loss prior. Replace the placeholders after the live test.",
+   "B8 live-adapters builder: default to ManualPanelProvider (all capabilities = panel) for card providers. Add API adapters only for providers whose API is documented and eligible.",
+   "11-ux-product-fa: customer-facing risk_label and restriction_note copy, and refund-policy text for card and voucher SKUs."
+  ],
+  "validation_output": "node scripts/validate-data.mjs data/providers.json -> \"OK — 1 file(s), 639 records (487 UNVERIFIED)\". python3 scripts/research/01_provider_costs.py runs and prints the cost tables. python3 scripts/research/01_build_data.py regenerates data/providers.json (24 providers)."
+ }
+}

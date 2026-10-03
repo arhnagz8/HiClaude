@@ -1,0 +1,308 @@
+{
+ "workflow": "wf_367e3693-fcb",
+ "label": "v2:255ce52ef081df8d566a4558ab29e0252c4d6a440d83b7951d0e81aab5c991dd",
+ "result": {
+  "files_written": [
+   "/home/user/HiClaude/docs/03-research/02-ir-exchanges-usdt-rails.md",
+   "/home/user/HiClaude/data/exchanges.json",
+   "/home/user/HiClaude/data/regulatory_limits.json",
+   "/home/user/HiClaude/scripts/research/02_conversion_cost.py",
+   "/home/user/HiClaude/scripts/research/02_build_data.py",
+   "/home/user/HiClaude/scripts/research/02_render_doc.py",
+   "/home/user/HiClaude/scripts/research/02_doc_template.md"
+  ],
+  "tldr": [
+   "COVERAGE SHORTFALL (read first): the session-wide WebSearch budget (200, shared) ran out after ~30 of my searches (mandate: 40+). Every Iranian exchange/news/aggregator/media domain was EGRESS_BLOCKED. First-hand evidence exists only for Nobitex (official API docs source read from GitHub raw) and SDK sources (PyPI/pkg.go.dev) for other venues; fees/caps/policy are 'per search summary'. ~720 of 993 JSON records are null/UNVERIFIED with verify_how. Re-run plan with 7 targeted queries is in the doc.",
+   "Regime today (2026-10-02 = 10 Mehr 1405): CBI-ordered nightly USDT halt 21:00-09:00 IRST plus 2,000 USDT/user/day buy cap, 2026-09-30 21:00 to 2026-10-04 21:00, explicitly temporary; extension risk UNVERIFIED (no base rate). Confidence high (halt), medium (cap scope).",
+   "Binding capacity limit is the ID-based Rial deposit cap: 25,000,000 IRT per 24h per payer Sheba/ID = ~97.3 USDT at 257,000 IRT/USDT. Crediting 100 USDT at a provider costs ~26.05M IRT (>1 allowance-day); one allowance sustains ~1 x $100 order/day; the first-pass 30 orders/day target needs ~31 allowances and a 15,000 USDT float (3.86B IRT). 72h post-deposit crypto-withdrawal lock (per-deposit rolling assumed): float = D x (3+2 days); seeding 5,000 USDT from Rial alone = 52 allowance-days, so seed float must come from USDT/OTC/own holdings, not the ID rail.",
+   "All-in conversion premium over mid (taker 0.25%, ASSUMED spread 0.10%, 1 USDT TRC20 withdrawal): 4.36% @$25, 1.35% @$100, 0.55% @$500, 0.40% @$2000. Reported TRC20 withdrawal fees range 1.0 (Nobitex, secondary) to 3.5 USDT (Ramzinex) -> 14.4% @$25; batching withdrawals (>= w/0.005 USDT per sweep) and choosing TON/BEP20 (~0.8) are the main cost levers. Spreads/depth were unobtainable (assumptions, flagged).",
+   "Sanctions changed the venue map: Nobitex, Wallex, Bitpin, Ramzinex (OFAC SDN 2026-06-02) and Aban Tether (2026-08-07, imported from sanctions specialist's file 05 because my searches missed it); file 05 counts 7 designated domestic-market exchanges (also Shelbit, BitBank 2026-09-17) and advises not using them as USDT sources. Non-designated venues (Tabdeal, Bit24, Exir, OMPFinex, Tetherland, NovinTether...) have very thin data. Tether froze ~USD 550M Iran-linked USDT in 2026.",
+   "Nobitex API (official docs read directly): GET https://apiv2.nobitex.ir/v3/orderbook/USDTIRT 300 req/min; stats 20/min; trades 60/min; WS wss://ws.nobitex.ir/connection/websocket (Centrifugo); IRT-market prices are in RIAL (divide by 10); min order 3,000,000 Rial / 11 USDT; max 10 crypto + 3 Rial withdrawals per 24h; per-Sheba Rial cap 200M IRT; whitelist 'safe withdrawal' (disable -> 24h block; new device -> 1h; emergency cancel -> 72h); GET /v2/options gives live fees/limits. Bitpin/Wallex quote Toman; Tabdeal/Exir/Bit24/AbanTether endpoints from SDK source (medium/low).",
+   "Policy timeline 2022-2026 delivered (17 rules + 8 events in data/regulatory_limits.json; 19 rows in doc): FATA 72h lock existed by 2023-09-12; ID cap cut dated 2024-09-07 (conflicts with a 2022-12 summary); gateways blocked 2024-12-26 (Dey 1403; a Dey-1404 closure is NOT evidenced); hack 2025-06-18 (~USD 90M burned); designations 2026-06-02/08-07/09-17; current-state matrix and last-90-days list included.",
+   "Treasury/simulator inputs delivered: formulas (B_day, allowances N, float F, D_max(k), batch size), worked tables, cap-erosion table, consolidated sim_defaults in exchanges.json, unit-normalisation rules, price-feed design (anomaly 2%/5%, stale 60s, halt premium placeholder 1%). Lawful-scale levers listed (legal-entity/OTC terms, higher KYC, genuine partners with consent, USDT-in pending counsel); red lines stated (no splitting/identity borrowing).",
+   "Schema note: the brief's rule 'status: active|expired|temporary' is stored as rule_status because validate-data.mjs reserves `status` for evidence status; each rule is itself a Record. Both JSON files validate OK."
+  ],
+  "key_numbers": [
+   {
+    "name": "night_halt_window",
+    "value": "21:00-09:00 IRST; 2026-09-30 21:00 to 2026-10-04 21:00 (temporary)",
+    "unit": "time window",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "usdt_buy_cap_per_user_per_day_during_halt",
+    "value": 2000,
+    "unit": "USDT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "id_deposit_cap",
+    "value": 25000000,
+    "unit": "IRT per 24h per payer Sheba/ID",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "id_deposit_cap_in_usdt_at_257k",
+    "value": 97.3,
+    "unit": "USDT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "withdrawal_lock_after_irt_deposit",
+    "value": 72,
+    "unit": "hours",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "reference_rate",
+    "value": 257000,
+    "unit": "IRT per USDT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "usdt_irt_quotes_10_mehr_1405",
+    "value": "Wallex 255,709; Nobitex 256,500; median all venues 257,820; min 250,000; max 269,509",
+    "unit": "IRT per USDT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "nobitex_taker_fee_usdt_irt_base_tier",
+    "value": 0.25,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "wallex_taker_fee_level1",
+    "value": 0.35,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "bitpin_taker_fee_base",
+    "value": 0.25,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "ramzinex_taker_fee_level1",
+    "value": 0.25,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "tabdeal_taker_fee_level1",
+    "value": 0.35,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "withdraw_fee_trc20_nobitex",
+    "value": 1,
+    "unit": "USDT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "withdraw_fee_trc20_ramzinex",
+    "value": 3.5,
+    "unit": "USDT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "withdraw_fee_ton_ramzinex_and_bep20_nobitex",
+    "value": 0.8,
+    "unit": "USDT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "all_in_premium_over_mid_25usd_trc20_nobitex_style",
+    "value": 4.36,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "all_in_premium_over_mid_100usd_trc20_nobitex_style",
+    "value": 1.35,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "all_in_premium_over_mid_500usd_trc20_nobitex_style",
+    "value": 0.55,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "all_in_premium_over_mid_2000usd_trc20_nobitex_style",
+    "value": 0.4,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "all_in_premium_over_mid_25usd_ramzinex_trc20_3_5usdt_fee",
+    "value": 14.4,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "toman_cost_to_credit_100_usdt_at_provider",
+    "value": 26047915,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "bulk_premium_pi_for_treasury_formulas",
+    "value": 0.4525,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "float_for_1000_usdt_per_day_demand",
+    "value": 5000,
+    "unit": "USDT (about 1.285B IRT)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "allowance_days_to_seed_5000_usdt_float_from_rial_one_allowance",
+    "value": 52,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "id_allowances_needed_for_30_orders_of_100usd_per_day",
+    "value": 31,
+    "unit": "allowances per day",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "lock_price_risk_buffer_sigma_1pct_per_day_3_days_z1_64",
+    "value": 2.84,
+    "unit": "pct (sigma is a placeholder)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "nobitex_orderbook_rate_limit",
+    "value": 300,
+    "unit": "requests per minute",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "nobitex_min_order_rial_markets",
+    "value": 3000000,
+    "unit": "Rial (300,000 IRT); 11 USDT in USDT markets",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "nobitex_withdrawal_count_caps_per_24h",
+    "value": "10 crypto + 3 Rial",
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "nobitex_per_sheba_rial_transfer_cap",
+    "value": 200000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "nobitex_level2_daily_crypto_withdraw_limit",
+    "value": 200000000,
+    "unit": "IRT per day (about 778 USDT)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "tether_iran_linked_freezes_2026",
+    "value": 550,
+    "unit": "USD million",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "nobitex_hack_loss_2025_06_18",
+    "value": 90,
+    "unit": "USD million (range 81-100)",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "ofac_designation_dates",
+    "value": "2026-06-02 (Nobitex, Wallex, Bitpin, Ramzinex); 2026-08-07 (Aban Tether, Shelbit; via file 05); 2026-09-17 (BitBank; via file 05)",
+    "unit": "dates",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "web_searches_completed_vs_mandate",
+    "value": "about 30 of 40+",
+    "unit": "searches",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   }
+  ],
+  "conflicts": [
+   "C1 ID-cap dating: Azar 1401 (2022-12, cut from 50M) vs 17 Shahrivar 1403 (2024-09-07). Adjudicated 2024-09-07 (weekday-consistent, 4 outlets); the 2022 item kept as a conflicting low-confidence rule; the previous cap is UNVERIFIED.",
+   "C2 ID-cap scope: per payer Sheba vs per national ID; per exchange vs global. Modelled per payer ID per exchange; test with a 26M IRT deposit.",
+   "C3 72h lock mode: per-deposit rolling vs first-deposit-only. Conservative per-deposit rolling used in treasury formulas; exceptions UNVERIFIED.",
+   "C4 Nobitex USDT/IRT taker 0.25 / 0.20 / 0.35 pct; adjudicated 0.25 (the 0.10/0.13 tier table belongs to USDT-quoted pairs). C5 Wallex 0.35 vs 0.20 (0.35 conservative). C6 Ramzinex maker/taker reversed in one summary (taker 0.25). C7 AbanTether fee 0/0.2/0.3 (spread-embedded).",
+   "C8 Aban Tether designation: my searches found none; file 05 (verified/high there) says SDN since 2026-08-07. Adopted file 05; shows my search coverage can miss later OFAC actions (BitBank 2026-09-17 and an 'A7 network' item dated 2026-10-02 appear only in file 05).",
+   "C9 Share of Iranian activity 72% of inflows (OFAC) vs 78% of attributed volume (TRM): different metrics, both kept. C10 Nobitex hack size USD 81M vs ~90M vs ~100M: range kept.",
+   "C11 Price units differ: Nobitex IRT markets in RIAL (official docs), Bitpin USDT_IRT in TOMAN (SDK README), Wallex TMN Toman; unit normalisation mandatory.",
+   "C12 'Dey gateway closure': evidenced for Dey 1403 (2024-12-26); file 03 also found no confirmed Dey-1404/1405 event.",
+   "C13 Risk-register control 'exchange balance <= 1 day of conversion needs' (data/risk_register.json controls[3]) cannot hold with a per-deposit 72h lock (structural minimum ~3 days of purchases); propose L+1 days.",
+   "C14 Brief schema vs validator: brief wants rule `status: active|expired|temporary` but validate-data.mjs reserves `status` for verified|reported|UNVERIFIED|conflicting; stored lifecycle as `rule_status`."
+  ],
+  "open_questions": [
+   "Raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION and re-run gaps: per-venue withdrawal fees by network (TRC20/BEP20/TON), legal-entity/business account terms and caps, OTC desk terms, Rial withdrawal cycles, whether the ID cap is per exchange or global, venue status of Exir/OMPFinex/Tetherland/Excoino/Arzinja in 2026, OFAC actions after 2026-09-17 (verify_how: 7 queries listed in the doc's Method section).",
+   "Will the night halt/2,000 USDT cap be extended after 2026-10-04 21:00? (verify_how: exchange Telegram channels/banners daily; re-run brief on 13 Mehr).",
+   "72h lock: per deposit or per account; exceptions by KYC level/legal entity/on-chain deposits? (verify_how: written answers from two non-SDN venues plus a small test deposit).",
+   "ID cap scope and previous cap value (verify_how: deposit 26M IRT and read the credited amount; ask the bank).",
+   "Live spreads/depth at 100/500/2,000 USDT per venue (verify_how: sample order books every 10 s for 24 h); all spreads in the cost table are assumptions.",
+   "Live withdrawal fees/minimums/confirmations per network (verify_how: Nobitex GET /v2/options from an Iranian IP; other venues' withdrawal screens).",
+   "Current Rial gateway availability per venue and any Dey-1404/1405 closure (verify_how: open deposit pages; record date).",
+   "Nobitex restoration time after the June-2025 hack and any proof-of-reserves page (UNVERIFIED in files 02 and 05; verify_how: Nobitex status posts, 28 Khordad - Tir 1404).",
+   "TRON energy price and sweep cost for customer USDT (verify_how: GET https://api.trongrid.io/wallet/getenergyprices plus a test sweep); TRC20 energy figures (~65k/~130k) are recalled, not verified (file 03 also flags them).",
+   "P2P/OTC: no searches could be run; fees, speed and minimum sizes are null (verify_how: three same-hour quotes for 2,000 USDT; ask exchange sales for OTC terms)."
+  ],
+  "needs_from_other_specialists": [
+   "01 card-providers: provider deposit networks, minimum deposits, confirmations, deposit fees, screening of SDN-linked sources. Current data/providers.json has these UNVERIFIED for every provider (only mpay TRC20/BEP20 reported at low confidence).",
+   "03 payments: bank-side ID-deposit mechanics and tariff, business-account caps, Paya/Satna timing for exchange deposits/withdrawals (file 03 gives Paya cycles 03:45/09:45/12:45/18:45 and Satna cut-offs; used as a cross-reference only).",
+   "04 legal/tax: legality of using exchange accounts for business USDT purchases, legal-entity accounts, tax on FX gains, and where partner-owned accounts stop being lawful (structuring boundary); also whether two-sided netting (file 07 hypothesis) would be characterised as unlicensed currency exchange.",
+   "05 sanctions: adjudicate use of SDN venues' public order books as price feeds; address-screening policy; designations after 2026-09-17; whether any non-SDN venue is exposed; align control 'exchange balance <= 1 day' with the 72h lock.",
+   "08 macro-fx: USDT/IRT history, realised daily sigma and jump risk (my lock-buffer table uses placeholder sigma 0.5/1/2 pct), night-gap premium and cross-venue dispersion for calibration (no macro calibration file existed when I finished).",
+   "09 platform-tech: API-key custody (Nobitex Ed25519 keys, IP whitelist), whitelist-based sweep automation, unit-normalisation tests (Rial vs Toman), address-poisoning controls.",
+   "12 pricing-treasury: adopt float/allowance/lock formulas and the withdrawal-fee amortisation (networkFeeAllocUsdt = w / batchSize); model initial capital as USDT, not Rial that must pass the 25M ID cap.",
+   "Lead: repo-wide `node scripts/validate-data.mjs` currently fails on other specialists' files (data/sim/marketing.json 6, data/sim/segments.json 6, data/sim/staff.json 2 errors); not caused by 02."
+  ],
+  "validation_output": "node /home/user/HiClaude/scripts/validate-data.mjs data/exchanges.json data/regulatory_limits.json -> \"OK — 2 file(s), 993 records (720 UNVERIFIED)\". Scripts reproducible: python3 scripts/research/02_build_data.py && python3 scripts/research/02_conversion_cost.py --write && python3 scripts/research/02_render_doc.py. Repo-wide validation (not my files): 14 errors in data/sim/marketing.json, data/sim/segments.json, data/sim/staff.json."
+ }
+}

@@ -62,6 +62,9 @@ export interface PlanInput {
   network?: Network
 }
 
+/** Quantities below 0.01 USDT left over by integer rounding are not worth an item. */
+const DUST_MICRO = 10_000
+
 const TYPE_ORDER: Record<TreasuryPlanItemType, number> = { deposit_irt: 0, buy_usdt: 1, withdraw_usdt: 2, sweep_provider: 3 }
 
 interface Cand {
@@ -72,6 +75,8 @@ interface Cand {
   openAt: EpochMs
   buyCap: number
   depCap: number
+  /** True when the cap comes from the regulatory per-ID cap (shared by all exchanges) rather than from the exchange's own limits. */
+  depPooled: boolean
   minOrderIrt: number
   wFee: number
   wMin: number
@@ -95,9 +100,9 @@ export function planReplenishment(input: PlanInput): TreasuryPlanItem[] {
   let need = 0
   if (cov.shortfall > 0) {
     const room = Math.max(0, cov.maxFloat - cov.effectiveFloat)
-    need = Math.min(cov.shortfall, room)
-    if (need > 0 && t.buyBatchMicroUsdt > 1) need = Math.min(ceilToStep(need, t.buyBatchMicroUsdt), room)
-    if (need < t.minBuyMicroUsdt) need = cov.coverageDays < t.minCoverageDays ? t.minBuyMicroUsdt : 0
+    const raw = Math.min(cov.shortfall, room)
+    if (raw < t.minBuyMicroUsdt) need = cov.coverageDays < t.minCoverageDays ? t.minBuyMicroUsdt : 0
+    else need = t.buyBatchMicroUsdt > 1 ? Math.min(ceilToStep(raw, t.buyBatchMicroUsdt), room) : raw
   }
 
   // ── 2. candidates ────────────────────────────────────────────────────────────────────────────
@@ -112,6 +117,7 @@ export function planReplenishment(input: PlanInput): TreasuryPlanItem[] {
     const openAt = open ? now : Math.max(now, lim.nextTradingOpenAt ?? nextTradingOpen(now, regulatory))
     const capPer = ex.depositCapIrtPer24hOverride ?? regulatory.idDepositCapIrtPer24h
     const depFallback = capPer === null ? Number.POSITIVE_INFINITY : capPer * identities
+    const pooled = lim.depositCapRemainingIrt === null && ex.depositCapIrtPer24hOverride === null
     cands.push({
       ex,
       ask: tk.ask,
@@ -120,6 +126,7 @@ export function planReplenishment(input: PlanInput): TreasuryPlanItem[] {
       openAt,
       buyCap: lim.buyCapRemainingMicroUsdt ?? regulatory.dailyBuyCapMicroUsdt ?? Number.POSITIVE_INFINITY,
       depCap: lim.depositCapRemainingIrt ?? depFallback,
+      depPooled: pooled,
       minOrderIrt: lim.minOrderIrt,
       wFee: lim.withdrawFeeMicroUsdt[network] ?? ex.withdrawFeeMicroUsdt[network] ?? 0,
       wMin: lim.withdrawMinMicroUsdt[network] ?? ex.withdrawMinMicroUsdt[network] ?? 0,
@@ -139,11 +146,13 @@ export function planReplenishment(input: PlanInput): TreasuryPlanItem[] {
   // ── 3. fill the buy need ─────────────────────────────────────────────────────────────────────
   const virtualLots: { at: EpochMs; exchangeId: string; qty: number }[] = []
   let bankLeft = Math.max(0, state.bankIrt - t.cashReserveIrt)
+  // regulatory per-ID deposit cap is shared across exchanges (conservative): cap × identities in total per 24 h
+  let poolLeft = regulatory.idDepositCapIrtPer24h === null ? Number.POSITIVE_INFINITY : regulatory.idDepositCapIrtPer24h * identities
   let remaining = need
   const reasons: string[] = []
   let plannedQty = 0
   for (const c of ranked) {
-    if (remaining <= 0) break
+    if (remaining <= DUST_MICRO) break
     const name = c.ex.name
     const qtyCap = Math.min(remaining, c.buyCap)
     if (qtyCap <= 0) {
@@ -154,10 +163,11 @@ export function planReplenishment(input: PlanInput): TreasuryPlanItem[] {
     const bNeed = toInt(D(qtyCap).mul(unit).div(1_000_000), 'up') + 2
     const have = state.exchanges[c.ex.id]?.irt ?? 0
     const deficit = Math.max(0, bNeed - have)
-    const dep = Math.max(0, Math.min(deficit, c.depCap, bankLeft))
+    const capHere = c.depPooled ? poolLeft : c.depCap
+    const dep = Math.max(0, Math.min(deficit, capHere, bankLeft))
     const spend = Math.min(bNeed, have + dep)
     if (spend < Math.max(1, c.minOrderIrt)) {
-      if (deficit > 0 && c.depCap <= 0) reasons.push(`سقف واریز ۲۴ ساعته به ${name} تکمیل است؛ با شناسه‌ی واریز بیشتر می‌توان ادامه داد.`)
+      if (deficit > 0 && capHere <= 0) reasons.push(`سقف واریز ۲۴ ساعته به ${name} تکمیل است؛ با شناسه‌ی واریز بیشتر می‌توان ادامه داد.`)
       else if (deficit > 0 && bankLeft <= 0) reasons.push(`نقدینگی بانک پس از کسر ذخیره‌ی ${formatIrt(t.cashReserveIrt)} برای واریز به ${name} کافی نیست.`)
       else reasons.push(`مبلغ قابل خرید در ${name} کمتر از حداقل سفارش (${formatIrt(c.minOrderIrt)}) است.`)
       continue
@@ -172,10 +182,11 @@ export function planReplenishment(input: PlanInput): TreasuryPlanItem[] {
         amountIrt: dep,
         executeAt: now,
         rationaleFa: `واریز ${formatIrt(dep)} به ${name} برای خرید تتر.`,
-        ...(dep < deficit ? { blockedReason: deficit > c.depCap ? `واریز به‌دلیل سقف ۲۴ ساعته محدود شد (${formatIrt(dep)} از ${formatIrt(deficit)}).` : `واریز به‌دلیل نقدینگی بانک محدود شد (${formatIrt(dep)} از ${formatIrt(deficit)}).` } : {}),
+        ...(dep < deficit ? { blockedReason: deficit > capHere ? `واریز به‌دلیل سقف ۲۴ ساعته محدود شد (${formatIrt(dep)} از ${formatIrt(deficit)}).` : `واریز به‌دلیل نقدینگی بانک محدود شد (${formatIrt(dep)} از ${formatIrt(deficit)}).` } : {}),
       })
       bankLeft -= dep
-      c.depCap -= dep
+      if (c.depPooled) poolLeft -= dep
+      else c.depCap -= dep
     }
     const fee = buy.feeIrt
     items.push({
@@ -194,10 +205,10 @@ export function planReplenishment(input: PlanInput): TreasuryPlanItem[] {
     plannedQty += qty
     c.buyCap -= qty
     if (qty < qtyCap && spend < bNeed) {
-      reasons.push(deficit > dep ? (dep >= c.depCap ? `سقف واریز ۲۴ ساعته به ${name} محدودکننده بود.` : `نقدینگی بانک برای ${name} محدودکننده بود.`) : `سقف خرید ${name} محدودکننده بود.`)
+      reasons.push(deficit > dep ? (dep >= capHere ? `سقف واریز ۲۴ ساعته به ${name} محدودکننده بود.` : `نقدینگی بانک برای ${name} محدودکننده بود.`) : `سقف خرید ${name} محدودکننده بود.`)
     }
   }
-  if (remaining > 0 && need > 0) {
+  if (remaining > DUST_MICRO && need > 0) {
     const first = ranked[0]
     items.push({
       type: 'buy_usdt',
@@ -225,7 +236,7 @@ export function planReplenishment(input: PlanInput): TreasuryPlanItem[] {
   })
   for (const n of [...needs].sort((a, b) => b.need - a.need || (a.p.id < b.p.id ? -1 : 1))) {
     const bal = (state.providers[n.p.id] as { balanceMicro: number }).balanceMicro
-    if (n.capped && bal >= n.limit && n.target > bal) {
+    if (n.capped && bal >= n.limit && n.target - bal >= t.sweepMinMicroUsdt) {
       items.push({
         type: 'sweep_provider',
         providerId: n.p.id,

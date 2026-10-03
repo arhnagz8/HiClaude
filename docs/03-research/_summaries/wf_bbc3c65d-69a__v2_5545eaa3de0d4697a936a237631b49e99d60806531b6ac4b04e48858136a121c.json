@@ -1,0 +1,200 @@
+{
+ "workflow": "wf_bbc3c65d-69a",
+ "label": "v2:5545eaa3de0d4697a936a237631b49e99d60806531b6ac4b04e48858136a121c",
+ "result": {
+  "files_written": [
+   "/home/user/HiClaude/docs/03-research/04-legal-tax-ir.md",
+   "/home/user/HiClaude/data/tax.json",
+   "/home/user/HiClaude/data/legal_checklist.json",
+   "/home/user/HiClaude/docs/08-compliance-risk/templates/terms-of-service.fa.md",
+   "/home/user/HiClaude/docs/08-compliance-risk/templates/privacy-policy.fa.md",
+   "/home/user/HiClaude/docs/08-compliance-risk/templates/refund-policy.fa.md",
+   "/home/user/HiClaude/docs/08-compliance-risk/templates/risk-disclosure.fa.md",
+   "/home/user/HiClaude/docs/08-compliance-risk/templates/kyc-aml-policy.fa.md",
+   "/home/user/HiClaude/scripts/research/04_legal_tax_calc.py",
+   "/home/user/HiClaude/scripts/research/04_build_legal_data.py"
+  ],
+  "tldr": [
+   "MANDATE PARTLY MET: the shared WebSearch budget (200) ran out after 26 successful searches by this agent (mandate: at least 40). WebFetch was EGRESS_BLOCKED on all ~20 hosts tried once each, so no page was read directly and every source is 'per search summary'. No workaround was attempted. Costs, durations, Moadian thresholds, AML thresholds, the Art. 131 table and statute-level items are null or low-confidence/UNVERIFIED with verify_how.",
+   "Regulatory map: no crypto statute; CBI is sole licensing/oversight body (policy framework approved 2024-12-03 / 13 Azar 1403; broker directive 58 articles + 28 notes). Unlicensed FX dealing is currency smuggling (fine 2x rial value + confiscation).",
+   "Classification: fixed-price Toman digital goods are e-commerce. Card top-ups, a withdrawable wallet, USDT-pay by Iran residents, pay-on-behalf and an exchange-style rate board move the business toward an unlicensed exchange/PSP. Seven tests (T1-T7), a SKU risk-label mapping and design rules D1-D12 are in the doc; lawyer memo is gate G1.",
+   "Taxes 1405: VAT 10% (government bill's 12% was rejected; medium confidence, enacted text unseen), company tax 25% flat, individual exemption 480,000,000 IRT/yr with brackets up to 30%. Computed: VAT on the gross price at a fixed market price erodes about 67% of round-0 per-order profit on average. Historical-cost tax drag in a 20% devaluation is about 67% of real profit.",
+   "Triggers: more than 100 deposits/month and more than 35M IRT/month makes a personal account 'commercial' (independently corroborated by 03-ir-payments-collection). Moadian e-invoice penalty reported at 10% of sales or 20M rial (low confidence).",
+   "Sanctions: OFAC designated Nobitex, Wallex, Bitpin, Ramzinex on 2026-06-02, CBI-linked wallets on 2026-04-24 (USD 344.2M frozen) and 2026-07-16 (USD 131M), BitBank on 2026-09-17; Tether froze about USD 550M by 2026-09-29. The STATUS note that the designation was denied/rumour is NOT supported: it is confirmed by many independent sources and the exchanges' own reactions (Treasury primary release not read).",
+   "Deliverables: data/tax.json and data/legal_checklist.json (14 ordered steps, 11 go/no-go gates, 10 pause triggers, 15-item ordinal risk register, KYC tiers T0-T3, refund tiers, price-lock and rush defaults) both validate OK; five Persian templates all marked 'needs lawyer review'.",
+   "Flag for lead: round-0 plan section 4.3 (use several partners' national IDs to raise exchange deposit caps) resembles splitting to dodge a cap and conflicts with guardrail 3; lawful alternatives are listed in section 8. USDT payment from Iran residents and wallet cash-out should default OFF."
+  ],
+  "key_numbers": [
+   {
+    "name": "vat_rate_pct_1405",
+    "value": 10,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "vat_rate_pct_govt_bill_rejected",
+    "value": 12,
+    "unit": "pct",
+    "as_of": "2025-12-23",
+    "confidence": "medium"
+   },
+   {
+    "name": "corporate_income_tax_pct",
+    "value": 25,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "individual_annual_exemption_irt",
+    "value": 480000000,
+    "unit": "IRT/year",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "individual_top_marginal_rate_pct",
+    "value": 30,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "commercial_account_min_deposits_per_month",
+    "value": 100,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "commercial_account_min_deposit_total_irt_per_month",
+    "value": 35000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "moadian_penalty_pct_of_sales_or_20M_rial",
+    "value": 10,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "crypto_exchange_identified_deposit_cap_irt_per_24h",
+    "value": 25000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "withdrawal_lock_after_rial_deposit_hours",
+    "value": 72,
+    "unit": "hours",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "ofac_designation_four_exchanges_date",
+    "value": "2026-06-02 (12 Khordad 1405)",
+    "unit": "date",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "tether_frozen_cbi_wallets_apr_2026_usd_m",
+    "value": 344.2,
+    "unit": "USD m",
+    "as_of": "2026-04-24",
+    "confidence": "high"
+   },
+   {
+    "name": "tether_frozen_cbi_wallets_jul_2026_usd_m",
+    "value": 131,
+    "unit": "USD m",
+    "as_of": "2026-07-16",
+    "confidence": "medium"
+   },
+   {
+    "name": "tether_frozen_iran_linked_cumulative_usd_m",
+    "value": 550,
+    "unit": "USD m",
+    "as_of": "2026-09-29",
+    "confidence": "medium"
+   },
+   {
+    "name": "ofac_iran_crypto_action_mean_gap_days",
+    "value": 48.7,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "vat_profit_erosion_when_carved_from_fixed_price_mean_pct",
+    "value": 67,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "enamad_fee_irt_2yrs",
+    "value": 175000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "economic_code_fee_irt",
+    "value": 0,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "llc_registration_cost_irt",
+    "value": null,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "redenomination_transition_start",
+    "value": "2027-12-07 (16 Azar 1406)",
+    "unit": "date",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   }
+  ],
+  "conflicts": [
+   "VAT 1405: 12% (government bill; Tasnim/Entekhab headlines 'reached 12%') vs 10% (consolidation committee/floor; Tejaratnews, Didbaniran, Eghtesadonline 'finalised', Sepidar, Nabzgheymat). Adjudicated 10%, medium confidence; enacted budget-law text not seen.",
+   "OFAC four-exchange designation: STATUS note says denied/rumour-labelled by some Iranian outlets vs Scorechain, TRM, Crystal, Crypto Briefing, Euronews Persian, Mihanblockchain, TRT Farsi and the exchanges' own reactions. Adjudicated as confirmed event (high); Treasury primary release blocked and unread.",
+   "Tether frozen totals 344.2M + 131M = 475.2M (reported 2026-09-09) vs about 550M (2026-09-29): cumulative growth, about 75M unexplained increment.",
+   "CBI exchange filing deadline: '20 Ordibehesht' vs '1404' in another summary: unresolved, low confidence, not used.",
+   "Round-0 plan section 4.3 (multiple partners' national IDs to raise deposit caps) vs CLAUDE.md guardrail 3 (no splitting to dodge caps): flagged non-compliant; lawful alternatives in section 8."
+  ],
+  "open_questions": [
+   "Is selling virtual-card top-ups / pay-on-behalf lawful for an unlicensed company, and is USDT payment from Iran residents prohibited? verify_how: written memo from a licensed Iranian lawyer (gate G1).",
+   "VAT base for resold foreign services and FX-denominated top-ups (gross vs fee-only agent vs exemption). verify_how: CPA written letter / Tax Organization ruling.",
+   "Art. 131 progressive table for non-salary income in 1405, dividend/owner-withdrawal tax, first 10% slice of the table. verify_how: CPA plus enacted 1405 budget law.",
+   "Moadian phase, sales threshold and penalty basis (per invoice vs period) for a new online seller. verify_how: intamedia.ir / tax.gov.ir notices, CPA.",
+   "Real cost and time to register an LLC, obtain union licence, Enamad review, open a business bank account. verify_how: written quotes (all null in data).",
+   "Is a pure reseller a reporting entity under the AML law; statutory reporting thresholds and retention period. verify_how: lawyer, Supreme AML Council circulars.",
+   "Hosting-in-Iran and data-localisation duties; existence of a comprehensive data-protection statute. verify_how: lawyer, Supreme Council of Cyberspace/ICT resolutions.",
+   "Exact E-Commerce Law article numbers for withdrawal right and exceptions, consumer complaint hotline. verify_how: read statute on rc.majlis.ir / dotic.ir.",
+   "Date/content of CBI broker directive and licensing status; Treasury press release and SDN entries for the 2026 actions. verify_how: CBI site, home.treasury.gov (blocked here).",
+   "Re-run brief 04 after raising CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION: priority queries are listed at the end of section 12 of the doc."
+  ],
+  "needs_from_other_specialists": [
+   "05-sanctions-counterparty-risk: confirm OFAC/Tether facts from primary sources (Treasury release, SDN address entries, Tether freeze data) and provide the sanctions event process for the simulator; verify provider terms (OpenAI/Anthropic/card issuers) for risk labels.",
+   "03-ir-payments-collection: PSP written category rules for card-top-up and wallet SKUs, business-account opening requirements and cost, current per-card c2c cap and Paya/Satna limits, Enamad/PSP onboarding documents and timelines.",
+   "02-ir-exchanges-usdt-rails: re-verify the 25M IRT/24h deposit cap and 72h lock current status, whether corporate accounts have different caps, which exchanges are not designated; revise round-0 section 4.3.",
+   "06-service-catalog-demand: assign risk_label/restriction_note to every SKU using the T1-T7 tests and the SKU mapping in section 1.5.",
+   "09-platform-tech-security: implement Moadian adapter on Iranian infrastructure, legal-hold export with 2-person approval, retention schedule, closed-loop wallet and feature flags (usdtPaymentForResidents=false, walletWithdraw=false).",
+   "11-ux-product-fa: place the risk-disclosure checkbox flow and per-order acceptance records; rename the 'rate board' to service pricing; add banned-wording list (licensed/legal/exchange/dollar rate).",
+   "12-pricing-treasury-economics: add vatMode (gross_price default, fee_only_agent, exempt_if_confirmed), VAT held in IRT with quarterly remittance, tax on historical-cost profit plus inflation-adjusted view; expose legal_setup_cost_irt and legal_setup_days as scenario inputs; venue concentration cap.",
+   "10-ops-growth / 08-macro-fx-scenarios: payroll on-costs (employer social insurance about 23%, low confidence) and redenomination timeline handling; annual indexation of tax thresholds."
+  ],
+  "validation_output": "node scripts/validate-data.mjs data/tax.json data/legal_checklist.json -> \"OK — 2 file(s), 100 records (33 UNVERIFIED)\". Python scripts run clean: scripts/research/04_legal_tax_calc.py (calendar self-check 2026-10-02 = 1405/07/10 passes) and scripts/research/04_build_legal_data.py (regenerates both JSON files)."
+ }
+}

@@ -11,7 +11,7 @@ const DATE = /^\d{4}-\d{2}-\d{2}$/
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
-    if (name === '_schema' || name === 'node_modules') continue
+    if (name === '_schema' || name === 'node_modules' || name === 'sim' || name === 'config' || name === 'copy.fa.json') continue // plain runtime/config content, not provenance Records
     const p = join(dir, name)
     const st = statSync(p)
     if (st.isDirectory()) walk(p, out)

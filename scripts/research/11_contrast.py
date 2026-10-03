@@ -35,7 +35,7 @@ PAIRS = [
     ('accent', 'accent-soft', 4.5, 'rush/express badge'), ('accent', 'surface', 4.5, 'rush text on card'),
     ('line-strong', 'bg', 3.0, 'input border vs page (WCAG 1.4.11)'),
     ('line-strong', 'surface', 3.0, 'input border vs card (WCAG 1.4.11)'),
-    ('primary', 'surface', 3.0, 'focus ring vs card (WCAG 2.4.11/1.4.11)'),
+    ('primary', 'surface', 3.0, 'focus ring vs card (WCAG 1.4.11 non-text contrast; 2.4.13 focus appearance is AAA)'),
 ]
 fails = 0; rows = []
 for theme in ('light', 'dark'):

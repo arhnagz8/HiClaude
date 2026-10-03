@@ -1,0 +1,1507 @@
+{
+ "_meta": {
+  "file": "data/ops_growth.json",
+  "owner_agent": "10-ops-growth",
+  "as_of": "2026-10-02",
+  "note": "Search budget exhausted; only 2 searches (1405 minimum wage supported; Torob CPC schedule NOT found). Everything else is a labelled assumption for the simulator; calibrate in first 90 days. Not legal/tax advice."
+ },
+ "channels": {
+  "seo": {
+   "cac_irt": {
+    "value": 250000,
+    "unit": "IRT per first-order customer",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "cost_per_visit_irt": {
+    "value": 0,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "visit_to_signup": {
+    "value": 0.1,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "signup_to_first_order": {
+    "value": 0.25,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "half_saturation_irt_per_month": {
+    "value": 60000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "lag_days": {
+    "value": 120,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "note": "Cheap per customer but slow; content+Persian landing pages; cost is writer/dev time"
+  },
+  "telegram_channels": {
+   "cac_irt": {
+    "value": 380000,
+    "unit": "IRT per first-order customer",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "cost_per_visit_irt": {
+    "value": 9000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "visit_to_signup": {
+    "value": 0.1,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "signup_to_first_order": {
+    "value": 0.25,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "half_saturation_irt_per_month": {
+    "value": 40000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "lag_days": {
+    "value": 5,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "note": "Ads via Telegram Ads is restricted for Iran; assume paid posts in channels (admin-to-admin); verify availability"
+  },
+  "instagram": {
+   "cac_irt": {
+    "value": 450000,
+    "unit": "IRT per first-order customer",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "cost_per_visit_irt": {
+    "value": 12000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "visit_to_signup": {
+    "value": 0.08,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "signup_to_first_order": {
+    "value": 0.2,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "half_saturation_irt_per_month": {
+    "value": 30000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "lag_days": {
+    "value": 14,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "note": "Instagram is filtered in Iran; reach via VPN users; creative-heavy"
+  },
+  "bale_eitaa": {
+   "cac_irt": {
+    "value": 300000,
+    "unit": "IRT per first-order customer",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "cost_per_visit_irt": {
+    "value": 6000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "visit_to_signup": {
+    "value": 0.1,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "signup_to_first_order": {
+    "value": 0.22,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "half_saturation_irt_per_month": {
+    "value": 20000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "lag_days": {
+    "value": 7,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "note": "Domestic messengers; smaller audience, cheaper"
+  },
+  "influencers": {
+   "cac_irt": {
+    "value": 600000,
+    "unit": "IRT per first-order customer",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "cost_per_visit_irt": {
+    "value": 0,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "visit_to_signup": {
+    "value": 0.06,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "signup_to_first_order": {
+    "value": 0.2,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "half_saturation_irt_per_month": {
+    "value": 25000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "lag_days": {
+    "value": 10,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "note": "Seller/creator partnerships; lumpy; disclose sponsorship"
+  },
+  "price_comparison": {
+   "cac_irt": {
+    "value": 500000,
+    "unit": "IRT per first-order customer",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "cost_per_visit_irt": {
+    "value": 15000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "visit_to_signup": {
+    "value": 0.07,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "signup_to_first_order": {
+    "value": 0.3,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "half_saturation_irt_per_month": {
+    "value": 30000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "lag_days": {
+    "value": 3,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "note": "Torob/Emalls style CPC; high intent; fee schedule UNVERIFIED"
+  },
+  "b2b": {
+   "cac_irt": {
+    "value": 1500000,
+    "unit": "IRT per first-order customer",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "cost_per_visit_irt": {
+    "value": 0,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "visit_to_signup": {
+    "value": 0.3,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "signup_to_first_order": {
+    "value": 0.35,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "half_saturation_irt_per_month": {
+    "value": 10000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "lag_days": {
+    "value": 45,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "note": "Agencies/dev shops; outbound; few accounts, high AOV"
+  },
+  "referral": {
+   "cac_irt": {
+    "value": 200000,
+    "unit": "IRT per first-order customer",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "cost_per_visit_irt": {
+    "value": 0,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "visit_to_signup": {
+    "value": 0.25,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "signup_to_first_order": {
+    "value": 0.4,
+    "unit": "ratio",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "half_saturation_irt_per_month": {
+    "value": 0,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "lag_days": {
+    "value": 14,
+    "unit": "days",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "note": "Reward paid only after referee's first completed order; self-referral blocked"
+  }
+ },
+ "segments": {
+  "student": {
+   "label_fa": "دانشجو",
+   "share": {
+    "value": 0.14,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 25,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 4,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.9,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "telegram",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "subscriptions, small top-ups, exam fees"
+  },
+  "freelance_dev": {
+   "label_fa": "فریلنسر برنامه‌نویس",
+   "share": {
+    "value": 0.14,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 45,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 10,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.5,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "web",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "cloud/API credits, domains, SaaS, card top-up"
+  },
+  "designer": {
+   "label_fa": "طراح",
+   "share": {
+    "value": 0.08,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 35,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 6,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.55,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "web",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "design tool subscriptions, stock, fonts"
+  },
+  "gamer": {
+   "label_fa": "گیمر",
+   "share": {
+    "value": 0.12,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 22,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 9,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.8,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "telegram",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "Steam/PSN gift cards, in-game top-ups"
+  },
+  "ads_manager": {
+   "label_fa": "مدیر تبلیغات کسب‌وکار کوچک",
+   "share": {
+    "value": 0.07,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 250,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 14,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.4,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "web",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "ad-platform top-ups, card loads"
+  },
+  "importer": {
+   "label_fa": "واردکننده/بازرگان کوچک",
+   "share": {
+    "value": 0.03,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 800,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 6,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.35,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "web",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "supplier payments (higher-risk; heavier KYC)"
+  },
+  "exam_applicant": {
+   "label_fa": "داوطلب آزمون/مهاجرت",
+   "share": {
+    "value": 0.12,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 230,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 1.5,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.3,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "web",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "IELTS/TOEFL/GRE/embassy fees"
+  },
+  "traveller": {
+   "label_fa": "مسافر",
+   "share": {
+    "value": 0.1,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 120,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 2,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.5,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "telegram",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "travel card, booking, eSIM"
+  },
+  "parent_tuition": {
+   "label_fa": "والدین (شهریه)",
+   "share": {
+    "value": 0.04,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 3500,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 1.2,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.25,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "web",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "tuition/fees: large, trust-driven, high scrutiny"
+  },
+  "casual_subscriber": {
+   "label_fa": "مشترک عادی (استریم/AI)",
+   "share": {
+    "value": 0.16,
+    "unit": "ratio of customers",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "aov_usd": {
+    "value": 18,
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "orders_per_year": {
+    "value": 9,
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "price_sensitivity": {
+    "value": 0.7,
+    "unit": "0-1 (1 = switches for 1% cheaper)",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "preferred_channel": {
+    "value": "telegram",
+    "unit": "channel id",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "basket": "ChatGPT/Spotify/Netflix subscriptions"
+  }
+ },
+ "retention": {
+  "month_k_active_share": {
+   "value": [
+    1.0,
+    0.38,
+    0.27,
+    0.22,
+    0.19,
+    0.17,
+    0.155,
+    0.145,
+    0.135,
+    0.128,
+    0.12,
+    0.115,
+    0.11
+   ],
+   "unit": "share of cohort ordering in month k (k=0..12)",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables).",
+   "note": "monthly active curve; blended"
+  }
+ },
+ "referral": {
+  "referral_coefficient_k": {
+   "value": 0.12,
+   "unit": "new customers per existing customer per year",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "payout_irt_per_referral": {
+   "value": 150000,
+   "unit": "IRT after referee first completed order",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "referee_discount_irt": {
+   "value": 100000,
+   "unit": "IRT",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "max_payout_per_referrer_per_month": {
+   "value": 2000000,
+   "unit": "IRT",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables).",
+   "note": "cap + single-person ban = anti-farming (guardrail)"
+  }
+ },
+ "staffing": {
+  "issue_card": {
+   "value": 6,
+   "unit": "tasks per operator-hour",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "topup_card": {
+   "value": 12,
+   "unit": "tasks per operator-hour",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "deliver_voucher": {
+   "value": 30,
+   "unit": "tasks per operator-hour",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "pay_service": {
+   "value": 8,
+   "unit": "tasks per operator-hour",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "custom": {
+   "value": 5,
+   "unit": "tasks per operator-hour",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "payment_review_manual": {
+   "value": 20,
+   "unit": "tasks per operator-hour",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "support_ticket": {
+   "value": 6,
+   "unit": "tasks per operator-hour",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "target_utilisation": {
+   "value": 0.7,
+   "unit": "ratio",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  }
+ },
+ "salaries": {
+  "minimum_wage_base_monthly_1405": {
+   "value": 16600000,
+   "unit": "IRT per month",
+   "as_of": "2026-10-02",
+   "confidence": "medium",
+   "status": "reported",
+   "verify_how": "Check Ministry of Labor 1405 circular; summary also lists housing 3,000,000 and seniority 500,000 IRT/month",
+   "sources": [
+    {
+     "url": "https://www.asriran.com/fa/news/1149922/",
+     "title": "1405 wage decree",
+     "note": "per search summary"
+    },
+    {
+     "url": "https://www.taadolnewspaper.ir/fa/news/383834/",
+     "title": "wage circular 1405",
+     "note": "per search summary"
+    }
+   ]
+  },
+  "operator_gross": {
+   "value": 22000000,
+   "unit": "IRT per month",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "support_gross": {
+   "value": 20000000,
+   "unit": "IRT per month",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "admin_ops_lead_gross": {
+   "value": 35000000,
+   "unit": "IRT per month",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "junior_dev_gross": {
+   "value": 55000000,
+   "unit": "IRT per month",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "senior_dev_gross": {
+   "value": 95000000,
+   "unit": "IRT per month",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "employer_cost_multiplier": {
+   "value": 1.25,
+   "unit": "x gross",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "04-legal-tax: employer insurance 20%+3% unemployment (low); confirm with accountant"
+  },
+  "night_premium": {
+   "value": 0.2,
+   "unit": "ratio",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "annual_indexation": {
+   "value": 0.35,
+   "unit": "per year (inflation-linked)",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables).",
+   "note": "owner policy; sim lags inflation 6 months"
+  }
+ },
+ "opex": {
+  "coworking_seat": {
+   "value": 4500000,
+   "unit": "IRT per seat per month",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "tools_saas_total": {
+   "value": 8000000,
+   "unit": "IRT per month",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "hosting_iran_vps_and_cdn": {
+   "value": 6000000,
+   "unit": "IRT per month",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "accounting_service": {
+   "value": 15000000,
+   "unit": "IRT per month",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "sms_otp_and_notifications": {
+   "value": 3,
+   "unit": "IRT-thousand per order (3000 IRT)",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "enamad_fee": {
+   "value": 175000,
+   "unit": "IRT per 2 years",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "see 04-legal-tax F28",
+   "sources": [
+    {
+     "url": "docs/03-research/04-legal-tax-ir.md",
+     "title": "F28"
+    }
+   ]
+  },
+  "bank_gateway_fee_note": {
+   "value": null,
+   "unit": "see data/gateways.json",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  }
+ },
+ "rates": {
+  "operator_error_rate": {
+   "value": 0.02,
+   "unit": "ratio of tasks",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "refund_rate": {
+   "value": 0.025,
+   "unit": "ratio of orders",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "fraud_loss_rate": {
+   "value": 0.003,
+   "unit": "ratio of GMV",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "chargeback_equiv_dispute_rate": {
+   "value": 0.004,
+   "unit": "ratio of orders",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "late_payment_rate_c2c": {
+   "value": 0.06,
+   "unit": "ratio",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "wrong_network_rate_usdt": {
+   "value": 0.012,
+   "unit": "ratio",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  }
+ },
+ "sla": {
+  "first_response_minutes_business": {
+   "value": 10,
+   "unit": "minutes p90",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "first_response_minutes_night": {
+   "value": 45,
+   "unit": "minutes p90",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "fulfil_minutes_instant_voucher": {
+   "value": 5,
+   "unit": "minutes p90",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "fulfil_minutes_topup": {
+   "value": 30,
+   "unit": "minutes p90",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "fulfil_minutes_new_card": {
+   "value": 120,
+   "unit": "minutes p90",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "fulfil_minutes_custom": {
+   "value": 480,
+   "unit": "minutes p90",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "fulfil_minutes_rush": {
+   "value": 15,
+   "unit": "minutes p90",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "refund_decision_hours": {
+   "value": 24,
+   "unit": "hours",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "nps_target": {
+   "value": 45,
+   "unit": "points",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "float_utilisation_target": {
+   "value": 0.6,
+   "unit": "ratio",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "take_rate_target": {
+   "value": 0.06,
+   "unit": "ratio of GMV",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  }
+ },
+ "reputation": {
+  "failure_conversion_hit": {
+   "value": -0.25,
+   "unit": "relative change in visit->order conversion in the 14 days after a publicised failure",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "negative_review_wave_hit": {
+   "value": -0.15,
+   "unit": "relative, decays",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "recovery_half_life_days": {
+   "value": 45,
+   "unit": "days",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "trust_gain_per_good_order": {
+   "value": 0.0004,
+   "unit": "trust points",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "enamad_conversion_lift": {
+   "value": 0.08,
+   "unit": "relative",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  },
+  "visible_sla_guarantee_lift": {
+   "value": 0.05,
+   "unit": "relative",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+  }
+ },
+ "seasonality": {
+  "monthly_multiplier_jalali": {
+   "value": [
+    1.15,
+    0.95,
+    0.9,
+    1.0,
+    1.0,
+    1.0,
+    1.1,
+    1.05,
+    1.0,
+    1.05,
+    1.0,
+    1.1
+   ],
+   "unit": "x (Farvardin..Esfand)",
+   "as_of": "2026-10-02",
+   "confidence": "low",
+   "status": "UNVERIFIED",
+   "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables).",
+   "note": "Nowruz/ Mehr back-to-school; Fall exam season; pure prior"
+  }
+ },
+ "competitor_response": {
+  "price_war_defence_order": [
+   "match only on top-5 SKUs",
+   "bundle/loyalty not blanket discount",
+   "raise rush premium capacity",
+   "never go below floor margin (owner_policies floorMarginPct)"
+  ],
+  "loyalty_tiers": {
+   "bronze": {
+    "annual_spend_usd": 0,
+    "fee_discount_pct": 0
+   },
+   "silver": {
+    "annual_spend_usd": 300,
+    "fee_discount_pct": 0.3
+   },
+   "gold": {
+    "annual_spend_usd": 1500,
+    "fee_discount_pct": 0.6
+   }
+  }
+ },
+ "launch_budgets": {
+  "50M": {
+   "starting_capital_irt": 50000000.0,
+   "marketing_90d_irt": {
+    "value": 6000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "staff_90d_irt": {
+    "value": 5000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "float_reserve_irt": {
+    "value": 32500000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "legal_setup_irt": {
+    "value": 2500000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables).",
+    "note": "company registration cost UNVERIFIED"
+   },
+   "contingency_irt": {
+    "value": 4000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   }
+  },
+  "300M": {
+   "starting_capital_irt": 300000000.0,
+   "marketing_90d_irt": {
+    "value": 36000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "staff_90d_irt": {
+    "value": 30000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "float_reserve_irt": {
+    "value": 195000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "legal_setup_irt": {
+    "value": 15000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables).",
+    "note": "company registration cost UNVERIFIED"
+   },
+   "contingency_irt": {
+    "value": 24000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   }
+  },
+  "1B": {
+   "starting_capital_irt": 1000000000.0,
+   "marketing_90d_irt": {
+    "value": 120000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "staff_90d_irt": {
+    "value": 100000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "float_reserve_irt": {
+    "value": 650000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   },
+   "legal_setup_irt": {
+    "value": 50000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables).",
+    "note": "company registration cost UNVERIFIED"
+   },
+   "contingency_irt": {
+    "value": 80000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low",
+    "status": "UNVERIFIED",
+    "verify_how": "Model assumption; replace with measured first-90-day data from our own analytics (UTM + cohort tables)."
+   }
+  }
+ }
+}

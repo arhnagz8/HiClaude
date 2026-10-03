@@ -1,0 +1,141 @@
+{
+ "workflow": "wf_0bbe06fa-4de",
+ "label": "v2:b3bfb4175c4894fb568c2637c68ce874a8e4a56ce9e9317d56a65e01dde2b725",
+ "result": {
+  "files_written": [
+   "/home/user/HiClaude/docs/03-research/11-ux-fa.md",
+   "/home/user/HiClaude/docs/05-architecture/ux-spec.md",
+   "/home/user/HiClaude/data/copy.fa.json",
+   "/home/user/HiClaude/docs/05-architecture/design-tokens.json",
+   "/home/user/HiClaude/scripts/research/11_build_copy.py",
+   "/home/user/HiClaude/scripts/research/11_copy/part4_notifications.py",
+   "/home/user/HiClaude/scripts/research/11_contrast.py",
+   "/home/user/HiClaude/scripts/research/11_price_example.py"
+  ],
+  "tldr": [
+   "Deliverables complete: research doc 11-ux-fa.md (~5.5k words, Persian summary first), ux-spec.md (~7k words: 18 customer screens C01-C18, 17 admin screens A01-A17 incl. demo sim, state tables, payment-mismatch matrix, RBAC matrix, Mini App rules, 45-event notification matrix, acceptance checklist), data/copy.fa.json with 1,370 flat keys (249 shared web snapshot + 1,121 new, 139 notification templates, 10 SMS), design-tokens.json with light/dark (50 contrast pairs, 0 failures).",
+   "This run found earlier partial work in the repo (tokens, copy parts, scripts). I fixed the copy linter, which flagged Persian digits as ASCII (Python \\d matches Unicode), added an OVERRIDE mechanism, and brought the build to 0 errors. Three non-compliant web-snapshot strings (quote.lockHint, quote.savingsNote, system.ratesHaltedBody) and the OTP SMS (now 1 segment) are overridden in the JSON; the web owner should adopt them.",
+   "Search budget: only 5 searches plus one blocked fetch (core.telegram.org EGRESS_BLOCKED). Trust and pain-point findings are repo evidence from specialists 01/03/04/07 plus labelled hypotheses H1-H8 with verify_how. Overall confidence is low for user-behaviour claims. Design system and copy are machine-checked.",
+   "Pricing flag: the illustrative USD 100 new-card price with placeholder defaults is 32,103,000 IRT, +24.9% over the USDT reference, versus competitor fees of 4-6%. The UI therefore keeps 'savings vs market' hidden unless fresh sourced data exists and legal review is done; specialist 12 must calibrate.",
+   "Honest-conversion rules, rush/express UX (30-minute lock, fast +4% min 100k IRT SLA 30 min 20/h, express +10% min 300k IRT SLA 10 min 6/h, auto refund of rush fee on SLA miss) and a performance budget (<=170 KB gz JS, <=350 KB first load, LCP<=2.5 s slow-4G) are specified. The budget is an assumption to be measured."
+  ],
+  "key_numbers": [
+   {
+    "name": "copy keys in data/copy.fa.json",
+    "value": 1370,
+    "unit": "keys",
+    "as_of": "2026-10-02",
+    "confidence": "high (computed)"
+   },
+   {
+    "name": "notification templates / SMS templates",
+    "value": "139 / 10",
+    "unit": "count",
+    "as_of": "2026-10-02",
+    "confidence": "high (computed)"
+   },
+   {
+    "name": "notification matrix events",
+    "value": 45,
+    "unit": "events",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "contrast pairs verified",
+    "value": "50 pairs, 0 failures",
+    "unit": "WCAG 2.x",
+    "as_of": "2026-10-02",
+    "confidence": "high (computed)"
+   },
+   {
+    "name": "worked example USD 100 new card, gateway, normal speed",
+    "value": 32103000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low (placeholder parameters, not a recommendation)"
+   },
+   {
+    "name": "worked example markup vs USDT reference 256,900",
+    "value": 24.9,
+    "unit": "percent",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "visible competitor fee band on card loads",
+    "value": "4-6",
+    "unit": "percent",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "competitor titles claiming speed/price/guarantee/trust (n=54)",
+    "value": "24/26/2/4",
+    "unit": "percent",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "price lock default",
+    "value": 30,
+    "unit": "minutes",
+    "as_of": "2026-10-02",
+    "confidence": "config"
+   },
+   {
+    "name": "pay windows gateway/c2c/bank/USDT",
+    "value": "20/45/240/60",
+    "unit": "minutes",
+    "as_of": "2026-10-02",
+    "confidence": "config"
+   },
+   {
+    "name": "rush SLA normal/fast/express",
+    "value": "120/30/10",
+    "unit": "minutes",
+    "as_of": "2026-10-02",
+    "confidence": "config"
+   },
+   {
+    "name": "Enamad fee (2 years)",
+    "value": 175000,
+    "unit": "IRT",
+    "as_of": "1405",
+    "confidence": "low (from specialist 04)"
+   },
+   {
+    "name": "performance budget initial JS",
+    "value": 170,
+    "unit": "KB gzip (assumption)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   }
+  ],
+  "conflicts": [
+   "Web snapshot strings quote.lockHint and quote.savingsNote used the banned word 'تضمین', and system.ratesHaltedBody used 'صرافی'. They were overridden in data/copy.fa.json and the web owner must adopt the new text.",
+   "The UX wish for 'savings vs market' conflicts with the legal caution on comparative claims, and with the example price being 24.9% over reference against competitors' 4-6%. Adjudication: the block is hidden by default and gated by an admin flag, fresh sourced data (>=3 observations, <=24h) and professional review.",
+   "Telegram theme parameter names come from practitioner knowledge because core.telegram.org was blocked. They are flagged UNVERIFIED, and a runtime contrast guard limits the visual risk.",
+   "The copy linter used Python \\d, which matches Persian digits and caused 17 false errors. Fixed to [0-9]."
+  ],
+  "needs_from_other_specialists": [
+   "12-pricing-treasury-economics: calibrated pricing parameters. The example is +24.9% over reference versus 4-6% competitor fees, and the UI cannot claim savings until this is resolved.",
+   "04-legal-tax-compliance-ir: review of comparative price claims, the banned-words list, Enamad badge rules, and 'واسطه' wording.",
+   "03-ir-payments-collection: SMS cost and segment rules and Bale wallet and invoice limits.",
+   "Core/API builders: stable QuoteDto.lines ids (service_value, provider_fees, exchange_cost, conversion_and_lock, volatility_buffer, risk_buffer, service_fee, margin, payment_fee, rush, vat, rounding, discount), per-tier capacityRemaining and an optional marketComparison object in /public/config and QuoteDto.",
+   "Web builder B7a: adopt the 3 overridden strings and the shorter OTP SMS, and read data/copy.fa.json and design-tokens.json as the source.",
+   "07-competitor-benchmark-ir: mystery-shopper review coding (20 reviews per brand) to confirm hypotheses H1-H8."
+  ],
+  "open_questions": [
+   "Real user pain points and review distribution for Iranian resellers (verify_how: code last 20 reviews per brand on nazarkade/Trustpilot/Google Maps/Telegram/X; run 8 moderated usability sessions).",
+   "Does Bale WebApp expose themeParams, MainButton, BackButton, safe-area and startapp, and what is its initData signing algorithm? (verify_how: read docs.bale.ai/miniapp and test with a real bot).",
+   "Telegram Mini App current API version, SecondaryButton and safe-area variables, start_param limits (verify_how: read core.telegram.org/bots/webapps when egress allows).",
+   "Enamad eligibility and badge placement rules (verify_how: enamad.ir guidelines and a licensed adviser).",
+   "SMS cost and sender-line rules of the chosen provider (verify_how: provider test send).",
+   "Actual Vazirmatn subset size and bundle sizes against the performance budget (verify_how: measure in the web build and Lighthouse CI).",
+   "Conversion effect of showing three payment methods side by side versus recommending one (verify_how: A/B test after launch, at least 2,000 quote views per arm).",
+   "Owner decisions still null: brand name and logo, support hours and channels, two-person approval thresholds, rush tier prices and capacities, whether to publish competitor comparisons."
+  ],
+  "validation_output": "node scripts/validate-data.mjs data/copy.fa.json -> OK (1 file, 0 records, 0 UNVERIFIED; flat content file). python3 scripts/research/11_build_copy.py -> keys=1370 base=249 new=1121 notif templates=139 sms=10 (max segments 2) warnings=0 errors=0, wrote data/copy.fa.json. python3 scripts/research/11_contrast.py -> 50 pairs, 0 failures. design-tokens.json parses as valid JSON. Not committed or pushed (lead does that)."
+ }
+}

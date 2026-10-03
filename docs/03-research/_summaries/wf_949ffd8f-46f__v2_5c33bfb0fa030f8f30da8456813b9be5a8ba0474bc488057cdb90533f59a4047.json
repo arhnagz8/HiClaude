@@ -1,0 +1,186 @@
+{
+ "workflow": "wf_949ffd8f-46f",
+ "label": "v2:5c33bfb0fa030f8f30da8456813b9be5a8ba0474bc488057cdb90533f59a4047",
+ "result": {
+  "files_written": [
+   "/home/user/HiClaude/docs/03-research/07-ir-competitors.md",
+   "/home/user/HiClaude/data/competitors.json",
+   "/home/user/HiClaude/scripts/research/07_markup_stats.py"
+  ],
+  "tldr": [
+   "EVIDENCE CEILING (read first): the session web-search budget was exhausted (200/200, session-wide) after 38 successful searches (16 extended), below the 40 minimum; 4 more were refused. Every competitor/media host returned EGRESS_BLOCKED (org egress policy, not retried; 28 hosts listed in data/competitors.json _meta). Zero competitor pages were read directly, so every competitor fact is 'per search summary' at low/medium confidence. All deliverables are marked status: draft and should be re-run after the cap is raised and the hosts are allowed (re-run query list in Appendix B of the doc).",
+   "Census: 32 profiled competitors (7 with numeric fee/SLA facts, 25 with product/positioning facts only), 13 named-only, 4 adjacent entities. 18 sell cards/FX payments/Perfect Money, 14 sell gift cards/subscriptions. hyper-acc, digitalro and paybal.ir could not be found (paybal.ir does not resolve). 345+ of 510 JSON records are honestly null/UNVERIFIED with verify_how (enamad, payment methods, support hours, loyalty, bots, complaints, numeric re-pricing lag are unknown for nearly all).",
+   "Reference rates 2026-10-02 (10 Mehr 1405, Friday): free-market USD 258,465 IRT (outlets cluster 258,465-259,900), official exchange-centre USD sell 174,704 IRT on 2026-10-01 => free/official premium +47.95%; USDT ~256,900 IRT (lead's research).",
+   "Visible fee structures (all low confidence, per summary): Dollarisho USD 10 issuance, USD 10 min load, 4% fee + 2.99% FX conversion on a live Bonbast rate; Tehran Credit Card 2%+4% = 6% (USD 1k-3k) and 2%+3% = 5% (>USD 3k); Almas Payment fixed USD 18 (<USD 1k) / USD 50 (>=USD 1k) + usage fee 1% (cap USD 5) + opaque 'specified transfer rate'; generic FX-gateway band 2-5% (a 2024 article, stale). Six fee archetypes defined (A pass-through % fee, B house rate + fixed fee, C Toman price list, D bid/ask spread, E incumbent trust brand, F gray cheap accounts).",
+   "ChatGPT Plus (USD 20; parity 5,169,300 IRT): official-like listings 5,539,100 / 6,400,000 / 6,596,200 / 8,890,000 IRT = +7.15% / +23.81% / +27.60% / +71.98% over parity (n=4, median +25.71%, p10 12.15, p90 58.66; indicative only). A gray tier at 0.989-1.3M IRT (-75% to -81% vs parity) is a different, high-risk product. Seller-to-price mapping was not available (8 candidate stores).",
+   "KEY FINDING for pricing/treasury: using the lead's cost model at zero margin, our break-even for a USD 100 load is +6.95% over free USD (3% provider fee assumed, 2% risk buffer) versus visible competitor fees of 4-6%. Matching Dollarisho's 4% needs a provider top-up fee of ~0.13% (or ~2.14% with zero risk buffer). Lowest official-like Plus price is 4.05% BELOW our modelled break-even. Either rivals mark up the rate, fund much cheaper (e.g. netting cash-out and payment flows, which Arzipay/IraniCard/Safir both sell), or run thin margins: must be settled with same-day all-in quotes before any price list is fixed.",
+   "Positioning: of 54 listed page titles 24% claim speed, 26% price, 4% authenticity/trust, 2% a guarantee, so trust/guarantee/transparent all-in quote/SLA/restriction disclosure (only Almas discloses) is the open lane. Marketing channels seen: sponsored Zoomit/Zoomg/Digiato articles (>=11 brands, IraniCard through Sept 2026), business news, SEO landing pages/blogs, Android app stores, comparison sites (IranBroker, FxPay, Emalls).",
+   "Customer choice model, elasticity, seasonality, market size and price-war parameters have NO empirical basis in this run: they are explicit assumptions (tagged [A], *_sim_prior records, status UNVERIFIED) with low/base/high and sensitivity: firm-level price elasticity -10 (-5 to -20); speed and trust premiums 10% (3-25); blended 8% undercut => ~2.3x share until matched; reseller-served GMV model USD 474m/yr (p10 186m, p90 1,200m; deterministic 60m/414m/2,512m), revenue pool USD 27m (9-80m), ~40k orders/day industry (16k-101k), new brand year-1 GMV ~USD 2.3m. Tornado: buyers count and spend per buyer dominate. No dated price-war episode was found; mechanisms pw-1..pw-5 and undercut headroom (-0.9 to -3.0 pp on percentage-fee loads if rivals price at market; +14 pp on Plus at the median) are provided.",
+   "Reproducible pipeline: scripts/research/07_markup_stats.py is deterministic (seeded, no numpy, verified identical across runs and cwd), computes markups, fee curves, cost-floor headroom and sensitivity via the lead's pricing_model, title-claim counts, elasticity grids and the market model, accepts an optional data/raw/competitor_observations.csv (mystery-shopper template documented), and --write refreshes markup_stats/market_size/elasticity/price_war derived blocks in data/competitors.json. Section 8 of the doc is a lawful 2-hour mystery-shopper protocol (own identity, no referral farming or chargeback abuse).",
+   "Hygiene: I did not commit or push. My `rm -rf __pycache__` briefly deleted two git-tracked .pyc files in other areas; I restored them with git checkout and set sys.dont_write_bytecode in my script so it never dirties them again."
+  ],
+  "key_numbers": [
+   {
+    "name": "usd_free_market_irt",
+    "value": 258465,
+    "unit": "IRT per USD",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "usdt_irt",
+    "value": 256900,
+    "unit": "IRT per USDT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "usd_official_exchange_center_sell_irt",
+    "value": 174704,
+    "unit": "IRT per USD",
+    "as_of": "2026-10-01",
+    "confidence": "medium"
+   },
+   {
+    "name": "free_to_official_premium_pct",
+    "value": 47.95,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "dollarisho_payment_fee_pct",
+    "value": 4,
+    "unit": "pct of USD amount (+2.99% FX conversion; issuance USD 10; min load USD 10)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "tehrancreditcard_commission_pct_usd1000_to_3000",
+    "value": 6,
+    "unit": "pct (2 own + 4 remittance); above USD 3000: 5.0",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "almas_fixed_fee_usd",
+    "value": "18 below USD 1000; 50 from USD 1000 (+ usage fee 1% cap USD 5; opaque house rate)",
+    "unit": "USD",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "fx_gateway_generic_fee_band_pct",
+    "value": "2-5",
+    "unit": "pct (article titled 2024; stale)",
+    "as_of": "2024-12-31",
+    "confidence": "low"
+   },
+   {
+    "name": "chatgpt_plus_markup_vs_usd_parity_median_pct",
+    "value": 25.71,
+    "unit": "pct over USD 20 x free USD (n=4 official-like; min 7.15, max 71.98)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "chatgpt_plus_price_official_like_range_irt",
+    "value": "5,539,100 - 8,890,000 (gray tier 989,000 - 1,300,000)",
+    "unit": "IRT per month",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "our_modelled_break_even_markup_usd100_load_pct",
+    "value": 6.95,
+    "unit": "pct over free USD (lead's cost model, 3% provider fee assumed)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "required_provider_topup_fee_to_match_4pct_visible_fee",
+    "value": "0.13% (risk buffer 2%) or 2.14% (risk buffer 0%)",
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "perfect_money_round_trip_spread_pct",
+    "value": "4.08 / 4.39 / 6.73",
+    "unit": "pct (three sellers; quotes undated, levels stale)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "title_claims_speed_price_guarantee_trust_pct",
+    "value": "24 / 26 / 2 / 4",
+    "unit": "pct of 54 listed page titles",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "market_gmv_usd_per_year_p10_p50_p90",
+    "value": "186m / 474m / 1,200m",
+    "unit": "USD per year (model output from assumptions, not an observation)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "firm_price_elasticity_sim_prior",
+    "value": -10,
+    "unit": "elasticity (low -5, high -20; assumption)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "competitors_profiled_named_only",
+    "value": "32 / 13",
+    "unit": "count (7 numeric-fact profiles; not a market census)",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "web_searches_completed_vs_refused",
+    "value": "38 / 4",
+    "unit": "count (budget exhausted 200/200 session-wide)",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   }
+  ],
+  "conflicts": [
+   "Free-market USD quotes 258,465 / 258,500 / 258,520 / 259,900 / 233,741: adjudicated to 258,465 (3-outlet cluster); 259,900 is an intraday tick; 233,741 (Kifpool live page) is a stale cache and discarded.",
+   "ChatGPT Plus range 0.989-8.89M IRT (this run) vs 1.3-6.4M (lead's earlier research): both kept; official-like cluster 5.54-6.60M (+6.4M); sub-1.3M listings classed as a different (shared/limited/stale) product and excluded from stats; 8.89M kept as an unexplained upper tail.",
+   "Dollarisho '4%' vs '4% + 2.99% per transaction': treated as consistent (second is an FX conversion fee); both 4.0 and 6.99 reported; whether charged on load or on spend is unresolved.",
+   "Almas fixed fee USD 18 / USD 50: unclear whether it applies to physical or virtual loads and at exactly USD 1,000; evaluated as 'Mastercard charge', boundary at >=1000 takes USD 50; low confidence.",
+   "Stale aggregator data (Emalls Steam USD 20 = 437,500 IRT = 21,875 IRT/USD; Plus 890,000 IRT), Perfect Money levels 68-88k IRT vs 258k now, and Kifpool's 250,000 IRT Mastercard are all pre-dated by the current FX regime: levels excluded, PM spreads retained as undated indicators.",
+   "Provider top-up fee: lead assumes 3%; other summaries mention 'about USD 0.5' and 'USD 4 issuance + 3.2%' without a clear provider: unresolved; kept at the flagged 3% with a full sensitivity table (owner: specialists 01/12).",
+   "Cafearz brand 'since 1398 (2019)' vs legal entity registered 2022-11-23, and arzipay.com vs arzipayment.com relationship: not resolvable from summaries; recorded as unverified."
+  ],
+  "needs_from_other_specialists": [
+   "LEAD/ENVIRONMENT: raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION and add the competitor hosts (cafearz.com, almaspayment.com, dollarisho.com, farakonesh.org, tehrancreditcard.com, safirpayment.com, 20payment.com, giftcard98.com, iranbroker.net, emalls.ir, torob.com, tgju.org, nazarkade/enamad pages, trustpilot.com) under the environment's Network access > Allowed domains, then re-run brief 07 using Appendix B of docs/03-research/07-ir-competitors.md. Do not treat this file as final before then.",
+   "01-card-providers and 12-pricing-treasury-economics: actual provider top-up %, issuance fee and minimums (mpay and 1-2 alternatives). Our modelled floor only matches visible 4-6% competitor fees if the provider fee is <= ~2% (or the risk buffer is cut); use the sensitivity tables in section 2.5 and price_war.floor_sensitivity.",
+   "06-service-catalog-demand: dated Toman competitor quotes (>=3 sellers per SKU, same-day FX) for ChatGPT Plus, Apple/Google/Steam gift cards and exam fees to replace n=4 here; AOV per SKU; align product-family keys (ai_subscription_plus, gift_card, exam_embassy_payment, card_load_*).",
+   "08-macro-fx-scenarios: daily free-USD and USDT series for same-day markup computation; authoritative data/calendar_ir.json for the seasonality events in this file; demand response around FX shocks; calibrate price-war-8pct using price_war.undercut_headroom and the archetype repricing lags (API-driven ~1 tick, catalog 6-48 h).",
+   "10-ops-growth: CAC/conversion/retention, personas aligned to the segment priors in elasticity.segment_priors, sponsored-media vs SEO cost, referral design; whether the paid-media intensity of incumbents (Zoomit/Zoomg/Digiato) is replicable.",
+   "04-legal-tax-compliance: whether two-sided netting (buying USD/USDT from customers who cash out FX income, as Arzipay/IraniCard/Safir appear to sell both flows) is lawful for a new entrant; Enamad requirement; limits on marketing claims ('lowest price in Iran', 'up to 50% discount'); customer-terms disclosure wording (Almas's restriction disclosure is a benchmark).",
+   "02-ir-exchanges-usdt-rails and 03-ir-payments-collection: confirm exchange fee/spread/lock and collection costs used by the lead's cost model so the cost-floor comparison here can be updated.",
+   "SIM TEAM: consume *_sim_prior records only with the low/high sensitivity sweep; value=null Records must not be silently defaulted."
+  ],
+  "open_questions": [
+   "What are the same-day all-in Toman prices of 15-20 competitors for 8 standard baskets (new card + USD 50, USD 100/500/1,000 reloads, ChatGPT Plus, Apple USD 25, Steam USD 20, exam payment, PayPal)? verify_how: mystery-shopper protocol (doc section 8), fill data/raw/competitor_observations.csv, re-run 07_markup_stats.py --write.",
+   "What is the real provider top-up fee (mpay and alternatives) and is our floor (+6.95% at USD 100) achievable? verify_how: one real small top-up and read the statement; specialists 01/12.",
+   "Do rivals' rates equal the free-market rate or carry a markup (Almas 'specified transfer rate', Cafearz, Farakonesh)? verify_how: capture all-in price vs three same-minute FX sources; compute markup = price/(USD x fx) - 1.",
+   "Is Almas's USD 18/50 fee for physical or virtual loads; is Dollarisho's 4% charged on load or spend and does 2.99% apply to USD merchants? verify_how: read terms pages, make one USD 10 load and one USD spend, request quotes.",
+   "Enamad status, registration, years online, support hours, payment methods for every competitor (all null except a few years/rating facts). verify_how: footer badge + enamad.ir, nic.ir WHOIS, checkout walkthrough without paying.",
+   "Real review distributions and complaint themes (nazarkade, Trustpilot, Google Maps, Telegram, X). verify_how: code the 20 most recent complaints per brand into the 7 themes in doc section 1.6.",
+   "Numeric re-pricing lag after FX moves. verify_how: capture one SKU every 30 minutes for 24 h on a volatile day for one API-driven, one catalog and one spread-type seller.",
+   "Existence and size of rush/express premiums, referral/loyalty programmes, Telegram/Bale bots and Mini Apps among competitors (none observed). verify_how: checkout and account areas; search Telegram/Bale/Eitaa.",
+   "Dated price-war episodes and typical response patterns. verify_how: Wayback snapshots of rate pages around FX jumps, Torob/Emalls price-history charts for 10 SKUs, Telegram channel archives, two operator interviews.",
+   "Elasticity, speed premium, trust premium and segment mix (all assumptions here). verify_how: randomised price (+/-2%, +/-5%) and rush-toggle arms on our own quote page (>=2,000 views per arm), trust-badge test, 300-respondent discrete-choice survey.",
+   "Market size inputs (buyers, spend per buyer, reseller share) drive the model and are unobserved. verify_how: competitor traffic x 1-3% conversion x AOV for 15 domains, Cafe Bazaar/Myket installs, operator interviews, own funnel after launch.",
+   "Is cash-out/payment netting lawful and worth the risk for a new entrant? verify_how: specialist 04 and a licensed Iranian professional; do not implement before that.",
+   "Identity of hyper-acc and digitalro; relationship between arzipay.com and arzipayment.com; seller-to-price mapping for the eight ChatGPT Plus store pages. verify_how: re-run searches after the cap is raised; WHOIS; open each store page."
+  ],
+  "validation_output": "node scripts/validate-data.mjs data/competitors.json -> OK — 1 file(s), 510 records (358 UNVERIFIED). Also: python3 -m py_compile scripts/research/07_markup_stats.py OK; 07_markup_stats.py output md5 identical across 3 runs (seed 7, incl. different cwd); referential-integrity check of data/competitors.json (source ids, fee_structure ids, competitor ids in titles/archetypes) = 0 problems; Markdown table lint of docs/03-research/07-ir-competitors.md = 0 inconsistent rows; doc ~7,350 content words (9,080 raw tokens incl. table syntax)."
+ }
+}

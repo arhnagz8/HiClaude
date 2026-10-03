@@ -1,0 +1,232 @@
+{
+ "workflow": "wf_367e3693-fcb",
+ "label": "v2:ab36fe9f7af97fc542ec3022c9b1b7d47975d197e64100b9116f30558dab30f6",
+ "result": {
+  "files_written": [
+   "/home/user/HiClaude/docs/03-research/03-ir-payments-collection.md",
+   "/home/user/HiClaude/data/gateways.json",
+   "/home/user/HiClaude/data/collection_methods.json",
+   "/home/user/HiClaude/data/identity_vendors.json",
+   "/home/user/HiClaude/scripts/research/03_fee_stack.py",
+   "/home/user/HiClaude/scripts/research/03_build_data.py"
+  ],
+  "tldr": [
+   "INCOMPLETE vs mandate (target 40+ searches): only 29 WebSearch calls ran; the shared 200-per-session cap was hit and the 30th was refused. WebFetch was EGRESS_BLOCKED for every domain tried (~66). Compensation: 36 npm/PyPI SDK packages were downloaded and read directly for API contracts (Zarinpal, Zibal, IDPay, NextPay, Pay.ir, Mellat, Parsian, Sadad/Sepehr, Jibit, Finnotech, Kavenegar, SMS.ir, Ghasedak, Melipayamak, Bale, Rubika, TronGrid, TONAPI, Etherscan V2, Moadian). Everything unsourced is null/UNVERIFIED with verify_how; a 13-item follow-up search plan is in the doc.",
+   "Gateway fee (Zarinpal-type payment-yar, single secondary source, confidence low): min(0.5% x A, 16,000 Toman) + 500 Toman = 1,000 / 5,500 / 16,500 / 16,500 Toman for 100k / 1M / 10M / 30M Toman orders (1.000% / 0.550% / 0.165% / 0.055%). Runtime truth: POST /pg/v4/payment/feeCalculation.json. Regulated Shaparak floor since 2023-06-25 (medium): 1,200 Rial fixed below 6,000,000 Rial else 0.02% capped at 40,000 Rial = 120 / 200 / 2,000 / 4,000 Toman. NextPay 1%/max 800 Toman is legacy and must not be used.",
+   "1405 caps: card-to-card 15,000,000 Toman per sending card per day (high, 5 press sources, raised from 10M); internet purchases 400,000,000 Toman per person per day (medium) and 200,000,000 per card (low); Zarinpal max single payment 100,000,000 Toman (error -41 text). A 30M Toman order cannot be one card-to-card transfer and must use gateway, Paya/Satna or USDT.",
+   "Eligibility is the main gateway risk: Shaparak told payment-yars to cut merchants selling crypto/VPN/betting; CBI directive pushes crypto exchanges to PSPs not payment-yars; gift-card / virtual-card / USDT-backed top-up classification is not named anywhere seen -> UNVERIFIED, all gateways risk_label=high. Lawful path: describe the product accurately, get the PSP's written category answer, keep fallbacks (second gateway, c2c to a business account, Paya/Satna, USDT). A Dey 1404/1405 closure claim was NOT confirmed.",
+   "Verification rules from SDK evidence: never trust callbacks; verify server-side with the amount from our DB; unverified payments are returned (Pay.ir after 30 min; Zarinpal reversal window 30 min; IDPay verify window error 54; Mellat verify->inquiry->settle else reverse); IP whitelists exist (Zarinpal -10, IDPay 13, Zibal 115, NextPay 1029, Mellat 421); card binding via Zarinpal cardPan / Zibal allowedCards+checkMobileWithCard is the lawful defence against triangular fraud. Full endpoint/param/error-code maps are in data/gateways.json; adapter contract and rules are in the doc.",
+   "Card-to-card: receiver fee 0 (low); tax visibility reported at >100 deposits AND >35M Toman per month (medium); freeze/triangular-fraud/fake-receipt risks; unique-amount tail 1..999 Toman pattern with collision handling; layered verification (unique amount, own bank SMS/statement, payer-name match, operator above threshold). Guardrail: no splitting to dodge caps, no third-party/rented accounts; lawful structure = registered business account + PSP primary + Moadian invoices.",
+   "Bale: https://tapi.bale.ai/bot{token}/{method}; sendInvoice / createInvoiceLink / answerPreCheckoutQuery / inquireTransaction; amount in Rial; transaction status pending|paid|failed|rejected; provider_token = card number OR (port+acceptor numbers) OR Bale wallet number; setWebhook takes only url (no secret token) so use secret path + inquireTransaction; wallet fees/limits/KYC levels and mini-app initData algorithm UNVERIFIED (Telegram-style HMAC placeholder to test). Rubika has an inline Payment button (SDK level); Eitaa none seen. Bale Safir OTP API found as an extra OTP channel.",
+   "Identity/SMS: Jibit https://napi.jibit.ir/ide (mobile<->national-code, card-owner name, IBAN matching endpoints) and Finnotech OAuth2 (cardToIban, ibanInquiry, mobileCardVerification) captured; Kavenegar/SMS.ir/Ghasedak/FarazSMS/Melipayamak OTP-template endpoints captured. ALL per-call and per-SMS prices are null/UNVERIFIED; Jibit birthDate format conflict; Shahkar backing and legal basis/consent unverified (hand to 04-legal).",
+   "USDT: TRC20 contract TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t and BEP20 0x55d398326f99059fF775485246999027B3197955 corroborated by exchange API samples in ccxt; TronGrid /v1/accounts/{addr}/transactions/trc20 with Tron-Pro-Api-Key (unauthenticated 3 QPS per third-party doc, low); Etherscan V1 deprecated 2025-08-15, V2 https://api.etherscan.io/v2/api chainid=56 (free-plan coverage of BSC unverified; RPC eth_getLogs fallback); TONAPI REST. Per-order HD address recommended; OFAC/Tether-freeze screening before crediting. At 257,000 Toman/USDT a 1 USDT sweep/chain cost is 25.7% of a 1M Toman order -> minimum viable USDT order about 10 USDT.",
+   "Moadian: technical flow captured (tp.tax.gov.ir/req/api/{self-tsp|tsp}/sync|async, sandboxrc.tax.gov.ir, JWS+JWE, fiscal ID + economic code + private key, INQUIRY_BY_UID statuses, header/body field names) and an SDK README says the API must be reached from an Iranian IP (hosting implication). Who must use it, thresholds, B2C rules, penalties and VAT rate are UNVERIFIED.",
+   "Deliverables validated: data/gateways.json (94 records, 19 UNVERIFIED), data/collection_methods.json (81, 20), data/identity_vendors.json (66, 41); fee stack and re-runnable data builder in scripts/research/. Doc is ~9.4k words (tables inflate), status draft; analysis only, not legal/tax advice."
+  ],
+  "key_numbers": [
+   {
+    "name": "zarinpal_fee_percent",
+    "value": 0.5,
+    "unit": "pct",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "zarinpal_fee_cap",
+    "value": 16000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "zarinpal_fee_fixed",
+    "value": 500,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "psp_fee_stack_100k_1M_10M_30M_orders",
+    "value": "1000 / 5500 / 16500 / 16500",
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "shaparak_fee_floor_fixed_if_purchase_below_6000000_IRR",
+    "value": 1200,
+    "unit": "IRR",
+    "as_of": "2023-06-25",
+    "confidence": "medium"
+   },
+   {
+    "name": "shaparak_fee_floor_percent_above_6000000_IRR",
+    "value": 0.02,
+    "unit": "pct",
+    "as_of": "2023-06-25",
+    "confidence": "medium"
+   },
+   {
+    "name": "shaparak_fee_floor_cap",
+    "value": 40000,
+    "unit": "IRR",
+    "as_of": "2023-06-25",
+    "confidence": "medium"
+   },
+   {
+    "name": "direct_bank_floor_stack_100k_1M_10M_30M_orders",
+    "value": "120 / 200 / 2000 / 4000",
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "card_to_card_cap_per_sending_card_per_day_1405",
+    "value": 15000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "internet_purchase_cap_per_person_per_day_1405",
+    "value": 400000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "internet_purchase_cap_per_card_per_day_1405",
+    "value": 200000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "zarinpal_max_single_payment",
+    "value": 100000000,
+    "unit": "IRT",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "zarinpal_reversal_window",
+    "value": 30,
+    "unit": "minutes",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "pay_ir_unverified_payment_auto_return",
+    "value": 30,
+    "unit": "minutes",
+    "as_of": "2021-07-14",
+    "confidence": "medium"
+   },
+   {
+    "name": "tax_visibility_monthly_deposit_count",
+    "value": 100,
+    "unit": "count per month (AND condition)",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "tax_visibility_monthly_deposit_total",
+    "value": 35000000,
+    "unit": "IRT per month (AND condition)",
+    "as_of": "2026-10-02",
+    "confidence": "medium"
+   },
+   {
+    "name": "vandar_settlements_per_day_max",
+    "value": 39,
+    "unit": "per day",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "trongrid_unauthenticated_rate",
+    "value": 3,
+    "unit": "requests/second",
+    "as_of": "2026-04-20",
+    "confidence": "low"
+   },
+   {
+    "name": "etherscan_v1_deprecation_date",
+    "value": "2025-08-15",
+    "unit": "date",
+    "as_of": "2026-09-27",
+    "confidence": "medium"
+   },
+   {
+    "name": "usdt_irt_reference_rate",
+    "value": 257000,
+    "unit": "IRT per USDT",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "min_viable_usdt_collection_order",
+    "value": 10,
+    "unit": "USDT (derived, about 2,570,000 IRT)",
+    "as_of": "2026-10-02",
+    "confidence": "low"
+   },
+   {
+    "name": "websearch_queries_completed_vs_target",
+    "value": "29 of 40+ (budget exhausted)",
+    "unit": "queries",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   },
+   {
+    "name": "package_sources_read_directly",
+    "value": 36,
+    "unit": "npm/PyPI packages",
+    "as_of": "2026-10-02",
+    "confidence": "high"
+   }
+  ],
+  "conflicts": [
+   "C1 Zarinpal fee: 0.5% cap 16,000 + 500 Toman (newer, single secondary source) vs older 0.05% cap 12,000 -> used newer at confidence low; use feeCalculation.json at runtime.",
+   "C2 NextPay '1%, min 1, max 800 Toman' vs regulated Shaparak floor up to 4,000 Toman -> treated as legacy, never used for pricing.",
+   "C3 'Direct gateways have no fee' (marketing) vs regulated per-transaction floor -> read as 'no payment-yar margin'; floor applies.",
+   "C4 Card-to-card cap 10M vs 15M Toman -> 15M for 1405 (5 press sources; no CBI circular text seen).",
+   "C5 Internet purchase cap 400M per person vs 200M per card -> both modelled (sum vs single card); 200M single-source (low).",
+   "C6 Zarinpal amount unit: node SDK default IRR vs zarinpal-checkout default IRT -> always send currency explicitly, keep integer IRT internally.",
+   "C7 Jibit birthDate format: Jalali yyyyMMdd (node-jibit) vs yyyy-MM-dd (Python wrapper) -> unresolved, sandbox test.",
+   "C8 Paya cycle schedules differ across summaries and the year of 'Thursday 19 Tir' is not visible (1404 vs 1399) -> 4-cycle table used as latest, low confidence.",
+   "C9 Brief asked for Dey 1404/1405 gateway closures -> not confirmed by anything read; recurring Shaparak/CBI cuts of exchange gateways are documented but undated; not asserted.",
+   "Cross-lane: STATUS.md reports OFAC designation of 4 Iranian exchanges (2026-06-02) with some Iranian outlets denying it; this affects screening of sender addresses that are exchange hot wallets -> left to 05-sanctions to adjudicate; collection module exposes a blockedClusters policy switch."
+  ],
+  "open_questions": [
+   "BLOCKER: WebSearch session cap (200) exhausted; raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION and re-run brief 03 follow-ups Q1-Q13 listed in the doc (about 15-25 targeted queries) to reach the 40+ search mandate.",
+   "Q1 Were gateways cut for crypto-related merchants in Dey 1404/1405 and did rules change? verify_how: extended FA searches ('قطع درگاه پرداخت رمزارز دی ۱۴۰۴', 'شاپرک ابلاغیه ۱۴۰۵ پرداخت‌یار رمزارز'), read Zoomit/ArzDigital for dates.",
+   "Q2 Written prohibited-category lists and onboarding documents of Zarinpal/IDPay/Zibal/NextPay/Vandar (gift cards, virtual cards, prepaid top-ups). verify_how: read terms in a browser, ask support in writing, keep replies.",
+   "Q3 Current fee schedules (Zarinpal pricing page, Zibal, IDPay, Vandar), VAT on PSP fees, instant-settlement tariffs. verify_how: feeCalculation.json, pricing pages, 04-legal for VAT.",
+   "Q4 Settlement cycles per gateway and the current Paya/Satna table. verify_how: panel settings, CBI/Shetab notices.",
+   "Q5 Do PSPs sell managed card-to-card verification (card-bound transfer + callback)? verify_how: FA queries on 'کارت به کارت درگاهی تایید خودکار'.",
+   "Q6 Bale wallet fees, limits, KYC levels, settlement, provider_token issuance, mini-app initData algorithm. verify_how: docs.bale.ai payments/miniapp + real test bot.",
+   "Q7 Identity vendor per-call prices, SLAs, Shahkar scope, legal basis/consent wording. verify_how: vendor price lists/contracts; 04-legal.",
+   "Q8 SMS price per message, line types, template approval, OTP rules per provider; Bale Safir OTP price. verify_how: provider panels.",
+   "Q9 TronGrid keyed-tier limits/prices, Etherscan V2 free-plan coverage of BSC (chainid 56), TONAPI/TonCenter limits. verify_how: pricing pages + test with keys; RPC eth_getLogs fallback.",
+   "Q10 OFAC SDN digital-currency list format/cadence, Chainalysis free API/oracle terms, issuer blacklist checks per chain. verify_how: treasury.gov, Chainalysis docs, contract ABI.",
+   "Q11 TRC20 energy per transfer, energy price, activation fee; BSC gas; TON fees. verify_how: mainnet measurement + provider quotes (recalled ~65k energy is NOT verified).",
+   "Q12 Moadian: who is obliged, thresholds per phase, penalties, B2C rules, approved third-party providers. verify_how: intamedia.ir, tax.gov.ir, licensed accountant.",
+   "Q13 Is a price difference by payment method (c2c discount / gateway surcharge) allowed in Iran? verify_how: 04-legal.",
+   "Zarinpal request params: SDK sends mobile/email top-level; public docs may expect a metadata object. verify_how: sandbox test.",
+   "Is Pay.ir still operating (SDKs stale 2017-2021)? verify_how: pay.ir status/contact."
+  ],
+  "needs_from_other_specialists": [
+   "02-ir-exchanges-usdt-rails: confirm exchange withdrawal network fees (TRC20 about 1 USDT, BEP20 about 0.8 USDT) that customers pay when sending USDT to us; live USDT/IRT rate to replace the 257,000 reference; whether Iranian-exchange hot-wallet senders can be attributed to a customer; interplay of the 72h withdrawal lock with USDT-paying customers.",
+   "04-legal-tax-compliance-ir: VAT rate on PSP fees and on services for 1405; legal classification of a USDT-funded virtual-card/top-up reseller by PSPs; e-money/wallet prohibition (avoid stored customer balances); Moadian obligation, thresholds, penalties, B2C rules; consent and data-protection basis for identity inquiries (Shahkar/card-owner); legality of price-by-payment-method; confirm tax-visibility criteria (100 deposits / 35M Toman).",
+   "05-sanctions-counterparty-risk: policy for receiving from Iranian exchange clusters given the OFAC-designation claim; choice of screening provider (OFAC list vs Chainalysis free vs paid); handling of Tether-frozen/blacklisted addresses and quarantine procedure.",
+   "09-platform-tech-security: HD/xpub key custody and sweeping design for per-order addresses; fixed egress IP for gateway IP whitelists; Iran-hosted component for Moadian (Iranian-IP requirement) and possibly gateway callbacks; webhook hardening for Bale (url-only setWebhook); InitDataValidator for Bale/Telegram mini apps.",
+   "10-ops-growth: operator minutes per card-to-card receipt, verification SLAs and weekend/holiday staffing, SMS provider choice, support scripts for triangular-fraud complaints and bank/police requests.",
+   "12-pricing-treasury-economics: collection fee line items (gateway fee, VAT on fee, unique tail folded into price, chain cost), float cost per day of settlement lag using the Iranian banking calendar, minimum USDT order, method availability by amount (c2c <= 15M, gateway ceilings).",
+   "08-macro-fx-scenarios: banking-calendar and cap-change drivers (per-card c2c cap changes, fee reform, Paya cycle changes) and an internet-shutdown scenario where c2c/gateway fail but on-chain USDT works.",
+   "11-ux-product-fa: checkout UX that shows only legally viable methods per amount, payer card registration/name-match flow, Persian error messages for gateway/chain exceptions.",
+   "lead: restore web-search quota and re-run brief 03 follow-ups; commit data/gateways.json, data/collection_methods.json, data/identity_vendors.json and docs/03-research/03-ir-payments-collection.md (not committed by this agent)."
+  ],
+  "validation_output": "node scripts/validate-data.mjs data/gateways.json -> OK — 1 file(s), 94 records (19 UNVERIFIED)\nnode scripts/validate-data.mjs data/collection_methods.json -> OK — 1 file(s), 81 records (20 UNVERIFIED)\nnode scripts/validate-data.mjs data/identity_vendors.json -> OK — 1 file(s), 66 records (41 UNVERIFIED)\npython3 scripts/research/03_fee_stack.py -> runs clean (markdown tables embedded in doc section 7); python3 scripts/research/03_build_data.py regenerates all three JSON files."
+ }
+}
